@@ -1,0 +1,30 @@
+[
+    {
+        "name": "",
+        "rawDb": "gdaScoreBankingRaw",
+        "anonDb": "gdaScoreBankingRaw",
+        "anonType": "anon_none",
+        "anonSubType": "",
+        "dbType": "banking",
+        "criteria": "",
+        "table": "accounts",
+        "uid": "client_id",
+        "resultsDir": "",
+        "flushCache": false,
+        "verbose": false
+    },
+    {
+        "name": "",
+        "rawDb": "gdaScoreBankingRaw",
+        "anonDb": "cloakBanking",
+        "anonType": "anon_diffix",
+        "anonSubType": "",
+        "dbType": "banking",
+        "criteria": "",
+        "table": "accounts",
+        "uid": "client_id",
+        "resultsDir": "",
+        "flushCache": false,
+        "verbose": false
+    }
+]

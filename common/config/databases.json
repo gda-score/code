@@ -1,0 +1,18 @@
+{
+    "localBankingRaw": {
+        "host": "localhost",
+        "port": 5432,
+        "dbname": "banking",
+        "user": "postgres",
+        "password": "secret",
+        "type": "postgres"
+    },
+    "cloakBankingAnon": {
+        "host": "attack.aircloak.com",
+        "port": 8432,
+        "dbname": "banking",
+        "user": "george@gda-score.org",
+        "password": "secret",
+        "type": "aircloak"
+    }
+}
