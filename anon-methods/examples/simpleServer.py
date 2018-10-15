@@ -38,4 +38,4 @@ class GetParams(Resource):
 api.add_resource(GetParams, '/data')  # Route for GetJSON()
 
 if __name__ == '__main__':
-    app.run(port='5002', threaded=True)
+    app.run(port='5002', threaded = True)
