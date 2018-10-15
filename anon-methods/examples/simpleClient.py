@@ -22,7 +22,7 @@ data = {
 }
 
 # Localhost url
-url = 'http://127.0.0.1:5002/data'
+url = 'http://127.0.0.1:5000/data'
 
 # Client sends Get request
 resp = requests.get(url, params=json.dumps(data))
