@@ -3,7 +3,7 @@ import os
 import pprint
 import json
 import argparse
-sys.path.append('../library')
+sys.path.append('../graphs')
 from gdaPlot import plotGdaScore
 
 force = False
@@ -28,5 +28,6 @@ for file in files:
         print(f"loading {path}")
         score = json.load(f)
         #pp.pprint(score)
-        plot = plotGdaScore(score,None,fileName=plotName,
-                form=['png'],show=False)
+        #Add one more parameter in gdaPlot, so callable function changes parallaly
+        plot = plotGdaScore(score, None, None, fileName=plotName,
+                form=['png'], show=False)

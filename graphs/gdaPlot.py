@@ -3,7 +3,11 @@ import math
 from matplotlib.patches import Rectangle
 
 
-def plotGdaScore(score, util, fileName='', form=[], show=True):
+def score_column_method(column, method):
+        scorestring = "Scoring:%s,%s columns" % (method, column)
+        return scorestring
+
+def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
     """ Produces a GDA Score Diagram from GDA Score data.
 
         `score` is the score data structure returned from
@@ -23,7 +27,7 @@ def plotGdaScore(score, util, fileName='', form=[], show=True):
     minY = -0.5
 
     # add parameters for axis change
-    minXaxis = -0.5
+    minXaxis = -0.3
     minYaxis = 0.3
     axisLength = 9.75
     textPlotXvalue = -0.1
@@ -40,7 +44,21 @@ def plotGdaScore(score, util, fileName='', form=[], show=True):
     verlineY = 10
     verlineGap = 0.2
 
+    scoregap = 0.04
+
+    heightposth = 0.05
+    heightnegth = -0.05
+
     # end of parameters
+
+    # Code Added By Anirban 20-10-2018
+    # Parameters for score and column
+    numofcolumn = sc['column']
+    methodname = sc['method']
+
+    xaxisscorecolumn = 4.3
+    yaxisscorecolumn = -0.65
+
     acc, cov, conf, prob, know, work, susc = set(range(7))
     labels = ['Acc', 'Cov', 'Conf', 'Prob', 'Know', 'Work', 'Susc']
     if util:
@@ -170,6 +188,34 @@ def plotGdaScore(score, util, fileName='', form=[], show=True):
     plt.text(midVertical, minY - nudge, 'bad',
              horizontalalignment='center', verticalalignment='center')
 
+    # Plot the score above of the edge of the Bar. If Bar is not visible properly then
+    # Just beside the Bar.
+    # Changes Done By Anirban 09-10-2018
+    # region Code Added to Add score as number
+    labels_score = [util['accuracy'], util['coverage'], s['confidenceImprovement'], s['claimProbability'],
+                    s['knowledgeNeeded'], s['workNeeded'], s['susceptibility']]
+    for i in range(len(labels)):
+        heightoriginal = heights[i]
+        # heightmid = heights[i] - scoregap  # Changes done for displaying score just below of the bar
+        if doLabel[i] == 0:
+            continue
+        if (heightoriginal > 0):
+            if (heightoriginal <= heightposth):
+                plt.text(centers[i], heightoriginal + scoregap, labels_score[i],
+                         horizontalalignment='center', verticalalignment='center')
+            else:
+                plt.text(centers[i], heightoriginal - scoregap, labels_score[i],
+                         horizontalalignment='center', verticalalignment='center')
+        else:
+            if (heightoriginal >= heightnegth):
+                plt.text(centers[i], heightoriginal - scoregap, labels_score[i],
+                         horizontalalignment='center', verticalalignment='center')
+            else:
+                plt.text(centers[i], heightoriginal + scoregap, labels_score[i],
+                         horizontalalignment='center', verticalalignment='center')
+
+    # endregion
+
     # plot the bar labels
     for i in range(len(labels)):
         if doLabel[i] == 0:
@@ -215,12 +261,13 @@ def plotGdaScore(score, util, fileName='', form=[], show=True):
     # Changes Done By Anirban 30-08-2018
     # Plot the box
     # draw horizontal lines
-    plt.plot([horlineX, horlineY], [maxY + verlineGap, maxY + verlineGap], color='black', linewidth=2)  # line 1 top
-    plt.plot([horlineX, horlineY], [minY + horlineX, minY + horlineX], color='black', linewidth=4)  # line 2 down
+    plt.plot([horlineX, horlineY], [maxY + verlineGap, maxY + verlineGap], color='black', linewidth=2.8)  # line 1 top
+    plt.plot([horlineX, horlineY], [minY + horlineX, minY + horlineX], color='black', linewidth=5)  # line 2 down
 
     # draw vertical lines
-    plt.plot([horlineX, horlineX], [maxY + verlineGap, minY + horlineX], color='black', linewidth=2)  # line 1 left
-    plt.plot([verlineX, verlineY], [maxY + verlineGap, minY + horlineX], color='black', linewidth=4)  # line 2 right
+    changegap = -0.6
+    plt.plot([horlineX, horlineX], [maxY + verlineGap, minY + changegap], color='black', linewidth=3.5)  # line 1 left
+    plt.plot([verlineX, verlineY], [maxY + verlineGap, minY + horlineX], color='black', linewidth=3.9)  # line 2 right
 
     mainText = s['annonScheme']  # hard coded data validation
     attackText = s['attackText']
@@ -232,6 +279,12 @@ def plotGdaScore(score, util, fileName='', form=[], show=True):
              horizontalalignment='left', verticalalignment='top', fontsize=15)
     plt.text(textPlotXvalue, minY - endTextValue, "Database: " + dbType,
              horizontalalignment='left', verticalalignment='top', fontsize=15)
+
+    # Code Added by Anirban 20-10-2018
+    # code to display method and number of column used in score generation
+    displaytext = score_column_method(numofcolumn, methodname)
+    plt.text(xaxisscorecolumn, yaxisscorecolumn, displaytext,
+             horizontalalignment='left', verticalalignment='top', fontsize=11)
     # End of Change
 
     # For some reason, savefig has to come before show
