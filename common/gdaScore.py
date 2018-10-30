@@ -313,7 +313,7 @@ class gdaAttack:
                numRawDbThreads = 3,
                numAnonDbThreads = 3,
                numPubDbThreads = 3,
-               dbConfig = "../config/myDatabases.json",
+               dbConfig = "../common/config/myDatabases.json",
               )
     _requiredParams = ['name','rawDb','anonDb','criteria']
 

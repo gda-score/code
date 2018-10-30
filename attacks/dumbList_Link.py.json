@@ -9,7 +9,7 @@
         "dbType": "banking",
         "criteria": "",
         "table": "accounts",
-        "uid": "client_id",
+        "uid": "uid",
         "resultsDir": "",
         "flushCache": false,
         "verbose": false
@@ -24,7 +24,7 @@
         "dbType": "banking",
         "criteria": "",
         "table": "accounts",
-        "uid": "client_id",
+        "uid": "uid",
         "resultsDir": "",
         "flushCache": false,
         "verbose": false
