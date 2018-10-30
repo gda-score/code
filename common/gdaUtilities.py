@@ -128,3 +128,54 @@ def makeGroupBy(columns):
         clause += str(f"{val}, ")
     ret = clause[0:-2]
     return ret
+
+def getInterpolatedValue(val0,val1,scoreGrid):
+    """Compute interpolated value from grid of mapping tuples
+    
+       This routine takes as input a list of tuples ("grid") of the form
+       `(val0,val1,score)`. It maps (val0,val1) values to a corresponding
+       score. It returns a score that is interpolated between the
+       scores in the grid. An example of such a grid can be found in
+       gdaScore.py, called `_defenseGrid1`. Note that val0 and val1 must
+       go in descending order as shown. Input values that are above the
+       highest val0 and val1 values will take the score of the first
+       entry. Input values that are below the lowest val0 and val1 will
+       take the score of the last entry.
+    """
+    scoreAbove = -1
+    scoreBelow = -1
+    for tup in scoreGrid:
+        tup0 = tup[0]
+        tup1 = tup[1]
+        score = tup[2]
+        if val0 <= tup0 and val1 <= tup1:
+            tup0Above = tup0
+            tup1Above = tup1
+            scoreAbove = score
+    for tup in reversed(scoreGrid):
+        tup0 = tup[0]
+        tup1 = tup[1]
+        score = tup[2]
+        if val0 >= tup0 and val1 >= tup1:
+            tup0Below = tup0
+            tup1Below = tup1
+            scoreBelow = score
+    if scoreAbove == -1 and scoreBelow == -1:
+        return None
+    if scoreAbove == -1:
+        return scoreBelow
+    if scoreBelow == -1:
+        return scoreAbove
+    if scoreAbove == scoreBelow:
+        return scoreAbove
+    # Interpolate by treating as right triangle with tup0 as y and
+    # tup1 as x
+    yLegFull = tup0Above - tup0Below
+    xLegFull = tup1Above - tup1Below
+    hypoFull = math.sqrt((xLegFull ** 2) + (yLegFull ** 2))
+    yLegPart =  val0 - tup0Below
+    xLegPart =  val1 - tup1Below
+    hypoPart = math.sqrt((xLegPart ** 2) + (yLegPart ** 2))
+    frac = hypoPart / hypoFull
+    interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
+    return interpScore

@@ -12,6 +12,8 @@ import time
 import pprint
 import math
 import datetime
+sys.path.append('../common')
+from gdaUtilities import getInterpolatedValue
 
 class gdaScores:
     """Computes the final GDA Score from the scores returned by gdaAttack
@@ -221,9 +223,10 @@ class gdaScores:
             if cols[col]['claimTrials'] > 0:
                 cols[col]['claimProbability'] = (cols[col]['claimMade'] /
                         cols[col]['claimTrials'])
-                cols[col]['defense'] = self._getDefenseScore(
+                cols[col]['defense'] = getInterpolatedValue(
                         cols[col]['confidenceImprovement'], 
-                        cols[col]['claimProbability'])
+                        cols[col]['claimProbability'],
+                        self._defenseGrid1)
         return
 
     def _getSuscListScore(self,susc):
@@ -243,49 +246,6 @@ class gdaScores:
         frac = (susc - nextSusc) / (lastSusc - nextSusc)
         score = (frac * (lastScore - nextScore)) + nextScore
         return (1 - score)
-
-    def _getDefenseScore(self,ci,p):
-        """ci is confidence improvement, p is probability of claim
-        
-           range of both ci and p is 0 to 1 inclusive. This code might
-           nevertheless return a score, or it might return 'None'"""
-        scoreAbove = -1
-        scoreBelow = -1
-        for tup in self._defenseGrid1:
-            conf = tup[0]
-            prob = tup[1]
-            score = tup[2]
-            if ci <= conf and p <= prob:
-                confAbove = conf
-                probAbove = prob
-                scoreAbove = score
-        for tup in reversed(self._defenseGrid1):
-            conf = tup[0]
-            prob = tup[1]
-            score = tup[2]
-            if ci >= conf and p >= prob:
-                confBelow = conf
-                probBelow = prob
-                scoreBelow = score
-        if scoreAbove == -1 and scoreBelow == -1:
-            return None
-        if scoreAbove == -1:
-            return scoreBelow
-        if scoreBelow == -1:
-            return scoreAbove
-        if scoreAbove == scoreBelow:
-            return scoreAbove
-        # Interpolate by treating as right triangle with conf as y and
-        # prob as x
-        yLegFull = confAbove - confBelow
-        xLegFull = probAbove - probBelow
-        hypoFull = math.sqrt((xLegFull ** 2) + (yLegFull ** 2))
-        yLegPart =  ci - confBelow
-        xLegPart =  p - probBelow
-        hypoPart = math.sqrt((xLegPart ** 2) + (yLegPart ** 2))
-        frac = hypoPart / hypoFull
-        interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
-        return interpScore
 
 class gdaAttack:
     """Manages a GDA Attack
