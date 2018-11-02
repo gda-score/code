@@ -1,6 +1,7 @@
 import sys
 import json
 import pprint
+import math
 
 def setupGdaAttackParameters(cmdArgs, criteria=''):
     """ Basic prep for input and output of running an attack
