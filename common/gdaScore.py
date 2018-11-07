@@ -273,7 +273,7 @@ class gdaAttack:
                numRawDbThreads = 3,
                numAnonDbThreads = 3,
                numPubDbThreads = 3,
-               dbConfig = "C:/Users/francis/Documents/GitHub/code/common/config/myDatabases.json",
+               dbConfig = "common/config/myDatabases.json",
               )
     _requiredParams = ['name','rawDb','anonDb','criteria']
 
@@ -336,8 +336,8 @@ class gdaAttack:
             that can be made to the anon DB. Default 3. <br/>
             `param['numPubDbThreads']`: The number of parallel queries
             that can be made to the public linkability DB. Default 3. <br/>
-            `param['dbConfig']`: The path to the json DB configureation
-            file. <br/>
+            `param['dbConfig']`: The path to the json DB configuration
+            file from the repo head directory. <br/>
             `param['verbose']`: Set to True for verbose output.
         """
 
@@ -1076,7 +1076,15 @@ class gdaAttack:
         return numCells
 
     def _getDatabaseInfo(self,dbName):
-        fh = open(self._p['dbConfig'], "r")
+        # this is kludgey, but try to find the location of the config file
+        # relative to where we are
+        path = self._p['dbConfig']
+        for x in range(5):
+            path = "../" + path
+            if os.path.isfile(path):
+                break
+            pass
+        fh = open(path, "r")
         j = json.load(fh)
         if dbName in j:
             return j[dbName]
