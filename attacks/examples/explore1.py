@@ -11,7 +11,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 params = dict(name='exampleExplore1',
               rawDb='gdaScoreBankingRaw',
-              anonDb='cloakBankingAnon',
+              anonDb='cloakBanking',
               criteria='singlingOut',
               table='accounts',
               flushCache=False,
@@ -101,4 +101,8 @@ while True:
     print(f"myTag is {tag}")
     if answer['stillToCome'] == 0:
         break
+
+publicList = x.getPublicColValues("cli_district_id")
+for entry in publicList:
+    print(f"Value {entry[0]} has count {entry[1]}")
 x.cleanUp()

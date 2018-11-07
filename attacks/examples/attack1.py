@@ -10,7 +10,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 params = dict(name='exampleAttack1',
               rawDb='localBankingRaw',
-              anonDb='cloakBankingAnon',
+              anonDb='cloakBanking',
               criteria='singlingOut',
               table='accounts',
               flushCache=False,

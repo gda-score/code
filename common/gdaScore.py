@@ -273,7 +273,7 @@ class gdaAttack:
                numRawDbThreads = 3,
                numAnonDbThreads = 3,
                numPubDbThreads = 3,
-               dbConfig = "../common/config/myDatabases.json",
+               dbConfig = "C:/Users/francis/Documents/GitHub/code/common/config/myDatabases.json",
               )
     _requiredParams = ['name','rawDb','anonDb','criteria']
 
@@ -719,6 +719,57 @@ class gdaAttack:
         reply['stillToCome'] = self._exploreCounter
         return(reply)
 
+    def getPublicColValues(self,colName,tableName=''):
+        """Return list of "publicly known" column values and counts
+
+        Column value has index 0, count of distinct UIDs has index 1
+        Must specify column name.
+        """
+        if len(colName) == 0:
+            print(f"Must specify column 'colName'")
+            return None
+
+        if len(tableName) == 0:
+            # caller didn't supply a table name, so get it from the
+            # class init
+            tableName = self._p['table']
+
+        # Establish connection to database
+        db = self._getDatabaseInfo(self._p['rawDb'])
+        connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        conn = psycopg2.connect(connStr)
+        cur = conn.cursor()
+        # First we need to know the total number of distinct users
+        sql = str(f"""select count(distinct {self._p['uid']})
+                      from {tableName}""")
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getColNamesAndTypes() query: '{e}'")
+            self.cleanUp(cleanUpCache=False,doExit=True)
+        ans = cur.fetchall()
+        numUid = ans[0][0]
+        # Query the raw db for values in the column
+        sql = str(f"""select {colName}, count(distinct {self._p['uid']})
+                      from {tableName}
+                      group by 1
+                      order by 2 desc
+                      limit 100""")
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getColNamesAndTypes() query: '{e}'")
+            self.cleanUp(cleanUpCache=False,doExit=True)
+        ans = cur.fetchall()
+        ret = []
+        for row in ans:
+            # row[0] is the value, row[1] is the count
+            if (((row[1]/numUid) > 0.01) and
+                    (row[1] >= 100)):
+                ret.append((row[0],row[1]))
+        conn.close()
+        return ret
+
     def getColNames(self,dbType='rawDb',tableName=''):
         """Return simple list of column names
 
@@ -1030,8 +1081,7 @@ class gdaAttack:
         if dbName in j:
             return j[dbName]
         else:
-            print(f"Error: Database '{dbName}' not found"
-                   "in file '{self._p['dbConfig']}")
+            print(f"Error: Database '{dbName}' not found in file {self._p['dbConfig']}")
             return False
 
     def _doParamChecks(self):
