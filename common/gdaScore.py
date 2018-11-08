@@ -382,10 +382,10 @@ class gdaAttack:
                 self._p['numAnonDbThreads'] + 1)
         if len(self._p['pubDb']) > 0:
             expectedThreads += self._p['numPubDbThreads']
-        if numThreads != expectedThreads:
+        if numThreads < expectedThreads:
             print(f"Error: Some thread(s) died "
-                   "(count {numThreads}, expected {expectedThreads}). "
-                   "Aborting.")
+                   f"(count {numThreads}, expected {expectedThreads}). "
+                   f"Aborting.")
             self.cleanUp(cleanUpCache=False,doExit=True)
 
     def getResults(self):
@@ -641,7 +641,8 @@ class gdaAttack:
             Input parameters formatted the same as with `askAttack()`"""
 
         self._knowledgeCounter += 1
-        if self._vb: print(f"Calling {__name__}.askKnowledge with query '{query}', count {self._knowledgeCounter}")
+        if self._vb: print(f"Calling {__name__}.askKnowledge with query "
+                f"'{query}', count {self._knowledgeCounter}")
         # Make a copy of the query for passing around
         qCopy = copy.copy(query)
         job = {}
@@ -685,7 +686,8 @@ class gdaAttack:
             is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'."""
 
         self._exploreCounter += 1
-        if self._vb: print(f"Calling {__name__}.askExplore with query '{query}', count {self._exploreCounter}")
+        if self._vb: print(f"Calling {__name__}.askExplore with "
+                f"query '{query}', count {self._exploreCounter}")
         # Make a copy of the query for passing around
         qCopy = copy.copy(query)
         job = {}

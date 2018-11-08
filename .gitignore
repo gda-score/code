@@ -110,3 +110,4 @@ venv.bak/
 attacks/attackResults
 attacks/cacheDBs
 common/config/myDatabases.json
+*.db

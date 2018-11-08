@@ -17,6 +17,11 @@ params = dict(name='exampleExplore1',
               flushCache=False,
               verbose=False)
 x = gdaAttack(params)
+# Let's make another gdaAttack object to validate that we can run two of
+# these in parallel. But give it another name or else the cache cleanup
+# can get confused.
+params['name'] = 'exampleExplore2'
+y = gdaAttack(params)
 
 # Start by exploring tables and columns
 # First a list of tables from the raw (postgres) database
@@ -49,12 +54,12 @@ for row in rawTables['answer']:
 # Now a list of tables from the anon (cloak) database
 sql = "show tables"
 query = dict(db="anon",sql=sql)
-x.askExplore(query)
-anonTables = x.getExplore()
+y.askExplore(query)
+anonTables = y.getExplore()
 if not anonTables:
-    x.cleanUp(exitMsg="Failed to get anon tables")
+    y.cleanUp(exitMsg="Failed to get anon tables")
 if 'error' in anonTables:
-    x.cleanUp(exitMsg="Failed to get anon tables")
+    y.cleanUp(exitMsg="Failed to get anon tables")
 print("Tables in anon DB:")
 for row in anonTables['answer']:
     print(f"   {row[0]}")
@@ -82,8 +87,8 @@ for tab in anonTables['answer']:
     anonInfo[tableName] = {}
     sql = str(f"show columns from {tableName}")
     query = dict(db="anon",sql=sql)
-    x.askExplore(query)
-    reply = x.getExplore()
+    y.askExplore(query)
+    reply = y.getExplore()
     for row in reply['answer']:
         colName = row[0]
         colType = row[1]
@@ -102,7 +107,8 @@ while True:
     if answer['stillToCome'] == 0:
         break
 
-publicList = x.getPublicColValues("cli_district_id")
+publicList = y.getPublicColValues("cli_district_id")
 for entry in publicList:
     print(f"Value {entry[0]} has count {entry[1]}")
-x.cleanUp()
+x.cleanUp(doExit=False)
+y.cleanUp()
