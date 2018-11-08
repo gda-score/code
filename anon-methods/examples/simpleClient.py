@@ -37,6 +37,13 @@ session.mount('https://', adapter)
 # Exception handling in case exception occurs while connecting to server
 try:
     resp = session.get(url, params=json.dumps(data))
+
+    # Client prints the data returned by the server in JSON
+    print(resp.json())
+
+    # Client prints the response code
+    print(resp)
+
 except requests.ConnectionError as e:
     print("Connection Error. Make sure you are connected to Internet.")
     print(str(e))
@@ -52,8 +59,4 @@ except requests.RequestException as e:
 except KeyboardInterrupt:
     print("Program closed")
 
-# Client prints the data returned by the server in JSON
-print(resp.json())
 
-# Client prints the response code
-print(resp)
