@@ -1,5 +1,6 @@
 import sys
-from utility.gdaUtility import gdaUtility
+sys.path.append('../utility')
+from gdaUtility import gdaUtility
 import pprint
 
 gdaUtilityObj=gdaUtility()
