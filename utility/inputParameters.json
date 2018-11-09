@@ -1,0 +1,20 @@
+[
+
+    {
+        "name": "orderTable",
+        "rawDb": "gda_taxiRaw",
+        "anonDb": "gda_taxiAnon",
+        "anonType": "",
+        "anonSubType": "",
+        "dbType": "",
+        "criteria": "singlingOut",
+        "table": "orders",
+        "uid": "uid",
+        "measureParam":"",
+        "resultsDir": "./../utility",
+        "flushCache":false,
+        "verbose": false
+    }
+
+]
+
