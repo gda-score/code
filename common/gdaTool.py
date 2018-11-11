@@ -16,15 +16,7 @@ class gdaTool:
 
     def generateDBSqlForTable(self, argv, dbType):
         paramsList = self._setupGdaUtilityParametersForSqlScripts(argv, criteria="singlingOut")
-
-
-        # mapToIntList = ["bigint", "bytea", "boolean", "integer", "int"]
-        # maptToTextList = ["char", "varchar", "text", "char","character varying"]
-        # mapToRealList = ["real", "decimal", "double precision", "numeric"]
-        # maptoDateTime = ["timestamp without time zone", "time", "timestamp"]
-        # maptoDate=["date"]
-
-        ##Create a dictionary for mapping rather than
+        #Create a dictionary for mapping rather than
         mappingDBTypesDict={"bigint":"int","bytea":"int","boolean":"int","integer":"int","int":"int","smallint":"int",
                             "char":"text","varchar":"text","text":"text","char":"text","character varying":"text",
                             "real":"real","decimal":"real","double precision":"real","numeric":"real",
@@ -32,18 +24,14 @@ class gdaTool:
                             "date":"date"
 
         }
-        # Debug
-        # print (f"{paramsList}")
+
         for param in paramsList:
             if param['finished'] == True:
                 print("The following Utility script for table has been executed:")
                 pp.pprint(param)
                 print(f"Results may be found at {param['resultsPath']}")
                 continue
-            #Add missing parameters with dummy values.
-            #anonDb should be mentioned in databases.json.In future have to remove these once parameters are not mandatory
-            #param['dummy']='dummy'
-
+            #Add mandatory fields required for now. Have remove once scope of these parameters are changed.
             path = self._p['dbConfig']
             for x in range(5):
                 path = "../" + path
@@ -56,6 +44,7 @@ class gdaTool:
                 param['anonDb'] = key
             param['criteria']="singlingOut"
             param['table']="dummy"
+
             attack = gdaAttack(param)
             table = attack.getAttackTableName()
             tableNames = attack.getTableNames(dbType=dbType)
@@ -75,9 +64,6 @@ class gdaTool:
 
                 num_rows = 0
 
-                # Query to get No of Rows
-                if(table=='orders_char'):
-                    continue;
 
                 sql = "SELECT "
                 sql += str(f"count(*) FROM {table} ")
@@ -95,17 +81,6 @@ class gdaTool:
                 for raCol in colNames:
                     column_name = raCol[0]
                     column_type = ''
-                    #
-                    # if raCol[1] in mapToIntList:
-                    #     column_type += 'int'
-                    # elif raCol[1] in maptToTextList:
-                    #     column_type += 'text'
-                    # elif raCol[1] in mapToRealList:
-                    #     column_type += 'real'
-                    # elif raCol[1] in maptoDateTime:
-                    #     column_type += 'datetime'
-                    # elif raCol[1] in maptoDate:
-                    #     column_type += 'date'
 
                     if raCol[1] in mappingDBTypesDict.keys():
                         mappedDBType=mappingDBTypesDict.get(raCol[1])
