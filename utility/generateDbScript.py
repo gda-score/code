@@ -1,7 +1,7 @@
 import sys
-sys.path.append('../utility')
-from gdaUtility import gdaUtility
+sys.path.append('../common')
+from gdaTool import gdaTool
 import pprint
 
-gdaUtilityObj=gdaUtility()
-gdaUtilityObj.generateDBSqlForTable(sys.argv,'rawDb')
+gdaToolObj=gdaTool()
+gdaToolObj.generateDBSqlForTable(sys.argv,'rawDb')
