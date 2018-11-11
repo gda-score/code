@@ -1,0 +1,11 @@
+---
+databases:
+- database: "local_banking"
+  dialect: "postgres"
+  namespace: "public"
+  tables:
+  - table: "accounts"
+    columns:
+    - name: "account_id"
+    - name: "lastname"
+
