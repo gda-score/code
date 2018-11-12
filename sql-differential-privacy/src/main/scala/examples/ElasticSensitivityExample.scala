@@ -53,8 +53,8 @@ object ElasticSensitivityExample extends App {
   // Use the table schemas and metadata defined by the test classes
   System.setProperty("schema.config.path", "src/test/resources/schema.yaml")
 
-  //Enter the database name
-  val database = Schema.getDatabase("<Give database name here from schema>")
+  //Enter the database name from schema
+  val database = Schema.getDatabase("<db name>")
 
   // query result when executed on the database
   var QUERY_RESULT = 0.0
@@ -66,7 +66,7 @@ object ElasticSensitivityExample extends App {
   var fileCount = 0
 
   // path where JSON files are created by simpleServer.py
-  val path: String = "<Enter path here>\\sql-differential-privacy\\src\\main\\scala\\examples\\"
+  val path: String = "<path>"
 
   // timer to check the directory for new files periodically
   val t = new java.util.Timer()
@@ -126,7 +126,7 @@ object ElasticSensitivityExample extends App {
         // delta parameter: use 1/n^2, with n = 100000
         val DELTA = 1 / (math.pow(100000, 2))
 
-
+        // display query sent by client and the actual result
         println(s"Query sent by client: " + query);
         println(s"Private result: $QUERY_RESULT\n")
 
@@ -134,7 +134,7 @@ object ElasticSensitivityExample extends App {
         val noisyResult = ElasticSensitivity.addNoise(query, database, QUERY_RESULT, EPSILON, DELTA)
         println(s"Noisy result: %.0f".format(noisyResult))
 
-        // FileWriter
+        // write noisy result to .txt file
         new PrintWriter("result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
           write(noisyResult.toString); close
         }
@@ -144,6 +144,8 @@ object ElasticSensitivityExample extends App {
       }
     }
   }
+
+  // schedule the task to check for new files and execute if new files are found
   t.schedule(task, 100L, 100L)
   task.run()
 

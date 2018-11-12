@@ -19,7 +19,7 @@ object QueryRewritingExample extends App {
   System.setProperty("schema.config.path", "src/test/resources/schema.yaml")
 
   //Enter the database name
-  val database = Schema.getDatabase("<Give database name here from schema>")
+  val database = Schema.getDatabase("<db name>") //Give database name here from schema
 
   // variable to store JSON string extracted from the file
   var jsonStr = ""
@@ -27,8 +27,8 @@ object QueryRewritingExample extends App {
   // variable to count number of JSON files in the directory
   var fileCount = 0
 
-  // path where JSON files are created by simpleServer.py
-  val path: String = "<Enter path here>\\sql-differential-privacy\\src\\main\\scala\\examples\\"
+  // give path where JSON files are created by simpleServer.py
+  val path: String = "<path>"
 
   // privacy budget
   val EPSILON = 0.1
@@ -71,7 +71,7 @@ object QueryRewritingExample extends App {
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda_score.org:5432/<database_name>?user=<username>&password=<password>"
+        val con_str = "jdbc:postgresql://db001.gda_score.org:5432/<db_name>?user=<username>&password=<password>"
 
         val conn = DriverManager.getConnection(con_str)
 
@@ -147,6 +147,8 @@ object QueryRewritingExample extends App {
 
     }
   }
+
+  // schedule the task to check for new files and execute if new files are found
   t.schedule(task, 100L, 100L)
   task.run()
 }
