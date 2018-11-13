@@ -65,19 +65,29 @@ def _generalizeNumber(col, colInfo, grow=0, targetBuckets=0, factor=1):
     colInfo2[col]['condition'] = snappedRange
     return colInfo2
 
-def _generalizeText(col, colInfo, grow):
-    targetBuckets = colInfo[col]['dVals']/grow
-    if targetBuckets < 2:
+def _generalizeTextOrDatetime(col, colInfo, grow=0, targetBuckets=0, factor=1):
+    if grow != 0:
+        targetBuckets = colInfo[col]['dVals']/(grow * factor)
+    if targetBuckets < 1:
         # Can't really grow the buckets
+        if p: print(f"generalizeNumber: abort with grow {grow}, "
+                f"targetBuckets {targetBuckets}")
         return None
-    targetRange = (
-            (colInfo[col]['maxVal'] - colInfo[col]['minVal'])/targetBuckets)
-    # Lets find the nearest Diffix snapped range to the target range.
-    snappedRange = _findSnap(targetRange)
+    # Find the closest number of distinct values
+    index = -1
+    nearestNum = 100000000
+    for i in range(len(colInfo[col]['buckets'])):
+        num = colInfo[col]['buckets'][i][1]
+        if abs(num - targetBuckets) < nearestNum:
+            index = i
+            nearestNum = abs(num - targetBuckets)
+    if p: print(f"closest condition for column {col} is: "
+            f"{colInfo[col]['buckets'][index][0]} "
+            f"({colInfo[col]['buckets'][index][1]} against {targetBuckets})")
     colInfo2 = copy.deepcopy(colInfo)
     # Change colInfo2 so that it encodes the range rather than the
     # original native columns
-    colInfo2[col]['condition'] = snappedRange
+    colInfo2[col]['condition'] = colInfo[col]['buckets'][index][0]
     return colInfo2
 
 def _makeHistSql(table,columns,colInfo,uid,minCount,maxCount):
@@ -88,10 +98,10 @@ def _makeHistSql(table,columns,colInfo,uid,minCount,maxCount):
             sql += str(f"{col}, ")
         else:
             unit = colInfo[col]['condition']
-            if colInfo[col]['colType'] == 'datetime':
+            if colInfo[col]['colType'][:4] == 'date':
                 sql += str(f"extract({unit} from {col}), ")
             elif colInfo[col]['colType'] == 'text':
-                sql += str(f"left({col}, {unit}), ")
+                sql += str(f"lower(left({col}, {unit})), ")
             else:    # int or real
                 sql += str(f"floor({col}/{unit})*{unit}, ")
     duidClause = str(f"count(distinct {uid}) ")
@@ -181,7 +191,7 @@ def getValuesAndRanges(params, columns, minCount, maxCount, table = ''):
     if len(table) == 0:
         table = x.getAttackTableName()
     # Learn the columns' types.
-    ans = x.getColNamesAndTypes(tableName=table);
+    ans = x.getColNamesAndTypes(tableName=table,dbType="anonDb");
     colInfo = {}
     # The 'condition' variable in colInfo tells us what to do to form the
     # query that looks for the needed bucket sizes. 'none' means don't 
@@ -258,14 +268,64 @@ def getValuesAndRanges(params, columns, minCount, maxCount, table = ''):
         x.cleanUp(doExit=False)
         return ret;
 
+    # We'll need to generalize, so see if we have text or datetime columns,
+    # and gather the information needed to know roughly the number of
+    # distinct UIDs we'll be able to get
+    for col in columns:
+        if colInfo[col]['colType'] != 'text':
+            continue
+        sql = str(f"select count(distinct ones), count(distinct twos), "
+                f"count(distinct threes) from ( "
+                f"select lower(left({col},1)) as ones, "
+                f"lower(left({col},2)) as twos, "
+                f"lower(left({col},3)) as threes from {table}) t")
+        if p: print(sql)
+        query = dict(db="raw",sql=sql)
+        x.askExplore(query)
+        ans = x.getExplore()
+        if not ans:
+            x.cleanUp(exitMsg="Failed query")
+        if 'error' in ans:
+            x.cleanUp(exitMsg="Failed query (error)")
+        if p: pp.pprint(ans)
+        colInfo[col]['buckets'] = []
+        colInfo[col]['buckets'].append([1,ans['answer'][0][0]])
+        colInfo[col]['buckets'].append([2,ans['answer'][0][1]])
+        colInfo[col]['buckets'].append([3,ans['answer'][0][2]])
+        if p: pp.pprint(colInfo)
+
+    for col in columns:
+        if colInfo[col]['colType'][:4] != 'date':
+            continue
+        sql = str(f"select count(distinct years), count(distinct months), "
+                f"count(distinct days) from ( select "
+                f"extract(year from {col}) as years, "
+                f"extract(month from {col}) as months, "
+                f"extract(day from {col}) as days "
+                f"from {table}) t")
+        if p: print(sql)
+        query = dict(db="raw",sql=sql)
+        x.askExplore(query)
+        ans = x.getExplore()
+        if not ans:
+            x.cleanUp(exitMsg="Failed query")
+        if 'error' in ans:
+            x.cleanUp(exitMsg="Failed query (error)")
+        if p: pp.pprint(ans)
+        colInfo[col]['buckets'] = []
+        colInfo[col]['buckets'].append(['year',ans['answer'][0][0]])
+        colInfo[col]['buckets'].append(['month',ans['answer'][0][1]])
+        colInfo[col]['buckets'].append(['day',ans['answer'][0][2]])
+        if p: pp.pprint(colInfo)
+
     if len(columns) == 1:
         # If just one column, then simply find a good bucketization
         factor = 1
         while(1):
-            if colInfo[col]['colType'] == 'datetime':
-                newColInfo = _generalizeDatetime(col,colInfo,grow)
+            if colInfo[col]['colType'][:4] == 'date':
+                newColInfo = _generalizeTextOrDatetime(col,colInfo,grow)
             elif colInfo[col]['colType'] == 'text':
-                newColInfo = _generalizeText(col,colInfo,grow)
+                newColInfo = _generalizeTextOrDatetime(col,colInfo,grow)
             else:    # int or real
                 newColInfo = _generalizeNumber(col,colInfo,grow=grow)
             if newColInfo is None:
@@ -317,8 +377,8 @@ def getValuesAndRanges(params, columns, minCount, maxCount, table = ''):
         col2 = columns[0]
     if p: print(f"col1 is {col1}, type {colInfo[col1]['colType']}")
     if p: print(f"col2 is {col2}, type {colInfo[col2]['colType']}")
-    if ((colInfo[col]['colType'] == "real") or
-            ((colInfo[col]['colType'][:3] == "int"))):
+    if ((colInfo[col1]['colType'] == "real") or
+            ((colInfo[col1]['colType'][:3] == "int"))):
         numBuckets = 2
         while(1):
             partColInfo = _generalizeNumber(
@@ -333,10 +393,12 @@ def getValuesAndRanges(params, columns, minCount, maxCount, table = ''):
             fudge = 1
             allDone = 0
             while(1):
-                if colInfo[col2]['colType'] == 'datetime':
-                    newColInfo = _generalizeDatetime(col2,colInfo,grow)
+                if colInfo[col2]['colType'][:4] == 'date':
+                    newColInfo = _generalizeTextOrDatetime(col2,colInfo,grow)
+                    allDone = 1
                 elif colInfo[col2]['colType'] == 'text':
-                    newColInfo = _generalizeText(col2,colInfo,grow)
+                    newColInfo = _generalizeTextOrDatetime(col2,colInfo,grow)
+                    allDone = 1
                 else:    # int or real
                     newColInfo = _generalizeNumber(
                         col2,partColInfo,grow=grow,factor=(numBuckets*fudge))
@@ -370,6 +432,8 @@ def getValuesAndRanges(params, columns, minCount, maxCount, table = ''):
         x.cleanUp(doExit=False)
         return ret
 
-
-
+    # Neither column is a number. For now, we require that at least one
+    # column is numeric
+    x.cleanUp(doExit=False)
+    return ret
 
