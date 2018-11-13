@@ -1,12 +1,99 @@
+import os
+import sys
 import matplotlib.pyplot as plt
 import math
 from matplotlib.patches import Rectangle
+import json
+import numpy as np
+sys.path.append('../common')
+from gdaUtilities import getInterpolatedValue
 
+# Future use for static unchanged strings
+doubleColumnScore = "doubleColumnScores"
+singleColumnScore = "singleColumnScores"
 
+# Only for accuracy
+acc = "accuracy"
+simplerelerrormatrix = "simpleRelativeErrorMetrics"
+mse = "meanSquareError"
+
+# Only for coverage
+cov = "coverage"
+covPerCol = "coveragePerCol"
+# This method is responsible for generate
+# Score and column data structure.
+# Tested by static values
 def score_column_method(column, method):
         scorestring = "Scoring:%s,%s columns" % (method, column)
         return scorestring
 
+# This method is responsible for generate
+# utility measure parameters.
+# Tested by dynamically read from json file from a desired location.
+def readjsonfile(filelocation, util):
+    try:
+        # check the desired file exist on the location or not.
+        fileexist = open(filelocation, 'r')
+        util['accuracy'] = round(getaccuracyvalue(filelocation), 2)
+        util['coverage'] = round(getcoveragevalue(filelocation), 2)
+        fileexist.close()
+    except FileNotFoundError:
+        print("File is not present in the location.")
+        return False
+    except KeyboardInterrupt:
+        print("Program closed.")
+        return False
+
+    return True
+
+def getaccuracyvalue(filelocation):
+    accuracy = None
+    # Read JSON data into the datastore variable
+    if filelocation:
+        with open(filelocation, 'r') as f:
+            datastore = json.load(f)
+    # Use the new datastore datastructure
+    # Utility data
+    utility_acc_dc = []
+    utility_acc_sc = []
+
+    for i in range(len(datastore[doubleColumnScore])):
+        if datastore[doubleColumnScore][i][acc] is not None:
+            utility_acc_dc.append(datastore[doubleColumnScore][i][acc][simplerelerrormatrix][mse])
+
+    for i in range(len(datastore[singleColumnScore])):
+        if datastore[singleColumnScore][i][acc] is not None:
+            utility_acc_sc.append(datastore[singleColumnScore][i][acc][simplerelerrormatrix][mse])
+
+    accuracy = ((np.mean(utility_acc_dc) + np.mean(utility_acc_sc)) / 2)
+    return accuracy
+
+def getcoveragevalue(filelocation):
+    coverage = None
+    # Read JSON data into the datastore variable
+    if filelocation:
+        with open(filelocation, 'r') as f:
+            datastore = json.load(f)
+    # Use the new datastore datastructure
+    # Utility data coverage
+    utility_cov_dc = []
+    utility_cov_sc = []
+
+    for i in range(len(datastore[doubleColumnScore])):
+        if datastore[doubleColumnScore][i][cov] is not None:
+            if datastore[doubleColumnScore][i][cov][covPerCol] is not None:
+                utility_cov_dc.append(datastore[doubleColumnScore][i]["coverage"][covPerCol])
+
+    for i in range(len(datastore[singleColumnScore])):
+        if datastore[singleColumnScore][i][cov] is not None:
+            if datastore[singleColumnScore][i][cov][covPerCol] is not None:
+                utility_cov_sc.append(datastore[singleColumnScore][i][cov][covPerCol])
+    coverage = ((np.mean(utility_cov_dc) + np.mean(utility_cov_sc)) / 2)
+    return coverage
+
+# This method is responsible for generate
+# gdaScore plot using matplotlib.
+# Tested by static and dynamic values.
 def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
     """ Produces a GDA Score Diagram from GDA Score data.
 
@@ -58,6 +145,8 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
 
     xaxisscorecolumn = 4.3
     yaxisscorecolumn = -0.65
+
+    horbarYaxis = 0.0
 
     acc, cov, conf, prob, know, work, susc = set(range(7))
     labels = ['Acc', 'Cov', 'Conf', 'Prob', 'Know', 'Work', 'Susc']
@@ -153,6 +242,22 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
         workBar = maxY
         doLabel[work] = 0
 
+    # Code Added By Anirban 25-10-2018
+    # Dynamically added acccuracy and coverage by reading json file
+    # No further change till now to python data structure
+
+    filevalues = readjsonfile(util['filelocation'], util)
+    # Do calculation if file exist on the location and initial reading calculation
+    utilityScore = [
+        (1, 1, 0), (1, .25, 0), (1, .1, 0), (1, .05, 0), (1, .01, 0), (1, 0, 0),
+        (.6, 1, 0), (.6, .25, .1), (.6, .1, .3), (.6, .05, .4), (.6, .01, .5), (.6, 0, .6),
+        (.4, 1, 0), (.4, .25, .2), (.4, .1, .4), (.4, .05, .6), (.4, .01, .7), (.4, 0, .8),
+        (.2, 1, 0), (.2, .25, .3), (.2, .1, 5), (.2, .05, .7), (.2, .01, .8), (.2, 0, .9),
+        (.1, 1, 0), (.1, .25, .4), (.1, .1, .7), (.1, .05, .8), (.1, .01, .9), (.1, 0, .95),
+        (0, 1, 0), (0, .25, .5), (0, .1, .75), (0, .05, .9), (0, .01, .95), (0, 0, 1)]
+    if filevalues:
+        score = getInterpolatedValue((1 - util['coverage']), util['accuracy'], utilityScore)
+
     if util:
         accuracy = util['accuracy']
         coverage = util['coverage']
@@ -168,8 +273,27 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
         knowledgeNeeded = maxY
         doLabel[know] = 0
 
-    heights = [maxY - accuracy,
-               maxY - coverage,
+    # Accuracy bar scaled Issue10
+    accuracyHeight = None
+    if util['accuracy'] == 0:
+        accuracyHeight = 0.5
+    elif util['accuracy'] == 0.01:
+        accuracyHeight = 0.4
+    elif util['accuracy'] == 0.05:
+        accuracyHeight = 0.3
+    elif util['accuracy'] == 0.1:
+        accuracyHeight = 0.1
+    elif util['accuracy'] == 0.25:
+        accuracyHeight = 0.0
+    elif util['accuracy'] == 0.5:
+        accuracyHeight = -0.25
+    else:
+        accuracyHeight = -0.5
+
+    heights = [accuracyHeight,
+               # maxY - accuracy, Changes for Issue10
+               # maxY - coverage, Changes for Issue10
+               coverage - maxY,
                maxY - s['confidenceImprovement'],
                maxY - s['claimProbability'],
                knowledgeNeeded - maxY,
@@ -229,14 +353,36 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
     # Plot the summary values and colors
     # Code Added
     currentAxis = plt.gca()
+    # util['utility'] depends on score calculated above and Yaxis value of the Hbar.
+    util['utility'] = score
+    if score == 0:
+        horbarYaxis = -0.5
+    elif score == 1:
+        horbarYaxis = 0.5
+    else:
+        horbarYaxis = score
+
     if util:
         # region Code Commented By Anirban 03-10-2018
         # plt.plot([0,midVertical-gap],
         #         [(util['utility']-maxY),(util['utility']-maxY)],
         #         color=util['color'],linewidth=18,alpha=0.6) #Changes needs to be done
         # end region
-        currentAxis.add_patch(Rectangle((0, util['utility'] - maxY), midVertical, 0.10, alpha=0.6,
-                                        facecolor=util['color']))  # height and width can be adjusted
+        # we must reuse the same code in future
+        if util['utility'] > 0.9:
+            color = 'green'
+        elif util['utility'] > 0.7:
+            color = 'blue'
+        elif util['utility'] > 0.5:
+            color = 'yellow'
+        elif util['utility'] > 0.3:
+            color = 'orange'
+        else:
+            color = 'red'
+    currentAxis.add_patch(Rectangle((0, horbarYaxis), midVertical, 0.05, alpha=0.6,
+                                        facecolor=color))  # height and width can be adjusted
+    currentAxis.add_patch(Rectangle((0, horbarYaxis), midVertical, -0.05, alpha=0.6,
+                                    facecolor=color))  # height and width can be adjusted
 
     if s['defense'] > 0.9:
         color = 'green'
@@ -248,9 +394,11 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
         color = 'orange'
     else:
         color = 'red'
-
-    currentAxis.add_patch(Rectangle((midVertical, s['defense'] - maxY), axisLength - midVertical, 0.11, alpha=0.6,
-                                    facecolor=color))  # height and width can be adjusted
+    # TODO: Y axis value for defense is currently hardcoded, Need to be updated in future.
+    currentAxis.add_patch(Rectangle((midVertical, -0.3), axisLength - midVertical, 0.045, alpha=0.6,
+                                    facecolor=color))  # s['defense'] - maxY, # height and width can be adjusted
+    currentAxis.add_patch(Rectangle((midVertical, -0.3), axisLength - midVertical, -0.045, alpha=0.6,
+                                    facecolor=color))  # s['defense'] - maxY, # height and width can be adjusted
     # region Code Commented By Anirban 03-10-2018
     # plt.plot([midVertical+gap,rightEdge],[(s['defense']-maxY),(s['defense']-maxY)],
     # color=color,linewidth=23,alpha=0.6) #Changes needs to be done
@@ -258,6 +406,19 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
 
     # Set the overall proportion of the figure
     plt.axes().set_aspect(aspect)
+
+    mainText = s['annonScheme']  # hard coded data validation
+    attackText = s['attackText']
+    dbType = s["dbType"]
+
+
+    plt.text(textPlotXvalue, maintextYValue, mainText,
+             horizontalalignment='left', verticalalignment='top', fontsize=20)
+    plt.text(textPlotXvalue, minY - midTextValue, "Attack: " + attackText,
+              horizontalalignment='left', verticalalignment='top', fontsize=15)
+    plt.text(textPlotXvalue, minY - endTextValue, "Database: " + dbType,
+                 horizontalalignment='left', verticalalignment='top', fontsize=15)
+
     # Changes Done By Anirban 30-08-2018
     # Plot the box
     # draw horizontal lines
@@ -268,17 +429,6 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
     changegap = -0.6
     plt.plot([horlineX, horlineX], [maxY + verlineGap, minY + changegap], color='black', linewidth=3.5)  # line 1 left
     plt.plot([verlineX, verlineY], [maxY + verlineGap, minY + horlineX], color='black', linewidth=3.9)  # line 2 right
-
-    mainText = s['annonScheme']  # hard coded data validation
-    attackText = s['attackText']
-    dbType = s["dbType"]
-
-    plt.text(textPlotXvalue, maintextYValue, mainText,
-             horizontalalignment='left', verticalalignment='top', fontsize=20)
-    plt.text(textPlotXvalue, minY - midTextValue, "Attack: " + attackText,
-             horizontalalignment='left', verticalalignment='top', fontsize=15)
-    plt.text(textPlotXvalue, minY - endTextValue, "Database: " + dbType,
-             horizontalalignment='left', verticalalignment='top', fontsize=15)
 
     # Code Added by Anirban 20-10-2018
     # code to display method and number of column used in score generation

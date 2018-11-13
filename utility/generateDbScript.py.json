@@ -1,0 +1,10 @@
+[
+    {
+        "name": "bankingRaw",
+        "rawDb": "gda_bankingRaw",
+        "resultsDir": "./../utility",
+        "flushCache":false,
+        "verbose": false
+    }
+]
+

@@ -1,0 +1,1321 @@
+{
+    "doubleColumnScores": [
+        {
+            "accuracy": null,
+            "col1": "acct_district_id",
+            "col2": "client_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 77,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.4615384615384615,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 5,
+                    "meanSquareError": 3.5934065934065935,
+                    "min": 0,
+                    "stddev": 1.2138798431081528
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.054096741105169696,
+                    "max": 0.3333333333333333,
+                    "meanSquareError": 0.010517063654457126,
+                    "min": 0.0,
+                    "stddev": 0.08760677100413725
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0425823060813317,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.5,
+                    "meanSquareError": 1.1069860656537733,
+                    "min": 0.9038461538461539,
+                    "stddev": 0.14223401154792575
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "cli_district_id",
+            "coverage": {
+                "colCountManyRawDb": 180,
+                "colCountOneRawDb": 266,
+                "coveragePerCol": 0.5055555555555555,
+                "totalValCntAnonDb": 145,
+                "valuesInBothRawAndAnonDb": 91
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.8181818181818181,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 7,
+                    "meanSquareError": 5.256198347107438,
+                    "min": 0,
+                    "stddev": 1.4023789311975086
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.1069650489925805,
+                    "max": 0.6,
+                    "meanSquareError": 0.030390758707156088,
+                    "min": 0.0,
+                    "stddev": 0.13822860525055597
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0891779329619367,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.5,
+                    "meanSquareError": 1.2685974333180405,
+                    "min": 0.6666666666666666,
+                    "stddev": 0.2880531273868773
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "frequency",
+            "coverage": {
+                "colCountManyRawDb": 165,
+                "colCountOneRawDb": 37,
+                "coveragePerCol": 0.7333333333333333,
+                "totalValCntAnonDb": 133,
+                "valuesInBothRawAndAnonDb": 121
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.26,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 2,
+                    "meanSquareError": 0.34,
+                    "min": 0,
+                    "stddev": 0.5245488682206026
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0765,
+                    "max": 0.5,
+                    "meanSquareError": 0.02809166666666667,
+                    "min": 0.0,
+                    "stddev": 0.14988014291111826
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.1233333333333333,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.0,
+                    "meanSquareError": 1.3265277777777778,
+                    "min": 1.0,
+                    "stddev": 0.2555445759608885
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "acct_date",
+            "coverage": {
+                "colCountManyRawDb": 969,
+                "colCountOneRawDb": 3355,
+                "coveragePerCol": 0.10319917440660474,
+                "totalValCntAnonDb": 177,
+                "valuesInBothRawAndAnonDb": 100
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.6956521739130435,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 2,
+                    "meanSquareError": 0.8695652173913043,
+                    "min": 0,
+                    "stddev": 0.6349504353380415
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.19123533471359558,
+                    "max": 0.5,
+                    "meanSquareError": 0.06395226045329566,
+                    "min": 0.0,
+                    "stddev": 0.16919193858889678
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.2583850931677019,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.0,
+                    "meanSquareError": 1.675119787045253,
+                    "min": 0.8,
+                    "stddev": 0.30943461049491283
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 122,
+                "colCountOneRawDb": 5089,
+                "coveragePerCol": 0.1885245901639344,
+                "totalValCntAnonDb": 100,
+                "valuesInBothRawAndAnonDb": 23
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.361842105263158,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 5,
+                    "meanSquareError": 3.164473684210526,
+                    "min": 0,
+                    "stddev": 1.1482745022511132
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.09143221901896781,
+                    "max": 0.6666666666666666,
+                    "meanSquareError": 0.02243258302023008,
+                    "min": 0.0,
+                    "stddev": 0.11902070932593156
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.077665961269649,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 3.0,
+                    "meanSquareError": 1.2257663399828842,
+                    "min": 0.75,
+                    "stddev": 0.2546152430025237
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 154,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 0.987012987012987,
+                "totalValCntAnonDb": 153,
+                "valuesInBothRawAndAnonDb": 152
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": 0.0
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": 0.0
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": 0.0
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 25,
+                "colCountOneRawDb": 5319,
+                "coveragePerCol": 0.08,
+                "totalValCntAnonDb": 79,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": 0.0
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": 0.0
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": 0.0
+                }
+            },
+            "col1": "acct_district_id",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 869,
+                "colCountOneRawDb": 3631,
+                "coveragePerCol": 0.0667433831990794,
+                "totalValCntAnonDb": 135,
+                "valuesInBothRawAndAnonDb": 58
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "cli_district_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "frequency",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "acct_date",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.829059829059829,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 8,
+                    "meanSquareError": 5.367521367521367,
+                    "min": 0,
+                    "stddev": 1.4281082150788968
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.10364348385569767,
+                    "max": 0.6666666666666666,
+                    "meanSquareError": 0.028174810930079994,
+                    "min": 0.0,
+                    "stddev": 0.13260136605914136
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0741469573301543,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 3.0,
+                    "meanSquareError": 1.2547324432189932,
+                    "min": 0.7142857142857143,
+                    "stddev": 0.31907826033656844
+                }
+            },
+            "col1": "cli_district_id",
+            "col2": "frequency",
+            "coverage": {
+                "colCountManyRawDb": 165,
+                "colCountOneRawDb": 35,
+                "coveragePerCol": 0.7090909090909091,
+                "totalValCntAnonDb": 132,
+                "valuesInBothRawAndAnonDb": 117
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.21333333333333335,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 2,
+                    "meanSquareError": 0.24,
+                    "min": 0,
+                    "stddev": 0.4439787349830137
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.06203174603174603,
+                    "max": 0.3333333333333333,
+                    "meanSquareError": 0.019584731670445964,
+                    "min": 0.0,
+                    "stddev": 0.12629114590963145
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0757460317460317,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.5,
+                    "meanSquareError": 1.192743461829176,
+                    "min": 0.7142857142857143,
+                    "stddev": 0.18972046563185893
+                }
+            },
+            "col1": "cli_district_id",
+            "col2": "acct_date",
+            "coverage": {
+                "colCountManyRawDb": 977,
+                "colCountOneRawDb": 3348,
+                "coveragePerCol": 0.0767656090071648,
+                "totalValCntAnonDb": 152,
+                "valuesInBothRawAndAnonDb": 75
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.7333333333333333,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 3,
+                    "meanSquareError": 1.4,
+                    "min": 0,
+                    "stddev": 0.9611501047232548
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.155,
+                    "max": 0.5,
+                    "meanSquareError": 0.05926388888888889,
+                    "min": 0.0,
+                    "stddev": 0.19430890967979925
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.1739682539682539,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.0,
+                    "meanSquareError": 1.5260377928949358,
+                    "min": 0.6666666666666666,
+                    "stddev": 0.39799003698450375
+                }
+            },
+            "col1": "cli_district_id",
+            "col2": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 118,
+                "colCountOneRawDb": 5096,
+                "coveragePerCol": 0.1271186440677966,
+                "totalValCntAnonDb": 92,
+                "valuesInBothRawAndAnonDb": 15
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.477124183006536,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 5,
+                    "meanSquareError": 3.2941176470588234,
+                    "min": 0,
+                    "stddev": 1.0580827206261572
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.09294433609500684,
+                    "max": 0.5714285714285714,
+                    "meanSquareError": 0.019415165221005417,
+                    "min": 0.0,
+                    "stddev": 0.10415091808462136
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.048903194452302,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.3333333333333335,
+                    "meanSquareError": 1.1425950259593218,
+                    "min": 0.75,
+                    "stddev": 0.20658180707115292
+                }
+            },
+            "col1": "cli_district_id",
+            "col2": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 154,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 0.9935064935064936,
+                "totalValCntAnonDb": 153,
+                "valuesInBothRawAndAnonDb": 153
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": null
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": null
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": null
+                }
+            },
+            "col1": "cli_district_id",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 26,
+                "colCountOneRawDb": 5317,
+                "coveragePerCol": 0.038461538461538464,
+                "totalValCntAnonDb": 78,
+                "valuesInBothRawAndAnonDb": 1
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": 0.0
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": 0.0
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": 0.0
+                }
+            },
+            "col1": "cli_district_id",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 869,
+                "colCountOneRawDb": 3631,
+                "coveragePerCol": 0.05178365937859609,
+                "totalValCntAnonDb": 122,
+                "valuesInBothRawAndAnonDb": 45
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.8268156424581006,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 6,
+                    "meanSquareError": 5.044692737430168,
+                    "min": 0,
+                    "stddev": 1.3085182778869204
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.222918701638304,
+                    "max": 0.5,
+                    "meanSquareError": 0.06491411204517242,
+                    "min": 0.0,
+                    "stddev": 0.12354756727847657
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 0.8786850871861552,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.0,
+                    "meanSquareError": 0.8445733201848845,
+                    "min": 0.5384615384615384,
+                    "stddev": 0.2696087522760421
+                }
+            },
+            "col1": "frequency",
+            "col2": "acct_date",
+            "coverage": {
+                "colCountManyRawDb": 1259,
+                "colCountOneRawDb": 557,
+                "coveragePerCol": 0.28435266084193805,
+                "totalValCntAnonDb": 361,
+                "valuesInBothRawAndAnonDb": 358
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.969387755102041,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 6,
+                    "meanSquareError": 5.846938775510204,
+                    "min": 0,
+                    "stddev": 1.4102283329974346
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.18575220096187664,
+                    "max": 0.42857142857142855,
+                    "meanSquareError": 0.050751552918949255,
+                    "min": 0.0,
+                    "stddev": 0.12812171766630925
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 0.8705399804128378,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.6666666666666667,
+                    "meanSquareError": 0.7987295170149216,
+                    "min": 0.5714285714285714,
+                    "stddev": 0.20325157416208134
+                }
+            },
+            "col1": "frequency",
+            "col2": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 423,
+                "colCountOneRawDb": 3594,
+                "coveragePerCol": 0.23167848699763594,
+                "totalValCntAnonDb": 101,
+                "valuesInBothRawAndAnonDb": 98
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.8333333333333334,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 2,
+                    "meanSquareError": 1.1666666666666667,
+                    "min": 0,
+                    "stddev": 0.752772652709081
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.02960987967721297,
+                    "max": 0.14285714285714285,
+                    "meanSquareError": 0.003515122425903547,
+                    "min": 0.0,
+                    "stddev": 0.05626769003331682
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0336144254269881,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.1666666666666667,
+                    "meanSquareError": 1.0719773286517376,
+                    "min": 0.9997600767754319,
+                    "stddev": 0.06589581049785757
+                }
+            },
+            "col1": "frequency",
+            "col2": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 6,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 6,
+                "valuesInBothRawAndAnonDb": 6
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": null
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": null
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": null
+                }
+            },
+            "col1": "frequency",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 291,
+                "colCountOneRawDb": 4773,
+                "coveragePerCol": 0.003436426116838488,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 1
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": 0.0
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": 0.0
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": 0.0
+                }
+            },
+            "col1": "frequency",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 869,
+                "colCountOneRawDb": 3631,
+                "coveragePerCol": 0.0023014959723820483,
+                "totalValCntAnonDb": 5,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "acct_date",
+            "col2": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 5,
+                "colCountOneRawDb": 5359,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": 659,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.1274509803921569,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 5,
+                    "meanSquareError": 2.0764705882352943,
+                    "min": 0,
+                    "stddev": 0.8982800486073107
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.2240208429914312,
+                    "max": 0.6666666666666666,
+                    "meanSquareError": 0.07585452129586381,
+                    "min": 0.0,
+                    "stddev": 0.16037335756477458
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.22693854076207,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 3.0,
+                    "meanSquareError": 1.6701678492321523,
+                    "min": 0.6,
+                    "stddev": 0.4063415044334418
+                }
+            },
+            "col1": "acct_date",
+            "col2": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 1343,
+                "colCountOneRawDb": 857,
+                "coveragePerCol": 0.379746835443038,
+                "totalValCntAnonDb": 719,
+                "valuesInBothRawAndAnonDb": 510
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": null
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": null
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": null
+                }
+            },
+            "col1": "acct_date",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 15,
+                "colCountOneRawDb": 5339,
+                "coveragePerCol": 0.06666666666666667,
+                "totalValCntAnonDb": 665,
+                "valuesInBothRawAndAnonDb": 1
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": 0.0
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": 0.0
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": 0.0
+                }
+            },
+            "col1": "acct_date",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 869,
+                "colCountOneRawDb": 3631,
+                "coveragePerCol": 0.05638665132336018,
+                "totalValCntAnonDb": 670,
+                "valuesInBothRawAndAnonDb": 49
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.0810810810810811,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 4,
+                    "meanSquareError": 1.8783783783783783,
+                    "min": 0,
+                    "stddev": 0.8452630191913217
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.18167382045930808,
+                    "max": 0.6,
+                    "meanSquareError": 0.051178772201359204,
+                    "min": 0.0,
+                    "stddev": 0.13526649141450028
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.132048394586427,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.5,
+                    "meanSquareError": 1.3828830306923445,
+                    "min": 0.6666666666666666,
+                    "stddev": 0.3194353066521208
+                }
+            },
+            "col1": "lastname",
+            "col2": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 433,
+                "colCountOneRawDb": 3665,
+                "coveragePerCol": 0.3418013856812933,
+                "totalValCntAnonDb": 201,
+                "valuesInBothRawAndAnonDb": 148
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "lastname",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 172,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "lastname",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 176,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.35714285714285715,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 1,
+                    "meanSquareError": 0.35714285714285715,
+                    "min": 0,
+                    "stddev": 0.49724515809884684
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.11904761904761904,
+                    "max": 0.3333333333333333,
+                    "meanSquareError": 0.03968253968253969,
+                    "min": 0.0,
+                    "stddev": 0.16574838603294895
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.1785714285714286,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.5,
+                    "meanSquareError": 1.4464285714285714,
+                    "min": 1.0,
+                    "stddev": 0.24862257904942345
+                }
+            },
+            "col1": "disp_type",
+            "col2": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 257,
+                "colCountOneRawDb": 4843,
+                "coveragePerCol": 0.054474708171206226,
+                "totalValCntAnonDb": 16,
+                "valuesInBothRawAndAnonDb": 14
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "disp_type",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "birth_number",
+            "col2": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 25,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        }
+    ],
+    "finished": true,
+    "operational": {
+        "avCacheGetDuration": 0,
+        "avCachePutDuration": 0.0008274709010341516,
+        "avQueryDuration": 1.5309067225562305,
+        "numCacheGets": 0,
+        "numCachePuts": 84,
+        "numQueries": 90,
+        "timeCacheGets": 0,
+        "timeCachePuts": 0.06950755568686873,
+        "timeQueries": 137.78160503006075
+    },
+    "params": {
+        "anonDb": "cloakBankingAnon",
+        "anonSubType": "",
+        "anonType": "",
+        "criteria": "singlingOut",
+        "dbType": "",
+        "flushCache": false,
+        "name": "accountsTableUtilityMeasure",
+        "rawDb": "gdaScoreBankingRaw",
+        "resultsDir": "/home/sriharsha/PycharmProjects/anon-utility/results",
+        "resultsPath": "/home/sriharsha/PycharmProjects/anon-utility/results/accountsTableUtilityMeasure.json",
+        "table": "accounts",
+        "uid": "client_id",
+        "verbose": false
+    },
+    "singleColumnScores": [
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.2207792207792207,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 4,
+                    "meanSquareError": 2.3636363636363638,
+                    "min": 0,
+                    "stddev": 0.9406517424717685
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.021117997428110744,
+                    "max": 0.0625,
+                    "meanSquareError": 0.0007106859166670811,
+                    "min": 0.0,
+                    "stddev": 0.016376788692822383
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 0.9974869069119172,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0666666666666667,
+                    "meanSquareError": 0.9957110775190382,
+                    "min": 0.9387755102040817,
+                    "stddev": 0.027213338566666388
+                }
+            },
+            "col1": "acct_district_id",
+            "coverage": {
+                "colCountManyRawDb": 77,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 77,
+                "valuesInBothRawAndAnonDb": 77
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "client_id",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.103896103896104,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 5,
+                    "meanSquareError": 2.220779220779221,
+                    "min": 0,
+                    "stddev": 1.0076603383504883
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.018235787244892186,
+                    "max": 0.0847457627118644,
+                    "meanSquareError": 0.0006394448173871871,
+                    "min": 0.0,
+                    "stddev": 0.017633463937421632
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.001470533105442,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0555555555555556,
+                    "meanSquareError": 1.0036029706509035,
+                    "min": 0.9152542372881356,
+                    "stddev": 0.025853873749037682
+                }
+            },
+            "col1": "cli_district_id",
+            "coverage": {
+                "colCountManyRawDb": 77,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 77,
+                "valuesInBothRawAndAnonDb": 77
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.3333333333333333,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 3,
+                    "meanSquareError": 3.3333333333333335,
+                    "min": 0,
+                    "stddev": 1.5275252316519468
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0013827154168143318,
+                    "max": 0.0035460992907801418,
+                    "meanSquareError": 4.312426907236903e-06,
+                    "min": 0.0,
+                    "stddev": 0.0018975741026403443
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0009855573005157,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.00355871886121,
+                    "meanSquareError": 1.0019754569145232,
+                    "min": 0.9993979530403372,
+                    "stddev": 0.0022486630357805753
+                }
+            },
+            "col1": "frequency",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 1.0031201248049921,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 3,
+                    "meanSquareError": 1.6209048361934477,
+                    "min": 0,
+                    "stddev": 0.7846115278339877
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.18687378231059978,
+                    "max": 0.6,
+                    "meanSquareError": 0.05654440064726767,
+                    "min": 0.0,
+                    "stddev": 0.14716105269153182
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.1659548286693373,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.5,
+                    "meanSquareError": 1.47627258737232,
+                    "min": 0.625,
+                    "stddev": 0.34205914566429974
+                }
+            },
+            "col1": "acct_date",
+            "coverage": {
+                "colCountManyRawDb": 1246,
+                "colCountOneRawDb": 289,
+                "coveragePerCol": 0.514446227929374,
+                "totalValCntAnonDb": 642,
+                "valuesInBothRawAndAnonDb": 641
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.9683544303797469,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 3,
+                    "meanSquareError": 1.5253164556962024,
+                    "min": 0,
+                    "stddev": 0.7689921112791379
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.15450119481870964,
+                    "max": 0.5,
+                    "meanSquareError": 0.041034615049953024,
+                    "min": 0.0,
+                    "stddev": 0.13142800562997406
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.1057394131538985,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.0,
+                    "meanSquareError": 1.2982853316626275,
+                    "min": 0.7142857142857143,
+                    "stddev": 0.2758756497080733
+                }
+            },
+            "col1": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 438,
+                "colCountOneRawDb": 3457,
+                "coveragePerCol": 0.3607305936073059,
+                "totalValCntAnonDb": 159,
+                "valuesInBothRawAndAnonDb": 158
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.5,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 1,
+                    "meanSquareError": 0.5,
+                    "min": 0,
+                    "stddev": 0.7071067811865476
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0005747126436781609,
+                    "max": 0.0011494252873563218,
+                    "meanSquareError": 6.605892456070815e-07,
+                    "min": 0.0,
+                    "stddev": 0.0008127664151569512
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 0.9994252873563219,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 0.9988512353018892,
+                    "min": 0.9988505747126437,
+                    "stddev": 0.0008127664151569267
+                }
+            },
+            "col1": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0.5,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 2,
+                    "meanSquareError": 0.625,
+                    "min": 0,
+                    "stddev": 0.6324555320336759
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.15625,
+                    "max": 0.5,
+                    "meanSquareError": 0.05729166666666667,
+                    "min": 0.0,
+                    "stddev": 0.18726837545203526
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.25,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 2.0,
+                    "meanSquareError": 1.65625,
+                    "min": 1.0,
+                    "stddev": 0.31622776601683794
+                }
+            },
+            "col1": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 333,
+                "colCountOneRawDb": 4686,
+                "coveragePerCol": 0.04804804804804805,
+                "totalValCntAnonDb": 17,
+                "valuesInBothRawAndAnonDb": 16
+            }
+        },
+        {
+            "accuracy": {
+                "absolErrorMetrics": {
+                    "avg": 0,
+                    "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                    "max": 0,
+                    "meanSquareError": 0.0,
+                    "min": 0,
+                    "stddev": 0.0
+                },
+                "relativeErrorMetrics": {
+                    "avg": 0.0,
+                    "max": 0.0,
+                    "meanSquareError": 0.0,
+                    "min": 0.0,
+                    "stddev": 0.0
+                },
+                "simpleRelativeErrorMetrics": {
+                    "avg": 1.0,
+                    "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                    "max": 1.0,
+                    "meanSquareError": 1.0,
+                    "min": 1.0,
+                    "stddev": 0.0
+                }
+            },
+            "col1": "account_id",
+            "coverage": {
+                "colCountManyRawDb": 869,
+                "colCountOneRawDb": 3631,
+                "coveragePerCol": 0.010356731875719217,
+                "totalValCntAnonDb": 10,
+                "valuesInBothRawAndAnonDb": 9
+            }
+        }
+    ],
+    "tableStats": {
+        "colNames": [
+            "acct_district_id",
+            "client_id",
+            "cli_district_id",
+            "frequency",
+            "acct_date",
+            "lastname",
+            "disp_type",
+            "birth_number",
+            "account_id"
+        ]
+    }
+}
