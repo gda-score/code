@@ -127,7 +127,8 @@ def makeGroupBy(columns):
     clause = 'GROUP BY '
     for val in range(1,len(columns)+1):
         clause += str(f"{val}, ")
-    ret = clause[0:-2]
+    # Strip off the last comma and add a space
+    ret = clause[0:-2] + ' '
     return ret
 
 def getInterpolatedValue(val0,val1,scoreGrid):
