@@ -226,7 +226,7 @@ class findQueryConditions:
         ret['info'] = con['info']
         ret['bucket'] = bucket
         ret['whereClause'] = self._buildWhereClause(con['info'],bucket)
-        ret['numUids'] = bucket[2]
+        ret['numUids'] = bucket[-1]
         # Increment the indices
         if ni == (len(con['buckets']) - 1):
             self._nextConditionInstance = 0
