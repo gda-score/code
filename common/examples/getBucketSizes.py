@@ -1,6 +1,7 @@
 import sys
 import pprint
-import json
+# note simplejson because issues serializing decimal.Decimal
+import simplejson as json
 sys.path.append('../../common')
 from gdaQuery import findQueryConditions
 from gdaScore import gdaAttack
@@ -13,10 +14,10 @@ pp = pprint.PrettyPrinter(indent=4)
 results = []
 
 params = dict(name='exampleExplore1',
-              rawDb='gdaScoreBankingRaw',
-              anonDb='cloakBanking',
+              rawDb='gdaScoreTaxiRaw',
+              anonDb='cloakTaxi',
               criteria='singlingOut',
-              table='accounts',
+              table='rides',
               uid='uid',
               flushCache=False,
               verbose=False)
@@ -40,7 +41,9 @@ maxCount = 50     # we want this many buckets of each size
 # I'm just going to do this brute force ...
 for colType in colsTypes:
     col = colType[0]
-    if col == 'uid':
+    # skip these because these are what we'll be measuring
+    if ((col == 'uid') or (col == 'rate_codes') or (col == 'trip_distance')
+            or (col == 'pickup_longitude')):
         continue
     for bucket in buckets:
         if bucket['count'] >= maxCount:
@@ -61,6 +64,7 @@ for bucket in buckets:
     print(f"min {bucket['min']}, max {bucket['max']}, "
             f"count {bucket['count']}")
 
+pp.pprint(results)
 jresults = json.dumps(results, indent=4)
 print(jresults)
 with open('getBucketSizes.txt', 'w') as f:

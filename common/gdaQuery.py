@@ -63,8 +63,10 @@ class findQueryConditions:
             if self._p: print(f"generalizeNumber: abort with grow {grow}, "
                     f"targetBuckets {targetBuckets}")
             return None
+        print(f"{colInfo[col]['maxVal']} {colInfo[col]['minVal']} {targetBuckets}")
         targetRange = (
-                (colInfo[col]['maxVal'] - colInfo[col]['minVal'])/targetBuckets)
+                float((float(colInfo[col]['maxVal']) -
+                    float(colInfo[col]['minVal']))/float(targetBuckets)))
         # Lets find the nearest Diffix snapped range to the target range.
         snappedRange = self._findSnap(targetRange)
         if self._p: print(f"snappedRange for column {col} is: {snappedRange}")
@@ -181,7 +183,11 @@ class findQueryConditions:
             col = info[i]
             unit = bucket[i]
             if col['condition'] == 'none':
-                clause += str(f"{col['col']} = {unit} AND ")
+                if ((col['colType'] == 'text') or
+                        (col['colType'][:4] == 'date')):
+                    clause += str(f"{col['col']} = '{unit}' AND ")
+                else:
+                    clause += str(f"{col['col']} = {unit} AND ")
             elif col['colType'][:4] == 'date':
                 clause += str(f"extract({col['condition']} FROM "
                         f"{col['col']}) = {unit} AND ")
