@@ -177,7 +177,6 @@ class findQueryConditions:
     def _buildWhereClause(self,info,bucket):
         clause = "WHERE "
         if self._p: print(f"info {info}, bucket {bucket}")
-        print(f"info {info}, bucket {bucket}")
         for i in range(len(info)):
             col = info[i]
             unit = bucket[i]

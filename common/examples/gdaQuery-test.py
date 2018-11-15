@@ -15,6 +15,7 @@ def oneThing(params,cols,minCount,maxCount):
         if res is None:
             break
         pp.pprint(res)
+        print("-----")
     return
 
 params = dict(name='exampleExplore1',
