@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import simplejson
 import psycopg2
 import queue
 import threading
@@ -1148,7 +1149,7 @@ class gdaAttack:
         self._op['timeCachePuts'] += (end - start)
 
     def _dict2Str(self,d):
-        dStr = str(d)
+        dStr = simplejson.dumps(d)
         dByte = str.encode(dStr)
         dByte64 = base64.b64encode(dByte)
         dByte64Str = str(dByte64, "utf-8")
@@ -1158,7 +1159,7 @@ class gdaAttack:
         dByte64 = str.encode(dByte64Str)
         dByte = base64.b64decode(dByte64)
         dStr = str(dByte, "utf-8")
-        d = ast.literal_eval(dStr)
+        d = simplejson.loads(dStr)
         return d
 
     def _makeSqlFromSpec(self,spec):
