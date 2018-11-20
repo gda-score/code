@@ -8,7 +8,6 @@ and prints them in JSON along with a HTTP response code
 
 import json
 
-
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
@@ -16,7 +15,9 @@ from urllib3.util import Retry
 # Static data in JSON for testing
 # Client sends this data in url
 data = {
-    'query': 'SELECT count(*) FROM table_name'
+    'query': 'SELECT count(account_id) FROM accounts',
+    'epsilon': '1.0',
+    'budget': '2.0',
 }
 
 # Localhost url
@@ -31,10 +32,9 @@ adapter = HTTPAdapter(max_retries=retry)
 session.mount('http://', adapter)
 session.mount('https://', adapter)
 
-
-
 # Exception handling in case exception occurs while connecting to server
 try:
+
     resp = session.get(url, params=json.dumps(data))
     # Client prints the data returned by the server in JSON
     print(resp.json())
@@ -56,5 +56,3 @@ except requests.RequestException as e:
 
 except KeyboardInterrupt:
     print("Program closed")
-
-

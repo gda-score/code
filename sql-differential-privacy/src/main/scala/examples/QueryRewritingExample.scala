@@ -71,7 +71,7 @@ object QueryRewritingExample extends App {
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda_score.org:5432/<db_name>?user=<username>&password=<password>"
+        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/<db_name>?user=<username>&password=<password>"
 
         val conn = DriverManager.getConnection(con_str)
 

@@ -68,6 +68,12 @@ object ElasticSensitivityExample extends App {
   // path where JSON files are created by simpleServer.py
   val path: String = "<path>"
 
+  // privacy budget initially set to 0
+  var EPSILON = 0.0
+
+  // delta parameter: use 1/n^2, with n = 100000
+  val DELTA = 1 / (math.pow(100000, 2))
+
   // timer to check the directory for new files periodically
   val t = new java.util.Timer()
   val task = new java.util.TimerTask {
@@ -91,18 +97,26 @@ object ElasticSensitivityExample extends App {
         }
 
 
-        // extract the query from the JSON
+        // extract the query from the JSON file
         val resultOption = JSON.parseFull(jsonStr) match {
           case Some(map: Map[String, String]) => map.get("query")
           case _ => None
         }
         val query = resultOption.get;
 
+        // extract the epsilon value from the JSON file
+        val resultEpsilon = JSON.parseFull(jsonStr) match {
+          case Some(map: Map[String, String]) => map.get("epsilon")
+          case _ => None
+        }
+        EPSILON = resultEpsilon.get.toDouble
+
+
         // create connection to database
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda_score.org:5432/<database_name>?user=<username>&password=<password>"
+        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/<db_name>?user=<username>&password=<password>"
 
         val conn = DriverManager.getConnection(con_str)
 
@@ -121,10 +135,7 @@ object ElasticSensitivityExample extends App {
           conn.close()
         }
 
-        // privacy budget
-        val EPSILON = 0.1
-        // delta parameter: use 1/n^2, with n = 100000
-        val DELTA = 1 / (math.pow(100000, 2))
+
 
         // display query sent by client and the actual result
         println(s"Query sent by client: " + query);
@@ -136,7 +147,8 @@ object ElasticSensitivityExample extends App {
 
         // write noisy result to .txt file
         new PrintWriter("result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
-          write(noisyResult.toString); close
+          write(noisyResult.toString);
+          close
         }
         println("File Created!")
 
