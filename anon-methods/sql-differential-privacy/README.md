@@ -1,6 +1,6 @@
 # Overview
 
-This repository is derived from Uber Differential Privacy Tool (https://github.com/uber/sql-differential-privacy) and contains a Client-Server system written in Python.
+This repository is derived from Uber Differential Privacy Tool (https://github.com/uber/sql-differential-privacy) and also contains a Client-Server system written in Python for sending queries.
 The files can be found under: code/anon-methods/sql-differential-privacy/src/main/scala/examples/
 
 # Working with the system
