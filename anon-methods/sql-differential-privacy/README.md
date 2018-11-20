@@ -5,7 +5,8 @@ The files can be found under: code/anon-methods/sql-differential-privacy/src/mai
 
 # Working with the system
 
-simpleClient.py has some static JSON data which it sends to simpleServer.py
+simpleClient.py has some static JSON data which it sends to simpleServer.py.
+
 Change the JSON data and url in the Client script as per need.
 
 In simpleServer.py provide the path where Uber Tool is creating the result (.txt) files.
