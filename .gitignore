@@ -111,3 +111,4 @@ attacks/attackResults
 attacks/cacheDBs
 common/config/myDatabases.json
 *.db
+*bankingRaw.sql
