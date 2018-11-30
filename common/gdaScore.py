@@ -1115,6 +1115,8 @@ class gdaAttack:
     def _getCache(self,cur,query):
         # turn the query (dict) into a string
         qStr = self._dict2Str(query)
+        if qStr is None:
+            return None
         sql = str(f"SELECT answer FROM tab where qid = '{qStr}'")
         if self._vb: print(f"   cache DB: {sql}")
         start = time.perf_counter()
@@ -1133,9 +1135,13 @@ class gdaAttack:
         return rtnDict
 
     def _putCache(self,conn,cur,query,reply):
-        # turn the query and reply (dict) into a strings
+        # turn the query and reply (dict) into a string
         qStr = self._dict2Str(query)
+        if qStr is None:
+            return
         rStr = self._dict2Str(reply)
+        if rStr is None:
+            return
         sql = str(f"INSERT INTO tab VALUES ('{qStr}','{rStr}')")
         if self._vb: print(f"   cache DB: {sql}")
         start = time.perf_counter()
@@ -1149,10 +1155,18 @@ class gdaAttack:
         self._op['timeCachePuts'] += (end - start)
 
     def _dict2Str(self,d):
-        dStr = simplejson.dumps(d)
+        try:
+            dStr = simplejson.dumps(d)
+        except TypeError:
+            print("simpleJson failed")
+            return None
         dByte = str.encode(dStr)
         dByte64 = base64.b64encode(dByte)
-        dByte64Str = str(dByte64, "utf-8")
+        try:
+            dByte64Str = str(dByte64, "utf-8")
+        except MemoryError:
+            print("str(dByte64) failed")
+            return None
         return dByte64Str
 
     def _str2Dict(self,dByte64Str):
