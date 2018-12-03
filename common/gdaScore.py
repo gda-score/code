@@ -470,9 +470,9 @@ class gdaAttack:
         will instead be reduced accordingly. <br/>
         The `spec` is formatted as follows: <br/>
 
-            `{`'known':[{'col':'colName','val':'value'},...],`
-              `'guess':[{'col':'colName','val':'value'},...],`
-            `}`
+            {'known':[{'col':'colName','val':'value'},...],
+              'guess':[{'col':'colName','val':'value'},...],
+            }
 
         `spec['known']` are the columns and values the attacker already knows
         (i.e. with prior knowledge). Optional. <br/>
@@ -748,7 +748,7 @@ class gdaAttack:
         try:
             cur.execute(sql)
         except psycopg2.Error as e:
-            print(f"Error: getColNamesAndTypes() query: '{e}'")
+            print(f"Error: getPublicColValues() query: '{e}'")
             self.cleanUp(cleanUpCache=False,doExit=True)
         ans = cur.fetchall()
         numUid = ans[0][0]
@@ -761,7 +761,7 @@ class gdaAttack:
         try:
             cur.execute(sql)
         except psycopg2.Error as e:
-            print(f"Error: getColNamesAndTypes() query: '{e}'")
+            print(f"Error: getPublicColValues() query: '{e}'")
             self.cleanUp(cleanUpCache=False,doExit=True)
         ans = cur.fetchall()
         ret = []
@@ -793,6 +793,61 @@ class gdaAttack:
     def getAttackTableName(self):
         """Returns the name of the table being used in the attack."""
         return self._p['table']
+
+    def getTableCharacteristics(self,tableName=''):
+        """Returns the full contents of the table characteristics
+        
+           Essentially a 'SELECT *' on the tab_char table <br/>
+           Return value is a dict with structure: <br/>
+
+               { 'columnNames': [(name,type),...]
+                 'table': [(col1,col2,col3,...),...]
+               }
+
+           Where: <br/>
+           `columnNames` contains the names and types of the columns in
+           order of `col1`, `col2`, ..., and <br/>
+           `table` is the contents of the tab_char table
+
+        """
+        if len(tableName) == 0:
+            # caller didn't supply a table name, so get it from the
+            # class init
+            tableName = self._p['table']
+
+        # Modify table name to the default for the characteristics table
+        tableName += '_char'
+
+        # Establish connection to database
+        db = self._getDatabaseInfo(self._p['rawDb'])
+        connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        conn = psycopg2.connect(connStr)
+        cur = conn.cursor()
+        # Set up return dict
+        ret = {}
+        # Query it for column names
+        sql = str(f"""select column_name, data_type 
+                  from information_schema.columns where
+                  table_name='{tableName}'""")
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getTableCharacteristics() query: '{e}'")
+            self.cleanUp(cleanUpCache=False,doExit=True)
+        ans = cur.fetchall()
+        ret['columnNames'] = copy.deepcopy(ans)
+
+        # Query it for table contents
+        sql = str(f"SELECT * FROM {tableName}")
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getTableCharacteristics() query: '{e}'")
+            self.cleanUp(cleanUpCache=False,doExit=True)
+        ans = cur.fetchall()
+        ret['table'] = copy.deepcopy(ans)
+        conn.close()
+        return ret
 
     # Note that following is used internally, but we expose it to the
     # caller as well because it is a useful function for exploration
