@@ -112,3 +112,5 @@ attacks/cacheDBs
 common/config/myDatabases.json
 *.db
 *.sql
+*.bat
+*.html
