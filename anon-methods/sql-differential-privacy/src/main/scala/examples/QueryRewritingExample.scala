@@ -18,8 +18,8 @@ object QueryRewritingExample extends App {
   // Use the table schemas and metadata defined by the test classes
   System.setProperty("schema.config.path", "src/test/resources/schema.yaml")
 
-  //Enter the database name
-  val database = Schema.getDatabase("<db name>") //Give database name here from schema
+  //Give database name here from schema
+  val database = Schema.getDatabase("raw_banking")
 
   // variable to store JSON string extracted from the file
   var jsonStr = ""
@@ -71,7 +71,7 @@ object QueryRewritingExample extends App {
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/<db_name>?user=<username>&password=<password>"
+        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/raw_banking?user=<username>&password=<password>"
 
         val conn = DriverManager.getConnection(con_str)
 

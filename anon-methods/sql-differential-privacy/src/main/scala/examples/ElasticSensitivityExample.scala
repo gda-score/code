@@ -54,7 +54,7 @@ object ElasticSensitivityExample extends App {
   System.setProperty("schema.config.path", "src/test/resources/schema.yaml")
 
   //Enter the database name from schema
-  val database = Schema.getDatabase("<db name>")
+  val database = Schema.getDatabase("raw_banking")
 
   // query result when executed on the database
   var QUERY_RESULT = 0.0
@@ -116,7 +116,7 @@ object ElasticSensitivityExample extends App {
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/<db_name>?user=<username>&password=<password>"
+        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/raw_banking?user=<username>&password=<password>"
 
         val conn = DriverManager.getConnection(con_str)
 
