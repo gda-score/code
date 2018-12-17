@@ -9,8 +9,6 @@ and prints them in JSON along with a HTTP response code
 import json
 
 import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util import Retry
 
 # Static data in JSON for testing
 # Client sends this data in url
@@ -18,29 +16,29 @@ data = {
     'query': 'SELECT count(account_id) FROM accounts',
     'epsilon': '1.0',
     'budget': '2.0',
+    'sid': '951923924'
 }
 
 # Localhost url
 url = 'http://127.0.0.1:5890/data'
 
 # Client sends Get request
-# Retry connection attempts in case client is unable to connect with the server
-# Each retry attempt will create a new Retry object with updated values, so they can be safely reused.
 session = requests.Session()
-retry = Retry(connect=3, backoff_factor=0.5)  # A backoff factor to apply between attempts after the second try
-adapter = HTTPAdapter(max_retries=retry)
-session.mount('http://', adapter)
-session.mount('https://', adapter)
 
 # Exception handling in case exception occurs while connecting to server
 try:
 
-    resp = session.get(url, params=json.dumps(data))
-    # Client prints the data returned by the server in JSON
-    print(resp.json())
+    response = session.get(url, params=json.dumps(data))
+
+    # Client prints the data returned by the server
+    resp = response.json()
+    print("Noisy Result: " + str(resp[0]))
+    print("Please put the Session ID in the JSON payload in subsequent requests.")
+    print("Session ID: " + str(resp[1]))
 
     # Client prints the response code
-    print(resp)
+    print(response)
+
 
 except requests.ConnectionError as e:
     print("Connection Error. Make sure you are connected to Internet.")
