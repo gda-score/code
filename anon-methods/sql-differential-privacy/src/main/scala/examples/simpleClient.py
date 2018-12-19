@@ -20,7 +20,7 @@ session = requests.Session()
 try:
 
     # JSON payload to use for first request where 'sid' is set to Null
-    # When sid is Null it indicates start of a session
+    # When 'sid' is Null it indicates start of a session
     # Client sends this data in url
     first_request = {
         'query': 'SELECT count(account_id) FROM accounts',
