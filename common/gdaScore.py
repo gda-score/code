@@ -757,7 +757,7 @@ class gdaAttack:
                       from {tableName}
                       group by 1
                       order by 2 desc
-                      limit 100""")
+                      limit 200""")
         try:
             cur.execute(sql)
         except psycopg2.Error as e:
@@ -767,8 +767,8 @@ class gdaAttack:
         ret = []
         for row in ans:
             # row[0] is the value, row[1] is the count
-            if (((row[1]/numUid) > 0.01) and
-                    (row[1] >= 100)):
+            if (((row[1]/numUid) > 0.002) and
+                    (row[1] >= 50)):
                 ret.append((row[0],row[1]))
         conn.close()
         return ret
