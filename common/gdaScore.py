@@ -834,8 +834,11 @@ class gdaAttack:
         except psycopg2.Error as e:
             print(f"Error: getTableCharacteristics() query: '{e}'")
             self.cleanUp(cleanUpCache=False,doExit=True)
-        ans = cur.fetchall()
-        ret['columnNames'] = copy.deepcopy(ans)
+        cols = cur.fetchall()
+        # Make index for column name (should be 0, but just to be sure)
+        for colNameIndex in range(len(cols)):
+            if cols[colNameIndex][0] == 'column_name':
+                break
 
         # Query it for table contents
         sql = str(f"SELECT * FROM {tableName}")
@@ -845,7 +848,11 @@ class gdaAttack:
             print(f"Error: getTableCharacteristics() query: '{e}'")
             self.cleanUp(cleanUpCache=False,doExit=True)
         ans = cur.fetchall()
-        ret['table'] = copy.deepcopy(ans)
+        for row in ans:
+            colName = row[colNameIndex]
+            ret[colName] = {}
+            for i in range(len(row)):
+                ret[colName][cols[i][0]] = row[i]
         conn.close()
         return ret
 
