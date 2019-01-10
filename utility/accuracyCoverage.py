@@ -3,15 +3,17 @@ import sys
 sys.path.append('../common')
 from gdaUtility import gdaUtility
 import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 gdaUtilityObj=gdaUtility()
-paramsList = gdaUtilityObj._setupGdautilityParameters(sys.argv, criteria="singlingOut")
-print(f" param list: {paramsList}")
+paramsList = gdaUtilityObj.setupGdaUtilityParameters(sys.argv)
+print(f" param list:")
+pp.pprint(paramsList)
 for param in paramsList:
     if param['finished'] == True:
         print("The following Utility measures has been previously completed:")
         pp.pprint(param)
         print(f"Results may be found at {param['resultsPath']}")
         continue
-    gdaUtilityObj._distinctUidUtilityMeasureSingleAndDoubleColumn(param)
-    gdaUtilityObj._finishGdaUtility(param)
+    gdaUtilityObj.distinctUidUtilityMeasureSingleAndDoubleColumn(param)
+    gdaUtilityObj.finishGdaUtility(param)

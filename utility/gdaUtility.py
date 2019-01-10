@@ -2,6 +2,7 @@ import sys
 import os
 import pprint
 import json
+import copy
 
 #sys.path.append(os.path.abspath(r'../../code-master'))
 #from library.gdaScore import gdaAttack
@@ -34,76 +35,119 @@ logging = createTimedRotatingLog()
 class gdaUtility:
     def __init__(self):
         self._ar={}
-
+        self._p = False
+        self._nonCoveredDict = dict(accuracy=None,col1="TBD",
+                coverage=dict(colCountManyRawDb=None,
+                    colCountOneRawDb=None,
+                    coveragePerCol=0.0,
+                    totalValCntAnonDb=None,
+                    valuesInBothRawAndAnonDb=None))
+        self._rangeDict = dict(ol1="TBD",
+                coverage=dict(colCountManyRawDb=None,
+                    colCountOneRawDb=None,
+                    coveragePerCol="TBD",
+                    totalValCntAnonDb=None,
+                    valuesInBothRawAndAnonDb=None))
 
     #Method to calculate Utility Measure
-    def _distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
+    def distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
         attack = gdaAttack(param)
         table = attack.getAttackTableName()
         rawColNames = attack.getColNames(dbType='rawDb')
         anonColNames = attack.getColNames(dbType='anonDb')
-        if rawColNames is not None and anonColNames is not None:
-            colNames = list(set(rawColNames) & set(anonColNames))
-            self._ar['singleColumnScores'] = {}
-            tableDictList=[]
-            tableDictListMul=[]
-            if colNames is not None:
-                for colName in colNames:
-                    sql = "SELECT "
-                    sql += (colName)
-                    if(param['measureParam']=="*"):
-                        sql += str(f", count(*) FROM {table} ")
-                    else:
-                        sql += str(f", count( distinct {param['uid']}) FROM {table} ")
-                    sql += makeGroupBy([colName])
+        # Get table characteristics. This tells us if a given column is
+        # enumerative or continuous.
+        tabChar = attack.getTableCharacteristics()
+        if self._p: pp.pprint(tabChar)
+        self._ar['singleColumnScores'] = {}
+        # Each entry in this list is for one column
+        coverageScores=[]
+        # Each entry in this list is for a pair of columns
+        tableDictListMul=[]
+        # First measure coverage. Here I only look at individual columns,
+        # making the assumption that if I can query an individual column,
+        # then I can also query combinations of columns.
+        for colName in rawColNames:
+            # These hold the query results or indication of lack thereof
+            rawDbrowsDict = {}
+            anonDbrowsDict = {}
+            # There are couple conditions under which the column can be
+            # considered not covered at all.
+            if colName not in anonColNames:
+                # Column doesn't even exist
+                entry = copy.deepcopy(self._nonCoveredDict)
+                entry['col1'] = colName
+                coverageScores.append(entry)
+                continue
+            else:
+                # See how much of the column is NULL
+                sql = str(f"SELECT count({colName}) FROM {table}")
+                rawAns = self._doExplore(attack,"raw",sql)
+                anonAns = self._doExplore(attack,"anon",sql)
+                numRawRows = rawAns[0][0]
+                numAnonRows = anonAns[0][0]
+                if numAnonRows == 0:
+                    # Column is completely NULL
+                    entry = copy.deepcopy(self._nonCoveredDict)
+                    entry['col1'] = colName
+                    coverageScores.append(entry)
+                    continue
 
+            # Ok, there is an anonymized column. 
+            if tabChar[colName]['column_label'] == 'continuous':
+                # If a column is continuous, then in any event it can be
+                # completely covered with range queries, though only if
+                # range queries are possible
+                rangePossible = 1
+                # TODO: Here we put checks for any anonymization types that
+                # don't have range queries. For now there are no such.
+                # if (param['anonType'] == 'foobar':
+                if rangePossible:
+                    entry = copy.deepcopy(self._rangeDict)
+                    entry['col1'] = colName
+                    entry['coverage']['coveragePerCol'] = numAnonRows/numRawRows
+                    coverageScores.append(entry)
+                    continue
+                else:
+                    pass
 
-                    query = dict(db="raw", sql=sql)
-                    attack.askKnowledge(query)
-                    reply = attack.getKnowledge()
+            # Ok, the anonymized column is not covered by a range (either
+            # enumerative or no range function exists), so query the DB to
+            # evaluate coverage
+            sql = "SELECT "
+            sql += (colName)
+            if(param['measureParam']=="*"):
+                sql += str(f", count(*) FROM {table} ")
+            else:
+                sql += str(f", count( distinct {param['uid']}) FROM {table} ")
+            sql += makeGroupBy([colName])
 
-                    #
-                    if 'answer' not in reply:
-                        print("ERROR: reply to claim query contains no answer")
-                        pp.pprint(reply)
-                        attack.cleanUp()
-                        sys.exit()
-                    rawDbrows=reply['answer']
+            rawDbrows = self._doExplore(attack,"raw",sql)
+            anonDbrows = self._doExplore(attack,"anon",sql)
 
+            for row in anonDbrows:
+                anonDbrowsDict[row[0]] = row[1]
+            for row in rawDbrows:
+                rawDbrowsDict[row[0]] = row[1]
+            coverageEntry = self._calCoverage(rawDbrowsDict,
+                    anonDbrowsDict,[colName],param)
+            coverageScores.append(coverageEntry )
 
-                    query = dict(db="anon", sql=sql)
-                    attack.askAttack(query)
-                    reply = attack.getAttack()
+            #self._coverageAndAccuracyMultipleCol(anonDbrows, attack, 
+                    #colName, rawColNames, rawDbrows, tableDictListMul,
+                    #table,param)
 
-                    if 'answer' not in reply:
-                        print("ERROR: reply to claim query contains no answer")
-                        pp.pprint(reply)
-                        attack.cleanUp()
-                        sys.exit()
-                    anonDbrows=reply['answer']
-                    anonDbrowsDict = {}
-                    rawDbrowsDict = {}
-                    for row in anonDbrows:
-                        anonDbrowsDict[row[0]] = row[1]
-                    for row in rawDbrows:
-                        rawDbrowsDict[row[0]] = row[1]
-                    covAndAccSingle= self._calAccuracyAndCoverage(rawDbrowsDict,anonDbrowsDict,[colName],param)
-                    tableDictList.append(covAndAccSingle)
-
-                    self.coverageAndAccuracyMUltipleCol(anonDbrows, attack, colName, colNames, query, rawDbrows,
-                                                        tableDictListMul,table,param)
-
-                self._ar['singleColumnScores']=tableDictList
-                self._ar['doubleColumnScores']=tableDictListMul
-                self._ar['tableStats']={}
-                self._ar['tableStats']['colNames']=colNames
-                attackResult = attack.getResults()
-                self._ar['operational']=attackResult['operational']
+        self._ar['singleColumnScores']=coverageScores
+        self._ar['doubleColumnScores']=tableDictListMul
+        self._ar['tableStats'] = tabChar
+        attackResult = attack.getResults()
+        self._ar['operational']=attackResult['operational']
         attack.cleanUp()
 
 
     #Method to calculate coverage and accuracy: MultipleColumns
-    def coverageAndAccuracyMUltipleCol(self, anonDbrows, attack, colName, colNames, query, rawDbrows, tableDictListMul,table,param):
+    def _coverageAndAccuracyMultipleCol(self, anonDbrows, attack, colName, 
+            colNames, rawDbrows, tableDictListMul,table,param):
         for j in range(colNames.index(colName) + 1, len(colNames)):
             colNameMul = []
             colNameMul.append(colName)
@@ -114,35 +158,10 @@ class gdaUtility:
                 sql += str(f", count(*) FROM {table} ")
             else:
                 sql += str(f", count( distinct {param['uid']}) FROM {table} ")
-            #sql += str(f", count( distinct {param['uid']}) FROM {table} ")
             sql += makeGroupBy(colNameMul)
 
-            # Query using function provided by Attack.(Not working currently!!!)
-            #print(sql)
-            query['sql'] = sql
-            query['db'] = "raw"
-            attack.askKnowledge(query)
-            reply = attack.getKnowledge()
-
-            if 'answer' not in reply:
-                print("ERROR: reply to claim query contains no answer")
-                pp.pprint(reply)
-                attack.cleanUp()
-                sys.exit()
-            for row in reply['answer']:
-                rawDbrows = reply['answer']
-
-            query['db'] = "anon"
-            attack.askAttack(query)
-            reply = attack.getAttack()
-
-            if 'answer' not in reply:
-                print("ERROR: reply to claim query contains no answer")
-                pp.pprint(reply)
-                attack.cleanUp()
-                sys.exit()
-            for row in reply['answer']:
-                anonDbrows = reply['answer']
+            rawDbrows = self._doExplore(attack,"raw",sql)
+            anonDbrows = self._doExplore(attack,"anon",sql)
 
             anonDbrowsDict = {}
             rawDbrowsDict = {}
@@ -154,7 +173,7 @@ class gdaUtility:
             tableDictListMul.append(coverAndAccuDouble)
 
     #Finish utility Measure: Write output to a file.
-    def _finishGdaUtility(self,params):
+    def finishGdaUtility(self,params):
         if 'finished' in params:
             del params['finished']
         final = {}
@@ -172,6 +191,42 @@ class gdaUtility:
         f.close()
         return final
 
+    def _calCoverage(self,rawDbrowsDict,anonDbrowsDict,colNames,param):
+        #logging.info('RawDb Dictionary and AnnonDb Dictionary: %s and %s', rawDbrowsDict, anonDbrowsDict)
+        noColumnCountOnerawDb=0
+        noColumnCountMorerawDb=0
+        valuesInBoth=0
+        coverage=dict()
+        for rawkey in rawDbrowsDict:
+            if rawDbrowsDict[rawkey]==1:
+                noColumnCountOnerawDb += 1
+            else:
+                noColumnCountMorerawDb += 1
+        for anonkey in anonDbrowsDict:
+            if anonkey in rawDbrowsDict:
+                if rawDbrowsDict[anonkey] >1:
+                    valuesInBoth += 1
+        valuesanonDb=len(anonDbrowsDict)
+
+        #Coverage Metrics
+        coverage['coverage'] = {}
+        coverage['coverage']['colCountOneRawDb']=noColumnCountOnerawDb
+        coverage['coverage']['colCountManyRawDb']=noColumnCountMorerawDb
+        coverage['coverage']['valuesInBothRawAndAnonDb']=valuesInBoth
+        coverage['coverage']['totalValCntAnonDb']=valuesanonDb
+        if(noColumnCountMorerawDb==0):
+            coverage['coverage']['coveragePerCol'] =None
+        else:
+            coverage['coverage']['coveragePerCol']=valuesInBoth/noColumnCountMorerawDb
+        columnParam={}
+        colPos=1
+        for col in colNames:
+            columnParam["col"+str(colPos)]=col
+            colPos = colPos + 1
+        columnParam.update(coverage)
+        return columnParam
+
+
     #Method to calculate Coverage and Accuracy
     def _calAccuracyAndCoverage(self,rawDbrowsDict,anonDbrowsDict,colNames,param):
         #logging.info('RawDb Dictionary and AnnonDb Dictionary: %s and %s', rawDbrowsDict, anonDbrowsDict)
@@ -183,16 +238,16 @@ class gdaUtility:
         accuracyFlag=True
         for rawkey in rawDbrowsDict:
             if rawDbrowsDict[rawkey]==1:
-                noColumnCountOnerawDb=noColumnCountOnerawDb+1
+                noColumnCountOnerawDb += 1
             else:
-                noColumnCountMorerawDb=noColumnCountMorerawDb+1
+                noColumnCountMorerawDb += 1
         absoluteErrorList=[]
         simpleRelativeErrorList=[]
         relativeErrorList=[]
         for anonkey in anonDbrowsDict:
             if anonkey in rawDbrowsDict:
                 if rawDbrowsDict[anonkey] >1:
-                    valuesInBoth=valuesInBoth+1
+                    valuesInBoth += 1
                 absoluteErrorList.append((abs(anonDbrowsDict[anonkey] - rawDbrowsDict[anonkey])))
                 simpleRelativeErrorList.append((rawDbrowsDict[anonkey]/anonDbrowsDict[anonkey]))
                 relativeErrorList.append((
@@ -288,23 +343,7 @@ class gdaUtility:
         columnParam.update(coverage)
         return columnParam
 
-    #Method to query the database and returns the fetched tuples.
-    def _queryDb(self, _noOftry, sql, x,query):
-        for i in range(_noOftry):
-            query['myTag'] = i
-            x.askExplore(query)
-        while True:
-            answer = x.getExplore()
-            # print(answer)
-            tag = answer['query']['myTag']
-            # print(f"myTag is {tag}")
-            if answer['stillToCome'] == 0:
-                break
-        return answer
-
-
-
-    def _setupGdautilityParameters(self,cmdArgs, criteria=''):
+    def setupGdaUtilityParameters(self,cmdArgs):
         """ Basic prep for input and output of running gdaUtility
 
             `cmdArgs` is the command line args list (`sys.argv`) <br/>
@@ -317,7 +356,6 @@ class gdaUtility:
             Else `False` <br/>
             `par['resultsPath']`: Path to filename where results should
             be stored. <br/>
-            `par['criteria']: if one of the calling parameters.
         """
 
         pp = pprint.PrettyPrinter(indent=4)
@@ -344,9 +382,13 @@ class gdaUtility:
         f.close()
         for pm in pmList:
             if 'criteria' not in pm or len(pm['criteria']) == 0:
-                if not criteria:
-                    sys.exit("ERROR: criteria must be specified")
-                pm['criteria'] = criteria
+                pm['criteria'] = "singlingOut"
+            if 'verbose' in pm:
+                self._p = pm['verbose']
+            # The following prevents me from getting verbose output from
+            # all the queries to gdaScore(). Limits verbose output to just
+            # gdaUtility()
+            pm['verbose'] = False
 
             if 'name' not in pm or len(pm['name']) == 0:
                 baseName = str(f"{sys.argv[0]}")
@@ -368,7 +410,7 @@ class gdaUtility:
             if 'resultsDir' in pm and len(pm['resultsDir']) > 0:
                 resultsDir = pm['resultsDir']
 
-            resultsPath = resultsDir + "/" + baseName + ".json"
+            resultsPath = resultsDir + "/" + baseName + "_out.json"
             pm['resultsPath'] = resultsPath
             pm['finished'] = False
             try:
@@ -384,11 +426,14 @@ class gdaUtility:
 
         return pmList
 
-
-
-
-
-
-
-
-
+    def _doExplore(self,attack,db,sql):
+        query = dict(db=db, sql=sql)
+        if self._p: print(sql)
+        attack.askExplore(query)
+        reply = attack.getExplore()
+        if 'answer' not in reply:
+            print("ERROR: reply contains no answer")
+            pp.pprint(reply)
+            attack.cleanUp()
+            sys.exit()
+        return reply['answer']
