@@ -196,7 +196,7 @@ class findQueryConditions:
                         f"= '{unit}' AND ")
             else:    # int or real
                 clause += str(f"floor({col['col']}/{col['condition']})"
-                        f"*{col['condition']} AND ")
+                        f"*{col['condition']} = {unit} AND ")
         # Strip off the last AND
         clause = clause[:-4]
         return clause
