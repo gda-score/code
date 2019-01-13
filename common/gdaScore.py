@@ -797,17 +797,24 @@ class gdaAttack:
     def getTableCharacteristics(self,tableName=''):
         """Returns the full contents of the table characteristics
         
-           Essentially a 'SELECT *' on the tab_char table <br/>
-           Return value is a dict with structure: <br/>
+           Return value is a dict indexed by column name: <br/>
 
-               { 'columnNames': [(name,type),...]
-                 'table': [(col1,col2,col3,...),...]
+               { '<colName>':
+                   {
+                       'av_rows_per_vals': 3.93149,
+                       'av_uids_per_val': 0.468698,
+                       'column_label': 'continuous',
+                       'column_name': 'dropoff_latitude',
+                       'column_type': 'real',
+                       'max': '898.29382000000000',
+                       'min': '-0.56333297000000',
+                       'num_distinct_vals': 24216,
+                       'num_rows': 95205,
+                       'num_uids': 11350,
+                       'std_rows_per_val': 10.8547,
+                       'std_uids_per_val': 4.09688},
+                   }
                }
-
-           Where: <br/>
-           `columnNames` contains the names and types of the columns in
-           order of `col1`, `col2`, ..., and <br/>
-           `table` is the contents of the tab_char table
 
         """
         if len(tableName) == 0:

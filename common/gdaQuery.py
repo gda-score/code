@@ -240,109 +240,50 @@ class findQueryConditions:
             self._nextConditionInstance += 1
         return ret
 
-    def __init__(self, params, columns, minCount, maxCount, table = ''):
-        """ Find values and ranges that have between minCount and maxCount UIDs.
-    
-            `params` is the same structure used to call gdaAttack(params).
-            Note that the `anonDb` in params must be a cloak
-            `columns` is a list of one or two column names. One of them must
-            be of numeric type (real or int).
-            Builds an internal structure like this (which can be returned
-            using `getDataStructure()`:
-                [   {   'buckets': [   (1, 1918.0, 8),
-                                       (77, 1950.0, 5)],
-                        'info': [   {   'col': 'cli_district_id',
-                                        'colType': 'integer',
-                                        'condition': 'none'},
-                                    {   'col': 'birthdate',
-                                        'colType': 'date',
-                                        'condition': 'year'}
-                                ]
-                     }
-                ]
-            This is a list of query condition (WHERE clause) settings, each
-            of which has multiple individual value combinations. The routine
-            getNextWhereClause() shows how this structure is used.
-        """
-        self.initWhereClauseLoop()
-        self._ret = []    # this is the internal data struct
-
-        if len(columns) > 2:
-            return
-    
-        self._pp = pprint.PrettyPrinter(indent=4)
-        if self._p: print(f"Call getValuesAnd Ranges with min {minCount}, max {maxCount}")
-        # We're going to create a gdaAttack() object, so we need to make a
-        # name for it that is unique with high probability. Otherwise two calls
-        # to this subroutine will collide.
-        randomName = (
-                ''.join([random.choice(string.ascii_letters + string.digits)
-                    for n in range(32)]))
-        params['name'] = "getValuesAndRanges_" + randomName
-        params['flushCache'] = True
-        x = gdaAttack(params)
-        if len(table) == 0:
-            table = x.getAttackTableName()
-        # Learn the columns' types.
-        ans = x.getColNamesAndTypes(tableName=table,dbType="anonDb");
+    def _doOneMeasure(self,x,params,columns,table,tabChar,minCount,maxCount):
+        # Record the columns' types.
         colInfo = {}
         # The 'condition' variable in colInfo tells us what to do to form the
         # query that looks for the needed bucket sizes. 'none' means don't 
-        # make any condition at all
+        # make any condition at all. This is the default.
         for col in columns:
             colInfo[col] = dict(condition='none')
-        for ct in ans:
-            if (ct[0] in colInfo) and colInfo[ct[0]]:
-                colInfo[ct[0]]['colType'] = ct[1]
-        if self._p: self._pp.pprint(colInfo)
-        # To decide how big our ranges should be, we need to know how many
-        # distinct UIDs per value
+            colInfo[col]['colType'] = tabChar[col]['column_type']
+            colInfo[col]['dVals'] = tabChar[col]['num_distinct_vals']
+            colInfo[col]['minVal'] = tabChar[col]['min']
+            colInfo[col]['maxVal'] = tabChar[col]['max']
+            # While we are at it, record the total number of distinct UIDs
+            # and rows which happens to be the same for every column
+            dUids = tabChar[col]['num_uids']
+            dVals = tabChar[col]['num_distinct_vals']
         uid = params['uid']
-        sql = str(f"select count(distinct {uid}), ")
-        more = ''
-        for col in columns:
-            more += str(f"count(distinct {col}), min({col}), max({col}), ")
-        more = more[0:-2] + ' '
-        sql += more + str(f"from {table}") 
-        if self._p: print(sql)
-        query = dict(db="raw",sql=sql)
-        x.askExplore(query)
-        ans = x.getExplore()
-        if not ans:
-            x.cleanUp(exitMsg="Failed query 1")
-        if 'error' in ans:
-            x.cleanUp(exitMsg="Failed query 1 (error)")
-        if self._p: self._pp.pprint(ans)
-        row = ans['answer'][0]
-        dUids = row[0]
-        i = 1
-        for col in columns:
-            colInfo[col]['dVals'] = row[i]
-            colInfo[col]['minVal'] = row[i+1]
-            colInfo[col]['maxVal'] = row[i+2]
-            i += 3
         if self._p: self._pp.pprint(colInfo)
-    
-        sql = str(f"select count(*) from (select ")
-        more = ''
-        for col in columns:
-            more += str(f"{col}, ")
-        more = more[0:-2] + ' '
-        groupby = makeGroupBy(columns)
-        sql += more + str(f"from {table} ") + groupby + ") t"
-        if self._p: print(sql)
-        query = dict(db="raw",sql=sql)
-        x.askExplore(query)
-        ans = x.getExplore()
-        if not ans:
-            x.cleanUp(exitMsg="Failed query 2")
-        if 'error' in ans:
-            x.cleanUp(exitMsg="Failed query 2 (error)")
-        if self._p: self._pp.pprint(ans)
-        dVals = ans['answer'][0][0]
+        if self._p: print(f"UID: {uid}, num UIDs: {dUids}")
+
+        if len(columns) == 2:
+            # Determine the number of distinct value pairs (not that in the
+            # case of one column, we'll have already recorded it above)
+            sql = str(f"select count(*) from (select ")
+            more = ''
+            for col in columns:
+                more += str(f"{col}, ")
+            more = more[0:-2] + ' '
+            groupby = makeGroupBy(columns)
+            sql += more + str(f"from {table} ") + groupby + ") t"
+            if self._p: print(sql)
+            query = dict(db="raw",sql=sql)
+            x.askExplore(query)
+            ans = x.getExplore()
+            if not ans:
+                x.cleanUp(exitMsg="Failed query 2")
+            if 'error' in ans:
+                x.cleanUp(exitMsg="Failed query 2 (error)")
+            if self._p: self._pp.pprint(ans)
+            dVals = ans['answer'][0][0]
+        if self._p: print(f"{dVals} distinct values or value pairs")
         # base is the number of UIDs per combined val
         base = dUids/dVals
-        # target here is the number of number of UIDs per bucket that I want
+        # target here is the number of UIDs per bucket that I want
         target = minCount + ((maxCount - minCount)/2);
         # I want to compute by what factor I need to grow the uid/bucket
         # count in order to get close to the target
@@ -351,12 +292,14 @@ class findQueryConditions:
         if grow <= 2:
             # I can't usually grow by anything less than 2x, so let's just
             # go with no conditions
-            if self._p: print("Needed growth to small, so use column values as is")
+            if self._p: print("Needed growth too small, so use column values as is")
             sql = self._makeHistSql(table,columns,colInfo,uid,minCount,maxCount)
             if self._p: print(sql)
-            self._ret.append(self._queryAndGather(x,sql,colInfo,columns,minCount,maxCount))
+            answer = self._queryAndGather(x,sql,colInfo,columns,
+                    minCount,maxCount)
+            if (len(answer['buckets']) > 0) and self._ansNotDup(answer):
+                self._ret.append(answer)
             if self._p: self._pp.pprint(self._ret)
-            x.cleanUp(doExit=False)
             return
     
         # We'll need to generalize, so see if we have text or datetime columns,
@@ -437,7 +380,6 @@ class findQueryConditions:
                 else:
                     factor = 2
                 if self._p: self._pp.pprint(self._ret)
-            x.cleanUp(doExit=False)
             return
     
         # What I'll do is take one of the columns, create an increasing number
@@ -519,11 +461,99 @@ class findQueryConditions:
                     break
                 if self._p: self._pp.pprint(self._ret)
                 numBuckets *= 2
-    
-            x.cleanUp(doExit=False)
             return
     
         # Neither column is a number. For now, we require that at least one
         # column is numeric
-        x.cleanUp(doExit=False)
         return
+
+    def __init__(self, params, columns, minCount, maxCount,
+            numColumns=0, table = ''):
+        """ Find values and ranges that have between minCount and maxCount UIDs.
+    
+            If `columns` is empty, then checks all columns.
+            Combines at most two columns when searching (the parameter
+            `numColumns` determines if one or two columns are used).
+            `params` is the same structure used to call gdaAttack(params).
+            Note that the `anonDb` in params must be a cloak
+            `columns` is a list of one or more column names. If more than one,
+            then one of them must be of numeric type (real or int).
+            Builds an internal structure like this (which can be returned
+            using `getDataStructure()`:
+                [   {   'buckets': [   (1, 1918.0, 8),
+                                       (77, 1950.0, 5)],
+                        'info': [   {   'col': 'cli_district_id',
+                                        'colType': 'integer',
+                                        'condition': 'none'},
+                                    {   'col': 'birthdate',
+                                        'colType': 'date',
+                                        'condition': 'year'}
+                                ]
+                     }
+                ]
+            This is a list of query condition (WHERE clause) settings, each
+            of which has multiple individual value combinations. The routine
+            getNextWhereClause() shows how this structure is used.
+        """
+        self.initWhereClauseLoop()
+        self._ret = []    # this is the internal data struct
+
+        # We're going to create a gdaAttack() object, so we need to make a
+        # name for it that is unique with high probability. Otherwise two calls
+        # to this subroutine will collide.
+        randomName = (
+                ''.join([random.choice(string.ascii_letters + string.digits)
+                    for n in range(32)]))
+        params['name'] = "getValuesAndRanges_" + randomName
+        params['flushCache'] = True
+        x = gdaAttack(params)
+        if len(table) == 0:
+            table = x.getAttackTableName()
+        tabChar = x.getTableCharacteristics()
+
+        # Configure all columns if handed empty list
+        if len(columns) == 0:
+            for colName in tabChar:
+                columns.append(colName)
+
+        if numColumns == 0 and len(columns) <= 2:
+            numColumns = len(columns)
+        elif numColumns == 0:
+            numColumns = 1
+        elif numColumns > 2 and len(columns) <= 2:
+            numColumns = len(columns)
+        elif numColumns > 2:
+            numColumns = 1
+    
+        self._pp = pprint.PrettyPrinter(indent=4)
+        if self._p: print(f"Call findQueryConditions with min {minCount}, max {maxCount}, selecting {numColumns} from {len(columns)} columns")
+        # Now generate columns or columns pairs and build the queries for
+        # each one
+        if numColumns == 1:
+            # Just go through the columns and take each measure
+            for column in columns:
+                self._doOneMeasure(x,params,[column],table,
+                        tabChar,minCount,maxCount)
+            x.cleanUp(doExit=False)
+            return
+        # We want pairs of columns, so make all possible pairs but where
+        # at least one pair is numeric
+        # First get numeric pairs
+        numeric = []
+        others = []
+        for col in tabChar:
+            if ((tabChar[col]['column_type'] == "real") or
+                    ((tabChar[col]['column_type'][:3] == "int"))):
+                numeric.append(col)
+            else:
+                others.append(col)
+        for i in range(len(numeric)):
+            for j in range(len(numeric)):
+                if j <= i:
+                    continue
+                self._doOneMeasure(x,params,[numeric[i],numeric[j]],table,
+                        tabChar,minCount,maxCount)
+            for j in range(len(others)):
+                self._doOneMeasure(x,params,[numeric[i],others[j]],table,
+                        tabChar,minCount,maxCount)
+        x.cleanUp(doExit=False)

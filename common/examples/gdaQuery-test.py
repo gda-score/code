@@ -5,8 +5,9 @@ from gdaQuery import findQueryConditions
 
 pp = pprint.PrettyPrinter(indent=4)
 
-def oneThing(params,cols,minCount,maxCount):
-    q = findQueryConditions(params, cols, minCount, maxCount)
+def oneThing(params,cols,minCount,maxCount,numColumns):
+    q = findQueryConditions(params, cols, minCount, maxCount,
+            numColumns=numColumns)
     print("------------------------------------------------")
     pp.pprint(q.getDataStructure())
     print("------------------------------------------------")
@@ -26,9 +27,12 @@ params = dict(name='exampleExplore1',
               uid='uid',
               flushCache=False,
               verbose=False)
-oneThing(params, ["lastname", "cli_district_id"], 2, 2)
-oneThing(params, ["cli_district_id"], 400, 800)
-oneThing(params, ["cli_district_id", "account_id"], 5, 10)
-oneThing(params, ["birthdate"], 100, 200)
-oneThing(params, ["lastname"], 50, 100)
-oneThing(params, ["cli_district_id","birthdate"], 5, 10)
+oneThing(params, [],20,30,2)
+quit()
+oneThing(params, ["lastname", "cli_district_id", "birthdate", "firstname"], 2, 2, 0)
+oneThing(params, ["lastname", "cli_district_id"], 2, 2, 0)
+oneThing(params, ["cli_district_id"], 400, 800, 0)
+oneThing(params, ["cli_district_id", "account_id"], 5, 10, 0)
+oneThing(params, ["birthdate"], 100, 200, 0)
+oneThing(params, ["lastname"], 50, 100, 0)
+oneThing(params, ["cli_district_id","birthdate"], 5, 10, 0)
