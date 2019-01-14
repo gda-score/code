@@ -3,6 +3,8 @@ import os
 import pprint
 import json
 import copy
+import random
+from gdaQuery import findQueryConditions
 
 #sys.path.append(os.path.abspath(r'../../code-master'))
 #from library.gdaScore import gdaAttack
@@ -42,31 +44,100 @@ class gdaUtility:
                     coveragePerCol=0.0,
                     totalValCntAnonDb=None,
                     valuesInBothRawAndAnonDb=None))
-        self._rangeDict = dict(ol1="TBD",
+        self._rangeDict = dict(col1="TBD",
                 coverage=dict(colCountManyRawDb=None,
                     colCountOneRawDb=None,
                     coveragePerCol="TBD",
                     totalValCntAnonDb=None,
                     valuesInBothRawAndAnonDb=None))
 
-    #Method to calculate Utility Measure
-    def distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
-        attack = gdaAttack(param)
-        table = attack.getAttackTableName()
-        rawColNames = attack.getColNames(dbType='rawDb')
-        anonColNames = attack.getColNames(dbType='anonDb')
-        # Get table characteristics. This tells us if a given column is
-        # enumerative or continuous.
-        tabChar = attack.getTableCharacteristics()
-        if self._p: pp.pprint(tabChar)
-        self._ar['singleColumnScores'] = {}
-        # Each entry in this list is for one column
-        coverageScores=[]
-        # Each entry in this list is for a pair of columns
-        tableDictListMul=[]
-        # First measure coverage. Here I only look at individual columns,
+    def _getWorkingColumns(self,tabChar):
+        # I'd like to work with a good mix of data types (numeric, datetime,
+        # and text), say 5 of each. Also try to get a few with the most
+        # distinct values because this gives us more flexibility
+        targetCols = 5
+        columns = []
+        tuples = []
+        # Start by putting the desired number of numeric columns in the list
+        for col in tabChar:
+            if ((tabChar[col]['column_type'] == "real") or
+                    ((tabChar[col]['column_type'][:3] == "int"))):
+                tuples.append([col,tabChar[col]['num_distinct_vals']])
+        ordered = sorted(tuples, key=lambda t: t[1], reverse=True)
+        for i in range(len(ordered)):
+            if i >= targetCols:
+                break
+            columns.append(ordered[i][0])
+        # Then datetime
+        tuples = []
+        for col in tabChar:
+            if tabChar[col]['column_type'][:4] == "date":
+                tuples.append([col,tabChar[col]['num_distinct_vals']])
+        ordered = sorted(tuples, key=lambda t: t[1], reverse=True)
+        for i in range(len(ordered)):
+            if i >= targetCols:
+                break
+            columns.append(ordered[i][0])
+        # Then text
+        tuples = []
+        for col in tabChar:
+            if tabChar[col]['column_type'] == "text":
+                tuples.append([col,tabChar[col]['num_distinct_vals']])
+        ordered = sorted(tuples, key=lambda t: t[1], reverse=True)
+        for i in range(len(ordered)):
+            if i >= targetCols:
+                break
+            columns.append(ordered[i][0])
+        return columns
+
+    def _measureAccuracy(self,param,attack,tabChar,table,uid):
+        ranges = param['ranges']
+        numSamples = param['samples']
+        numColumns = [1,2]
+        columns = self._getWorkingColumns(tabChar)
+        queries = []
+        for rang in ranges:
+            for nc in numColumns:
+                cond = []
+                q = findQueryConditions(param, columns, rang[0], rang[1],
+                        numColumns=nc)
+                while(1):
+                    res = q.getNextWhereClause()
+                    if res is None:
+                        break
+                    cond.append(res)
+                # shuffle the query conditions we found and take the first
+                # <numSamples> ones
+                random.shuffle(cond)
+                queries += cond[:numSamples]
+                if self._p: pp.pprint(queries)
+                if self._p: print(f"Num queries = {len(queries)}")
+        # Now go through and make queries for both raw and anon DBs, and
+        # record the difference
+        for query in queries:
+            sql = str(f"SELECT count(DISTINCT {uid}) FROM {table} ")
+            sql += query['whereClauseRaw']
+            rawAns = self._doExplore(attack,"raw",sql)
+            sql = str(f"SELECT count(DISTINCT {uid}) FROM {table} ")
+            sql += query['whereClauseAnon']
+            anonAns = self._doExplore(attack,"anon",sql)
+            query['raw'] = rawAns[0][0]
+            query['anon'] = anonAns[0][0]
+
+        accScore = {}
+        accScore['queries'] = queries
+        accScore['accuracy'] = self._calAccuracy(queries,param)
+        if self._p: pp.pprint(accScore)
+        return accScore
+
+    def _measureCoverage(self,param,attack,tabChar,table,
+            rawColNames,anonColNames):
+        # Here I only look at individual columns,
         # making the assumption that if I can query an individual column,
         # then I can also query combinations of columns.
+
+        # Each entry in this list is for one column
+        coverageScores=[]
         for colName in rawColNames:
             # These hold the query results or indication of lack thereof
             rawDbrowsDict = {}
@@ -132,45 +203,29 @@ class gdaUtility:
             coverageEntry = self._calCoverage(rawDbrowsDict,
                     anonDbrowsDict,[colName],param)
             coverageScores.append(coverageEntry )
+        return coverageScores
 
-            #self._coverageAndAccuracyMultipleCol(anonDbrows, attack, 
-                    #colName, rawColNames, rawDbrows, tableDictListMul,
-                    #table,param)
+    #Method to calculate Utility Measure
+    def distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
+        attack = gdaAttack(param)
+        table = attack.getAttackTableName()
+        uid = attack.getUidColName()
+        rawColNames = attack.getColNames(dbType='rawDb')
+        anonColNames = attack.getColNames(dbType='anonDb')
+        # Get table characteristics. This tells us if a given column is
+        # enumerative or continuous.
+        tabChar = attack.getTableCharacteristics()
+        if self._p: pp.pprint(tabChar)
+        coverageScores = self._measureCoverage(param,attack,tabChar,table,
+                rawColNames,anonColNames)
 
-        self._ar['singleColumnScores']=coverageScores
-        self._ar['doubleColumnScores']=tableDictListMul
+        accuracyScores = self._measureAccuracy(param,attack,tabChar,table,uid)
+        self._ar['coverage']=coverageScores
+        self._ar['accuracy']=accuracyScores
         self._ar['tableStats'] = tabChar
         attackResult = attack.getResults()
         self._ar['operational']=attackResult['operational']
         attack.cleanUp()
-
-
-    #Method to calculate coverage and accuracy: MultipleColumns
-    def _coverageAndAccuracyMultipleCol(self, anonDbrows, attack, colName, 
-            colNames, rawDbrows, tableDictListMul,table,param):
-        for j in range(colNames.index(colName) + 1, len(colNames)):
-            colNameMul = []
-            colNameMul.append(colName)
-            colNameMul.append(colNames[j])
-            sql = "SELECT "
-            sql += comma_ize(colNameMul, False)
-            if (param['measureParam'] == "*"):
-                sql += str(f", count(*) FROM {table} ")
-            else:
-                sql += str(f", count( distinct {param['uid']}) FROM {table} ")
-            sql += makeGroupBy(colNameMul)
-
-            rawDbrows = self._doExplore(attack,"raw",sql)
-            anonDbrows = self._doExplore(attack,"anon",sql)
-
-            anonDbrowsDict = {}
-            rawDbrowsDict = {}
-            for row in anonDbrows:
-                anonDbrowsDict[str(row[0]) + '-' + str(row[1])] = row[2]
-            for row in rawDbrows:
-                rawDbrowsDict[str(row[0]) + '-' + str(row[1])] = row[2]
-            coverAndAccuDouble = self._calAccuracyAndCoverage(rawDbrowsDict, anonDbrowsDict, colNameMul,param)
-            tableDictListMul.append(coverAndAccuDouble)
 
     #Finish utility Measure: Write output to a file.
     def finishGdaUtility(self,params):
@@ -228,120 +283,84 @@ class gdaUtility:
 
 
     #Method to calculate Coverage and Accuracy
-    def _calAccuracyAndCoverage(self,rawDbrowsDict,anonDbrowsDict,colNames,param):
+    def _calAccuracy(self,queries,param):
         #logging.info('RawDb Dictionary and AnnonDb Dictionary: %s and %s', rawDbrowsDict, anonDbrowsDict)
-        noColumnCountOnerawDb=0
-        noColumnCountMorerawDb=0
-        valuesInBoth=0
         accuracy=dict()
-        coverage=dict()
-        accuracyFlag=True
-        for rawkey in rawDbrowsDict:
-            if rawDbrowsDict[rawkey]==1:
-                noColumnCountOnerawDb += 1
-            else:
-                noColumnCountMorerawDb += 1
-        absoluteErrorList=[]
-        simpleRelativeErrorList=[]
-        relativeErrorList=[]
-        for anonkey in anonDbrowsDict:
-            if anonkey in rawDbrowsDict:
-                if rawDbrowsDict[anonkey] >1:
-                    valuesInBoth += 1
-                absoluteErrorList.append((abs(anonDbrowsDict[anonkey] - rawDbrowsDict[anonkey])))
-                simpleRelativeErrorList.append((rawDbrowsDict[anonkey]/anonDbrowsDict[anonkey]))
-                relativeErrorList.append((
-                    (abs(anonDbrowsDict[anonkey] - rawDbrowsDict[anonkey])) / (max(anonDbrowsDict[anonkey], rawDbrowsDict[anonkey]))))
-        valuesanonDb=len(anonDbrowsDict)
-        absoluteError=0.0
-        simpleRelativeError=0.0
-        relativeError=0.0
-        if(len(absoluteErrorList)>0):
-            accuracyFlag=False
-            for item in absoluteErrorList:
-                absoluteError += item * item
-            absoluteError=absoluteError/len(absoluteErrorList);
-            for item in simpleRelativeErrorList:
-                simpleRelativeError+=item*item
-            simpleRelativeError=simpleRelativeError/len(simpleRelativeErrorList);
+        absErrorList=[]
+        simpleRelErrorList=[]
+        relErrorList=[]
+        for q in queries:
+            absErrorList.append((abs(q['anon'] - q['raw'])))
+            simpleRelErrorList.append((q['raw']/q['anon']))
+            relErrorList.append((
+                    (abs(q['anon'] - q['raw'])) / (max(q['anon'], q['raw']))))
+        absError=0.0
+        simpleRelError=0.0
+        relError=0.0
+        for item in absErrorList:
+            absError += item * item
+        absError=absError/len(absErrorList);
+        for item in simpleRelErrorList:
+            simpleRelError+=item*item
+        simpleRelError=simpleRelError/len(simpleRelErrorList);
+        for item in relErrorList:
+            relError+=item*item
+        relError=relError/len(relErrorList);
+        accuracy={}
+        accuracy['simpleRelErrorMetrics'] = {}
+        accuracy['relErrorMetrics'] = {}
 
-
-            for item in relativeErrorList:
-                relativeError+=item*item
-            relativeError=relativeError/len(relativeErrorList);
-            accuracy['accuracy']={}
-            accuracy['accuracy']['simpleRelativeErrorMetrics'] = {}
-            accuracy['accuracy']['relativeErrorMetrics'] = {}
-
-            absoluteDict={}
-            absoluteDict['min']=min(absoluteErrorList)
-            absoluteDict['max'] = max(absoluteErrorList)
-            absoluteDict['avg'] = mean(absoluteErrorList)
-            if (len(absoluteErrorList)>1):
-                absoluteDict['stddev'] = stdev(absoluteErrorList)
-            else:
-                absoluteDict['stddev'] = None
-            absoluteDict['meanSquareError'] = absoluteError
-
-            if (param['measureParam']) == "*":
-                absoluteDict['compute'] = "(count((*)rawDb)-count((*)anonDb))"
-            else:
-                absoluteDict['compute']="(count(distinct_rawDb)-count(distinct_anonDb))"
-            accuracy['accuracy']['absolErrorMetrics']=absoluteDict
-
-            #SimpleErrorRelativeDictionary
-            simpleRelativeDict={}
-            simpleRelativeDict['min'] = min(simpleRelativeErrorList)
-            simpleRelativeDict['max'] = max(simpleRelativeErrorList)
-            simpleRelativeDict['avg'] = mean(simpleRelativeErrorList)
-            if(len(simpleRelativeErrorList)>1):
-                simpleRelativeDict['stddev'] = stdev(simpleRelativeErrorList)
-            else:
-                simpleRelativeDict['stddev'] = None
-            simpleRelativeDict['meanSquareError'] = simpleRelativeError
-            if(param['measureParam'])=="*":
-                simpleRelativeDict['compute'] = "(count(rawDb(*))/count(anonDb(*)))"
-            else:
-                simpleRelativeDict['compute'] = "(count(distinct_rawDb)/count(distinct_anonDb))"
-            accuracy['accuracy']['simpleRelativeErrorMetrics'] = simpleRelativeDict
-
-            #RelativeErrorDictionary
-            relativeDict = {}
-            relativeDict['min'] = min(relativeErrorList)
-            relativeDict['max'] = max(relativeErrorList)
-            relativeDict['avg'] = mean(relativeErrorList)
-            if(len(relativeErrorList)>1):
-                relativeDict['stddev'] = stdev(relativeErrorList)
-            else:
-                relativeDict['stddev'] = None
-
-            relativeDict['meanSquareError'] = relativeError
-            if (param['measureParam']) == "*":
-                relativeDict[
-                    'compute'] = "(abs(count((*)rawDb)-count((*)anonDb))/max(count((*)rawDb),count((*)anonDb)))"
-            else:
-                relativeDict['compute'] = "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))"
-            accuracy['accuracy']['relativeErrorMetrics'] = relativeDict
-        #Coverage Metrics
-        coverage['coverage'] = {}
-        coverage['coverage']['colCountOneRawDb']=noColumnCountOnerawDb
-        coverage['coverage']['colCountManyRawDb']=noColumnCountMorerawDb
-        coverage['coverage']['valuesInBothRawAndAnonDb']=valuesInBoth
-        coverage['coverage']['totalValCntAnonDb']=valuesanonDb
-        if(noColumnCountMorerawDb==0):
-            coverage['coverage']['coveragePerCol'] =None
+        absDict={}
+        absDict['min']=min(absErrorList)
+        absDict['max'] = max(absErrorList)
+        absDict['avg'] = mean(absErrorList)
+        if (len(absErrorList)>1):
+            absDict['stddev'] = stdev(absErrorList)
         else:
-            coverage['coverage']['coveragePerCol']=valuesInBoth/noColumnCountMorerawDb
-        if(accuracyFlag):
-            accuracy['accuracy'] = None
-        columnParam={}
-        colPos=1
-        for col in colNames:
-            columnParam["col"+str(colPos)]=col
-            colPos = colPos + 1
-        columnParam.update(accuracy)
-        columnParam.update(coverage)
-        return columnParam
+            absDict['stddev'] = None
+        absDict['meanSquareError'] = absError
+
+        if (param['measureParam']) == "*":
+            absDict['compute'] = "(count((*)rawDb)-count((*)anonDb))"
+        else:
+            absDict['compute']="(count(distinct_rawDb)-count(distinct_anonDb))"
+        accuracy['absolErrorMetrics']=absDict
+
+        #SimpleErrorRelDictionary
+        simpleRelDict={}
+        simpleRelDict['min'] = min(simpleRelErrorList)
+        simpleRelDict['max'] = max(simpleRelErrorList)
+        simpleRelDict['avg'] = mean(simpleRelErrorList)
+        if(len(simpleRelErrorList)>1):
+            simpleRelDict['stddev'] = stdev(simpleRelErrorList)
+        else:
+            simpleRelDict['stddev'] = None
+        simpleRelDict['meanSquareError'] = simpleRelError
+        if(param['measureParam'])=="*":
+            simpleRelDict['compute'] = "(count(rawDb(*))/count(anonDb(*)))"
+        else:
+            simpleRelDict['compute'] = "(count(distinct_rawDb)/count(distinct_anonDb))"
+        accuracy['simpleRelErrorMetrics'] = simpleRelDict
+
+        #RelErrorDictionary
+        relDict = {}
+        relDict['min'] = min(relErrorList)
+        relDict['max'] = max(relErrorList)
+        relDict['avg'] = mean(relErrorList)
+        if(len(relErrorList)>1):
+            relDict['stddev'] = stdev(relErrorList)
+        else:
+            relDict['stddev'] = None
+
+        relDict['meanSquareError'] = relError
+        if (param['measureParam']) == "*":
+            relDict[
+                'compute'] = "(abs(count((*)rawDb)-count((*)anonDb))/max(count((*)rawDb),count((*)anonDb)))"
+        else:
+            relDict['compute'] = "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))"
+        accuracy['relErrorMetrics'] = relDict
+
+        return accuracy
 
     def setupGdaUtilityParameters(self,cmdArgs):
         """ Basic prep for input and output of running gdaUtility
@@ -405,7 +424,11 @@ class gdaUtility:
             else:
                 baseName = pm['name']
             pm['name'] = baseName
-
+            if 'samples' not in pm:
+                pm['samples'] = 25
+            if 'ranges' not in pm:
+                pm['ranges'] = [[10,50],[50,100],[100,500],
+                        [500,1000],[1000,5000]]
             resultsDir = "utilityResults";
             if 'resultsDir' in pm and len(pm['resultsDir']) > 0:
                 resultsDir = pm['resultsDir']
