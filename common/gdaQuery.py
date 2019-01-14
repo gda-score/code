@@ -176,7 +176,7 @@ class findQueryConditions:
                 return 0
         return 1
     
-    def _buildWhereClause(self,info,bucket):
+    def _buildWhereClause(self,info,bucket,db):
         clause = "WHERE "
         if self._p: print(f"info {info}, bucket {bucket}")
         for i in range(len(info)):
@@ -195,8 +195,12 @@ class findQueryConditions:
                 clause += str(f"substring({col['col']} from 1 for {col['condition']}) "
                         f"= '{unit}' AND ")
             else:    # int or real
-                clause += str(f"floor({col['col']}/{col['condition']})"
-                        f"*{col['condition']} = {unit} AND ")
+                if db == 'raw':
+                    clause += str(f"floor({col['col']}/{col['condition']})"
+                            f"*{col['condition']} = {unit} AND ")
+                else:
+                    clause += str(f"bucket({col['col']} by {col['condition']})"
+                            f" = {unit} AND ")
         # Strip off the last AND
         clause = clause[:-4]
         return clause
@@ -230,7 +234,9 @@ class findQueryConditions:
         ret = {}
         ret['info'] = con['info']
         ret['bucket'] = bucket
-        ret['whereClause'] = self._buildWhereClause(con['info'],bucket)
+        ret['whereClauseRaw'] = self._buildWhereClause(con['info'],bucket,"raw")
+        ret['whereClauseAnon'] = self._buildWhereClause(
+                con['info'],bucket,"anon")
         ret['numUids'] = bucket[-1]
         # Increment the indices
         if ni == (len(con['buckets']) - 1):
