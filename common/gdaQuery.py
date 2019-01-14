@@ -63,7 +63,7 @@ class findQueryConditions:
             if self._p: print(f"generalizeNumber: abort with grow {grow}, "
                     f"targetBuckets {targetBuckets}")
             return None
-        print(f"{colInfo[col]['maxVal']} {colInfo[col]['minVal']} {targetBuckets}")
+        if self._p: print(f"{colInfo[col]['maxVal']} {colInfo[col]['minVal']} {targetBuckets}")
         targetRange = (
                 float((float(colInfo[col]['maxVal']) -
                     float(colInfo[col]['minVal']))/float(targetBuckets)))
@@ -112,7 +112,7 @@ class findQueryConditions:
                 if colInfo[col]['colType'][:4] == 'date':
                     sql += str(f"extract({unit} from {col})::integer, ")
                 elif colInfo[col]['colType'] == 'text':
-                    sql += str(f"lower(left({col}, {unit})), ")
+                    sql += str(f"substring({col} from 1 for {unit}), ")
                 else:    # int or real
                     sql += str(f"floor({col}/{unit})*{unit}, ")
         duidClause = str(f"count(distinct {uid}) ")
@@ -192,7 +192,7 @@ class findQueryConditions:
                 clause += str(f"extract({col['condition']} FROM "
                         f"{col['col']}) = {unit} AND ")
             elif col['colType'] == 'text':
-                clause += str(f"lower(left({col['col']}, {col['condition']})) "
+                clause += str(f"substring({col['col']} from 1 for {col['condition']}) "
                         f"= '{unit}' AND ")
             else:    # int or real
                 clause += str(f"floor({col['col']}/{col['condition']})"
@@ -310,9 +310,9 @@ class findQueryConditions:
                 continue
             sql = str(f"select count(distinct ones), count(distinct twos), "
                     f"count(distinct threes) from ( "
-                    f"select lower(left({col},1)) as ones, "
-                    f"lower(left({col},2)) as twos, "
-                    f"lower(left({col},3)) as threes from {table}) t")
+                    f"select substring({col} from 1 for 1) as ones, "
+                    f"substring({col} from 1 for 2) as twos, "
+                    f"substring({col} from 1 for 3) as threes from {table}) t")
             if self._p: print(sql)
             query = dict(db="raw",sql=sql)
             x.askExplore(query)
