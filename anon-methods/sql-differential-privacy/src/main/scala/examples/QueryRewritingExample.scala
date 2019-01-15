@@ -1,13 +1,16 @@
 package examples
 
-import java.io.File
+import java.io.{File, PrintWriter}
 import java.sql.DriverManager
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import com.uber.engsec.dp.analysis.histogram.HistogramAnalysis
 import com.uber.engsec.dp.rewriting.differential_privacy.{ElasticSensitivityConfig, ElasticSensitivityRewriter, SampleAndAggregateConfig, SampleAndAggregateRewriter}
 import com.uber.engsec.dp.schema.Schema
 import com.uber.engsec.dp.sql.QueryParser
 import com.uber.engsec.dp.util.ElasticSensitivity
+
 
 import scala.io.Source
 import scala.util.parsing.json.JSON
@@ -28,7 +31,8 @@ object QueryRewritingExample extends App {
   var lastFileCreated = ""
 
   // give path where JSON files are created by simpleServer.py
-  val path: String = "<path>\\sql-differential-privacy\\src\\main\\scala\\examples\\"
+
+  val path: String = "/root/files/jsonreq/"
 
   // privacy budget
   val EPSILON = 0.1
@@ -81,11 +85,19 @@ object QueryRewritingExample extends App {
         }
         val query = resultOption.get
 
+        // extract database name from the JSON file
+        val resultDbName = JSON.parseFull(jsonStr) match {
+          case Some(map: Map[String, String]) => map.get("dbname")
+          case _ => None
+        }
+        val dbName = resultDbName.get
+
+
         // create connection to database
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/raw_banking?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&user=<username>&password=<password>"
+        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/" + dbName + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&user=rohan@rhrk.uni-kl.de&password=WqResadfekaing7mk"
 
         val conn = DriverManager.getConnection(con_str)
 
@@ -116,17 +128,19 @@ object QueryRewritingExample extends App {
           val config = new ElasticSensitivityConfig(EPSILON, DELTA, database)
           val rewrittenQuery = new ElasticSensitivityRewriter(config).run(query)
           printQuery(rewrittenQuery.toSql())
+
+          // write noisy result to .txt file with timestamp
+
+          new PrintWriter("/root/files/noisyres/result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
+            write(rewrittenQuery.toSql());
+            close
+          }
+          println("File Created!")
         }
 
         def sampleAndAggregateExample() = {
           println("*** Sample and aggregate example ***")
           val LAMBDA = 2.0
-
-          // Example query given in Uber repository
-          /*val query = """
-                        |SELECT AVG(order_cost) FROM orders
-                        |WHERE product_id = 1"""
-            .stripMargin.stripPrefix("\n")*/
 
           // Print the example query and privacy budget
           val root = QueryParser.parseToRelTree(query, database)
