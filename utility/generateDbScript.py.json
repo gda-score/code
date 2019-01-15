@@ -1,9 +1,9 @@
 [
     {
-        "name": "bankingRaw",
-        "rawDb": "gda_bankingRaw",
+        "name": "scihubRaw",
+        "rawDb": "gdaScoreScihubRaw",
         "resultsDir": "./../utility",
-        "flushCache":false,
+        "flushCache":true,
         "verbose": false
     }
 ]
