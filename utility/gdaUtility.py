@@ -90,6 +90,47 @@ class gdaUtility:
             columns.append(ordered[i][0])
         return columns
 
+    def _getQueryStats(self,queries,ranges):
+        qs = {}
+        qs['totalQueries'] = len(queries)
+        single = {}
+        double = {}
+        sizes = {}
+        totalSingleColumn = 0
+        totalDoubleColumn = 0
+        for q in queries:
+            if len(q['info']) == 1:
+                totalSingleColumn += 1
+                col = q['info'][0]['col']
+                if col in single:
+                    single[col] += 1
+                else:
+                    single[col] = 1
+            else:
+                totalDoubleColumn += 1
+                key = q['info'][0]['col'] + ':' + q['info'][1]['col']
+                if key in double:
+                    double[key] += 1
+                else:
+                    double[key] = 1
+            size = q['bucket'][-1]
+            if self._p: print(f"bucket {q['bucket']}, size {size}")
+            for ran in ranges:
+                if size >= ran[0] and size < ran[1]:
+                    key = str(f"{ran[0]}-{ran[1]}")
+                    if key in sizes:
+                        sizes[key] += 1
+                    else:
+                        sizes[key] = 1
+        qs['singleColumn'] = {}
+        qs['singleColumn']['totalQueries'] = totalSingleColumn
+        qs['singleColumn']['stats'] = single
+        qs['doubleColumn'] = {}
+        qs['doubleColumn']['totalQueries'] = totalDoubleColumn
+        qs['doubleColumn']['stats'] = double
+        qs['ranges'] = sizes
+        return qs
+
     def _measureAccuracy(self,param,attack,tabChar,table,uid):
         ranges = param['ranges']
         numSamples = param['samples']
@@ -124,8 +165,9 @@ class gdaUtility:
             query['raw'] = rawAns[0][0]
             query['anon'] = anonAns[0][0]
 
+        queryStats = self._getQueryStats(queries,ranges)
         accScore = {}
-        accScore['queries'] = queries
+        accScore['queries'] = queryStats
         accScore['accuracy'] = self._calAccuracy(queries,param)
         if self._p: pp.pprint(accScore)
         return accScore

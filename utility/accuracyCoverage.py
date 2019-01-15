@@ -16,4 +16,5 @@ for param in paramsList:
         print(f"Results may be found at {param['resultsPath']}")
         continue
     gdaUtilityObj.distinctUidUtilityMeasureSingleAndDoubleColumn(param)
+    print("Finish up")
     gdaUtilityObj.finishGdaUtility(param)
