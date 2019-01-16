@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 """ server.py listens for incoming requests from the client and extracts the parameters from the url sent by the client.
 It then writes the extracted parameters to a file in JSON format and sends the extracted file back to the client.

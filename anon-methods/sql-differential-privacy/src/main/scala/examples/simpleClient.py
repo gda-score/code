@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 """ client.py pastes some data to a url and sends it to the server.
 It also receives the parameters in the url extracted by the server
