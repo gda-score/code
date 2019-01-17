@@ -53,9 +53,9 @@ class gdaUtility:
 
     def _getWorkingColumns(self,tabChar):
         # I'd like to work with a good mix of data types (numeric, datetime,
-        # and text), say 5 of each. Also try to get a few with the most
+        # and text), i.e. targetCols. Also try to get a few with the most
         # distinct values because this gives us more flexibility
-        targetCols = 5
+        targetCols = 8
         columns = []
         tuples = []
         # Start by putting the desired number of numeric columns in the list
@@ -494,6 +494,7 @@ class gdaUtility:
     def _doExplore(self,attack,db,sql):
         query = dict(db=db, sql=sql)
         if self._p: print(sql)
+        print(sql)
         attack.askExplore(query)
         reply = attack.getExplore()
         if 'answer' not in reply:
