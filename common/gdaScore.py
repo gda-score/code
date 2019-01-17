@@ -586,7 +586,7 @@ class gdaAttack:
             del job['q']
         return(job)
 
-    def askAttack(self,query,cache=1):
+    def askAttack(self,query,cache=True):
         """ Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: <br/>
@@ -634,7 +634,7 @@ class gdaAttack:
             self._atrs['base']['attackCells'] += reply['cells']
         return(reply)
 
-    def askKnowledge(self,query,cache=0):
+    def askKnowledge(self,query,cache=True):
         """ Generate and queue up a prior knowledge query for database
 
             The class keeps track of how many prior knowledge cells were
@@ -676,7 +676,7 @@ class gdaAttack:
             self._atrs['base']['knowledgeCells'] += reply['cells']
         return(reply)
 
-    def askExplore(self,query,cache=0):
+    def askExplore(self,query,cache=True):
         """ Generate and queue up an exploritory query for database
 
             No score book-keeping is done here. An analyst may make
