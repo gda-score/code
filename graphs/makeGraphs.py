@@ -4,14 +4,14 @@ import pprint
 import json
 import argparse
 sys.path.append('../graphs')
-from gdaPlot import plotGdaScore
+from gdaPlotDefense import plotDefenseScore
 
 force = False
 if len(sys.argv) == 2 and sys.argv[1] == '-f':
     force = True
 
 pp = pprint.PrettyPrinter(indent=4)
-resDir = 'attackResults'
+resDir = '../attacks/attackResults'
 
 files = os.listdir(resDir)
 for file in files:
@@ -29,5 +29,6 @@ for file in files:
         score = json.load(f)
         #pp.pprint(score)
         #Add one more parameter in gdaPlot, so callable function changes parallaly
-        plot = plotGdaScore(score, None, None, fileName=plotName,
+        sc = dict(column='aColumn',method='aMethod')
+        plot = plotDefenseScore(score, fileName=plotName,
                 form=['png'], show=False)
