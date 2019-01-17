@@ -1,1 +1,0 @@
-{"query": "SELECT count(account_id) FROM accounts", "budget": "2.0", "epsilon": "1.0", "sid": 138031984, "used_budget": 1.0}
