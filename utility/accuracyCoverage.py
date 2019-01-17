@@ -11,7 +11,7 @@ print(f" param list:")
 pp.pprint(paramsList)
 for param in paramsList:
     if param['finished'] == True:
-        print("The following Utility measures has been previously completed:")
+        print("The following Utility measure has been previously completed:")
         pp.pprint(param)
         print(f"Results may be found at {param['resultsPath']}")
         continue
