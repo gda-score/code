@@ -3,7 +3,7 @@ import json
 import pprint
 import math
 
-def setupGdaAttackParameters(cmdArgs, criteria=''):
+def setupGdaAttackParameters(cmdArgs, criteria='', attackType=''):
     """ Basic prep for input and output of running an attack
 
         `cmdArgs` is the command line args list (`sys.argv`) <br/>
@@ -17,6 +17,7 @@ def setupGdaAttackParameters(cmdArgs, criteria=''):
         `par['resultsPath']`: Path to filename where results should
         be stored. <br/>
         `par['criteria']: if one of the calling parameters.
+        `par['attackType']: if one of the calling parameters.
     """
 
     pp = pprint.PrettyPrinter(indent=4)
@@ -47,6 +48,10 @@ def setupGdaAttackParameters(cmdArgs, criteria=''):
             if not criteria:
                 sys.exit("ERROR: criteria must be specified")
             pm['criteria'] = criteria
+        if 'attackType' not in pm or len(pm['attackType']) == 0:
+            if not attackType:
+                sys.exit("ERROR: attackType must be specified")
+            pm['attackType'] = attackType
     
         if 'name' not in pm or len(pm['name']) == 0:
             baseName = str(f"{sys.argv[0]}")
@@ -62,6 +67,8 @@ def setupGdaAttackParameters(cmdArgs, criteria=''):
                 baseName += str(f".{pm['table']}")
         else:
             baseName = pm['name']
+        # Remove any spaces in the base name
+        baseName.replace(" ","")
         pm['name'] = baseName
     
         resultsDir = "attackResults";
