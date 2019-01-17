@@ -7,6 +7,9 @@ import json
 import numpy as np
 sys.path.append('../common')
 from gdaUtilities import getInterpolatedValue
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
 
 # Future use for static unchanged strings
 doubleColumnScore = "doubleColumnScores"
@@ -224,7 +227,7 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
     colors = ['tan', 'tan',
               'cadetblue', 'cadetblue',
               'grey', 'grey', 'grey']
-    s = score['score']['scores']
+    s = score['score']['scores'][0]
     # For work needed, best case is 1 cell learned for 1 cell attacked,
     # so this given value 1. We can set worst case arbitrarily at say
     # 10000, which gets value 0 on graph. We can plot log scale. So:
@@ -246,7 +249,10 @@ def plotGdaScore(score, sc, util, fileName='', form=[], show=True):
     # Dynamically added acccuracy and coverage by reading json file
     # No further change till now to python data structure
 
-    filevalues = readjsonfile(util['filelocation'], util)
+    if util:
+        filevalues = readjsonfile(util['filelocation'], util)
+    else:
+        filevalues = None
     # Do calculation if file exist on the location and initial reading calculation
     utilityScore = [
         (1, 1, 0), (1, .25, 0), (1, .1, 0), (1, .05, 0), (1, .01, 0), (1, 0, 0),
