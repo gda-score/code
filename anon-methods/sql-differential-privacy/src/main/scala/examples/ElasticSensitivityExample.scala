@@ -53,8 +53,7 @@ object ElasticSensitivityExample extends App {
   // Use the table schemas and metadata defined by the test classes
   System.setProperty("schema.config.path", "src/test/resources/schema.yaml")
 
-  //Enter the database name from schema
-  val database = Schema.getDatabase("raw_banking")
+
 
   // query result when executed on the database
   var QUERY_RESULT = 0.0
@@ -63,7 +62,8 @@ object ElasticSensitivityExample extends App {
   var jsonStr = ""
 
   // path where JSON files are created by simpleServer.py
-  val path: String = "<path>\\sql-differential-privacy\\src\\main\\scala\\examples\\ClientJson\\"
+
+  val path: String = "/root/files/jsonreq/"
 
   // privacy budget initially set to 0
   var EPSILON = 0.0
@@ -122,12 +122,22 @@ object ElasticSensitivityExample extends App {
         }
         EPSILON = resultEpsilon.get.toDouble
 
+        // extract database name from the JSON file
+        val resultDbName = JSON.parseFull(jsonStr) match {
+          case Some(map: Map[String, String]) => map.get("dbname")
+          case _ => None
+        }
+        val dbName = resultDbName.get
+
+        //Enter the database name from schema
+        val database = Schema.getDatabase(dbName)
 
         // create connection to database
         classOf[org.postgresql.Driver]
 
         // enter appropriate credentials to connect to server
-        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/raw_banking?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&user=<username>&password=<password>"
+        // the database name is sent by the client
+        val con_str = "jdbc:postgresql://db001.gda-score.org:5432/" + dbName + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&user=rohan@rhrk.uni-kl.de&password=WqResadfekaing7mk"
 
         val conn = DriverManager.getConnection(con_str)
 
@@ -157,7 +167,8 @@ object ElasticSensitivityExample extends App {
         println(s"Noisy result: %.0f".format(noisyResult))
 
         // write noisy result to .txt file with timestamp
-        new PrintWriter("result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
+
+        new PrintWriter("/root/files/noisyres/result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
           write(noisyResult.toString);
           close
         }

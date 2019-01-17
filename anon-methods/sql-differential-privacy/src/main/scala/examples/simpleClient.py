@@ -1,5 +1,4 @@
-# Author: Rohan
-# Date: 12-11-2018
+#!/usr/bin/env python3
 
 """ client.py pastes some data to a url and sends it to the server.
 It also receives the parameters in the url extracted by the server
@@ -11,6 +10,7 @@ import json
 import requests
 
 # Localhost url
+# TODO: Change URL to server
 url = 'http://127.0.0.1:5890/data'
 
 # Client sends Get request
@@ -26,6 +26,7 @@ try:
         'query': 'SELECT count(account_id) FROM accounts',
         'epsilon': '1.0',
         'budget': '2.0',
+        'dbname': 'raw_banking',
         'sid': ''
     }
 
@@ -42,6 +43,7 @@ try:
         'query': 'SELECT count(account_id) FROM accounts',
         'epsilon': '1.0',
         'budget': '2.0',
+        'dbname': 'raw_banking',
         'sid': str(resp[1])
     }
 
