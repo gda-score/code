@@ -144,16 +144,22 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
     else:
         overallHt = s['defense'] - maxY
 
+    valColors = ['black','black','black','black','black','black']
     if s['defense'] > 0.9:
         overallColor = 'green'
+        valColors[over] = 'white'
     elif s['defense'] > 0.7:
         overallColor = 'blue'
+        valColors[over] = 'white'
     elif s['defense'] > 0.5:
         overallColor = 'yellow'
+        valColors[over] = 'black'
     elif s['defense'] > 0.3:
         overallColor = 'orange'
+        valColors[over] = 'black'
     else:
         overallColor = 'red'
+        valColors[over] = 'black'
 
     colors = [overallColor,
               'cadetblue', 'cadetblue',
@@ -219,20 +225,20 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
             if (heightoriginal <= heightposth):
                 plt.text(centers[i], heightoriginal + scoregap,
                         labels_score[i], horizontalalignment='center',
-                        verticalalignment='center')
+                        verticalalignment='center',color=valColors[i])
             else:
                 plt.text(centers[i], heightoriginal - scoregap,
                         labels_score[i], horizontalalignment='center',
-                        verticalalignment='center')
+                        verticalalignment='center',color=valColors[i])
         else:
             if (heightoriginal >= heightnegth):
                 plt.text(centers[i], heightoriginal - scoregap,
                         labels_score[i], horizontalalignment='center',
-                        verticalalignment='center')
+                        verticalalignment='center',color=valColors[i])
             else:
                 plt.text(centers[i], heightoriginal + scoregap,
                         labels_score[i], horizontalalignment='center',
-                        verticalalignment='center')
+                        verticalalignment='center',color=valColors[i])
 
     # plot the bar labels
     for i in range(len(labels)):
@@ -259,6 +265,7 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
     plt.axes().set_aspect(aspect)
 
     attack = score['params']
+    anonSubType = None
     if 'attackType' in attack:
         attackType = attack['attackType']
     else:
@@ -268,7 +275,7 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
     else:
         anonType = " "
     if 'anonSubType' in attack and len(attack['anonSubType']) > 0:
-        anonType += ", " + attack['anonSubType']
+        anonSubType = attack['anonSubType']
     if 'dbType' in attack:
         dbType = attack['dbType']
     else:
@@ -283,9 +290,17 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
 
 
     # Draw the title and explanation texts
-    highText = maxY + anonTypeLift
+    if anonSubType:
+        highText = maxY + anonTypeLift + lowerTextDrop
+    else:
+        highText = maxY + anonTypeLift
     plt.text(textPlotXvalue, highText, anonType,
              horizontalalignment='left', verticalalignment='top', fontsize=20)
+    if anonSubType:
+        highText = highText - lowerTextDrop
+        plt.text(textPlotXvalue + textIndent, highText, anonSubType,
+                 horizontalalignment='left', verticalalignment='top',
+                 fontsize=14)
     lowText = minY - lowerTextDrop
     plt.text(textPlotXvalue, lowText, "Attack: " + attackType,
               horizontalalignment='left', verticalalignment='top', fontsize=15)
