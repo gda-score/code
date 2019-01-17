@@ -13,22 +13,25 @@ pp = pprint.PrettyPrinter(indent=4)
 class gdaTool:
 # Method to generate SQL script for a datasource
     _p = dict(dbConfig = "common/config/myDatabases.json")
+    _v = True     # Verbose
 
     def generateDBSqlForTable(self, argv, dbType):
         paramsList = self._setupGdaUtilityParametersForSqlScripts(argv, criteria="singlingOut")
+        if self._v: pp.pprint(paramsList)
         #Create a dictionary for mapping rather than
-        mappingDBTypesDict={"bigint":"int","bytea":"int","boolean":"int","integer":"int","int":"int","smallint":"int",
-                            "char":"text","varchar":"text","text":"text","char":"text","character varying":"text",
-                            "real":"real","decimal":"real","double precision":"real","numeric":"real",
-                            "timestamp without time zone":"datetime","time":"datetime","timestamp":"datetime",
-                            "date":"date"
-
+        mappingDBTypesDict={"bigint":"int","bytea":"int","boolean":"int",
+                "integer":"int","int":"int","smallint":"int",
+                "char":"text","varchar":"text","text":"text",
+                "char":"text","character varying":"text","real":"real",
+                "decimal":"real","double precision":"real","numeric":"real",
+                "timestamp without time zone":"datetime","time":"datetime",
+                "timestamp":"datetime","date":"date"
         }
 
         for param in paramsList:
             if param['finished'] == True:
                 print("The following Utility script for table has been executed:")
-                pp.pprint(param)
+                if self._v: pp.pprint(param)
                 print(f"Results may be found at {param['resultsPath']}")
                 continue
             #Add mandatory fields required for now. Have remove once scope of these parameters are changed.
@@ -43,11 +46,12 @@ class gdaTool:
             for key in j:
                 param['anonDb'] = key
             param['criteria']="singlingOut"
-            param['table']="dummy"
+            if self._v: pp.pprint(j)
 
             attack = gdaAttack(param)
             table = attack.getAttackTableName()
             tableNames = attack.getTableNames(dbType=dbType)
+            if self._v: print(f"table {table}, tableNames {tableNames}")
             resultsPath = param['resultsPath']
             try:
                 f = open(resultsPath, 'w')
@@ -173,6 +177,7 @@ class gdaTool:
                     insert = f"insert into {table}_char values (\'{column_name}\',\'{column_type}\',{num_rows},{num_uids},{num_distinct_vals},{av_rows_per_val},{av_uids_per_val}," \
                                  f"{std_rows_per_val},{std_uids_per_val},\'{maxi}\',\'{mini}\',\'{columnlabel}\');"
 
+                    print(insert)
                     f.write(insert + '\n')
             attack.cleanUp()
 

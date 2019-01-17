@@ -2,9 +2,10 @@
     {
         "name": "scihubRaw",
         "rawDb": "gdaScoreScihubRaw",
-        "resultsDir": "./../utility",
+        "resultsDir": "charTableSqlFiles",
         "flushCache":true,
-        "verbose": false
+        "verbose": false,
+        "table": "downloads"
     }
 ]
 
