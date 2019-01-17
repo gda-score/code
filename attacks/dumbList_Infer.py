@@ -128,7 +128,8 @@ def dumb_list_inference_attack(params):
 verbose = False
 v = verbose
 
-paramsList = setupGdaAttackParameters(sys.argv, criteria="inference")
+paramsList = setupGdaAttackParameters(sys.argv, criteria="inference",
+        attackType = "Simple List Inference Attack")
 for params in paramsList:
     if params['finished'] == True:
         print("The following attack has been previously completed:")

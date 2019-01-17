@@ -55,6 +55,8 @@ def runOneAttack(guessedCol, knownCols, attack, table, numClaims):
         for i in range(1,len(allCols)):
             known.append({'col':allCols[i],'val':row[i]})
         spec['known'] = known
+        if row[0] is None:
+            pp.pprint(ans)
         spec['guess'] = [{'col':guessedCol,'val':row[0]}]
         attack.askClaim(spec)
 
@@ -206,7 +208,8 @@ def diffix_infer_1_attack(params):
 # This reads in the attack parameters and checks to see if the
 # attack has already been run and completed
 
-paramsList = setupGdaAttackParameters(sys.argv, criteria="inference")
+paramsList = setupGdaAttackParameters(sys.argv, criteria="inference",
+        attackType = "Inference Attack on Diffix 1")
 for params in paramsList:
     if params['finished'] == True:
         print("The following attack has been previously completed:")

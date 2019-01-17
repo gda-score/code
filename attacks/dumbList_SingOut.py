@@ -86,7 +86,8 @@ def dumb_list_singling_out_attack(params):
 verbose = False
 v = verbose
 
-paramsList = setupGdaAttackParameters(sys.argv, criteria="singlingOut")
+paramsList = setupGdaAttackParameters(sys.argv, criteria="singlingOut",
+        attackType = "Simple List Singling-Out Attack")
 for params in paramsList:
     if params['finished'] == True:
         print("The following attack has been previously completed:")

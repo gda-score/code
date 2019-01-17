@@ -89,7 +89,8 @@ def dumb_list_linkability_attack(params):
 verbose = False
 v = verbose
 
-paramsList = setupGdaAttackParameters(sys.argv, criteria="linkability")
+paramsList = setupGdaAttackParameters(sys.argv, criteria="linkability",
+        attackType = "Simple List Linkability Attack")
 for params in paramsList:
     if params['finished'] == True:
         print("The following attack has been previously completed:")
