@@ -10,16 +10,6 @@ from gdaUtilities import getInterpolatedValue
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
-
-# Future use for static unchanged strings
-doubleColumnScore = "doubleColumnScores"
-singleColumnScore = "singleColumnScores"
-
-# Only for accuracy
-acc = "accuracy"
-simplerelerrormatrix = "simpleRelativeErrorMetrics"
-mse = "meanSquareError"
-
 def buildOneDiagram(score, oneScore, fileName, form, show):
     # tweak the shape by playing with following numbers
     base = 1
