@@ -104,7 +104,9 @@ class findQueryConditions:
     def _makeHistSql(self, table,columns,colInfo,uid,minCount,maxCount):
         if self._p: self._pp.pprint(colInfo)
         sql = "select ";
+        notnull = 'WHERE '
         for col in columns:
+            notnull += str(f"{col} IS NOT NULL AND ")
             if colInfo[col]['condition'] == 'none':
                 sql += str(f"{col}, ")
             else:
@@ -117,7 +119,8 @@ class findQueryConditions:
                     sql += str(f"floor({col}/{unit})*{unit}, ")
         duidClause = str(f"count(distinct {uid}) ")
         groupby = makeGroupBy(columns)
-        sql += duidClause + str(f"from {table} ") + groupby
+        notnull = notnull[:-4]
+        sql += duidClause + str(f"from {table} ") + notnull + groupby
         #sql += "having " + duidClause 
         #sql += str(f"between {minCount} and {maxCount}")
         return(sql)
@@ -273,7 +276,7 @@ class findQueryConditions:
         if self._p: print(f"UID: {uid}, num UIDs: {dUids}")
 
         if len(columns) == 2:
-            # Determine the number of distinct value pairs (not that in the
+            # Determine the number of distinct value pairs (note that in the
             # case of one column, we'll have already recorded it above)
             sql = str(f"select count(*) from (select ")
             more = ''
@@ -482,7 +485,7 @@ class findQueryConditions:
         # column is numeric
         return
 
-    def __init__(self, params, columns, minCount, maxCount,
+    def __init__(self, params, attack, columns, minCount, maxCount,
             numColumns=0, table = ''):
         """ Find values and ranges that have between minCount and maxCount UIDs.
     
@@ -513,14 +516,12 @@ class findQueryConditions:
         self.initWhereClauseLoop()
         self._ret = []    # this is the internal data struct
 
-        # We're going to create a gdaAttack() object, so we need to make a
-        # name for it that is unique with high probability. Otherwise two calls
-        # to this subroutine will collide.
         randomName = (
                 ''.join([random.choice(string.ascii_letters + string.digits)
                     for n in range(32)]))
         params['name'] = params['name'] + "_gdaQuery"
-        x = gdaAttack(params)
+        x = attack
+        #x = gdaAttack(params)
         if len(table) == 0:
             table = x.getAttackTableName()
         tabChar = x.getTableCharacteristics()
@@ -548,7 +549,8 @@ class findQueryConditions:
             for column in columns:
                 self._doOneMeasure(x,params,[column],table,
                         tabChar,minCount,maxCount)
-            x.cleanUp(doExit=False)
+            #x.cleanUp(doExit=False,
+                    #exitMsg="End findQueryConditions (one column)")
             return
         # We want pairs of columns, so make all possible pairs but where
         # at least one pair is numeric
@@ -570,4 +572,5 @@ class findQueryConditions:
             for j in range(len(others)):
                 self._doOneMeasure(x,params,[numeric[i],others[j]],table,
                         tabChar,minCount,maxCount)
-        x.cleanUp(doExit=False)
+        #x.cleanUp(doExit=False,
+                #exitMsg="End findQueryConditions (two columns)")

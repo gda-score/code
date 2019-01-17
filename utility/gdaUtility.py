@@ -35,6 +35,11 @@ def createTimedRotatingLog():
 logging = createTimedRotatingLog()
 '''
 class gdaUtility:
+    '''Measures the utility of anonymization methods.
+
+       See distinctUidUtilityMeasureSingleAndDoubleColumn() for
+       details on how to run. <br/>
+       Currently limited to simple count of distinct users.'''
     def __init__(self):
         self._ar={}
         self._p = False
@@ -140,8 +145,8 @@ class gdaUtility:
         for rang in ranges:
             for nc in numColumns:
                 cond = []
-                q = findQueryConditions(param, columns, rang[0], rang[1],
-                        numColumns=nc)
+                q = findQueryConditions(param, attack, columns,
+                        rang[0], rang[1], numColumns=nc)
                 while(1):
                     res = q.getNextWhereClause()
                     if res is None:
@@ -249,6 +254,30 @@ class gdaUtility:
 
     #Method to calculate Utility Measure
     def distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
+        """ Measures coverage and accuracy.
+
+            `param` is a single data structure from the list of structures
+            returned by setupGdaUtilityParameters(). The contents of
+            `param` are read from the configuration file. The elements
+            of the configuration file are as follows:
+            `name`: The basis for the name of the output json file. Should
+            be unique among all measures. <br/>
+            `rawDb`: The raw (non-anonymized) database used. <br/>
+            `anonDb`: The anonymized database to use.
+            `table`: The name of the table in the database. <br/>
+            `anonType`: The type of anonymization (this appears in the
+            GDA Score diagram but does not otherwise affect operation). <br/>
+            `anonSubType`: Also appears in the GDA Score diagram. <br/>
+            `uid`: The name of the uid column. <br/>
+            `measureParam`: The thing that gets measured. Only current value
+            is "uid", which indicates that counts of distinct uids should
+            be measured. <br/>
+            `samples`: States the number of samples over which each utility
+            group should be measured. <br/>
+            `ranges`: A list of ranges. Each range specifies the lower and
+            upper bound on the number of "things" that an answer should
+            contain as specified by `measureParam`. <br/>
+        """
         attack = gdaAttack(param)
         table = attack.getAttackTableName()
         uid = attack.getUidColName()
@@ -271,6 +300,8 @@ class gdaUtility:
 
     #Finish utility Measure: Write output to a file.
     def finishGdaUtility(self,params):
+        """ Writes the utility scores to the output json file.
+        """
         if 'finished' in params:
             del params['finished']
         final = {}
@@ -332,6 +363,8 @@ class gdaUtility:
         simpleRelErrorList=[]
         relErrorList=[]
         for q in queries:
+            if q['anon'] == 0:
+                continue
             absErrorList.append((abs(q['anon'] - q['raw'])))
             simpleRelErrorList.append((q['raw']/q['anon']))
             relErrorList.append((
@@ -408,9 +441,9 @@ class gdaUtility:
         """ Basic prep for input and output of running gdaUtility
 
             `cmdArgs` is the command line args list (`sys.argv`) <br/>
-            `cmdArgs[1]` is either the name or the config file, or
+            `cmdArgs[1]` is either the name of the config file, or
             empty if the default config file name should be used. <br/>
-            Returns a list of data structure that can be used for
+            Returns a list of data structures that can be used for
             class `gdaUtility` <br/>
             Adds the following to the returned data structure (`par`) <br/>
             `par['finished']`: `True` if attack previously completed.
@@ -449,7 +482,7 @@ class gdaUtility:
             # The following prevents me from getting verbose output from
             # all the queries to gdaScore(). Limits verbose output to just
             # gdaUtility()
-            pm['verbose'] = False
+            #pm['verbose'] = False
 
             if 'name' not in pm or len(pm['name']) == 0:
                 baseName = str(f"{sys.argv[0]}")
