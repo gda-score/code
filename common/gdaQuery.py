@@ -124,12 +124,18 @@ class findQueryConditions:
     
     def _queryAndGather(self,x,sql,colInfo,columns,minCount,maxCount):
         query = dict(db="raw",sql=sql)
+        print(sql)
         x.askExplore(query)
         ans = x.getExplore()
         if not ans:
             msg = "Failed _queryAndGather: " + "sql"
             x.cleanUp(exitMsg=msg)
         if 'error' in ans:
+            msg = "Failed _queryAndGather: " + "sql"
+            x.cleanUp(exitMsg=msg)
+        if 'answer' not in ans:
+            pp.pprint(ans)
+            msg = "Failed _queryAndGather: " + "sql"
             x.cleanUp(exitMsg=msg)
         if self._p: print(ans['answer'])
         numIn = 0
@@ -277,6 +283,7 @@ class findQueryConditions:
             groupby = makeGroupBy(columns)
             sql += more + str(f"from {table} ") + groupby + ") t"
             if self._p: print(sql)
+            print(sql)
             query = dict(db="raw",sql=sql)
             x.askExplore(query)
             ans = x.getExplore()
@@ -320,6 +327,7 @@ class findQueryConditions:
                     f"substring({col} from 1 for 2) as twos, "
                     f"substring({col} from 1 for 3) as threes from {table}) t")
             if self._p: print(sql)
+            print(sql)
             query = dict(db="raw",sql=sql)
             x.askExplore(query)
             ans = x.getExplore()
@@ -344,6 +352,7 @@ class findQueryConditions:
                     f"extract(day from {col})::integer as days "
                     f"from {table}) t")
             if self._p: print(sql)
+            print(sql)
             query = dict(db="raw",sql=sql)
             x.askExplore(query)
             ans = x.getExplore()
@@ -510,8 +519,7 @@ class findQueryConditions:
         randomName = (
                 ''.join([random.choice(string.ascii_letters + string.digits)
                     for n in range(32)]))
-        params['name'] = "getValuesAndRanges_" + randomName
-        params['flushCache'] = True
+        params['name'] = params['name'] + "_gdaQuery"
         x = gdaAttack(params)
         if len(table) == 0:
             table = x.getAttackTableName()
@@ -547,7 +555,7 @@ class findQueryConditions:
         # First get numeric pairs
         numeric = []
         others = []
-        for col in tabChar:
+        for col in columns:
             if ((tabChar[col]['column_type'] == "real") or
                     ((tabChar[col]['column_type'][:3] == "int"))):
                 numeric.append(col)
