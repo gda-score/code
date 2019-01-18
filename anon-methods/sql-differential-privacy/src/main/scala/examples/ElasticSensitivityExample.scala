@@ -83,7 +83,7 @@ object ElasticSensitivityExample extends App {
       val dir: File = new File(path)
       val files: Array[File] = dir.listFiles()
       if (files == null || files.length == 0) {
-        print("No files exist!")
+        throw new NoSuchElementException("No files exist!")
       }
       var tempLastFileCreated: File = files(0)
       var i = 0
