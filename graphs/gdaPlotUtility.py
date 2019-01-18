@@ -218,20 +218,35 @@ def buildOneDiagram(score, fileName, form, show):
         anonType = " "
     if 'anonSubType' in params and len(params['anonSubType']) > 0:
         anonSubType = params['anonSubType']
+    else:
+        anonSubType = None
     if 'dbType' in params:
         dbType = params['dbType']
     else:
         dbType = " "
+    if 'utilityMeasure' in params:
+        utilityMeasure = params['utilityMeasure']
+    else:
+        utilityMeasure = " "
 
     # Draw the title and explanation texts
-    highText = maxY + anonTypeLift + lowerTextDrop
+    if anonSubType:
+        highText = maxY + anonTypeLift + lowerTextDrop
+    else:
+        highText = maxY + anonTypeLift
     plt.text(textPlotXvalue, highText, anonType,
              horizontalalignment='left', verticalalignment='top', fontsize=20)
-    highText = highText - lowerTextDrop
-    plt.text(textPlotXvalue + textIndent, highText, anonSubType,
-             horizontalalignment='left', verticalalignment='top', fontsize=14)
+    if anonSubType:
+        highText = highText - lowerTextDrop
+        plt.text(textPlotXvalue + textIndent, highText, anonSubType,
+                 horizontalalignment='left', verticalalignment='top',
+                 fontsize=14)
     lowText = minY - lowerTextDrop
     plt.text(textPlotXvalue, lowText, "Database: " + dbType,
+                 horizontalalignment='left', verticalalignment='top',
+                 fontsize=15)
+    lowText = lowText - lowerTextDrop
+    plt.text(textPlotXvalue, lowText, "Measure: " + utilityMeasure,
                  horizontalalignment='left', verticalalignment='top',
                  fontsize=15)
 

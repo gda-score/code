@@ -276,6 +276,8 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
         anonType = " "
     if 'anonSubType' in attack and len(attack['anonSubType']) > 0:
         anonSubType = attack['anonSubType']
+    else:
+        anonSubType = None
     if 'dbType' in attack:
         dbType = attack['dbType']
     else:
