@@ -274,7 +274,6 @@ class gdaAttack:
                numRawDbThreads = 3,
                numAnonDbThreads = 3,
                numPubDbThreads = 3,
-               dbConfig = "common/config/myDatabases.json",
               )
     _requiredParams = ['name','rawDb','anonDb','criteria']
 
@@ -312,7 +311,7 @@ class gdaAttack:
             `param['name']`: The name of the attack. Make it unique, because
             the cache is discovered using this name. <br/>
             `param['rawDb']`: The label for the DB to be used as the
-            raw (non-anonymized) DB. From `param['dbConfig']`. <br/>
+            raw (non-anonymized) DB. <br/>
             `param['anonDb']`: The label for the DB to be used as the
             anonymized DB. <br/>
             `param['criteria']`: The criteria by which the attack should
@@ -337,8 +336,6 @@ class gdaAttack:
             that can be made to the anon DB. Default 3. <br/>
             `param['numPubDbThreads']`: The number of parallel queries
             that can be made to the public linkability DB. Default 3. <br/>
-            `param['dbConfig']`: The path to the json DB configuration
-            file from the repo head directory. <br/>
             `param['verbose']`: Set to True for verbose output.
         """
 
@@ -1146,23 +1143,6 @@ class gdaAttack:
         numRows = len(ans)
         numCells = numColumns * numRows
         return numCells
-
-    def _getDatabaseInfo(self,dbName):
-        # this is kludgey, but try to find the location of the config file
-        # relative to where we are
-        path = self._p['dbConfig']
-        for x in range(5):
-            path = "../" + path
-            if os.path.isfile(path):
-                break
-            pass
-        fh = open(path, "r")
-        j = json.load(fh)
-        if dbName in j:
-            return j[dbName]
-        else:
-            print(f"Error: Database '{dbName}' not found in file {self._p['dbConfig']}")
-            return False
 
     def _doParamChecks(self):
         dbInfo = getDatabaseInfo(self._p['anonDb'])
