@@ -204,6 +204,8 @@ class findQueryConditions:
                 clause += str(f"substring({col['col']} from 1 for {col['condition']}) "
                         f"= '{unit}' AND ")
             else:    # int or real
+                # The query if formatted differently depending on whether this
+                # is postgres or aircloak
                 if db == 'raw':
                     clause += str(f"floor({col['col']}/{col['condition']})"
                             f"*{col['condition']} = {unit} AND ")
@@ -243,8 +245,9 @@ class findQueryConditions:
         ret = {}
         ret['info'] = con['info']
         ret['bucket'] = bucket
-        ret['whereClauseRaw'] = self._buildWhereClause(con['info'],bucket,"raw")
-        ret['whereClauseAnon'] = self._buildWhereClause(
+        ret['whereClausePostgres'] = self._buildWhereClause(
+                con['info'],bucket,"raw")
+        ret['whereClauseAircloak'] = self._buildWhereClause(
                 con['info'],bucket,"anon")
         ret['numUids'] = bucket[-1]
         # Increment the indices
@@ -494,6 +497,8 @@ class findQueryConditions:
             `numColumns` determines if one or two columns are used).
             `params` is the same structure used to call gdaAttack(params).
             Note that the `anonDb` in params must be a cloak
+            `attack` is the handle from `attack = gdaAttack()` done by the
+            calling routine <br/>
             `columns` is a list of one or more column names. If more than one,
             then one of them must be of numeric type (real or int).
             Builds an internal structure like this (which can be returned

@@ -2,6 +2,30 @@ import sys
 import json
 import pprint
 import math
+import os
+
+def getDatabaseInfo(dbName):
+    ''' Retrieves the database info from the database config file.
+
+        The path to the database config file must be hard-coded here.
+    '''
+    # This is kludgey, but try to find the location of the config file
+    # relative to where we are. The root directory here must be above
+    # the directory from which the code is being executed
+    dbConfig = "code/common/config/myDatabases.json"
+    path = dbConfig
+    for x in range(5):
+        path = "../" + path
+        if os.path.isfile(path):
+            break
+        pass
+    fh = open(path, "r")
+    j = json.load(fh)
+    if dbName in j:
+        return j[dbName]
+    else:
+        print(f"Error: Database '{dbName}' not found in file {self._p['dbConfig']}")
+        return None
 
 def setupGdaAttackParameters(cmdArgs, criteria='', attackType=''):
     """ Basic prep for input and output of running an attack
