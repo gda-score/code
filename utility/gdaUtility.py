@@ -4,7 +4,9 @@ import pprint
 import json
 import copy
 import random
+sys.path.append('../common')
 from gdaQuery import findQueryConditions
+from gdaUtilities import getDatabaseInfo
 
 #sys.path.append(os.path.abspath(r'../../code-master'))
 #from library.gdaScore import gdaAttack
@@ -20,27 +22,28 @@ import  logging
 from statistics import mean,median,stdev
 
 pp = pprint.PrettyPrinter(indent=4)
-'''
-_Log_File="../log/utility.log"
-
-def createTimedRotatingLog():
-    logger =logging.getLogger('RotatingLog')
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s| %(levelname)s| %(message)s','%m/%d/%Y %I:%M:%S %p')
-    handler = TimedRotatingFileHandler(_Log_File,when='midnight',interval=1,backupCount=0)
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    return logger
-
-logging = createTimedRotatingLog()
-'''
+# '''
+# _Log_File="../log/utility.log"
+# 
+# def createTimedRotatingLog():
+#     logger =logging.getLogger('RotatingLog')
+#     logger.setLevel(logging.INFO)
+#     formatter = logging.Formatter('%(asctime)s| %(levelname)s| %(message)s','%m/%d/%Y %I:%M:%S %p')
+#     handler = TimedRotatingFileHandler(_Log_File,when='midnight',interval=1,backupCount=0)
+#     handler.setFormatter(formatter)
+#     logger.addHandler(handler)
+#     return logger
+# 
+# logging = createTimedRotatingLog()
+# '''
 class gdaUtility:
-    '''Measures the utility of anonymization methods.
-
-       See distinctUidUtilityMeasureSingleAndDoubleColumn() for
-       details on how to run. <br/>
-       Currently limited to simple count of distinct users.'''
     def __init__(self):
+        '''Measures the utility of anonymization methods.
+
+           See `distinctUidUtilityMeasureSingleAndDoubleColumn()` for
+           details on how to run. <br/>
+           Currently limited to simple count of distinct users.
+        '''
         self._ar={}
         self._p = False
         self._nonCoveredDict = dict(accuracy=None,col1="TBD",
@@ -160,12 +163,16 @@ class gdaUtility:
                 if self._p: print(f"Num queries = {len(queries)}")
         # Now go through and make queries for both raw and anon DBs, and
         # record the difference
+        anonDb = getDatabaseInfo(param['anonDb'])
         for query in queries:
             sql = str(f"SELECT count(DISTINCT {uid}) FROM {table} ")
-            sql += query['whereClauseRaw']
+            sql += query['whereClausePostgres']
             rawAns = self._doExplore(attack,"raw",sql)
             sql = str(f"SELECT count(DISTINCT {uid}) FROM {table} ")
-            sql += query['whereClauseAnon']
+            if anonDb['type'] == 'aircloak':
+                sql += query['whereClauseAircloak']
+            else:
+                sql += query['whereClausePostgres']
             anonAns = self._doExplore(attack,"anon",sql)
             query['raw'] = rawAns[0][0]
             query['anon'] = anonAns[0][0]
@@ -259,11 +266,11 @@ class gdaUtility:
             `param` is a single data structure from the list of structures
             returned by setupGdaUtilityParameters(). The contents of
             `param` are read from the configuration file. The elements
-            of the configuration file are as follows:
+            of the configuration file are as follows: <br/>
             `name`: The basis for the name of the output json file. Should
             be unique among all measures. <br/>
             `rawDb`: The raw (non-anonymized) database used. <br/>
-            `anonDb`: The anonymized database to use.
+            `anonDb`: The anonymized database to use. <br/>
             `table`: The name of the table in the database. <br/>
             `anonType`: The type of anonymization (this appears in the
             GDA Score diagram but does not otherwise affect operation). <br/>
