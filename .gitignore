@@ -108,7 +108,8 @@ venv.bak/
 *swp
 *paul*
 attacks/attackResults
-attacks/cacheDBs
+utility/utilityResults
+*/cacheDBs
 common/config/myDatabases.json
 *.db
 *.sql
