@@ -50,7 +50,9 @@ class gdaTool:
 
             attack = gdaAttack(param)
             table = attack.getAttackTableName()
-            tableNames = attack.getTableNames(dbType=dbType)
+            # The following is a quick and dirty fix for a bug that occured
+            # when the given databases has tables we don't want to examine
+            tableNames = [table]
             if self._v: print(f"table {table}, tableNames {tableNames}")
             resultsPath = param['resultsPath']
             try:
