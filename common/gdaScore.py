@@ -738,7 +738,7 @@ class gdaAttack:
             tableName = self._p['table']
 
         # Establish connection to database
-        db = self.getDatabaseInfo(self._p['rawDb'])
+        db = self._getDatabaseInfo(self._p['rawDb'])
         connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
@@ -826,7 +826,7 @@ class gdaAttack:
         tableName += '_char'
 
         # Establish connection to database
-        db = self.getDatabaseInfo(self._p['rawDb'])
+        db = self._getDatabaseInfo(self._p['rawDb'])
         connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
@@ -876,7 +876,7 @@ class gdaAttack:
             tableName = self._p['table']
 
         # Establish connection to database
-        db = self.getDatabaseInfo(self._p[dbType])
+        db = self._getDatabaseInfo(self._p[dbType])
         if db['type'] != 'postgres' and db['type'] != 'aircloak':
             print(f"DB type '{db['type']}' must be 'postgres' or 'aircloak'")
             return None
@@ -909,7 +909,7 @@ class gdaAttack:
         Table names returned as list, unless error then return None"""
 
         # Establish connection to database
-        db = self.getDatabaseInfo(self._p[dbType])
+        db = self._getDatabaseInfo(self._p[dbType])
         if db['type'] != 'postgres' and db['type'] != 'aircloak':
             print(f"DB type '{db['type']}' must be 'postgres' or 'aircloak'")
             return None
@@ -1026,7 +1026,7 @@ class gdaAttack:
     def _dbWorker(self,db,q,kind,backQ):
         if self._vb: print(f"Starting {__name__}.dbWorker:{db,kind}")
         me = threading.current_thread()
-        d = self.getDatabaseInfo(db)
+        d = self._getDatabaseInfo(db)
         # Establish connection to database
         connStr = str(f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
         if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
@@ -1147,9 +1147,7 @@ class gdaAttack:
         numCells = numColumns * numRows
         return numCells
 
-    def getDatabaseInfo(self,dbName):
-        '''Returns the information from the database config.'''
-           
+    def _getDatabaseInfo(self,dbName):
         # this is kludgey, but try to find the location of the config file
         # relative to where we are
         path = self._p['dbConfig']
@@ -1167,14 +1165,14 @@ class gdaAttack:
             return False
 
     def _doParamChecks(self):
-        dbInfo = self.getDatabaseInfo(self._p['anonDb'])
+        dbInfo = self._getDatabaseInfo(self._p['anonDb'])
         if not dbInfo:
             sys.exit('')
-        dbInfo = self.getDatabaseInfo(self._p['rawDb'])
+        dbInfo = self._getDatabaseInfo(self._p['rawDb'])
         if not dbInfo:
             sys.exit('')
         if self._cr == 'linkability':
-            dbInfo = self.getDatabaseInfo(self._p['pubDb'])
+            dbInfo = self._getDatabaseInfo(self._p['pubDb'])
             if not dbInfo:
                 sys.exit('')
         numThreads = self._p['numRawDbThreads'] + self._p['numAnonDbThreads']
@@ -1338,16 +1336,16 @@ class gdaAttack:
         self._atrs['attack']['criteria'] = self._p['criteria']
         self._atrs['attack']['table'] = self._p['table']
         # add parameters for the database machine itself
-        db = self.getDatabaseInfo(self._p['rawDb'])
+        db = self._getDatabaseInfo(self._p['rawDb'])
         self._atrs['attack']['rawHost'] = db['host']
         self._atrs['attack']['rawDbName'] = db['dbname']
         self._atrs['attack']['rawPort'] = db['port']
         if self._cr == 'linkability':
-            db = self.getDatabaseInfo(self._p['pubDb'])
+            db = self._getDatabaseInfo(self._p['pubDb'])
             self._atrs['attack']['pubHost'] = db['host']
             self._atrs['attack']['pubDbName'] = db['dbname']
             self._atrs['attack']['pubPort'] = db['port']
-        db = self.getDatabaseInfo(self._p['anonDb'])
+        db = self._getDatabaseInfo(self._p['anonDb'])
         self._atrs['attack']['anonHost'] = db['host']
         self._atrs['attack']['anonDbName'] = db['dbname']
         self._atrs['attack']['anonPort'] = db['port']
