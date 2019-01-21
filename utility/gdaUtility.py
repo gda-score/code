@@ -59,27 +59,33 @@ class gdaUtility:
                     totalValCntAnonDb=None,
                     valuesInBothRawAndAnonDb=None))
 
-    def _getWorkingColumns(self,tabChar):
+    def _getWorkingColumns(self,tabChar,allowedColumns):
         # I'd like to work with a good mix of data types (numeric, datetime,
         # and text), i.e. targetCols. Also try to get a few with the most
         # distinct values because this gives us more flexibility
+        print("getWorkingCOlumns")
         targetCols = 8
         columns = []
         tuples = []
         # Start by putting the desired number of numeric columns in the list
+        pp.pprint(tabChar)
         for col in tabChar:
-            if ((tabChar[col]['column_type'] == "real") or
-                    ((tabChar[col]['column_type'][:3] == "int"))):
+            if (((tabChar[col]['column_type'] == "real") or
+                    ((tabChar[col]['column_type'][:3] == "int"))) and
+                    (col in allowedColumns)):
                 tuples.append([col,tabChar[col]['num_distinct_vals']])
         ordered = sorted(tuples, key=lambda t: t[1], reverse=True)
         for i in range(len(ordered)):
             if i >= targetCols:
                 break
             columns.append(ordered[i][0])
+            print(f"i is {i}")
+            print(columns)
         # Then datetime
         tuples = []
         for col in tabChar:
-            if tabChar[col]['column_type'][:4] == "date":
+            if (tabChar[col]['column_type'][:4] == "date" and
+                    col in allowedColumns):
                 tuples.append([col,tabChar[col]['num_distinct_vals']])
         ordered = sorted(tuples, key=lambda t: t[1], reverse=True)
         for i in range(len(ordered)):
@@ -89,7 +95,8 @@ class gdaUtility:
         # Then text
         tuples = []
         for col in tabChar:
-            if tabChar[col]['column_type'] == "text":
+            if (tabChar[col]['column_type'] == "text" and
+                    col in allowedColumns):
                 tuples.append([col,tabChar[col]['num_distinct_vals']])
         ordered = sorted(tuples, key=lambda t: t[1], reverse=True)
         for i in range(len(ordered)):
@@ -139,17 +146,21 @@ class gdaUtility:
         qs['ranges'] = sizes
         return qs
 
-    def _measureAccuracy(self,param,attack,tabChar,table,uid):
+    def _measureAccuracy(self,param,attack,tabChar,table,uid,allowedColumns):
         ranges = param['ranges']
         numSamples = param['samples']
         numColumns = [1,2]
-        columns = self._getWorkingColumns(tabChar)
+        columns = self._getWorkingColumns(tabChar,allowedColumns)
+        for col in columns:
+            if col in allowedColumns:
+                print(f"Column {col} should not be chosen ({allowedColumns})")
         queries = []
         for rang in ranges:
             for nc in numColumns:
                 cond = []
-                q = findQueryConditions(param, attack, columns,
+                q = findQueryConditions(param, attack, columns, allowedColumns,
                         rang[0], rang[1], numColumns=nc)
+                pp.pprint(q)
                 while(1):
                     res = q.getNextWhereClause()
                     if res is None:
@@ -259,6 +270,18 @@ class gdaUtility:
             coverageScores.append(coverageEntry )
         return coverageScores
 
+    def _getAllowedColumns(self,coverageScores):
+        # This removes any columns with a coverage score of 0. Such columns
+        # either don't exist, or are all NULL. Either way, we can't measure
+        # their accuracy
+        allowedColumns = []
+        for cov in coverageScores:
+            if (cov['coverage']['coveragePerCol'] is None or
+                    cov['coverage']['coveragePerCol'] > 0.001):
+                # (I'm just a bit wary of true zero comparisons)
+                allowedColumns.append(cov['col1'])
+        return allowedColumns
+
     #Method to calculate Utility Measure
     def distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
         """ Measures coverage and accuracy.
@@ -296,8 +319,12 @@ class gdaUtility:
         if self._p: pp.pprint(tabChar)
         coverageScores = self._measureCoverage(param,attack,tabChar,table,
                 rawColNames,anonColNames)
+        allowedColumns = self._getAllowedColumns(coverageScores)
+        pp.pprint(coverageScores)
+        pp.pprint(allowedColumns)
 
-        accuracyScores = self._measureAccuracy(param,attack,tabChar,table,uid)
+        accuracyScores = self._measureAccuracy(param,attack,tabChar,
+                table,uid,allowedColumns)
         self._ar['coverage']=coverageScores
         self._ar['accuracy']=accuracyScores
         self._ar['tableStats'] = tabChar

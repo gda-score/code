@@ -245,8 +245,7 @@ class findQueryConditions:
         ret = {}
         ret['info'] = con['info']
         ret['bucket'] = bucket
-        ret['whereClausePostgres'] = self._buildWhereClause(
-                con['info'],bucket,"raw")
+        ret['whereClausePostgres'] = self._buildWhereClause(con['info'],bucket,"raw")
         ret['whereClauseAircloak'] = self._buildWhereClause(
                 con['info'],bucket,"anon")
         ret['numUids'] = bucket[-1]
@@ -277,7 +276,6 @@ class findQueryConditions:
         uid = params['uid']
         if self._p: self._pp.pprint(colInfo)
         if self._p: print(f"UID: {uid}, num UIDs: {dUids}")
-
         if len(columns) == 2:
             # Determine the number of distinct value pairs (note that in the
             # case of one column, we'll have already recorded it above)
@@ -488,8 +486,8 @@ class findQueryConditions:
         # column is numeric
         return
 
-    def __init__(self, params, attack, columns, minCount, maxCount,
-            numColumns=0, table = ''):
+    def __init__(self, params, attack, columns, allowedColumns, minCount,
+            maxCount, numColumns=0, table = ''):
         """ Find values and ranges that have between minCount and maxCount UIDs.
     
             If `columns` is empty, then checks all columns.
@@ -534,7 +532,8 @@ class findQueryConditions:
         # Configure all columns if handed empty list
         if len(columns) == 0:
             for colName in tabChar:
-                columns.append(colName)
+                if colName in allowedColumns:
+                    columns.append(colName)
 
         if numColumns == 0 and len(columns) <= 2:
             numColumns = len(columns)
