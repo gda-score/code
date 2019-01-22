@@ -2,7 +2,7 @@ import sys
 import pprint
 sys.path.append('../common')
 from gdaScore import gdaAttack, gdaScores
-from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack
+from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack,makeInNotNullConditions
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -29,6 +29,7 @@ def dumb_list_singling_out_attack(params):
     rawColNames = attack.getColNames(dbType='rawDb')
     anonColNames = attack.getColNames(dbType='anonDb')
     colNames = list(set(rawColNames) & set(anonColNames))
+    if v: print(f"Use columns: {colNames}")
     
     # -------------------  Prior Knowledge Phase  --------------------
     # This attack doesn't require any prior knowledge
@@ -38,9 +39,10 @@ def dumb_list_singling_out_attack(params):
     query = {}
     sql = "SELECT "
     sql += comma_ize(colNames)
-    sql += str(f"count(*) FROM {table} ")
+    sql += str(f"count(*) FROM {table} WHERE ")
+    sql += makeInNotNullConditions(colNames)
     sql += makeGroupBy(colNames)
-    sql += " HAVING count(*) = 1 ORDER BY count(*) LIMIT 100"
+    sql += " HAVING count(*) = 1 ORDER BY uid LIMIT 100"
     query['sql'] = sql
     print("-------------------- Attack query:")
     print(sql)

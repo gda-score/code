@@ -1,0 +1,510 @@
+{
+    "accuracy": {
+        "accuracy": {
+            "absolErrorMetrics": {
+                "avg": 0,
+                "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                "max": 0,
+                "meanSquareError": 0.0,
+                "min": 0,
+                "stddev": 0.0
+            },
+            "relErrorMetrics": {
+                "avg": 0.0,
+                "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                "max": 0.0,
+                "meanSquareError": 0.0,
+                "min": 0.0,
+                "stddev": 0.0
+            },
+            "simpleRelErrorMetrics": {
+                "avg": 1.0,
+                "compute": "(count(distinct_rawDb)/count(distinct_anonDb))",
+                "max": 1.0,
+                "meanSquareError": 1.0,
+                "min": 1.0,
+                "stddev": 0.0
+            }
+        },
+        "queries": {
+            "doubleColumn": {
+                "stats": {
+                    "cli_district_id:issues": 5,
+                    "cli_district_id:zip": 2,
+                    "disp_id:cli_district_id": 2,
+                    "disp_id:uid": 15,
+                    "uid:cli_district_id": 3
+                },
+                "totalQueries": 27
+            },
+            "ranges": {
+                "10-50": 50,
+                "100-500": 9,
+                "50-100": 21,
+                "500-1000": 6
+            },
+            "singleColumn": {
+                "stats": {
+                    "card_type": 3,
+                    "cli_district_id": 31,
+                    "disp_id": 3,
+                    "disp_type": 1,
+                    "gender": 2,
+                    "issues": 6,
+                    "uid": 2,
+                    "zip": 11
+                },
+                "totalQueries": 59
+            },
+            "totalQueries": 86
+        }
+    },
+    "coverage": [
+        {
+            "accuracy": null,
+            "col1": "card_id",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "disp_id",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "card_type",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "issues",
+            "coverage": {
+                "colCountManyRawDb": 204,
+                "colCountOneRawDb": 403,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 607,
+                "valuesInBothRawAndAnonDb": 204
+            }
+        },
+        {
+            "col1": "uid",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 1,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 1
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "cli_district_id",
+            "coverage": {
+                "colCountManyRawDb": 77,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 77,
+                "valuesInBothRawAndAnonDb": 77
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "lastname",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "firstname",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "birthdate",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "gender",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "ssn",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "email",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "street",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "zip",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 888,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 890,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        }
+    ],
+    "finished": true,
+    "operational": {
+        "avCacheGetDuration": 0.0002472833679984019,
+        "avCachePutDuration": 0,
+        "avQueryDuration": 0.027498735758824056,
+        "numCacheGets": 481,
+        "numCachePuts": 0,
+        "numQueries": 481,
+        "timeCacheGets": 0.1189433000072313,
+        "timeCachePuts": 0,
+        "timeQueries": 13.22689189999437
+    },
+    "params": {
+        "anonDb": "pseudoBanking",
+        "anonSubType": "",
+        "anonType": "Pseudonymization",
+        "criteria": "singlingOut",
+        "dbType": "Banking_Cards",
+        "flushCache": false,
+        "measureParam": "uid",
+        "name": "pseudoBankingCards_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery",
+        "ranges": [
+            [
+                10,
+                50
+            ],
+            [
+                50,
+                100
+            ],
+            [
+                100,
+                500
+            ],
+            [
+                500,
+                1000
+            ],
+            [
+                1000,
+                5000
+            ]
+        ],
+        "rawDb": "gdaScoreBankingRaw",
+        "resultsDir": "utilityResults",
+        "resultsPath": "utilityResults/pseudoBankingCards_out.json",
+        "samples": 25,
+        "table": "cards",
+        "uid": "uid",
+        "utilityMeasure": "Simple UID count",
+        "verbose": false
+    },
+    "tableStats": {
+        "birth_number": {
+            "av_rows_per_vals": 1.02176,
+            "av_uids_per_val": 1.02176,
+            "column_label": "enumerative",
+            "column_name": "birth_number",
+            "column_type": "text",
+            "max": "825907",
+            "min": "180216",
+            "num_distinct_vals": 873,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.145996,
+            "std_uids_per_val": 0.145996
+        },
+        "birthdate": {
+            "av_rows_per_vals": 1.01595,
+            "av_uids_per_val": 1.01595,
+            "column_label": "continuous",
+            "column_name": "birthdate",
+            "column_type": "date",
+            "max": "2019-06-22",
+            "min": "1918-01-12",
+            "num_distinct_vals": 878,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.125335,
+            "std_uids_per_val": 0.125335
+        },
+        "card_id": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "continuous",
+            "column_name": "card_id",
+            "column_type": "int",
+            "max": "1247",
+            "min": "1",
+            "num_distinct_vals": 892,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "card_type": {
+            "av_rows_per_vals": 297.333,
+            "av_uids_per_val": 297.333,
+            "column_label": "enumerative",
+            "column_name": "card_type",
+            "column_type": "text",
+            "max": "junior",
+            "min": "classic",
+            "num_distinct_vals": 3,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 314.507,
+            "std_uids_per_val": 314.507
+        },
+        "cli_district_id": {
+            "av_rows_per_vals": 11.5844,
+            "av_uids_per_val": 11.5844,
+            "column_label": "enumerative",
+            "column_name": "cli_district_id",
+            "column_type": "int",
+            "max": "77",
+            "min": "1",
+            "num_distinct_vals": 77,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 14.3338,
+            "std_uids_per_val": 14.3338
+        },
+        "disp_id": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "continuous",
+            "column_name": "disp_id",
+            "column_type": "int",
+            "max": "13660",
+            "min": "9",
+            "num_distinct_vals": 892,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "disp_type": {
+            "av_rows_per_vals": 892.0,
+            "av_uids_per_val": 892.0,
+            "column_label": "enumerative",
+            "column_name": "disp_type",
+            "column_type": "text",
+            "max": "OWNER",
+            "min": "OWNER",
+            "num_distinct_vals": 1,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": -1.0,
+            "std_uids_per_val": -1.0
+        },
+        "email": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "email",
+            "column_type": "text",
+            "max": "vulputate@nibhdolor.ca",
+            "min": "Aenean.euismod.mauris@metusInlorem.org",
+            "num_distinct_vals": 892,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "firstname": {
+            "av_rows_per_vals": 1.4272,
+            "av_uids_per_val": 1.4272,
+            "column_label": "enumerative",
+            "column_name": "firstname",
+            "column_type": "text",
+            "max": "Zorita",
+            "min": "Aaron",
+            "num_distinct_vals": 625,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.708168,
+            "std_uids_per_val": 0.708168
+        },
+        "gender": {
+            "av_rows_per_vals": 446.0,
+            "av_uids_per_val": 446.0,
+            "column_label": "enumerative",
+            "column_name": "gender",
+            "column_type": "text",
+            "max": "Male",
+            "min": "Female",
+            "num_distinct_vals": 2,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 16.9706,
+            "std_uids_per_val": 16.9706
+        },
+        "issues": {
+            "av_rows_per_vals": 1.46952,
+            "av_uids_per_val": 1.46952,
+            "column_label": "enumerative",
+            "column_name": "issues",
+            "column_type": "text",
+            "max": "981229 00:00:00",
+            "min": "931107 00:00:00",
+            "num_distinct_vals": 607,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.772021,
+            "std_uids_per_val": 0.772021
+        },
+        "lastname": {
+            "av_rows_per_vals": 1.13055,
+            "av_uids_per_val": 1.13055,
+            "column_label": "enumerative",
+            "column_name": "lastname",
+            "column_type": "text",
+            "max": "Zehner",
+            "min": "Aguilar",
+            "num_distinct_vals": 789,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.618613,
+            "std_uids_per_val": 0.618613
+        },
+        "ssn": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "ssn",
+            "column_type": "text",
+            "max": "898-51-0267",
+            "min": "001-01-0840",
+            "num_distinct_vals": 892,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "street": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "street",
+            "column_type": "text",
+            "max": "P.O. Box 999, 1728 Congue, Road",
+            "min": "1004 Dui, Road",
+            "num_distinct_vals": 892,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "uid": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "continuous",
+            "column_name": "uid",
+            "column_type": "int",
+            "max": "13968",
+            "min": "9",
+            "num_distinct_vals": 892,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "zip": {
+            "av_rows_per_vals": 1.00225,
+            "av_uids_per_val": 1.00225,
+            "column_label": "enumerative",
+            "column_name": "zip",
+            "column_type": "text",
+            "max": "Z5 8WL",
+            "min": "00-702",
+            "num_distinct_vals": 890,
+            "num_rows": 892,
+            "num_uids": 892,
+            "std_rows_per_val": 0.0473779,
+            "std_uids_per_val": 0.0473779
+        }
+    }
+}

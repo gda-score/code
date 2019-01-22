@@ -162,6 +162,16 @@ def makeGroupBy(columns):
     ret = clause[0:-2] + ' '
     return ret
 
+def makeInNotNullConditions(columns):
+    """ Make the WHERE clause conditions of IS NOT NULL for columns"""
+
+    clause = ''
+    for col in columns:
+        clause += str(f" {col} IS NOT NULL AND ")
+    # Strip off the last AND
+    ret = clause[0:-4]
+    return ret
+
 def getInterpolatedValue(val0,val1,scoreGrid):
     """Compute interpolated value from grid of mapping tuples
     

@@ -1,0 +1,337 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": "pseudoScihub",
+        "anonSubType": "",
+        "anonType": "Pseudonymization",
+        "attackType": "Simple List Singling Out",
+        "criteria": "singlingOut",
+        "dbType": "Scihub",
+        "flushCache": false,
+        "name": "dumbList_SingOut.py.Pseudonymization.Scihub.downloads",
+        "rawDb": "gdaScoreScihubRaw",
+        "resultsDir": "",
+        "resultsPath": "attackResults/dumbList_SingOut.py.Pseudonymization.Scihub.downloads.json",
+        "table": "downloads",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": "pseudoScihub",
+            "anonDbName": "pseudo_scihub",
+            "anonHost": "db001.gda-score.org",
+            "anonPort": 5432,
+            "attackName": "dumbList_SingOut.py.Pseudonymization.Scihub.downloads",
+            "criteria": "singlingOut",
+            "rawDb": "gdaScoreScihubRaw",
+            "rawDbName": "raw_scihub",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2019-01-21 17:09:43.103885",
+            "table": "downloads"
+        },
+        "base": {
+            "attackCells": 1000,
+            "attackGets": 1,
+            "knowledgeCells": 0,
+            "knowledgeGets": 0
+        },
+        "col": {
+            "birthdate": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "city": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "country": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "datetime": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "doc": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "email": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "gender": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "lat": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "long": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "street": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "uid": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            },
+            "zip": {
+                "avgConfidenceRatios": 9.047423881761017e-07,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 9.047423881761017e-05
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.0003600939597317931,
+            "avCachePutDuration": 0.01801741268292539,
+            "avQueryDuration": 0.7560188611650472,
+            "numCacheGets": 298,
+            "numCachePuts": 205,
+            "numQueries": 206,
+            "timeCacheGets": 0.10730800000007434,
+            "timeCachePuts": 3.693569599999705,
+            "timeQueries": 155.73988539999974
+        },
+        "scores": [
+            {
+                "claimProbability": 1.0,
+                "columnsUsed": [
+                    "datetime",
+                    "doc",
+                    "uid",
+                    "country",
+                    "city",
+                    "lat",
+                    "long",
+                    "gender",
+                    "zip"
+                ],
+                "confidenceImprovement": 1.0,
+                "defense": 0.02020202020202022,
+                "knowledgeNeeded": 0.0,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0.6,
+                "workNeeded": 1.1111111111111112
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "datetime",
+                    "timestamp without time zone"
+                ],
+                [
+                    "doc",
+                    "text"
+                ],
+                [
+                    "uid",
+                    "text"
+                ],
+                [
+                    "country",
+                    "text"
+                ],
+                [
+                    "city",
+                    "text"
+                ],
+                [
+                    "lat",
+                    "real"
+                ],
+                [
+                    "long",
+                    "real"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 15,
+            "totalRows": 1105287
+        }
+    }
+}

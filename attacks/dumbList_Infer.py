@@ -42,6 +42,7 @@ def dumb_list_inference_attack(params):
     # Get the total number of rows so that we can later determine fraction
     # of cells per column that are susceptible
     sql = str(f"SELECT count(*) FROM {table}")
+    if v: print(sql)
     query = dict(db="raw",sql=sql)
     attack.askExplore(query)
     reply = attack.getExplore()
@@ -67,6 +68,7 @@ def dumb_list_inference_attack(params):
         sql += makeGroupBy(remainingCols)
         sql += str(f" HAVING count(DISTINCT {guessedCol}) = 1 ")
         sql += str(f"ORDER BY 1 LIMIT 20")
+        if v: print(sql)
         query = dict(sql=sql)
         attack.askAttack(query)
         reply = attack.getAttack()
@@ -98,6 +100,8 @@ def dumb_list_inference_attack(params):
     # some explore queries
     for guessedCol in colNames:
         remainingCols = [x for x in colNames if x != guessedCol]
+        if len(remainingCols) > 20:
+            remainingCols = remainingCols[:20]
         # -------------- More exploration phase ------------------
         # First find out how many of the cells are attackable
         sql = "SELECT sum(rows) FROM (SELECT "
@@ -125,7 +129,7 @@ def dumb_list_inference_attack(params):
 
 # This reads in the attack parameters and checks to see if the
 # attack has already been run and completed
-verbose = False
+verbose = True
 v = verbose
 
 paramsList = setupGdaAttackParameters(sys.argv, criteria="inference",

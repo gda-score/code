@@ -1,0 +1,388 @@
+{
+    "accuracy": {
+        "accuracy": {
+            "absolErrorMetrics": {
+                "avg": 0,
+                "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                "max": 0,
+                "meanSquareError": 0.0,
+                "min": 0,
+                "stddev": 0.0
+            },
+            "relErrorMetrics": {
+                "avg": 0.0,
+                "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                "max": 0.0,
+                "meanSquareError": 0.0,
+                "min": 0.0,
+                "stddev": 0.0
+            },
+            "simpleRelErrorMetrics": {
+                "avg": 1.0,
+                "compute": "(count(distinct_rawDb)/count(distinct_anonDb))",
+                "max": 1.0,
+                "meanSquareError": 1.0,
+                "min": 1.0,
+                "stddev": 0.0
+            }
+        },
+        "queries": {
+            "doubleColumn": {
+                "stats": {
+                    "district_id:birth_number": 6,
+                    "district_id:email": 3,
+                    "district_id:firstname": 4,
+                    "district_id:gender": 9,
+                    "district_id:lastname": 3,
+                    "district_id:street": 12,
+                    "district_id:zip": 13
+                },
+                "totalQueries": 50
+            },
+            "ranges": {
+                "10-50": 48,
+                "100-500": 32,
+                "1000-5000": 7,
+                "50-100": 45,
+                "500-1000": 25
+            },
+            "singleColumn": {
+                "stats": {
+                    "birth_number": 10,
+                    "birthdate": 15,
+                    "district_id": 17,
+                    "email": 16,
+                    "firstname": 9,
+                    "gender": 2,
+                    "lastname": 6,
+                    "ssn": 16,
+                    "street": 8,
+                    "uid": 3,
+                    "zip": 5
+                },
+                "totalQueries": 107
+            },
+            "totalQueries": 157
+        }
+    },
+    "coverage": [
+        {
+            "col1": "uid",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 333,
+                "colCountOneRawDb": 4686,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5019,
+                "valuesInBothRawAndAnonDb": 333
+            }
+        },
+        {
+            "col1": "district_id",
+            "coverage": {
+                "colCountManyRawDb": 77,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 77,
+                "valuesInBothRawAndAnonDb": 77
+            }
+        },
+        {
+            "col1": "lastname",
+            "coverage": {
+                "colCountManyRawDb": 438,
+                "colCountOneRawDb": 3457,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3895,
+                "valuesInBothRawAndAnonDb": 438
+            }
+        },
+        {
+            "col1": "firstname",
+            "coverage": {
+                "colCountManyRawDb": 1079,
+                "colCountOneRawDb": 68,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 1147,
+                "valuesInBothRawAndAnonDb": 1079
+            }
+        },
+        {
+            "col1": "birthdate",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "gender",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "ssn",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 5369,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "col1": "email",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 5365,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5367,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "street",
+            "coverage": {
+                "colCountManyRawDb": 0,
+                "colCountOneRawDb": 5369,
+                "coveragePerCol": null,
+                "totalValCntAnonDb": 5369,
+                "valuesInBothRawAndAnonDb": 0
+            }
+        },
+        {
+            "col1": "zip",
+            "coverage": {
+                "colCountManyRawDb": 91,
+                "colCountOneRawDb": 5187,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5278,
+                "valuesInBothRawAndAnonDb": 91
+            }
+        }
+    ],
+    "finished": true,
+    "operational": {
+        "avCacheGetDuration": 0.00027861941750363027,
+        "avCachePutDuration": 0.019427586666643036,
+        "avQueryDuration": 0.040191978759852316,
+        "numCacheGets": 824,
+        "numCachePuts": 30,
+        "numQueries": 758,
+        "timeCacheGets": 0.22958240002299135,
+        "timeCachePuts": 0.5828275999992911,
+        "timeQueries": 30.465519899968058
+    },
+    "params": {
+        "anonDb": "gdaScoreBankingRaw",
+        "anonSubType": "",
+        "anonType": "No Anonymization",
+        "criteria": "singlingOut",
+        "dbType": "Banking_Clients",
+        "flushCache": false,
+        "measureParam": "uid",
+        "name": "rawBankingClients_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery",
+        "ranges": [
+            [
+                10,
+                50
+            ],
+            [
+                50,
+                100
+            ],
+            [
+                100,
+                500
+            ],
+            [
+                500,
+                1000
+            ],
+            [
+                1000,
+                5000
+            ]
+        ],
+        "rawDb": "gdaScoreBankingRaw",
+        "resultsDir": "utilityResults",
+        "resultsPath": "utilityResults/rawBankingClients_out.json",
+        "samples": 25,
+        "table": "clients",
+        "uid": "uid",
+        "utilityMeasure": "Simple UID count",
+        "verbose": false
+    },
+    "tableStats": {
+        "birth_number": {
+            "av_rows_per_vals": 1.06974,
+            "av_uids_per_val": 1.06974,
+            "column_label": "enumerative",
+            "column_name": "birth_number",
+            "column_type": "text",
+            "max": "875927",
+            "min": "110820",
+            "num_distinct_vals": 5019,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.268438,
+            "std_uids_per_val": 0.268438
+        },
+        "birthdate": {
+            "av_rows_per_vals": 1.07316,
+            "av_uids_per_val": 1.07316,
+            "column_label": "continuous",
+            "column_name": "birthdate",
+            "column_type": "date",
+            "max": "2019-09-29",
+            "min": "1918-01-03",
+            "num_distinct_vals": 5003,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.276793,
+            "std_uids_per_val": 0.276793
+        },
+        "district_id": {
+            "av_rows_per_vals": 69.7273,
+            "av_uids_per_val": 69.7273,
+            "column_label": "enumerative",
+            "column_name": "district_id",
+            "column_type": "int",
+            "max": "77",
+            "min": "1",
+            "num_distinct_vals": 77,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 72.7417,
+            "std_uids_per_val": 72.7417
+        },
+        "email": {
+            "av_rows_per_vals": 1.00037,
+            "av_uids_per_val": 1.00037,
+            "column_label": "enumerative",
+            "column_name": "email",
+            "column_type": "text",
+            "max": "vulputate@utnisia.org",
+            "min": "Aenean.egestas.hendrerit@Integer.com",
+            "num_distinct_vals": 5367,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0193023,
+            "std_uids_per_val": 0.0193023
+        },
+        "firstname": {
+            "av_rows_per_vals": 4.68091,
+            "av_uids_per_val": 4.68091,
+            "column_label": "enumerative",
+            "column_name": "firstname",
+            "column_type": "text",
+            "max": "Zorita",
+            "min": "Aaron",
+            "num_distinct_vals": 1147,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 2.29523,
+            "std_uids_per_val": 2.29523
+        },
+        "gender": {
+            "av_rows_per_vals": 2684.5,
+            "av_uids_per_val": 2684.5,
+            "column_label": "enumerative",
+            "column_name": "gender",
+            "column_type": "text",
+            "max": "Male",
+            "min": "Female",
+            "num_distinct_vals": 2,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 44.5477,
+            "std_uids_per_val": 44.5477
+        },
+        "lastname": {
+            "av_rows_per_vals": 1.37843,
+            "av_uids_per_val": 1.37843,
+            "column_label": "enumerative",
+            "column_name": "lastname",
+            "column_type": "text",
+            "max": "Zych",
+            "min": "Aanenson",
+            "num_distinct_vals": 3895,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 1.99165,
+            "std_uids_per_val": 1.99165
+        },
+        "ssn": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "ssn",
+            "column_type": "text",
+            "max": "899-75-0318",
+            "min": "001-01-0840",
+            "num_distinct_vals": 5369,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "street": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "street",
+            "column_type": "text",
+            "max": "P.O. Box 999, 4736 Dictum Ave",
+            "min": "100 Donec St.",
+            "num_distinct_vals": 5369,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "uid": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "continuous",
+            "column_name": "uid",
+            "column_type": "int",
+            "max": "13998",
+            "min": "1",
+            "num_distinct_vals": 5369,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "zip": {
+            "av_rows_per_vals": 1.01724,
+            "av_uids_per_val": 1.01724,
+            "column_label": "enumerative",
+            "column_name": "zip",
+            "column_type": "text",
+            "max": "ZX24 8HD",
+            "min": "00-702",
+            "num_distinct_vals": 5278,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.130182,
+            "std_uids_per_val": 0.130182
+        }
+    }
+}

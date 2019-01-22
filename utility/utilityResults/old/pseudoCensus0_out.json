@@ -1,0 +1,3000 @@
+{
+    "accuracy": {
+        "accuracy": {
+            "absolErrorMetrics": {
+                "avg": 0,
+                "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                "max": 0,
+                "meanSquareError": 0.0,
+                "min": 0,
+                "stddev": 0.0
+            },
+            "relErrorMetrics": {
+                "avg": 0.0,
+                "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                "max": 0.0,
+                "meanSquareError": 0.0,
+                "min": 0.0,
+                "stddev": 0.0
+            },
+            "simpleRelErrorMetrics": {
+                "avg": 1.0,
+                "compute": "(count(distinct_rawDb)/count(distinct_anonDb))",
+                "max": 1.0,
+                "meanSquareError": 1.0,
+                "min": 1.0,
+                "stddev": 0.0
+            }
+        },
+        "queries": {
+            "doubleColumn": {
+                "stats": {
+                    "ftotinc:incearn": 2,
+                    "ftotinc:inctot": 1,
+                    "ftotinc:incwage": 1,
+                    "ftotinc:zip": 8,
+                    "hhwt:gender": 4,
+                    "hhwt:zip": 8,
+                    "incearn:hhwt": 1,
+                    "incearn:incwage": 11,
+                    "incearn:perwt": 1,
+                    "incearn:zip": 4,
+                    "inctot:gender": 1,
+                    "inctot:incearn": 4,
+                    "inctot:incwage": 3,
+                    "inctot:zip": 5,
+                    "incwage:gender": 6,
+                    "incwage:hhwt": 2,
+                    "incwage:zip": 5,
+                    "perwt:gender": 4,
+                    "perwt:hhwt": 1,
+                    "perwt:incwage": 1,
+                    "perwt:zip": 9,
+                    "serial:ftotinc": 14,
+                    "uid:ftotinc": 6,
+                    "uid:perwt": 1,
+                    "uid:serial": 22
+                },
+                "totalQueries": 125
+            },
+            "ranges": {
+                "10-50": 50,
+                "100-500": 50,
+                "1000-5000": 50,
+                "50-100": 50,
+                "500-1000": 50
+            },
+            "singleColumn": {
+                "stats": {
+                    "ftotinc": 2,
+                    "hhwt": 6,
+                    "inctot": 2,
+                    "incwage": 3,
+                    "perwt": 3,
+                    "serial": 35,
+                    "uid": 74
+                },
+                "totalQueries": 125
+            },
+            "totalQueries": 250
+        }
+    },
+    "coverage": [
+        {
+            "col1": "uid",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "year",
+            "coverage": {
+                "colCountManyRawDb": 1,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 1
+            }
+        },
+        {
+            "col1": "datanum",
+            "coverage": {
+                "colCountManyRawDb": 1,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 1,
+                "valuesInBothRawAndAnonDb": 1
+            }
+        },
+        {
+            "col1": "serial",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "hhwt",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "gq",
+            "coverage": {
+                "colCountManyRawDb": 5,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5,
+                "valuesInBothRawAndAnonDb": 5
+            }
+        },
+        {
+            "col1": "pernum",
+            "coverage": {
+                "colCountManyRawDb": 17,
+                "colCountOneRawDb": 3,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 20,
+                "valuesInBothRawAndAnonDb": 17
+            }
+        },
+        {
+            "col1": "perwt",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "famsize",
+            "coverage": {
+                "colCountManyRawDb": 18,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 18,
+                "valuesInBothRawAndAnonDb": 18
+            }
+        },
+        {
+            "col1": "nchild",
+            "coverage": {
+                "colCountManyRawDb": 10,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 10,
+                "valuesInBothRawAndAnonDb": 10
+            }
+        },
+        {
+            "col1": "nchlt5",
+            "coverage": {
+                "colCountManyRawDb": 7,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 7,
+                "valuesInBothRawAndAnonDb": 7
+            }
+        },
+        {
+            "col1": "nsibs",
+            "coverage": {
+                "colCountManyRawDb": 10,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 10,
+                "valuesInBothRawAndAnonDb": 10
+            }
+        },
+        {
+            "col1": "relate",
+            "coverage": {
+                "colCountManyRawDb": 13,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 13,
+                "valuesInBothRawAndAnonDb": 13
+            }
+        },
+        {
+            "col1": "related",
+            "coverage": {
+                "colCountManyRawDb": 19,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 19,
+                "valuesInBothRawAndAnonDb": 19
+            }
+        },
+        {
+            "col1": "sex",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "age",
+            "coverage": {
+                "colCountManyRawDb": 94,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 94,
+                "valuesInBothRawAndAnonDb": 94
+            }
+        },
+        {
+            "col1": "birthqtr",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "marst",
+            "coverage": {
+                "colCountManyRawDb": 6,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 6,
+                "valuesInBothRawAndAnonDb": 6
+            }
+        },
+        {
+            "col1": "birthyr",
+            "coverage": {
+                "colCountManyRawDb": 94,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 94,
+                "valuesInBothRawAndAnonDb": 94
+            }
+        },
+        {
+            "col1": "marrno",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "yrmarr",
+            "coverage": {
+                "colCountManyRawDb": 81,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 81,
+                "valuesInBothRawAndAnonDb": 81
+            }
+        },
+        {
+            "col1": "race",
+            "coverage": {
+                "colCountManyRawDb": 9,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 9,
+                "valuesInBothRawAndAnonDb": 9
+            }
+        },
+        {
+            "col1": "raced",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "hispan",
+            "coverage": {
+                "colCountManyRawDb": 5,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5,
+                "valuesInBothRawAndAnonDb": 5
+            }
+        },
+        {
+            "col1": "hispand",
+            "coverage": {
+                "colCountManyRawDb": 24,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 24,
+                "valuesInBothRawAndAnonDb": 24
+            }
+        },
+        {
+            "col1": "bpl",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "bpld",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "citizen",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "yrnatur",
+            "coverage": {
+                "colCountManyRawDb": 74,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 74,
+                "valuesInBothRawAndAnonDb": 74
+            }
+        },
+        {
+            "col1": "yrimmig",
+            "coverage": {
+                "colCountManyRawDb": 84,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 84,
+                "valuesInBothRawAndAnonDb": 84
+            }
+        },
+        {
+            "col1": "yrsusa1",
+            "coverage": {
+                "colCountManyRawDb": 83,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 83,
+                "valuesInBothRawAndAnonDb": 83
+            }
+        },
+        {
+            "col1": "language",
+            "coverage": {
+                "colCountManyRawDb": 62,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 62,
+                "valuesInBothRawAndAnonDb": 62
+            }
+        },
+        {
+            "col1": "languaged",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "speakeng",
+            "coverage": {
+                "colCountManyRawDb": 6,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 6,
+                "valuesInBothRawAndAnonDb": 6
+            }
+        },
+        {
+            "col1": "racamind",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "racasian",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "racblk",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "racpacis",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "racwht",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "racother",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hcovany",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hcovpriv",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinsemp",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinspur",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinstri",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hcovpub",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinscaid",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinscare",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinsva",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "hinsihs",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "school",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "educ",
+            "coverage": {
+                "colCountManyRawDb": 11,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 11,
+                "valuesInBothRawAndAnonDb": 11
+            }
+        },
+        {
+            "col1": "educd",
+            "coverage": {
+                "colCountManyRawDb": 25,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 25,
+                "valuesInBothRawAndAnonDb": 25
+            }
+        },
+        {
+            "col1": "gradeatt",
+            "coverage": {
+                "colCountManyRawDb": 8,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 8,
+                "valuesInBothRawAndAnonDb": 8
+            }
+        },
+        {
+            "col1": "gradeattd",
+            "coverage": {
+                "colCountManyRawDb": 17,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 17,
+                "valuesInBothRawAndAnonDb": 17
+            }
+        },
+        {
+            "col1": "schltype",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "degfield",
+            "coverage": {
+                "colCountManyRawDb": 38,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 38,
+                "valuesInBothRawAndAnonDb": 38
+            }
+        },
+        {
+            "col1": "degfieldd",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "degfield2",
+            "coverage": {
+                "colCountManyRawDb": 36,
+                "colCountOneRawDb": 1,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 37,
+                "valuesInBothRawAndAnonDb": 36
+            }
+        },
+        {
+            "col1": "degfield2d",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "empstat",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "empstatd",
+            "coverage": {
+                "colCountManyRawDb": 7,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 7,
+                "valuesInBothRawAndAnonDb": 7
+            }
+        },
+        {
+            "col1": "labforce",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "occ",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "ind",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "classwkr",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "classwkrd",
+            "coverage": {
+                "colCountManyRawDb": 9,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 9,
+                "valuesInBothRawAndAnonDb": 9
+            }
+        },
+        {
+            "col1": "wkswork2",
+            "coverage": {
+                "colCountManyRawDb": 7,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 7,
+                "valuesInBothRawAndAnonDb": 7
+            }
+        },
+        {
+            "col1": "uhrswork",
+            "coverage": {
+                "colCountManyRawDb": 96,
+                "colCountOneRawDb": 3,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 99,
+                "valuesInBothRawAndAnonDb": 96
+            }
+        },
+        {
+            "col1": "absent",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "looking",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "availble",
+            "coverage": {
+                "colCountManyRawDb": 5,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5,
+                "valuesInBothRawAndAnonDb": 5
+            }
+        },
+        {
+            "col1": "wrkrecal",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "workedyr",
+            "coverage": {
+                "colCountManyRawDb": 4,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 4,
+                "valuesInBothRawAndAnonDb": 4
+            }
+        },
+        {
+            "col1": "inctot",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "ftotinc",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incwage",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incbus00",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incss",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incwelfr",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incinvst",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incretir",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incsupp",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incother",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "incearn",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "poverty",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "occscore",
+            "coverage": {
+                "colCountManyRawDb": 48,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 48,
+                "valuesInBothRawAndAnonDb": 48
+            }
+        },
+        {
+            "col1": "migrate1",
+            "coverage": {
+                "colCountManyRawDb": 5,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5,
+                "valuesInBothRawAndAnonDb": 5
+            }
+        },
+        {
+            "col1": "migrate1d",
+            "coverage": {
+                "colCountManyRawDb": 6,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 6,
+                "valuesInBothRawAndAnonDb": 6
+            }
+        },
+        {
+            "col1": "migplac1",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "migpuma1",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "movedin",
+            "coverage": {
+                "colCountManyRawDb": 8,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 8,
+                "valuesInBothRawAndAnonDb": 8
+            }
+        },
+        {
+            "col1": "vetdisab",
+            "coverage": {
+                "colCountManyRawDb": 8,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 8,
+                "valuesInBothRawAndAnonDb": 8
+            }
+        },
+        {
+            "col1": "diffrem",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "diffphys",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "diffmob",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "diffcare",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "diffsens",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "diffeye",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "diffhear",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "vetstat",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "vetstatd",
+            "coverage": {
+                "colCountManyRawDb": 5,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5,
+                "valuesInBothRawAndAnonDb": 5
+            }
+        },
+        {
+            "col1": "vet01ltr",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "pwstate2",
+            "coverage": {
+                "colCountManyRawDb": 52,
+                "colCountOneRawDb": 3,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 55,
+                "valuesInBothRawAndAnonDb": 52
+            }
+        },
+        {
+            "col1": "pwpuma00",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "tranwork",
+            "coverage": {
+                "colCountManyRawDb": 13,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 13,
+                "valuesInBothRawAndAnonDb": 13
+            }
+        },
+        {
+            "col1": "carpool",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "riders",
+            "coverage": {
+                "colCountManyRawDb": 9,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 9,
+                "valuesInBothRawAndAnonDb": 9
+            }
+        },
+        {
+            "col1": "trantime",
+            "coverage": {
+                "colCountManyRawDb": 83,
+                "colCountOneRawDb": 4,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 87,
+                "valuesInBothRawAndAnonDb": 83
+            }
+        },
+        {
+            "col1": "departs",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "arrives",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "lastname",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "firstname",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "gender",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "ssn",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "birthdate",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "email",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "street",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "zip",
+            "coverage": {
+                "colCountManyRawDb": 34185,
+                "colCountOneRawDb": 133349,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 167534,
+                "valuesInBothRawAndAnonDb": 34185
+            }
+        }
+    ],
+    "finished": true,
+    "operational": {
+        "avCacheGetDuration": 0.0016633904222911557,
+        "avCachePutDuration": 0.021753422737955237,
+        "avQueryDuration": 0.6117605149823734,
+        "numCacheGets": 2297,
+        "numCachePuts": 1702,
+        "numQueries": 1702,
+        "timeCacheGets": 3.8208078000027843,
+        "timeCachePuts": 37.02432549999981,
+        "timeQueries": 1041.2163964999995
+    },
+    "params": {
+        "anonDb": "pseudoCensus0",
+        "anonSubType": "",
+        "anonType": "Pseudonymization",
+        "criteria": "singlingOut",
+        "dbType": "Census",
+        "flushCache": false,
+        "measureParam": "uid",
+        "name": "pseudoCensus0_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery",
+        "ranges": [
+            [
+                10,
+                50
+            ],
+            [
+                50,
+                100
+            ],
+            [
+                100,
+                500
+            ],
+            [
+                500,
+                1000
+            ],
+            [
+                1000,
+                5000
+            ]
+        ],
+        "rawDb": "gdaScoreCensus0Raw",
+        "resultsDir": "utilityResults",
+        "resultsPath": "utilityResults/pseudoCensus0_out.json",
+        "samples": 25,
+        "table": "persons",
+        "uid": "uid",
+        "utilityMeasure": "Simple UID count",
+        "verbose": false
+    },
+    "tableStats": {
+        "absent": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "absent",
+            "column_type": "int",
+            "max": "4",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 47890.5,
+            "std_uids_per_val": 47890.5
+        },
+        "age": {
+            "av_rows_per_vals": 2659.57,
+            "av_uids_per_val": 2659.57,
+            "column_label": "enumerative",
+            "column_name": "age",
+            "column_type": "int",
+            "max": "94",
+            "min": "0",
+            "num_distinct_vals": 94,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 947.659,
+            "std_uids_per_val": 947.659
+        },
+        "arrives": {
+            "av_rows_per_vals": 874.126,
+            "av_uids_per_val": 874.126,
+            "column_label": "continuous",
+            "column_name": "arrives",
+            "column_type": "int",
+            "max": "2359",
+            "min": "0",
+            "num_distinct_vals": 286,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 9024.51,
+            "std_uids_per_val": 9024.51
+        },
+        "availble": {
+            "av_rows_per_vals": 50000.0,
+            "av_uids_per_val": 50000.0,
+            "column_label": "enumerative",
+            "column_name": "availble",
+            "column_type": "int",
+            "max": "5",
+            "min": "0",
+            "num_distinct_vals": 5,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 74844.9,
+            "std_uids_per_val": 74844.9
+        },
+        "birthdate": {
+            "av_rows_per_vals": 6.738,
+            "av_uids_per_val": 6.738,
+            "column_label": "continuous",
+            "column_name": "birthdate",
+            "column_type": "date",
+            "max": "2019-10-01",
+            "min": "1918-01-01",
+            "num_distinct_vals": 37103,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 2.61251,
+            "std_uids_per_val": 2.61251
+        },
+        "birthqtr": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "birthqtr",
+            "column_type": "int",
+            "max": "4",
+            "min": "1",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 2256.96,
+            "std_uids_per_val": 2256.96
+        },
+        "birthyr": {
+            "av_rows_per_vals": 2659.57,
+            "av_uids_per_val": 2659.57,
+            "column_label": "enumerative",
+            "column_name": "birthyr",
+            "column_type": "int",
+            "max": "2013",
+            "min": "1919",
+            "num_distinct_vals": 94,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 947.659,
+            "std_uids_per_val": 947.659
+        },
+        "bpl": {
+            "av_rows_per_vals": 2016.13,
+            "av_uids_per_val": 2016.13,
+            "column_label": "continuous",
+            "column_name": "bpl",
+            "column_type": "int",
+            "max": "950",
+            "min": "1",
+            "num_distinct_vals": 124,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 6930.29,
+            "std_uids_per_val": 6930.29
+        },
+        "bpld": {
+            "av_rows_per_vals": 1196.17,
+            "av_uids_per_val": 1196.17,
+            "column_label": "continuous",
+            "column_name": "bpld",
+            "column_type": "int",
+            "max": "95000",
+            "min": "100",
+            "num_distinct_vals": 209,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 5415.81,
+            "std_uids_per_val": 5415.81
+        },
+        "carpool": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "carpool",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 75172.6,
+            "std_uids_per_val": 75172.6
+        },
+        "citizen": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "citizen",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 99481.5,
+            "std_uids_per_val": 99481.5
+        },
+        "classwkr": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "classwkr",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 59763.4,
+            "std_uids_per_val": 59763.4
+        },
+        "classwkrd": {
+            "av_rows_per_vals": 27777.8,
+            "av_uids_per_val": 27777.8,
+            "column_label": "enumerative",
+            "column_name": "classwkrd",
+            "column_type": "int",
+            "max": "29",
+            "min": "0",
+            "num_distinct_vals": 9,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 41939.2,
+            "std_uids_per_val": 41939.2
+        },
+        "datanum": {
+            "av_rows_per_vals": 250000.0,
+            "av_uids_per_val": 250000.0,
+            "column_label": "enumerative",
+            "column_name": "datanum",
+            "column_type": "int",
+            "max": "1",
+            "min": "1",
+            "num_distinct_vals": 1,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": -1.0,
+            "std_uids_per_val": -1.0
+        },
+        "degfield": {
+            "av_rows_per_vals": 6578.95,
+            "av_uids_per_val": 6578.95,
+            "column_label": "enumerative",
+            "column_name": "degfield",
+            "column_type": "int",
+            "max": "64",
+            "min": "0",
+            "num_distinct_vals": 38,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 32314.0,
+            "std_uids_per_val": 32314.0
+        },
+        "degfield2": {
+            "av_rows_per_vals": 6756.76,
+            "av_uids_per_val": 6756.76,
+            "column_label": "enumerative",
+            "column_name": "degfield2",
+            "column_type": "int",
+            "max": "64",
+            "min": "0",
+            "num_distinct_vals": 37,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 40292.6,
+            "std_uids_per_val": 40292.6
+        },
+        "degfield2d": {
+            "av_rows_per_vals": 1488.1,
+            "av_uids_per_val": 1488.1,
+            "column_label": "continuous",
+            "column_name": "degfield2d",
+            "column_type": "int",
+            "max": "6403",
+            "min": "0",
+            "num_distinct_vals": 168,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 18917.0,
+            "std_uids_per_val": 18917.0
+        },
+        "degfieldd": {
+            "av_rows_per_vals": 1436.78,
+            "av_uids_per_val": 1436.78,
+            "column_label": "continuous",
+            "column_name": "degfieldd",
+            "column_type": "int",
+            "max": "6403",
+            "min": "0",
+            "num_distinct_vals": 174,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 15160.0,
+            "std_uids_per_val": 15160.0
+        },
+        "departs": {
+            "av_rows_per_vals": 1655.63,
+            "av_uids_per_val": 1655.63,
+            "column_label": "continuous",
+            "column_name": "departs",
+            "column_type": "int",
+            "max": "2345",
+            "min": "0",
+            "num_distinct_vals": 151,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 12459.4,
+            "std_uids_per_val": 12459.4
+        },
+        "diffcare": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "diffcare",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 124551.0,
+            "std_uids_per_val": 124551.0
+        },
+        "diffeye": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "diffeye",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 166258.0,
+            "std_uids_per_val": 166258.0
+        },
+        "diffhear": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "diffhear",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 161111.0,
+            "std_uids_per_val": 161111.0
+        },
+        "diffmob": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "diffmob",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 93085.0,
+            "std_uids_per_val": 93085.0
+        },
+        "diffphys": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "diffphys",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 113994.0,
+            "std_uids_per_val": 113994.0
+        },
+        "diffrem": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "diffrem",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 119828.0,
+            "std_uids_per_val": 119828.0
+        },
+        "diffsens": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "diffsens",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 154093.0,
+            "std_uids_per_val": 154093.0
+        },
+        "educ": {
+            "av_rows_per_vals": 22727.3,
+            "av_uids_per_val": 22727.3,
+            "column_label": "enumerative",
+            "column_name": "educ",
+            "column_type": "int",
+            "max": "11",
+            "min": "0",
+            "num_distinct_vals": 11,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 18210.8,
+            "std_uids_per_val": 18210.8
+        },
+        "educd": {
+            "av_rows_per_vals": 10000.0,
+            "av_uids_per_val": 10000.0,
+            "column_label": "enumerative",
+            "column_name": "educd",
+            "column_type": "int",
+            "max": "116",
+            "min": "1",
+            "num_distinct_vals": 25,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 10509.6,
+            "std_uids_per_val": 10509.6
+        },
+        "email": {
+            "av_rows_per_vals": 1.01915,
+            "av_uids_per_val": 1.01915,
+            "column_label": "enumerative",
+            "column_name": "email",
+            "column_type": "text",
+            "max": "vulputate@vulputateeuodio.net",
+            "min": "Aenean.egestas.hendrerit@Curabiturconsequat.org",
+            "num_distinct_vals": 245302,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 0.149384,
+            "std_uids_per_val": 0.149384
+        },
+        "empstat": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "empstat",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 41640.3,
+            "std_uids_per_val": 41640.3
+        },
+        "empstatd": {
+            "av_rows_per_vals": 35714.3,
+            "av_uids_per_val": 35714.3,
+            "column_label": "enumerative",
+            "column_name": "empstatd",
+            "column_type": "int",
+            "max": "30",
+            "min": "0",
+            "num_distinct_vals": 7,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 43279.6,
+            "std_uids_per_val": 43279.6
+        },
+        "famsize": {
+            "av_rows_per_vals": 13888.9,
+            "av_uids_per_val": 13888.9,
+            "column_label": "enumerative",
+            "column_name": "famsize",
+            "column_type": "int",
+            "max": "20",
+            "min": "1",
+            "num_distinct_vals": 18,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 21103.1,
+            "std_uids_per_val": 21103.1
+        },
+        "firstname": {
+            "av_rows_per_vals": 214.225,
+            "av_uids_per_val": 214.225,
+            "column_label": "enumerative",
+            "column_name": "firstname",
+            "column_type": "text",
+            "max": "Zorita",
+            "min": "Aaron",
+            "num_distinct_vals": 1167,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 36.7986,
+            "std_uids_per_val": 36.7986
+        },
+        "ftotinc": {
+            "av_rows_per_vals": 25.0878,
+            "av_uids_per_val": 25.0878,
+            "column_label": "continuous",
+            "column_name": "ftotinc",
+            "column_type": "int",
+            "max": "9999999",
+            "min": "-7100",
+            "num_distinct_vals": 9965,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 159.079,
+            "std_uids_per_val": 159.079
+        },
+        "gender": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "gender",
+            "column_type": "text",
+            "max": "Male",
+            "min": "Female",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 517.602,
+            "std_uids_per_val": 517.602
+        },
+        "gq": {
+            "av_rows_per_vals": 50000.0,
+            "av_uids_per_val": 50000.0,
+            "column_label": "enumerative",
+            "column_name": "gq",
+            "column_type": "int",
+            "max": "5",
+            "min": "1",
+            "num_distinct_vals": 5,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 105004.0,
+            "std_uids_per_val": 105004.0
+        },
+        "gradeatt": {
+            "av_rows_per_vals": 31250.0,
+            "av_uids_per_val": 31250.0,
+            "column_label": "enumerative",
+            "column_name": "gradeatt",
+            "column_type": "int",
+            "max": "7",
+            "min": "0",
+            "num_distinct_vals": 8,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 63014.2,
+            "std_uids_per_val": 63014.2
+        },
+        "gradeattd": {
+            "av_rows_per_vals": 14705.9,
+            "av_uids_per_val": 14705.9,
+            "column_label": "enumerative",
+            "column_name": "gradeattd",
+            "column_type": "int",
+            "max": "70",
+            "min": "0",
+            "num_distinct_vals": 17,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 44402.9,
+            "std_uids_per_val": 44402.9
+        },
+        "hcovany": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hcovany",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 124331.0,
+            "std_uids_per_val": 124331.0
+        },
+        "hcovpriv": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hcovpriv",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 41898.9,
+            "std_uids_per_val": 41898.9
+        },
+        "hcovpub": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hcovpub",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 49986.8,
+            "std_uids_per_val": 49986.8
+        },
+        "hhwt": {
+            "av_rows_per_vals": 390.625,
+            "av_uids_per_val": 390.625,
+            "column_label": "continuous",
+            "column_name": "hhwt",
+            "column_type": "int",
+            "max": "1280",
+            "min": "1",
+            "num_distinct_vals": 640,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 710.039,
+            "std_uids_per_val": 710.039
+        },
+        "hinscaid": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinscaid",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 106906.0,
+            "std_uids_per_val": 106906.0
+        },
+        "hinscare": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinscare",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 108366.0,
+            "std_uids_per_val": 108366.0
+        },
+        "hinsemp": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinsemp",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 2662.96,
+            "std_uids_per_val": 2662.96
+        },
+        "hinsihs": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinsihs",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 167531.0,
+            "std_uids_per_val": 167531.0
+        },
+        "hinspur": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinspur",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 129898.0,
+            "std_uids_per_val": 129898.0
+        },
+        "hinstri": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinstri",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 164194.0,
+            "std_uids_per_val": 164194.0
+        },
+        "hinsva": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "hinsva",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 167514.0,
+            "std_uids_per_val": 167514.0
+        },
+        "hispan": {
+            "av_rows_per_vals": 50000.0,
+            "av_uids_per_val": 50000.0,
+            "column_label": "enumerative",
+            "column_name": "hispan",
+            "column_type": "int",
+            "max": "4",
+            "min": "0",
+            "num_distinct_vals": 5,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 83465.7,
+            "std_uids_per_val": 83465.7
+        },
+        "hispand": {
+            "av_rows_per_vals": 10416.7,
+            "av_uids_per_val": 10416.7,
+            "column_label": "enumerative",
+            "column_name": "hispand",
+            "column_type": "int",
+            "max": "498",
+            "min": "0",
+            "num_distinct_vals": 24,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 40494.8,
+            "std_uids_per_val": 40494.8
+        },
+        "incbus00": {
+            "av_rows_per_vals": 402.576,
+            "av_uids_per_val": 402.576,
+            "column_label": "continuous",
+            "column_name": "incbus00",
+            "column_type": "int",
+            "max": "999999",
+            "min": "-7100",
+            "num_distinct_vals": 621,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 7927.46,
+            "std_uids_per_val": 7927.46
+        },
+        "incearn": {
+            "av_rows_per_vals": 170.3,
+            "av_uids_per_val": 170.3,
+            "column_label": "continuous",
+            "column_name": "incearn",
+            "column_type": "int",
+            "max": "729000",
+            "min": "-7100",
+            "num_distinct_vals": 1468,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 3444.25,
+            "std_uids_per_val": 3444.25
+        },
+        "incinvst": {
+            "av_rows_per_vals": 414.594,
+            "av_uids_per_val": 414.594,
+            "column_label": "continuous",
+            "column_name": "incinvst",
+            "column_type": "int",
+            "max": "999999",
+            "min": "-5700",
+            "num_distinct_vals": 603,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 7443.88,
+            "std_uids_per_val": 7443.88
+        },
+        "incother": {
+            "av_rows_per_vals": 515.464,
+            "av_uids_per_val": 515.464,
+            "column_label": "continuous",
+            "column_name": "incother",
+            "column_type": "int",
+            "max": "99999",
+            "min": "0",
+            "num_distinct_vals": 485,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 8796.81,
+            "std_uids_per_val": 8796.81
+        },
+        "incretir": {
+            "av_rows_per_vals": 400.0,
+            "av_uids_per_val": 400.0,
+            "column_label": "continuous",
+            "column_name": "incretir",
+            "column_type": "int",
+            "max": "999999",
+            "min": "0",
+            "num_distinct_vals": 625,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 7476.86,
+            "std_uids_per_val": 7476.86
+        },
+        "incss": {
+            "av_rows_per_vals": 504.032,
+            "av_uids_per_val": 504.032,
+            "column_label": "continuous",
+            "column_name": "incss",
+            "column_type": "int",
+            "max": "99999",
+            "min": "0",
+            "num_distinct_vals": 496,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 7368.98,
+            "std_uids_per_val": 7368.98
+        },
+        "incsupp": {
+            "av_rows_per_vals": 1072.96,
+            "av_uids_per_val": 1072.96,
+            "column_label": "continuous",
+            "column_name": "incsupp",
+            "column_type": "int",
+            "max": "99999",
+            "min": "0",
+            "num_distinct_vals": 233,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 13234.5,
+            "std_uids_per_val": 13234.5
+        },
+        "inctot": {
+            "av_rows_per_vals": 33.3778,
+            "av_uids_per_val": 33.3778,
+            "column_label": "continuous",
+            "column_name": "inctot",
+            "column_type": "int",
+            "max": "9999999",
+            "min": "-11100",
+            "num_distinct_vals": 7490,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 658.563,
+            "std_uids_per_val": 658.563
+        },
+        "incwage": {
+            "av_rows_per_vals": 316.857,
+            "av_uids_per_val": 316.857,
+            "column_label": "continuous",
+            "column_name": "incwage",
+            "column_type": "int",
+            "max": "999999",
+            "min": "0",
+            "num_distinct_vals": 789,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 3677.73,
+            "std_uids_per_val": 3677.73
+        },
+        "incwelfr": {
+            "av_rows_per_vals": 1016.26,
+            "av_uids_per_val": 1016.26,
+            "column_label": "continuous",
+            "column_name": "incwelfr",
+            "column_type": "int",
+            "max": "99999",
+            "min": "0",
+            "num_distinct_vals": 246,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 13126.5,
+            "std_uids_per_val": 13126.5
+        },
+        "ind": {
+            "av_rows_per_vals": 932.836,
+            "av_uids_per_val": 932.836,
+            "column_label": "continuous",
+            "column_name": "ind",
+            "column_type": "int",
+            "max": "9920",
+            "min": "0",
+            "num_distinct_vals": 268,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 6769.66,
+            "std_uids_per_val": 6769.66
+        },
+        "labforce": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "labforce",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 33178.5,
+            "std_uids_per_val": 33178.5
+        },
+        "language": {
+            "av_rows_per_vals": 4032.26,
+            "av_uids_per_val": 4032.26,
+            "column_label": "enumerative",
+            "column_name": "language",
+            "column_type": "int",
+            "max": "96",
+            "min": "0",
+            "num_distinct_vals": 62,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 22818.3,
+            "std_uids_per_val": 22818.3
+        },
+        "languaged": {
+            "av_rows_per_vals": 2272.73,
+            "av_uids_per_val": 2272.73,
+            "column_label": "continuous",
+            "column_name": "languaged",
+            "column_type": "int",
+            "max": "9601",
+            "min": "0",
+            "num_distinct_vals": 110,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 17184.2,
+            "std_uids_per_val": 17184.2
+        },
+        "lastname": {
+            "av_rows_per_vals": 4.75141,
+            "av_uids_per_val": 4.75141,
+            "column_label": "enumerative",
+            "column_name": "lastname",
+            "column_type": "text",
+            "max": "Zywicki",
+            "min": "Aadland",
+            "num_distinct_vals": 52616,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 28.5244,
+            "std_uids_per_val": 28.5244
+        },
+        "looking": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "looking",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 43016.1,
+            "std_uids_per_val": 43016.1
+        },
+        "marrno": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "marrno",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 50079.5,
+            "std_uids_per_val": 50079.5
+        },
+        "marst": {
+            "av_rows_per_vals": 41666.7,
+            "av_uids_per_val": 41666.7,
+            "column_label": "enumerative",
+            "column_name": "marst",
+            "column_type": "int",
+            "max": "6",
+            "min": "1",
+            "num_distinct_vals": 6,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 47388.1,
+            "std_uids_per_val": 47388.1
+        },
+        "migplac1": {
+            "av_rows_per_vals": 2475.25,
+            "av_uids_per_val": 2475.25,
+            "column_label": "continuous",
+            "column_name": "migplac1",
+            "column_type": "int",
+            "max": "900",
+            "min": "0",
+            "num_distinct_vals": 101,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 21259.3,
+            "std_uids_per_val": 21259.3
+        },
+        "migpuma1": {
+            "av_rows_per_vals": 1344.09,
+            "av_uids_per_val": 1344.09,
+            "column_label": "continuous",
+            "column_name": "migpuma1",
+            "column_type": "int",
+            "max": "70100",
+            "min": "0",
+            "num_distinct_vals": 186,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 15645.2,
+            "std_uids_per_val": 15645.2
+        },
+        "migrate1": {
+            "av_rows_per_vals": 50000.0,
+            "av_uids_per_val": 50000.0,
+            "column_label": "enumerative",
+            "column_name": "migrate1",
+            "column_type": "int",
+            "max": "4",
+            "min": "0",
+            "num_distinct_vals": 5,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 90666.3,
+            "std_uids_per_val": 90666.3
+        },
+        "migrate1d": {
+            "av_rows_per_vals": 41666.7,
+            "av_uids_per_val": 41666.7,
+            "column_label": "enumerative",
+            "column_name": "migrate1d",
+            "column_type": "int",
+            "max": "40",
+            "min": "0",
+            "num_distinct_vals": 6,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 83607.6,
+            "std_uids_per_val": 83607.6
+        },
+        "movedin": {
+            "av_rows_per_vals": 31250.0,
+            "av_uids_per_val": 31250.0,
+            "column_label": "enumerative",
+            "column_name": "movedin",
+            "column_type": "int",
+            "max": "7",
+            "min": "0",
+            "num_distinct_vals": 8,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 50729.9,
+            "std_uids_per_val": 50729.9
+        },
+        "nchild": {
+            "av_rows_per_vals": 25000.0,
+            "av_uids_per_val": 25000.0,
+            "column_label": "enumerative",
+            "column_name": "nchild",
+            "column_type": "int",
+            "max": "9",
+            "min": "0",
+            "num_distinct_vals": 10,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 56405.6,
+            "std_uids_per_val": 56405.6
+        },
+        "nchlt5": {
+            "av_rows_per_vals": 35714.3,
+            "av_uids_per_val": 35714.3,
+            "column_label": "enumerative",
+            "column_name": "nchlt5",
+            "column_type": "int",
+            "max": "7",
+            "min": "0",
+            "num_distinct_vals": 7,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 87091.6,
+            "std_uids_per_val": 87091.6
+        },
+        "nsibs": {
+            "av_rows_per_vals": 25000.0,
+            "av_uids_per_val": 25000.0,
+            "column_label": "enumerative",
+            "column_name": "nsibs",
+            "column_type": "int",
+            "max": "9",
+            "min": "0",
+            "num_distinct_vals": 10,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 58998.7,
+            "std_uids_per_val": 58998.7
+        },
+        "occ": {
+            "av_rows_per_vals": 520.833,
+            "av_uids_per_val": 520.833,
+            "column_label": "continuous",
+            "column_name": "occ",
+            "column_type": "int",
+            "max": "9920",
+            "min": "0",
+            "num_distinct_vals": 480,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 5035.07,
+            "std_uids_per_val": 5035.07
+        },
+        "occscore": {
+            "av_rows_per_vals": 5208.33,
+            "av_uids_per_val": 5208.33,
+            "column_label": "enumerative",
+            "column_name": "occscore",
+            "column_type": "int",
+            "max": "80",
+            "min": "0",
+            "num_distinct_vals": 48,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 16229.6,
+            "std_uids_per_val": 16229.6
+        },
+        "pernum": {
+            "av_rows_per_vals": 12500.0,
+            "av_uids_per_val": 12500.0,
+            "column_label": "enumerative",
+            "column_name": "pernum",
+            "column_type": "int",
+            "max": "20",
+            "min": "1",
+            "num_distinct_vals": 20,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 27752.4,
+            "std_uids_per_val": 27752.4
+        },
+        "perwt": {
+            "av_rows_per_vals": 294.464,
+            "av_uids_per_val": 294.464,
+            "column_label": "continuous",
+            "column_name": "perwt",
+            "column_type": "int",
+            "max": "1689",
+            "min": "1",
+            "num_distinct_vals": 849,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 600.757,
+            "std_uids_per_val": 600.757
+        },
+        "poverty": {
+            "av_rows_per_vals": 498.008,
+            "av_uids_per_val": 498.008,
+            "column_label": "continuous",
+            "column_name": "poverty",
+            "column_type": "int",
+            "max": "501",
+            "min": "0",
+            "num_distinct_vals": 502,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 2651.12,
+            "std_uids_per_val": 2651.12
+        },
+        "pwpuma00": {
+            "av_rows_per_vals": 1893.94,
+            "av_uids_per_val": 1893.94,
+            "column_label": "continuous",
+            "column_name": "pwpuma00",
+            "column_type": "int",
+            "max": "70100",
+            "min": "0",
+            "num_distinct_vals": 132,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 12977.8,
+            "std_uids_per_val": 12977.8
+        },
+        "pwstate2": {
+            "av_rows_per_vals": 4545.45,
+            "av_uids_per_val": 4545.45,
+            "column_label": "enumerative",
+            "column_name": "pwstate2",
+            "column_type": "int",
+            "max": "88",
+            "min": "0",
+            "num_distinct_vals": 55,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 20905.1,
+            "std_uids_per_val": 20905.1
+        },
+        "racamind": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "racamind",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 160280.0,
+            "std_uids_per_val": 160280.0
+        },
+        "racasian": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "racasian",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 147809.0,
+            "std_uids_per_val": 147809.0
+        },
+        "racblk": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "racblk",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 140805.0,
+            "std_uids_per_val": 140805.0
+        },
+        "race": {
+            "av_rows_per_vals": 27777.8,
+            "av_uids_per_val": 27777.8,
+            "column_label": "enumerative",
+            "column_name": "race",
+            "column_type": "int",
+            "max": "9",
+            "min": "1",
+            "num_distinct_vals": 9,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 55977.7,
+            "std_uids_per_val": 55977.7
+        },
+        "raced": {
+            "av_rows_per_vals": 1838.24,
+            "av_uids_per_val": 1838.24,
+            "column_label": "continuous",
+            "column_name": "raced",
+            "column_type": "int",
+            "max": "990",
+            "min": "100",
+            "num_distinct_vals": 136,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 15228.8,
+            "std_uids_per_val": 15228.8
+        },
+        "racother": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "racother",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 152195.0,
+            "std_uids_per_val": 152195.0
+        },
+        "racpacis": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "racpacis",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 175207.0,
+            "std_uids_per_val": 175207.0
+        },
+        "racwht": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "racwht",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 82003.2,
+            "std_uids_per_val": 82003.2
+        },
+        "relate": {
+            "av_rows_per_vals": 19230.8,
+            "av_uids_per_val": 19230.8,
+            "column_label": "enumerative",
+            "column_name": "relate",
+            "column_type": "int",
+            "max": "13",
+            "min": "1",
+            "num_distinct_vals": 13,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 30247.4,
+            "std_uids_per_val": 30247.4
+        },
+        "related": {
+            "av_rows_per_vals": 13157.9,
+            "av_uids_per_val": 13157.9,
+            "column_label": "enumerative",
+            "column_name": "related",
+            "column_type": "int",
+            "max": "1301",
+            "min": "101",
+            "num_distinct_vals": 19,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 25648.4,
+            "std_uids_per_val": 25648.4
+        },
+        "riders": {
+            "av_rows_per_vals": 27777.8,
+            "av_uids_per_val": 27777.8,
+            "column_label": "enumerative",
+            "column_name": "riders",
+            "column_type": "int",
+            "max": "9",
+            "min": "0",
+            "num_distinct_vals": 9,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 56061.6,
+            "std_uids_per_val": 56061.6
+        },
+        "schltype": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "schltype",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 80438.8,
+            "std_uids_per_val": 80438.8
+        },
+        "school": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "school",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 87057.4,
+            "std_uids_per_val": 87057.4
+        },
+        "serial": {
+            "av_rows_per_vals": 2.37349,
+            "av_uids_per_val": 2.37349,
+            "column_label": "continuous",
+            "column_name": "serial",
+            "column_type": "int",
+            "max": "105330",
+            "min": "1",
+            "num_distinct_vals": 105330,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 1.51496,
+            "std_uids_per_val": 1.51496
+        },
+        "sex": {
+            "av_rows_per_vals": 125000.0,
+            "av_uids_per_val": 125000.0,
+            "column_label": "enumerative",
+            "column_name": "sex",
+            "column_type": "int",
+            "max": "2",
+            "min": "1",
+            "num_distinct_vals": 2,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 3695.34,
+            "std_uids_per_val": 3695.34
+        },
+        "speakeng": {
+            "av_rows_per_vals": 41666.7,
+            "av_uids_per_val": 41666.7,
+            "column_label": "enumerative",
+            "column_name": "speakeng",
+            "column_type": "int",
+            "max": "6",
+            "min": "0",
+            "num_distinct_vals": 6,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 66956.1,
+            "std_uids_per_val": 66956.1
+        },
+        "ssn": {
+            "av_rows_per_vals": 1.00085,
+            "av_uids_per_val": 1.00085,
+            "column_label": "enumerative",
+            "column_name": "ssn",
+            "column_type": "text",
+            "max": "899-99-0857",
+            "min": "001-01-0345",
+            "num_distinct_vals": 249788,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 0.0291205,
+            "std_uids_per_val": 0.0291205
+        },
+        "street": {
+            "av_rows_per_vals": 1.00065,
+            "av_uids_per_val": 1.00065,
+            "column_label": "enumerative",
+            "column_name": "street",
+            "column_type": "text",
+            "max": "P.O. Box 999, 9939 Aliquam Road",
+            "min": "100 Diam Ave",
+            "num_distinct_vals": 249838,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 0.0254559,
+            "std_uids_per_val": 0.0254559
+        },
+        "trantime": {
+            "av_rows_per_vals": 2873.56,
+            "av_uids_per_val": 2873.56,
+            "column_label": "enumerative",
+            "column_name": "trantime",
+            "column_type": "int",
+            "max": "165",
+            "min": "0",
+            "num_distinct_vals": 87,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 16523.7,
+            "std_uids_per_val": 16523.7
+        },
+        "tranwork": {
+            "av_rows_per_vals": 19230.8,
+            "av_uids_per_val": 19230.8,
+            "column_label": "enumerative",
+            "column_name": "tranwork",
+            "column_type": "int",
+            "max": "70",
+            "min": "0",
+            "num_distinct_vals": 13,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 45644.2,
+            "std_uids_per_val": 45644.2
+        },
+        "uhrswork": {
+            "av_rows_per_vals": 2525.25,
+            "av_uids_per_val": 2525.25,
+            "column_label": "enumerative",
+            "column_name": "uhrswork",
+            "column_type": "int",
+            "max": "99",
+            "min": "0",
+            "num_distinct_vals": 99,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 14165.0,
+            "std_uids_per_val": 14165.0
+        },
+        "uid": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "continuous",
+            "column_name": "uid",
+            "column_type": "int",
+            "max": "250100",
+            "min": "101",
+            "num_distinct_vals": 250000,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "vet01ltr": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "vet01ltr",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 128486.0,
+            "std_uids_per_val": 128486.0
+        },
+        "vetdisab": {
+            "av_rows_per_vals": 31250.0,
+            "av_uids_per_val": 31250.0,
+            "column_label": "enumerative",
+            "column_name": "vetdisab",
+            "column_type": "int",
+            "max": "9",
+            "min": "0",
+            "num_distinct_vals": 8,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 79927.5,
+            "std_uids_per_val": 79927.5
+        },
+        "vetstat": {
+            "av_rows_per_vals": 83333.3,
+            "av_uids_per_val": 83333.3,
+            "column_label": "enumerative",
+            "column_name": "vetstat",
+            "column_type": "int",
+            "max": "2",
+            "min": "0",
+            "num_distinct_vals": 3,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 85457.0,
+            "std_uids_per_val": 85457.0
+        },
+        "vetstatd": {
+            "av_rows_per_vals": 50000.0,
+            "av_uids_per_val": 50000.0,
+            "column_label": "enumerative",
+            "column_name": "vetstatd",
+            "column_type": "int",
+            "max": "20",
+            "min": "0",
+            "num_distinct_vals": 5,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 73432.2,
+            "std_uids_per_val": 73432.2
+        },
+        "wkswork2": {
+            "av_rows_per_vals": 35714.3,
+            "av_uids_per_val": 35714.3,
+            "column_label": "enumerative",
+            "column_name": "wkswork2",
+            "column_type": "int",
+            "max": "6",
+            "min": "0",
+            "num_distinct_vals": 7,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 51412.5,
+            "std_uids_per_val": 51412.5
+        },
+        "workedyr": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "workedyr",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 41532.9,
+            "std_uids_per_val": 41532.9
+        },
+        "wrkrecal": {
+            "av_rows_per_vals": 62500.0,
+            "av_uids_per_val": 62500.0,
+            "column_label": "enumerative",
+            "column_name": "wrkrecal",
+            "column_type": "int",
+            "max": "3",
+            "min": "0",
+            "num_distinct_vals": 4,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 86828.8,
+            "std_uids_per_val": 86828.8
+        },
+        "year": {
+            "av_rows_per_vals": 250000.0,
+            "av_uids_per_val": 250000.0,
+            "column_label": "enumerative",
+            "column_name": "year",
+            "column_type": "int",
+            "max": "2013",
+            "min": "2013",
+            "num_distinct_vals": 1,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": -1.0,
+            "std_uids_per_val": -1.0
+        },
+        "yrimmig": {
+            "av_rows_per_vals": 2976.19,
+            "av_uids_per_val": 2976.19,
+            "column_label": "enumerative",
+            "column_name": "yrimmig",
+            "column_type": "int",
+            "max": "2013",
+            "min": "0",
+            "num_distinct_vals": 84,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 22961.2,
+            "std_uids_per_val": 22961.2
+        },
+        "yrmarr": {
+            "av_rows_per_vals": 3086.42,
+            "av_uids_per_val": 3086.42,
+            "column_label": "enumerative",
+            "column_name": "yrmarr",
+            "column_type": "int",
+            "max": "2013",
+            "min": "0",
+            "num_distinct_vals": 81,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 11754.0,
+            "std_uids_per_val": 11754.0
+        },
+        "yrnatur": {
+            "av_rows_per_vals": 3378.38,
+            "av_uids_per_val": 3378.38,
+            "column_label": "enumerative",
+            "column_name": "yrnatur",
+            "column_type": "int",
+            "max": "9999",
+            "min": "1928",
+            "num_distinct_vals": 74,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 26926.3,
+            "std_uids_per_val": 26926.3
+        },
+        "yrsusa1": {
+            "av_rows_per_vals": 3012.05,
+            "av_uids_per_val": 3012.05,
+            "column_label": "enumerative",
+            "column_name": "yrsusa1",
+            "column_type": "int",
+            "max": "92",
+            "min": "0",
+            "num_distinct_vals": 83,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 23168.6,
+            "std_uids_per_val": 23168.6
+        },
+        "zip": {
+            "av_rows_per_vals": 1.49223,
+            "av_uids_per_val": 1.49223,
+            "column_label": "enumerative",
+            "column_name": "zip",
+            "column_type": "text",
+            "max": "ZZ97 5VP",
+            "min": "00-000",
+            "num_distinct_vals": 167534,
+            "num_rows": 250000,
+            "num_uids": 250000,
+            "std_rows_per_val": 1.34848,
+            "std_uids_per_val": 1.34848
+        }
+    }
+}

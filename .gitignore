@@ -107,11 +107,10 @@ venv.bak/
 *~
 *swp
 *paul*
-attacks/attackResults
-utility/utilityResults
 */cacheDBs
 common/config/myDatabases.json
 *.db
 *.sql
 *.bat
 *.html
+*.png
