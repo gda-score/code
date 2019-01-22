@@ -11,7 +11,7 @@ import requests
 
 # Localhost url
 # TODO: Change URL to server
-url = 'http://127.0.0.1:5890/data'
+url = 'https://db001.gda-score.org/ubertool'
 
 # Client sends Get request
 session = requests.Session()
@@ -33,7 +33,7 @@ try:
     # Client stores the response sent by the simpleServer.py
     # For first request send 'first_request' in params
     # For all subsequent requests, change the query in 'subsequent_request' and put 'subsequent_request' in params
-    response = session.get(url, params=json.dumps(first_request))
+    response = session.get(url, params=json.dumps(first_request), verify=False)
 
     # Client prints the data returned by the server
     resp = response.json()
