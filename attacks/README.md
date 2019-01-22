@@ -24,3 +24,7 @@ Contains the attacks themselves. Typically each attack consists of the basic att
 
 Contain random examples of how to use the APIs from `../common`.
 
+## attacks/attackResults
+
+Contains the outputs for a number of previously run attacks.
+
