@@ -6,7 +6,7 @@ from gdaScore import gdaAttack, gdaScores
 from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack
 
 pp = pprint.PrettyPrinter(indent=4)
-verbose = False
+verbose = True
 v = verbose
 
 
@@ -71,13 +71,13 @@ def runOneAttack(guessedCol, knownCols, attack, table, numClaims):
 # -------------------------- body ---------------------------
 
 def diffix_infer_1_attack(params):
-    """ This is an inference attack against Diffix
+    ''' This is an inference attack against Diffix
 
         In this attack, we find attribute groups where the inference
         conditions exist (one one guessed column value exists for some
         set of one or more known column values). This is designed to work
         against Diffix and Full K-anonymity at least.
-        """
+    '''
     attack = gdaAttack(params)
     
     # -------------------  Exploration Phase  ------------------------
