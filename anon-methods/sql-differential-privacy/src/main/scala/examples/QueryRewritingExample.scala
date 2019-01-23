@@ -19,7 +19,7 @@ import scala.util.parsing.json.JSON
   */
 object QueryRewritingExample extends App {
   // Use the table schemas and metadata defined by the test classes
-  System.setProperty("schema.config.path", "src/test/resources/schema.yaml")
+  System.setProperty("schema.config.path", "src/main/resources/schema.yaml.template")
 
   //Give database name here from schema
   val database = Schema.getDatabase("raw_banking")
