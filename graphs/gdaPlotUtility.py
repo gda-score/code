@@ -38,7 +38,7 @@ def getCoverageScore(score):
     covScore /= numColumns
     return covScore
 
-def buildOneDiagram(score, fileName, form, show):
+def buildOneDiagram(score, fileName, form, show, plotType):
     # tweak the shape by playing with following numbers
     base = 1
     gap = base / 4
@@ -209,7 +209,8 @@ def buildOneDiagram(score, fileName, form, show):
                      horizontalalignment='center', verticalalignment='bottom')
 
     # Set the overall proportion of the figure
-    plt.axes().set_aspect(aspect)
+    #plt.axes().set_aspect(aspect)
+    plt.tight_layout()
 
     params = score['params']
     if 'anonType' in params:
@@ -230,25 +231,36 @@ def buildOneDiagram(score, fileName, form, show):
         utilityMeasure = " "
 
     # Draw the title and explanation texts
-    if anonSubType:
-        highText = maxY + anonTypeLift + lowerTextDrop
-    else:
-        highText = maxY + anonTypeLift
-    plt.text(textPlotXvalue, highText, anonType,
-             horizontalalignment='left', verticalalignment='top', fontsize=20)
-    if anonSubType:
-        highText = highText - lowerTextDrop
-        plt.text(textPlotXvalue + textIndent, highText, anonSubType,
-                 horizontalalignment='left', verticalalignment='top',
-                 fontsize=14)
     lowText = minY - lowerTextDrop
-    plt.text(textPlotXvalue, lowText, "Database: " + dbType,
+    if plotType == 'full':
+        if anonSubType:
+            highText = maxY + anonTypeLift + lowerTextDrop
+        else:
+            highText = maxY + anonTypeLift
+        plt.text(textPlotXvalue, highText, anonType,
                  horizontalalignment='left', verticalalignment='top',
-                 fontsize=15)
-    lowText = lowText - lowerTextDrop
-    plt.text(textPlotXvalue, lowText, "Measure: " + utilityMeasure,
-                 horizontalalignment='left', verticalalignment='top',
-                 fontsize=15)
+                 fontsize=20)
+        if anonSubType:
+            highText = highText - lowerTextDrop
+            plt.text(textPlotXvalue + textIndent, highText, anonSubType,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=14)
+        plt.text(textPlotXvalue, lowText, "Database: " + dbType,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=15)
+        lowText = lowText - lowerTextDrop
+        plt.text(textPlotXvalue, lowText, "Measure: " + utilityMeasure,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=15)
+    else:
+        text = str(f"{anonType}, {dbType}")
+        plt.text(textPlotXvalue, lowText, text,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=10)
+        lowText -= (lowerTextDrop * 0.8)
+        plt.text(textPlotXvalue, lowText, utilityMeasure,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=10)
 
     # For some reason, savefig has to come before show
     if len(fileName) > 0:
@@ -257,10 +269,12 @@ def buildOneDiagram(score, fileName, form, show):
             plt.savefig(path)
     if show:
         plt.show()
+    plt.close()
     return
 
 # This method generates the defense GDA Score diagram
-def plotUtilityScore(score, fileName='', form=['png'], show=True):
+def plotUtilityScore(score, fileName='', form=['png'], show=True,
+        plotType='full'):
     """ Produces a GDA Utility Score Diagram from GDA Score data.
 
         `score` is the score data structure returned from
@@ -271,4 +285,4 @@ def plotUtilityScore(score, fileName='', form=['png'], show=True):
         Set `show` to True if you want the graph displayed
     """
 
-    buildOneDiagram(score, fileName, form, show)
+    buildOneDiagram(score, fileName, form, show, plotType)

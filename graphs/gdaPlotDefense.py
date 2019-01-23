@@ -10,7 +10,7 @@ from gdaUtilities import getInterpolatedValue
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
-def buildOneDiagram(score, oneScore, fileName, form, show):
+def buildOneDiagram(score, oneScore, fileName, form, show, plotType):
     # tweak the shape by playing with following numbers
     base = 1
     gap = base / 4
@@ -262,7 +262,8 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
             facecolor=overallColor))
 
     # Set the overall proportion of the figure
-    plt.axes().set_aspect(aspect)
+    #plt.axes().set_aspect(aspect)
+    plt.tight_layout()
 
     attack = score['params']
     anonSubType = None
@@ -292,27 +293,40 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
 
 
     # Draw the title and explanation texts
-    if anonSubType:
-        highText = maxY + anonTypeLift + lowerTextDrop
-    else:
-        highText = maxY + anonTypeLift
-    plt.text(textPlotXvalue, highText, anonType,
-             horizontalalignment='left', verticalalignment='top', fontsize=20)
-    if anonSubType:
-        highText = highText - lowerTextDrop
-        plt.text(textPlotXvalue + textIndent, highText, anonSubType,
-                 horizontalalignment='left', verticalalignment='top',
-                 fontsize=14)
     lowText = minY - lowerTextDrop
-    plt.text(textPlotXvalue, lowText, "Attack: " + attackType,
-              horizontalalignment='left', verticalalignment='top', fontsize=15)
-    lowText -= lowerTextDrop
-    plt.text(textPlotXvalue + textIndent, lowText, info,
-              horizontalalignment='left', verticalalignment='top', fontsize=12)
-    lowText -= lowerTextDrop
-    plt.text(textPlotXvalue, lowText, "Database: " + dbType,
+    if plotType == 'full':
+        if anonSubType:
+            highText = maxY + anonTypeLift + lowerTextDrop
+        else:
+            highText = maxY + anonTypeLift
+        plt.text(textPlotXvalue, highText, anonType,
                  horizontalalignment='left', verticalalignment='top',
-                 fontsize=15)
+                 fontsize=20)
+        if anonSubType:
+            highText = highText - lowerTextDrop
+            plt.text(textPlotXvalue + textIndent, highText, anonSubType,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=14)
+        plt.text(textPlotXvalue, lowText, "Attack: " + attackType,
+                  horizontalalignment='left', verticalalignment='top',
+                  fontsize=15)
+        lowText -= lowerTextDrop
+        plt.text(textPlotXvalue + textIndent, lowText, info,
+                  horizontalalignment='left', verticalalignment='top',
+                  fontsize=12)
+        lowText -= lowerTextDrop
+        plt.text(textPlotXvalue, lowText, "Database: " + dbType,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=15)
+    else:
+        text = str(f"{anonType}, {dbType}, {attackType}")
+        plt.text(textPlotXvalue, lowText, text,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=10)
+        lowText -= (lowerTextDrop * 0.8)
+        plt.text(textPlotXvalue + textIndent, lowText, info,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=10)
 
     # Plot the box
     if(False):
@@ -344,7 +358,8 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
     return
 
 # This method generates the defense GDA Score diagram
-def plotDefenseScore(score, fileName='', form=['png'], show=True):
+def plotDefenseScore(score, fileName='', form=['png'], show=True,
+        plotType='full'):
     """ Produces a GDA Defense Score Diagram from GDA Score data.
 
         `score` is the score data structure returned from
@@ -356,4 +371,4 @@ def plotDefenseScore(score, fileName='', form=['png'], show=True):
     """
 
     for oneScore in score['score']['scores']:
-        buildOneDiagram(score, oneScore, fileName, form, show)
+        buildOneDiagram(score, oneScore, fileName, form, show, plotType)
