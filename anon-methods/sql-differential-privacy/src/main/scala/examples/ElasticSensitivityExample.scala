@@ -51,7 +51,7 @@ import scala.util.parsing.json.JSON
   */
 object ElasticSensitivityExample extends App {
   // Use the table schemas and metadata defined by the test classes
-  System.setProperty("schema.config.path", "src/main/resources/schema.yaml.template")
+  System.setProperty("schema.config.path", "schema.yaml.template")
 
 
 
