@@ -5,15 +5,12 @@ import math
 from matplotlib.patches import Rectangle
 import json
 import numpy as np
-
 sys.path.append('../common')
 from gdaUtilities import getInterpolatedValue
 import pprint
-
 pp = pprint.PrettyPrinter(indent=4)
 
-
-def buildOneDiagram(score, oneScore, fileName, form, show):
+def buildOneDiagram(score, oneScore, fileName, form, show, plotType):
     # tweak the shape by playing with following numbers
     base = 1
     gap = base / 4
@@ -147,7 +144,7 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
     else:
         overallHt = s['defense'] - maxY
 
-    valColors = ['black', 'black', 'black', 'black', 'black', 'black']
+    valColors = ['black','black','black','black','black','black']
     if s['defense'] > 0.9:
         overallColor = 'green'
         valColors[over] = 'white'
@@ -219,7 +216,7 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
         prSus = "%.2f" % (s['susceptibility'])
     else:
         prSus = None
-    labels_score = [prOver, prConf, prClaim, prKnow, prWork, prSus]
+    labels_score = [prOver,prConf,prClaim,prKnow,prWork,prSus]
     for i in range(len(labels_score)):
         heightoriginal = heights[i]
         if doLabel[i] == 0:
@@ -227,21 +224,21 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
         if (heightoriginal > 0):
             if (heightoriginal <= heightposth):
                 plt.text(centers[i], heightoriginal + scoregap,
-                         labels_score[i], horizontalalignment='center',
-                         verticalalignment='center', color=valColors[i])
+                        labels_score[i], horizontalalignment='center',
+                        verticalalignment='center',color=valColors[i])
             else:
                 plt.text(centers[i], heightoriginal - scoregap,
-                         labels_score[i], horizontalalignment='center',
-                         verticalalignment='center', color=valColors[i])
+                        labels_score[i], horizontalalignment='center',
+                        verticalalignment='center',color=valColors[i])
         else:
             if (heightoriginal >= heightnegth):
                 plt.text(centers[i], heightoriginal - scoregap,
-                         labels_score[i], horizontalalignment='center',
-                         verticalalignment='center', color=valColors[i])
+                        labels_score[i], horizontalalignment='center',
+                        verticalalignment='center',color=valColors[i])
             else:
                 plt.text(centers[i], heightoriginal + scoregap,
-                         labels_score[i], horizontalalignment='center',
-                         verticalalignment='center', color=valColors[i])
+                        labels_score[i], horizontalalignment='center',
+                        verticalalignment='center',color=valColors[i])
 
     # plot the bar labels
     for i in range(len(labels)):
@@ -258,14 +255,15 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
         # Leave these lines, but don't make vertical bar for now
         currentAxis = plt.gca()
         currentAxis.add_patch(Rectangle((midVertical, overallHt),
-                                        axisLength - midVertical, 0.045, alpha=0.6,
-                                        facecolor=overallColor))
+            axisLength - midVertical, 0.045, alpha=0.6,
+            facecolor=overallColor))
         currentAxis.add_patch(Rectangle((midVertical, overallHt),
-                                        axisLength - midVertical, -0.045, alpha=0.6,
-                                        facecolor=overallColor))
+            axisLength - midVertical, -0.045, alpha=0.6,
+            facecolor=overallColor))
 
     # Set the overall proportion of the figure
-    plt.axes().set_aspect(aspect)
+    #plt.axes().set_aspect(aspect)
+    plt.tight_layout()
 
     attack = score['params']
     anonSubType = None
@@ -293,48 +291,62 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
     else:
         info = str(f"Report on {used} attacked columns")
 
+
     # Draw the title and explanation texts
-    if anonSubType:
-        highText = maxY + anonTypeLift + lowerTextDrop
-    else:
-        highText = maxY + anonTypeLift
-    plt.text(textPlotXvalue, highText, anonType,
-             horizontalalignment='left', verticalalignment='top', fontsize=20)
-    if anonSubType:
-        highText = highText - lowerTextDrop
-        plt.text(textPlotXvalue + textIndent, highText, anonSubType,
-                 horizontalalignment='left', verticalalignment='top',
-                 fontsize=14)
     lowText = minY - lowerTextDrop
-    plt.text(textPlotXvalue, lowText, "Attack: " + attackType,
-             horizontalalignment='left', verticalalignment='top', fontsize=15)
-    lowText -= lowerTextDrop
-    plt.text(textPlotXvalue + textIndent, lowText, info,
-             horizontalalignment='left', verticalalignment='top', fontsize=12)
-    lowText -= lowerTextDrop
-    plt.text(textPlotXvalue, lowText, "Database: " + dbType,
-             horizontalalignment='left', verticalalignment='top',
-             fontsize=15)
+    if plotType == 'full':
+        if anonSubType:
+            highText = maxY + anonTypeLift + lowerTextDrop
+        else:
+            highText = maxY + anonTypeLift
+        plt.text(textPlotXvalue, highText, anonType,
+                 horizontalalignment='left', verticalalignment='top',
+                 fontsize=20)
+        if anonSubType:
+            highText = highText - lowerTextDrop
+            plt.text(textPlotXvalue + textIndent, highText, anonSubType,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=14)
+        plt.text(textPlotXvalue, lowText, "Attack: " + attackType,
+                  horizontalalignment='left', verticalalignment='top',
+                  fontsize=15)
+        lowText -= lowerTextDrop
+        plt.text(textPlotXvalue + textIndent, lowText, info,
+                  horizontalalignment='left', verticalalignment='top',
+                  fontsize=12)
+        lowText -= lowerTextDrop
+        plt.text(textPlotXvalue, lowText, "Database: " + dbType,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=15)
+    else:
+        text = str(f"{anonType}, {dbType}, {attackType}")
+        plt.text(textPlotXvalue, lowText, text,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=10)
+        lowText -= (lowerTextDrop * 0.8)
+        plt.text(textPlotXvalue + textIndent, lowText, info,
+                     horizontalalignment='left', verticalalignment='top',
+                     fontsize=10)
 
     # Plot the box
-    if (False):
+    if(False):
         # Go without box for now
         # draw horizontal lines
         plt.plot([horlineX, horlineY],
-                 [maxY + verlineGap, maxY + verlineGap],
-                 color='black', linewidth=2.8)  # line 1 top
+                [maxY + verlineGap, maxY + verlineGap],
+                color='black', linewidth=2.8)  # line 1 top
         plt.plot([horlineX, horlineY],
-                 [minY + horlineX, minY + horlineX],
-                 color='black', linewidth=5)  # line 2 down
+                [minY + horlineX, minY + horlineX],
+                color='black', linewidth=5)  # line 2 down
 
         # draw vertical lines
         changegap = -0.6
         plt.plot([horlineX, horlineX],
-                 [maxY + verlineGap, minY + changegap],
-                 color='black', linewidth=3.5)  # line 1 left
+                [maxY + verlineGap, minY + changegap],
+                color='black', linewidth=3.5)  # line 1 left
         plt.plot([verlineX, verlineY],
-                 [maxY + verlineGap, minY + horlineX],
-                 color='black', linewidth=3.9)  # line 2 right
+                [maxY + verlineGap, minY + horlineX],
+                color='black', linewidth=3.9)  # line 2 right
 
     # For some reason, savefig has to come before show
     if len(fileName) > 0:
@@ -345,9 +357,9 @@ def buildOneDiagram(score, oneScore, fileName, form, show):
         plt.show()
     return
 
-
 # This method generates the defense GDA Score diagram
-def plotDefenseScore(score, fileName='', form=['png'], show=True):
+def plotDefenseScore(score, fileName='', form=['png'], show=True,
+        plotType='full'):
     """ Produces a GDA Defense Score Diagram from GDA Score data.
 
         `score` is the score data structure returned from
@@ -359,5 +371,4 @@ def plotDefenseScore(score, fileName='', form=['png'], show=True):
     """
 
     for oneScore in score['score']['scores']:
-        buildOneDiagram(score, oneScore, fileName, form, show)
-
+        buildOneDiagram(score, oneScore, fileName, form, show, plotType)
