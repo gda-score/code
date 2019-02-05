@@ -264,7 +264,7 @@ class gdaAttack:
                rawDb = '',
                anonDb = '',
                pubDb = '',
-               criteria = '',
+               criteria = 'singlingOut',
                table = '',
                uid = 'uid',
                flushCache=False,
@@ -275,7 +275,7 @@ class gdaAttack:
                numAnonDbThreads = 3,
                numPubDbThreads = 3,
               )
-    _requiredParams = ['name','rawDb','anonDb','criteria']
+    _requiredParams = ['name','rawDb']
 
     # ---------- Private internal state
     # Threads
@@ -312,12 +312,13 @@ class gdaAttack:
             the cache is discovered using this name. <br/>
             `param['rawDb']`: The label for the DB to be used as the
             raw (non-anonymized) DB. <br/>
-            `param['anonDb']`: The label for the DB to be used as the
-            anonymized DB. <br/>
+            Following are the optional parameters: <br/>
             `param['criteria']`: The criteria by which the attack should
             determined to succeed or fail. Must be one of 'singlingOut',
-            'inference', or 'linkability' <br/>
-            Following are the optional parameters: <br/>
+            'inference', or 'linkability'. Default is 'singlingOut'. <br/>
+            `param['anonDb']`: The label for the DB to be used as the
+            anonymized DB. (Is automatically set to `param['rawDb']` if
+            not set.) <br/>
             `param['pubDb']`: The label for the DB to be used as the
             publicly known DB in linkability attacks. <br/>
             `param['table']`: The table to be attacked. Must be present
@@ -679,8 +680,8 @@ class gdaAttack:
             No score book-keeping is done here. An analyst may make
             any number of queries without impacting the GDA score. <br/>
             `query` is a dictionary with two values: <br/>
-            `query['sql'] contains the SQL query. <br/>
-            `query['db'] determines which database is queried, and
+            `query['sql']` contains the SQL query. <br/>
+            `query['db']` determines which database is queried, and
             is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'."""
 
         self._exploreCounter += 1
@@ -946,6 +947,7 @@ class gdaAttack:
             if key == "verbose":
                 if val != False:
                     self._vb = True
+            # Check criteria
             if key == "criteria":
                 if (val == 'singlingOut' or val == 'inference' or
                         val == 'linkability'):
@@ -1145,16 +1147,19 @@ class gdaAttack:
         return numCells
 
     def _doParamChecks(self):
-        dbInfo = getDatabaseInfo(self._p['anonDb'])
-        if not dbInfo:
-            sys.exit('')
-        dbInfo = getDatabaseInfo(self._p['rawDb'])
-        if not dbInfo:
-            sys.exit('')
+        dbInfoRaw = getDatabaseInfo(self._p['rawDb'])
+        if not dbInfoRaw:
+            sys.exit('rawDb now found in database config')
+        if len(self._p['anonDb']) == 0:
+            self._p['anonDb'] = self._p['rawDb']
+        else:
+            dbInfoAnon = getDatabaseInfo(self._p['anonDb'])
+            if not dbInfoAnon:
+                sys.exit('anonDb not found in database config')
         if self._cr == 'linkability':
             dbInfo = getDatabaseInfo(self._p['pubDb'])
             if not dbInfo:
-                sys.exit('')
+                sys.exit('Must specify pubDb if criteria is linkability')
         numThreads = self._p['numRawDbThreads'] + self._p['numAnonDbThreads']
         if self._cr == 'linkability':
             numThreads += self._p['numPubDbThreads']
