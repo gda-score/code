@@ -509,8 +509,6 @@ class gdaUtility:
         pmList = json.load(f)
         f.close()
         for pm in pmList:
-            if 'criteria' not in pm or len(pm['criteria']) == 0:
-                pm['criteria'] = "singlingOut"
             if 'verbose' in pm:
                 self._p = pm['verbose']
             # The following prevents me from getting verbose output from
