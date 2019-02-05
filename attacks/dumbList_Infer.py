@@ -2,7 +2,7 @@ import sys
 import pprint
 sys.path.append('../common')
 from gdaScore import gdaAttack, gdaScores
-from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack
+from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack,makeInNotNullConditions
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -64,7 +64,8 @@ def dumb_list_inference_attack(params):
         # And now run the attack for some fraction of the attackable cells
         sql = "SELECT "
         sql += comma_ize(remainingCols)
-        sql += str(f"max({guessedCol}) FROM {table} ")
+        sql += str(f"max({guessedCol}) FROM {table} WHERE ")
+        sql += makeInNotNullConditions(remainingCols)
         sql += makeGroupBy(remainingCols)
         sql += str(f" HAVING count(DISTINCT {guessedCol}) = 1 ")
         sql += str(f"ORDER BY 1 LIMIT 20")
