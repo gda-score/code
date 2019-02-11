@@ -19,13 +19,16 @@ session = requests.Session()
 # Exception handling in case exception occurs while connecting to server
 try:
 
-    # JSON payload to use for first request where 'sid' is set to Null
+    # For first request use 'query': '' and 'sid': ''
     # When sid is Null it indicates start of a session
     # Client sends this data in url
+    # In subsequent requests set the sid returned by the server
+	# Use the sid returned by the server in subsequent requests if the request is from the same client
+	# Set sid back to NULL when you want to start a new session
     first_request = {
-        'query': 'SELECT count(account_id) FROM accounts',
+        'query': '',
         'epsilon': '1.0',
-        'budget': '2.0',
+        'budget': '3.0',
         'dbname': 'raw_banking',
         'sid': ''
     }
@@ -38,21 +41,13 @@ try:
     # Client prints the data returned by the server
     resp = response.json()
 
-    # Use this JSON Payload in all requests after first request
-    subsequent_request = {
-        'query': 'SELECT count(account_id) FROM accounts',
-        'epsilon': '1.0',
-        'budget': '2.0',
-        'dbname': 'raw_banking',
-        'sid': str(resp[1])
-    }
-
-    print("Noisy Result: " + str(resp[0]))
-    print("Please put the Session ID in the JSON payload in subsequent requests.")
+    
+    print("Query Result: " + str(resp[0]))    
     print("Session ID: " + str(resp[1]))
+	print("Please put the Session ID in the JSON payload in subsequent requests.")
 
     # Client prints the response code
-    print(response)
+    print("Response Code: " + response)
 
 except requests.ConnectionError as e:
     print("Connection Error. Make sure you are connected to Internet.")
