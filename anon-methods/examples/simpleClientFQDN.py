@@ -38,6 +38,7 @@ try:
     # Client prints the data returned by the server
     resp = response.json()
 
+    # Regular expression to check if response has digits
     if (bool(re.search(r'\d', str(resp[0])))):
         print("Query Result: " + str(resp[0]))
     else:
