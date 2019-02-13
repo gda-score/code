@@ -10,8 +10,7 @@ import re
 
 import requests
 
-# Localhost url
-# TODO: Change URL to server
+# Server url
 url = 'https://db001.gda-score.org/ubertool'
 
 # Client sends Get request
