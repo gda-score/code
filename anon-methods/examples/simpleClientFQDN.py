@@ -7,7 +7,7 @@ and prints them in JSON along with a HTTP response code
 
 import json
 import re
-
+import pprint
 import requests
 
 # Server url
@@ -38,17 +38,18 @@ try:
     # Client prints the data returned by the server
     resp = response.json()
 
-    # Regular expression to check if response has digits
-    if (bool(re.search(r'\d', str(resp[0])))):
-        print("Query Result: " + str(resp[0]))
-    else:
-        print("Error: " + str(resp[0]))
+    for item in resp[0]:
+        noisy_result = item
+
+    response_json = {
+            'Query Result': item,
+            'Session ID': resp[1],
+            'Response Code': response
+        }
+    pprint.pprint(response_json)
+
 
     print("Please put the Session ID in the JSON payload in subsequent requests.")
-    print("Session ID: " + str(resp[1]))
-
-    # Client prints the response code
-    print("Response Code:" + response)
 
 
 except requests.ConnectionError as e:
