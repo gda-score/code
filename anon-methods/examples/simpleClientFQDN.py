@@ -24,7 +24,7 @@ try:
     # Client sends this data in url
     # In subsequent requests set the sid returned by the server and send queries
     request = {
-        'query': 'SELECT count(uid) from accounts',
+        'query': '',
         'epsilon': '1.0',
         'budget': '3.0',
         'dbname': 'raw_banking',
@@ -32,22 +32,13 @@ try:
     }
 
     # Client stores the response sent by the simpleServer.py
-
+    # For first request send 'first_request' in params
+    # For all subsequent requests, change the query in 'subsequent_request' and put 'subsequent_request' in params
     response = session.get(url, params=json.dumps(request), verify=False)
 
     # Client prints the data returned by the server
     resp = response.json()
-
-    for item in resp[0]:
-        noisy_result = item
-
-    response_json = {
-            'Query Result': item,
-            'Session ID': resp[1],
-            'Response Code': response
-        }
-    pprint.pprint(response_json)
-
+    pprint.pprint(resp)
 
     print("Please put the Session ID in the JSON payload in subsequent requests.")
 
