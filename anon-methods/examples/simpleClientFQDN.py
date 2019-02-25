@@ -16,44 +16,44 @@ url = 'https://db001.gda-score.org/ubertool'
 # Client sends Get request
 session = requests.Session()
 
-# Exception handling in case exception occurs while connecting to server
-try:
+querylist = ['', 'SELECT COUNT(account_id) FROM accounts']
+for v in querylist:
+    # Exception handling in case exception occurs while connecting to server
+    try:
 
-    # For first request use 'query': '' and 'sid': ''
-    # When sid is Null it indicates start of a session
-    # Client sends this data in url
-    # In subsequent requests set the sid returned by the server and send queries
-    request = {
-        'query': '',
-        'epsilon': '1.0',
-        'budget': '3.0',
-        'dbname': 'raw_banking',
-        'sid': ''
-    }
+        # For first request use 'query': '' and 'sid': ''
+        # When sid is Null it indicates start of a session
+        # Client sends this data in url
+        # In subsequent requests set the sid returned by the server
+        # SELECT count(uid) from accounts
+        request = {
+            'query': v,
+            'epsilon': '1.0',
+            'budget': '3.0',
+            'dbname': 'raw_banking',
+            'sid': ''
+        }
 
-    # Client stores the response sent by the simpleServer.py
-    # For first request send 'first_request' in params
-    # For all subsequent requests, change the query in 'subsequent_request' and put 'subsequent_request' in params
-    response = session.get(url, params=json.dumps(request), verify=False)
+        # Client stores the response sent by the simpleServer.py
+        response = session.get(url, params=json.dumps(request), verify=False)
 
-    # Client prints the data returned by the server
-    resp = response.json()
-    pprint.pprint(resp)
+        # Client prints the data returned by the server
+        resp = response.json()
+        pprint.pprint(resp)
 
-    print("Please put the Session ID in the JSON payload in subsequent requests.")
+        print("Please put the Session ID in the JSON payload in subsequent requests.")
 
+    except requests.ConnectionError as e:
+        print("Connection Error. Make sure you are connected to Internet.")
+        print(str(e))
 
-except requests.ConnectionError as e:
-    print("Connection Error. Make sure you are connected to Internet.")
-    print(str(e))
+    except requests.Timeout as e:
+        print("Timeout Error")
+        print(str(e))
 
-except requests.Timeout as e:
-    print("Timeout Error")
-    print(str(e))
+    except requests.RequestException as e:
+        print("General Error")
+        print(str(e))
 
-except requests.RequestException as e:
-    print("General Error")
-    print(str(e))
-
-except KeyboardInterrupt:
-    print("Program closed")
+    except KeyboardInterrupt:
+        print("Program closed")
