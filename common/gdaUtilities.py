@@ -12,13 +12,8 @@ def getDatabaseInfo(dbName):
     # This is kludgey, but try to find the location of the config file
     # relative to where we are. The root directory here must be above
     # the directory from which the code is being executed
-    dbConfig = "code/common/config/myDatabases.json"
-    path = dbConfig
-    for x in range(5):
-        path = "../" + path
-        if os.path.isfile(path):
-            break
-        pass
+    dbConfig = "/code/common/config/myDatabases.json"
+    path = os.path.dirname(sys.path[1]) + dbConfig
     fh = open(path, "r")
     j = json.load(fh)
     if dbName in j:
