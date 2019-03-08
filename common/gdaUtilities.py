@@ -52,7 +52,10 @@ def setupGdaAttackParameters(cmdArgs, criteria='', attackType=''):
             > {cmdArgs[0]}
         """)
     if len(cmdArgs) == 1:
-        fileName = cmdArgs[0] + '.json'
+        cmdName = os.path.basename(cmdArgs[0])
+        if len(cmdName) == 0:
+            sys.exit(usageStr)
+        fileName = cmdName + '.json'
     elif len(cmdArgs) != 2:
         sys.exit(usageStr)
     else:
