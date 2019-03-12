@@ -62,10 +62,10 @@ object ElasticSensitivityExample extends App {
 
   // path where JSON files are created by simpleServer.py
 
-  val path: String = "/root/files/jsonreq/"
+  val path: String = "/home/flask/files/jsonreq/"
 
   //path where Result files are created by ElasticSensitivityExample.scala
-  val pathRes: String = "/root/files/noisyres/"
+  val pathRes: String = "/home/flask/files/noisyres/"
 
   // privacy budget initially set to 0
   var EPSILON = 0.0
@@ -79,6 +79,12 @@ object ElasticSensitivityExample extends App {
   // variable to store the time of last modified file
   var time1 = 0.0
 
+  // array to store the files created by simpleServer.py
+  var files: Array[File] = _
+
+  // temporary variable to store the name of last file created by simpleServer.py
+  var tempLastFileCreated: File = _
+
   // timer to check the directory for new files periodically
   val t = new java.util.Timer()
   val task = new java.util.TimerTask {
@@ -86,23 +92,42 @@ object ElasticSensitivityExample extends App {
 
       // get the name of the latest file created by simpleServer.py
       val dir: File = new File(path)
-      val files: Array[File] = dir.listFiles()
-      if (files == null || files.length == 0) {
-        throw new NoSuchElementException("No files exist!")
+
+      // try-catch block in case no files are present in the JSON request directory
+      try {
+        files = dir.listFiles()
+        if (files == null || files.length == 0) {
+          //        throw new NoSuchElementException("No files exist!")
+          println("No files found")
+        }
+      }
+      catch{
+        case e: NoSuchElementException => println("No files found.")
       }
 
-      var tempLastFileCreated: File = files(0)
+
+      try {
+        tempLastFileCreated = files(0)
+      }
+      catch {
+        case e: Exception => println("Array out of bound.")
+      }
 
       // temporary variable to check last modified time of latest file
       var time2 = time1
 
       // find last modified file
       var i = 0
-      for (i <- 0 until files.length) {
-        if (tempLastFileCreated.lastModified() <= files(i).lastModified()) {
-          tempLastFileCreated = files(i)
-          time2 = tempLastFileCreated.lastModified()
+      try {
+        for (i <- 0 until files.length) {
+          if (tempLastFileCreated.lastModified() <= files(i).lastModified()) {
+            tempLastFileCreated = files(i)
+            time2 = tempLastFileCreated.lastModified()
+          }
         }
+      }
+      catch {
+        case e: NullPointerException => println("Exception occurred.")
       }
 
       // check if any new file has been generated or any file has been modified by simpleServer.py
@@ -158,16 +183,25 @@ object ElasticSensitivityExample extends App {
           val conn = DriverManager.getConnection(con_str)
 
           // run extracted query on the database to get private result
+          // try-catch block to handle exception while executing queries on the database
           try {
             val stm = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)
             val rs = stm.executeQuery(query)
 
             while (rs.next) {
 
-              // query result when executed on the database
-              QUERY_RESULT = rs.getString(1).toDouble;
-
+              // try-catch block to handle String to Double conversion error
+              try {
+                // query result when executed on the database
+                QUERY_RESULT = rs.getString(1).toDouble;
+              }
+              catch {
+                case e: Exception => new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
+                  write(e.toString);
+                  close
+              }
             }
+          }
           }
 
           catch {
@@ -206,8 +240,9 @@ object ElasticSensitivityExample extends App {
         }
         else{
           new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
-            write("No query was sent.");
+            write("No query was sent.")
             close
+            println("No query sent.")
           }
 
         }

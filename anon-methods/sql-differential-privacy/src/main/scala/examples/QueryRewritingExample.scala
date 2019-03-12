@@ -30,7 +30,7 @@ object QueryRewritingExample extends App {
 
   // give path where JSON files are created by simpleServer.py
 
-  val path: String = "/root/files/jsonreq/"
+  val path: String = "/home/flask/files/jsonreq/"
 
   // privacy budget
   val EPSILON = 0.1
@@ -132,7 +132,7 @@ object QueryRewritingExample extends App {
 
           // write noisy result to .txt file with timestamp
 
-          new PrintWriter("/root/files/noisyres/result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
+          new PrintWriter("/home/flask/files/noisyres/result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
             write(rewrittenQuery.toSql());
             close
           }
