@@ -252,7 +252,7 @@ class gdaUtility:
             # evaluate coverage
             sql = "SELECT "
             sql += (colName)
-            if(param['measureParam']=="*"):
+            if(param['measureParam']=="rows"):
                 sql += str(f", count(*) FROM {table} ")
             else:
                 sql += str(f", count( distinct {param['uid']}) FROM {table} ")
@@ -344,11 +344,18 @@ class gdaUtility:
         final['finished'] = True
         j = json.dumps(final, sort_keys=True, indent=4)
         resultsPath = params['resultsPath']
+
+        directory=os.path.dirname(resultsPath)
+        if not os.path.exists(directory):
+            e = str(f"Directory doesn't exists in the {resultsPath} to create a file. Create a directory")
+            sys.exit(e)
+
         try:
             f = open(resultsPath, 'w')
         except:
             e = str(f"Failed to open {resultsPath} for write")
             sys.exit(e)
+
         f.write(j)
         f.close()
         return final
@@ -429,7 +436,7 @@ class gdaUtility:
             absDict['stddev'] = None
         absDict['meanSquareError'] = absError
 
-        if (param['measureParam']) == "*":
+        if (param['measureParam']) == "rows":
             absDict['compute'] = "(count((*)rawDb)-count((*)anonDb))"
         else:
             absDict['compute']="(count(distinct_rawDb)-count(distinct_anonDb))"
@@ -445,7 +452,7 @@ class gdaUtility:
         else:
             simpleRelDict['stddev'] = None
         simpleRelDict['meanSquareError'] = simpleRelError
-        if(param['measureParam'])=="*":
+        if(param['measureParam'])=="rows":
             simpleRelDict['compute'] = "(count(rawDb(*))/count(anonDb(*)))"
         else:
             simpleRelDict['compute'] = "(count(distinct_rawDb)/count(distinct_anonDb))"
@@ -462,7 +469,7 @@ class gdaUtility:
             relDict['stddev'] = None
 
         relDict['meanSquareError'] = relError
-        if (param['measureParam']) == "*":
+        if (param['measureParam']) == "rows":
             relDict[
                 'compute'] = "(abs(count((*)rawDb)-count((*)anonDb))/max(count((*)rawDb),count((*)anonDb)))"
         else:
@@ -516,31 +523,33 @@ class gdaUtility:
             # gdaUtility()
             #pm['verbose'] = False
 
-            if 'name' not in pm or len(pm['name']) == 0:
-                baseName = str(f"{sys.argv[0]}")
-                if 'anonType' in pm and len(pm['anonType']) > 0:
-                    baseName += str(f".{pm['anonType']}")
-                if 'anonSubType' in pm and len(pm['anonSubType']) > 0:
-                    baseName += str(f".{pm['anonSubType']}")
-                if 'dbType' not in pm or len(pm['dbType']) == 0:
-                    baseName += str(f".{pm['rawDb']}.{pm['anonDb']}")
-                else:
-                    baseName += str(f".{pm['dbType']}")
-                if 'table' in pm and len(pm['table']) > 0:
-                    baseName += str(f".{pm['table']}")
-            else:
-                baseName = pm['name']
+            baseName = ""
+
+            if 'rawDb' in pm and len(pm['rawDb']) > 0:
+                rawdbName=getDatabaseInfo(pm['rawDb'])['dbname']
+                baseName+=str(f"{rawdbName}")
+            if 'table' in pm and len(pm['table']) > 0:
+                baseName += str(f".{pm['table']}")
+            if 'anonDb' in pm or len(pm['anonDb']) > 0:
+                anondbName = getDatabaseInfo(pm['anonDb'])['dbname']
+                baseName += str(f"_{anondbName}.{pm['table']}")
+            if 'measureParam' in pm and len(pm['measureParam']) > 0:
+                baseName += str(f".{pm['measureParam']}")
             pm['name'] = baseName
             if 'samples' not in pm:
                 pm['samples'] = 25
             if 'ranges' not in pm:
                 pm['ranges'] = [[10,50],[50,100],[100,500],
                         [500,1000],[1000,5000]]
-            resultsDir = "utilityResults";
+
+
+            #Default path if resultDir is not sepcified in the parameters.
+            resultsDir = "../../scores/utility";
+
             if 'resultsDir' in pm and len(pm['resultsDir']) > 0:
                 resultsDir = pm['resultsDir']
 
-            resultsPath = resultsDir + "/" + baseName + "_out.json"
+            resultsPath = resultsDir + "/" + baseName + ".json"
             pm['resultsPath'] = resultsPath
             pm['finished'] = False
             try:
@@ -559,7 +568,7 @@ class gdaUtility:
     def _doExplore(self,attack,db,sql):
         query = dict(db=db, sql=sql)
         if self._p: print(sql)
-        print(sql)
+        print(sql)   
         attack.askExplore(query)
         reply = attack.getExplore()
         if 'answer' not in reply:
