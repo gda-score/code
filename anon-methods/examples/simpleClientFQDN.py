@@ -8,16 +8,17 @@ and prints them in JSON along with a HTTP response code
 import json
 import requests
 import pprint
-
+import functools
 
 url = 'https://db001.gda-score.org/ubertool'  # Server URL
 
 sid = ''  # Initialize Session ID variable
 
 # Make a Query list with count of number of times each query should be executed
-querylist = [{'query': '', 'count': 1}, {'query': 'SELECT FREQUENCY, COUNT(*) FROM accounts GROUP BY 1', 'count': 1}]
+querylist = [{'query': '', 'count': 1}, {'query': 'SELECT COUNT(*) FROM accounts', 'count': 2}]
 
-session = requests.Session() # Client establishes a session
+session = requests.Session()  # Client establishes a session
+session.get_orig, session.get = session.get, functools.partial(session.get, timeout=30)  # Set timeout factor here
 
 
 # For loops to send queries from querylist
