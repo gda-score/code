@@ -629,7 +629,12 @@ class gdaAttack:
         reply['stillToCome'] = self._attackCounter
         self._atrs['base']['attackGets'] += 1
         if 'cells' in reply:
-            self._atrs['base']['attackCells'] += reply['cells']
+            if reply['cells'] == 0:
+                self._atrs['base']['attackCells'] += 1
+            else:
+                self._atrs['base']['attackCells'] += reply['cells']
+        else:
+            self._atrs['base']['attackCells'] += 1
         return(reply)
 
     def askKnowledge(self,query,cache=True):
