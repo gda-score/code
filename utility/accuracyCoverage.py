@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append('../common')
-from gdaUtility import gdaUtility
+from utility.gdaUtility import gdaUtility
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 

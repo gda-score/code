@@ -2,8 +2,8 @@
 #from gdaScore import gdaAttack
 import sys
 sys.path.append('../common')
-from gdaUtilities import comma_ize,makeGroupBy
-from gdaScore import gdaAttack
+from common.gdaUtilities import comma_ize,makeGroupBy
+from common.gdaScore import gdaAttack
 from statistics import mean,median,stdev
 import pprint
 import json

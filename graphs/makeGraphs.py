@@ -4,8 +4,8 @@ import pprint
 import json
 import argparse
 sys.path.append('../graphs')
-from gdaPlotDefense import plotDefenseScore
-from gdaPlotUtility import plotUtilityScore
+from graphs.gdaPlotDefense import plotDefenseScore
+from graphs.gdaPlotUtility import plotUtilityScore
 
 def runOneDirectory(jsonDir, graphDir, plotType, scoreType, force):
     jsonFiles = os.listdir(jsonDir)

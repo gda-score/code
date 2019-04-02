@@ -2,8 +2,8 @@ import sys
 import pprint
 import itertools
 sys.path.append('../common')
-from gdaScore import gdaAttack, gdaScores
-from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack
+from common.gdaScore import gdaAttack, gdaScores
+from common.gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack
 
 pp = pprint.PrettyPrinter(indent=4)
 verbose = True

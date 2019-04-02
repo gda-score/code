@@ -12,9 +12,9 @@ def getDatabaseInfo(dbName):
     # This is kludgey, but try to find the location of the config file
     # relative to where we are. The root directory here must be above
     # the directory from which the code is being executed
-    dbConfig = "code/common/config/myDatabases.json"
+    dbConfig = "common/config/myDatabases.json"
     path = dbConfig
-    for x in range(5):
+    for x in range(20):
         path = "../" + path
         if os.path.isfile(path):
             break
@@ -225,3 +225,5 @@ def getInterpolatedValue(val0,val1,scoreGrid):
     frac = hypoPart / hypoFull
     interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
     return interpScore
+
+

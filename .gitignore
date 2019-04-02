@@ -114,3 +114,9 @@ common/config/myDatabases.json
 *.bat
 *.html
 *.png
+ 
+
+ /.idea/
+ /build/
+ /dist/
+ /gda_score_code.egg-info

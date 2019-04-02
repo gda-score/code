@@ -5,8 +5,8 @@ import json
 import copy
 import random
 sys.path.append('../common')
-from gdaQuery import findQueryConditions
-from gdaUtilities import getDatabaseInfo
+from common.gdaQuery import findQueryConditions
+from common.gdaUtilities import getDatabaseInfo
 
 #sys.path.append(os.path.abspath(r'../../code-master'))
 #from library.gdaScore import gdaAttack
@@ -14,8 +14,8 @@ from gdaUtilities import getDatabaseInfo
 #from common.gdaUtilities import comma_ize,makeGroupBy
 
 sys.path.append('../common')
-from gdaScore import gdaAttack
-from gdaUtilities import comma_ize,makeGroupBy
+from common.gdaScore import gdaAttack
+from common.gdaUtilities import comma_ize,makeGroupBy
 
 from logging.handlers import TimedRotatingFileHandler
 import  logging

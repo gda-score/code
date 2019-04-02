@@ -6,7 +6,7 @@ from matplotlib.patches import Rectangle
 import json
 import numpy as np
 sys.path.append('../common')
-from gdaUtilities import getInterpolatedValue
+from common.gdaUtilities import getInterpolatedValue
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 

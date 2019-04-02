@@ -4,8 +4,8 @@ import random
 import string
 import copy
 sys.path.append('../common')
-from gdaScore import gdaAttack
-from gdaUtilities import makeGroupBy
+from common.gdaScore import gdaAttack
+from common.gdaUtilities import makeGroupBy
 
 class findQueryConditions:
     """Build query conditions (WHERE) with between X and Y distinct users

@@ -4,7 +4,7 @@ import math
 import json
 import matplotlib.pyplot as plt
 sys.path.append('../common')
-from gdaUtilities import getInterpolatedValue
+from common.gdaUtilities import getInterpolatedValue
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 

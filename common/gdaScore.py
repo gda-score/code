@@ -14,7 +14,7 @@ import pprint
 import math
 import datetime
 sys.path.append('../common')
-from gdaUtilities import getInterpolatedValue,getDatabaseInfo
+from common.gdaUtilities import getInterpolatedValue,getDatabaseInfo
 
 class gdaScores:
     """Computes the final GDA Score from the scores returned by gdaAttack
