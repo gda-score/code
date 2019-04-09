@@ -3,6 +3,7 @@ import json
 import pprint
 import math
 import os
+from pkg_resources import Requirement, resource_filename
 
 def getDatabaseInfo(dbName):
     ''' Retrieves the database info from the database config file.
@@ -12,13 +13,10 @@ def getDatabaseInfo(dbName):
     # This is kludgey, but try to find the location of the config file
     # relative to where we are. The root directory here must be above
     # the directory from which the code is being executed
-    dbConfig = "common/config/myDatabases.json"
+    # dbConfig = os.getcwd()+"/config/myDatabases.json"
+    dbConfig = resource_filename(Requirement.parse("gda-score-code"),"common/config/myDatabases.json")
+    print(dbConfig)
     path = dbConfig
-    for x in range(20):
-        path = "../" + path
-        if os.path.isfile(path):
-            break
-        pass
     fh = open(path, "r")
     j = json.load(fh)
     if dbName in j:
