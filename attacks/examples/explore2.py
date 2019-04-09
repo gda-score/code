@@ -2,6 +2,7 @@ import sys
 import pprint
 sys.path.append('../../common')
 from gdaScore import gdaAttack
+from gdaUtilities import setupGdaAttackParameters
 
 # This script examines the schema of a raw database and
 # stores the schema (table names, column names and types) in a data
@@ -10,11 +11,14 @@ from gdaScore import gdaAttack
 
 pp = pprint.PrettyPrinter(indent=4)
 
-params = dict(name='exampleExplore1',
-              rawDb='gdaScoreBankingRaw',
-              table='accounts',
-              flushCache=False,
-              verbose=False)
+config = {
+    'anonTypes': [ ['diffix','latest'] ],
+    'tables': [ ['banking','accounts'] ]
+}
+
+paramsList = setupGdaAttackParameters(config)
+params = paramsList[0]
+pp.pprint(params)
 x = gdaAttack(params)
 
 # Start by exploring tables and columns

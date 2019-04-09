@@ -2,7 +2,6 @@ import sys
 import pprint
 sys.path.append('../../common')
 from gdaScore import gdaAttack, gdaScores
-from gdaUtilities import setupGdaAttackParameters
 from myUtilities import checkMatch
 
 # Anon: None
@@ -23,19 +22,15 @@ doCache = True
 # Note in following that since there is no anonymization, the anonymized
 # DB is the same as the raw DB
 
-config = {
-    "configVersion": "compact1",
-    "basic": {
-        "attackType": "Test",
-        "criteria": "singlingOut"
-    },
-    'anonTypes': [ ['no_anon'] ],
-    'tables': [ ['banking','accounts'] ]
-}
+paramsGda = dict(name=__file__ + 'gdaScore',
+              rawDb='gdaScoreBankingRaw',
+              anonDb='gdaScoreBankingRaw',
+              criteria='singlingOut',
+              table='accounts',
+              flushCache=True,
+              verbose=False)
 
-paramsList = setupGdaAttackParameters(config)
-params = paramsList[0]
-pp.pprint(params)
+params = paramsGda
 
 # TEST ALL CORRECT (ONE GUESSED COLUMN)
 

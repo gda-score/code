@@ -2,21 +2,19 @@ import sys
 import pprint
 sys.path.append('../../common')
 from gdaScore import gdaAttack
-from gdaUtilities import setupGdaAttackParameters
 
 # This script makes prior knowledge queries, and then requests the
 # resulting GDA score. 
 
 pp = pprint.PrettyPrinter(indent=4)
 
-config = {
-    'anonTypes': [ ['diffix','latest'] ],
-    'tables': [ ['banking','accounts'] ]
-}
-
-paramsList = setupGdaAttackParameters(config)
-params = paramsList[0]
-pp.pprint(params)
+params = dict(name='exampleKnowledge1',
+              rawDb='localBankingRaw',
+              anonDb='cloakBanking',
+              criteria='singlingOut',
+              table='accounts',
+              flushCache=False,
+              verbose=False)
 x = gdaAttack(params)
 
 # Launch queries

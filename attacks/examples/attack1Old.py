@@ -2,27 +2,19 @@ import sys
 import pprint
 sys.path.append('../../common')
 from gdaScore import gdaAttack
-from gdaUtilities import setupGdaAttackParameters
 
 # This script makes attack queries, and then requests the
 # resulting GDA score. 
 
 pp = pprint.PrettyPrinter(indent=4)
 
-config = {
-    "configVersion": "compact1",
-    "basic": {
-        "attackType": "Test Attack",
-        "criteria": "singlingOut"
-    },
-    'anonTypes': [
-        ["diffix","latest"]
-    ],
-    'tables': [ ['banking','accounts'] ]
-}
-
-paramsList = setupGdaAttackParameters(config)
-params = paramsList[0]
+params = dict(name='exampleAttack1',
+              rawDb='localBankingRaw',
+              anonDb='cloakBanking',
+              criteria='singlingOut',
+              table='accounts',
+              flushCache=False,
+              verbose=False)
 x = gdaAttack(params)
 
 # Launch queries

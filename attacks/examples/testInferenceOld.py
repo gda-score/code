@@ -2,7 +2,6 @@ import sys
 import pprint
 sys.path.append('../../common')
 from gdaScore import gdaAttack, gdaScores
-from gdaUtilities import setupGdaAttackParameters
 from myUtilities import checkMatch
 
 # Anon: None
@@ -20,20 +19,14 @@ v = verbose
 
 # Note in following that since there is no anonymization, the anonymized
 # DB is the same as the raw DB
+params = dict(name=__file__,
+              rawDb='gdaScoreBankingRaw',
+              anonDb='gdaScoreBankingRaw',
+              criteria='inference',
+              table='accounts',
+              flushCache=False,
+              verbose=False)
 
-config = {
-    "configVersion": "compact1",
-    "basic": {
-        "attackType": "Test",
-        "criteria": "inference"
-    },
-    'anonTypes': [ ['no_anon'] ],
-    'tables': [ ['banking','accounts'] ]
-}
-
-paramsList = setupGdaAttackParameters(config)
-params = paramsList[0]
-pp.pprint(params)
 # TEST ALL CORRECT
 
 x = gdaAttack(params)

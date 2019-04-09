@@ -1,0 +1,234 @@
+{
+    "localBankingRaw": {
+        "host": "localhost",
+        "port": 5432,
+        "dbname": "banking",
+        "user": "postgres",
+        "password": "secret",
+        "type": "postgres"
+    },
+    "gdaScoreBankingRaw": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_banking",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreCensus0Raw": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_census",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreScihubRaw": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_scihub",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreTaxiRaw": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_taxi",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "pseudoBanking": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "pseudo_banking",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "pseudoCensus0": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "pseudo_census",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "pseudoScihub": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "pseudo_scihub",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "pseudoTaxi": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "pseudo_taxi",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreBankingRawLink": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_banking_link",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreCensus0RawLink": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_census_link",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreScihubRawLink": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_scihub_link",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreTaxiRawLink": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_taxi_link",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreBankingRawPub": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_banking_link_pub",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreCensus0RawPub": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_census_link_pub",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreScihubRawPub": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_scihub_link_pub",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "gdaScoreTaxiRawPub": {
+        "host": "db001.gda-score.org",
+        "port": 5432,
+        "dbname": "raw_taxi_link_pub",
+        "user": "francis@mpi-sws.org",
+        "password": "mo7eiFaeP2ae",
+        "type": "postgres"
+    },
+    "cloakBanking": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_banking",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakCensus0": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_census0",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakScihub": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_scihub",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakTaxi": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_taxi",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakBankingLink": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_banking_link",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakCensus0Link": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_census0_link",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakScihubLink": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_scihub_link",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakTaxiLink": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_taxi_link",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakBankingPub": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_banking_link_pub",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakCensus0Pub": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_census0_link_pub",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakScihubPub": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_scihub_link_pub",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    },
+    "cloakTaxiPub": {
+        "host": "attack.aircloak.com",
+        "port": 9432,
+        "dbname": "gda_taxi_link_pub",
+        "user": "francis",
+        "password": "vgoVe5E74NYRuFrOj784VrMbSvlHpE0g",
+        "type": "aircloak"
+    }
+}
