@@ -4,7 +4,7 @@ Contains general support tools.
 
 ### config
 
-Holds the database configuration file.
+Holds the database configuration file. See `config/README.md` for directions.
 
 ### examples
 
