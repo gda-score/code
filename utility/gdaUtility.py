@@ -147,8 +147,8 @@ class gdaUtility:
         return qs
 
     def _measureAccuracy(self,param,attack,tabChar,table,uid,allowedColumns):
-        ranges = param['ranges']
-        numSamples = param['samples']
+        ranges = param['basicConfig']['ranges']
+        numSamples = param['basicConfig']['samples']
         numColumns = [1,2]
         columns = self._getWorkingColumns(tabChar,allowedColumns)
         for col in columns:
@@ -252,7 +252,7 @@ class gdaUtility:
             # evaluate coverage
             sql = "SELECT "
             sql += (colName)
-            if(param['measureParam']=="rows"):
+            if(param['basicConfig']['measureParam']=="rows"):
                 sql += str(f", count(*) FROM {table} ")
             else:
                 sql += str(f", count( distinct {param['uid']}) FROM {table} ")
@@ -436,7 +436,7 @@ class gdaUtility:
             absDict['stddev'] = None
         absDict['meanSquareError'] = absError
 
-        if (param['measureParam']) == "rows":
+        if (param['basicConfig']['measureParam']) == "rows":
             absDict['compute'] = "(count((*)rawDb)-count((*)anonDb))"
         else:
             absDict['compute']="(count(distinct_rawDb)-count(distinct_anonDb))"
@@ -452,7 +452,7 @@ class gdaUtility:
         else:
             simpleRelDict['stddev'] = None
         simpleRelDict['meanSquareError'] = simpleRelError
-        if(param['measureParam'])=="rows":
+        if(param['basicConfig']['measureParam'])=="rows":
             simpleRelDict['compute'] = "(count(rawDb(*))/count(anonDb(*)))"
         else:
             simpleRelDict['compute'] = "(count(distinct_rawDb)/count(distinct_anonDb))"
@@ -469,7 +469,7 @@ class gdaUtility:
             relDict['stddev'] = None
 
         relDict['meanSquareError'] = relError
-        if (param['measureParam']) == "rows":
+        if (param['basicConfig']['measureParam']) == "rows":
             relDict[
                 'compute'] = "(abs(count((*)rawDb)-count((*)anonDb))/max(count((*)rawDb),count((*)anonDb)))"
         else:
