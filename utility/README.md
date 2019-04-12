@@ -12,4 +12,4 @@ See https://www.gda-score.org/what-is-a-gda-score/ for a description of how util
 
 ### accuracyCoverage.py
 
-Routine that reads in the config file (see `exampleConfigGdaUtility.json`) and executes `gdaUtility()`.
+Routine that reads in the config file (see `accuracyCoverage.py.json`) and executes `gdaUtility()`.
