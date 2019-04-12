@@ -5,6 +5,7 @@ from gdaScore import gdaAttack, gdaScores
 from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack,makeInNotNullConditions
 
 pp = pprint.PrettyPrinter(indent=4)
+doVerbose = False
 
 
 # -------------------------- subroutines --------------------
@@ -37,6 +38,10 @@ def dumb_list_inference_attack(params):
     table = attack.getAttackTableName()
     rawColNames = attack.getColNames(dbType='rawDb')
     anonColNames = attack.getColNames(dbType='anonDb')
+    if rawColNames is None or anonColNames is None:
+        print(f"No table to attack (raw {rawColNames}, anon {anonColNames}")
+        attack.cleanUp()
+        return
     colNames = list(set(rawColNames) & set(anonColNames))
 
     # Get the total number of rows so that we can later determine fraction
@@ -136,6 +141,7 @@ v = verbose
 paramsList = setupGdaAttackParameters(sys.argv, criteria="inference",
         attackType = "Simple List Inference Attack")
 for params in paramsList:
+    params['verbose'] = doVerbose
     if params['finished'] == True:
         print("The following attack has been previously completed:")
         pp.pprint(params)

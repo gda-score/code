@@ -249,7 +249,6 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
             dataFriendlyNames.append(table)
             uid = datasource['tables'][table]['uid']
             # We have the right records from master, so build the params
-            print("----------------------")
             #pp.pprint(anonDbs)
             #pp.pprint(rawDbs)
             #pp.pprint(datasource)

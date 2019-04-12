@@ -5,6 +5,7 @@ from gdaScore import gdaAttack, gdaScores
 from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack
 
 pp = pprint.PrettyPrinter(indent=4)
+doVerbose = False
 
 
 # -------------------------- subroutines --------------------
@@ -31,6 +32,10 @@ def dumb_list_linkability_attack(params):
     table = attack.getAttackTableName()
     rawColNames = attack.getColNames(dbType='rawDb')
     anonColNames = attack.getColNames(dbType='anonDb')
+    if rawColNames is None or anonColNames is None:
+        print(f"No table to attack (raw {rawColNames}, anon {anonColNames}")
+        attack.cleanUp()
+        return
     colNames = list(set(rawColNames) & set(anonColNames))
     
     # -------------------  Prior Knowledge Phase  --------------------
@@ -92,6 +97,7 @@ v = verbose
 paramsList = setupGdaAttackParameters(sys.argv, criteria="linkability",
         attackType = "Simple List Linkability Attack")
 for params in paramsList:
+    params['verbose'] = doVerbose
     if params['finished'] == True:
         print("The following attack has been previously completed:")
         pp.pprint(params)
