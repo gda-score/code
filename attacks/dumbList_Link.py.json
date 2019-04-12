@@ -6,12 +6,7 @@
   },
   "anonTypes": [
     ["no_anon"],
-    ["diffix","v19_1_0"],
-    ["pseudonymization","colSuppression"],
-    ["pseudonymization","kanon","k_2"],
-    ["pseudonymization","kanon","k_5"],
-    ["k_anonymization","naive","k_2"],
-    ["k_anonymization","naive","k_5"]
+    ["diffix","v19_1_0"]
   ],
   "tables": [
     ["banking","accounts"],

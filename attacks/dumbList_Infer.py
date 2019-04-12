@@ -135,7 +135,7 @@ def dumb_list_inference_attack(params):
 
 # This reads in the attack parameters and checks to see if the
 # attack has already been run and completed
-verbose = True
+verbose = False
 v = verbose
 
 paramsList = setupGdaAttackParameters(sys.argv, criteria="inference",

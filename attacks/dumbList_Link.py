@@ -100,7 +100,6 @@ for params in paramsList:
     params['verbose'] = doVerbose
     if params['finished'] == True:
         print("The following attack has been previously completed:")
-        pp.pprint(params)
         print(f"Results may be found at {params['resultsPath']}")
         continue
 

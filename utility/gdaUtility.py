@@ -284,20 +284,16 @@ class gdaUtility:
 
     #Method to calculate Utility Measure
     def distinctUidUtilityMeasureSingleAndDoubleColumn(self,param):
-        """ Measures coverage and accuracy.
+        ''' Measures coverage and accuracy.
 
             `param` is a single data structure from the list of structures
-            returned by setupGdaUtilityParameters(). The contents of
-            `param` are read from the configuration file. The elements
-            of the configuration file are as follows: <br/>
+            returned by setupGdaAttackParameters().  The elements
+            of param as follows: <br/>
             `name`: The basis for the name of the output json file. Should
             be unique among all measures. <br/>
-            `rawDb`: The raw (non-anonymized) database used. <br/>
-            `anonDb`: The anonymized database to use. <br/>
+            `rawDb`: The raw (non-anonymized) database info. <br/>
+            `anonDb`: The anonymized database info. <br/>
             `table`: The name of the table in the database. <br/>
-            `anonType`: The type of anonymization (this appears in the
-            GDA Score diagram but does not otherwise affect operation). <br/>
-            `anonSubType`: Also appears in the GDA Score diagram. <br/>
             `uid`: The name of the uid column. <br/>
             `measureParam`: The thing that gets measured. Only current value
             is "uid", which indicates that counts of distinct uids should
@@ -307,7 +303,7 @@ class gdaUtility:
             `ranges`: A list of ranges. Each range specifies the lower and
             upper bound on the number of "things" that an answer should
             contain as specified by `measureParam`. <br/>
-        """
+        '''
         attack = gdaAttack(param)
         table = attack.getAttackTableName()
         uid = attack.getUidColName()
@@ -477,93 +473,6 @@ class gdaUtility:
         accuracy['relErrorMetrics'] = relDict
 
         return accuracy
-
-    def setupGdaUtilityParameters(self,cmdArgs):
-        """ Basic prep for input and output of running gdaUtility
-
-            `cmdArgs` is the command line args list (`sys.argv`) <br/>
-            `cmdArgs[1]` is either the name of the config file, or
-            empty if the default config file name should be used. <br/>
-            Returns a list of data structures that can be used for
-            class `gdaUtility` <br/>
-            Adds the following to the returned data structure (`par`) <br/>
-            `par['finished']`: `True` if attack previously completed.
-            Else `False` <br/>
-            `par['resultsPath']`: Path to filename where results should
-            be stored. <br/>
-        """
-
-        pp = pprint.PrettyPrinter(indent=4)
-        usageStr = str(f"""Usage: 
-            Either specify configuration file:
-                > {cmdArgs[0]} config.json
-            Or assume default configuration file '{cmdArgs[0]}.json':
-                > {cmdArgs[0]}
-            """)
-        if len(cmdArgs) == 1:
-            fileName = cmdArgs[0] + '.json'
-        elif len(cmdArgs) != 2:
-            sys.exit(usageStr)
-        else:
-            fileName = sys.argv[1]
-
-        try:
-            f = open(fileName, 'r')
-        except:
-            e = str(f"ERROR: file '{fileName}' not found.\n{usageStr}")
-            sys.exit(e)
-
-        pmList = json.load(f)
-        f.close()
-        for pm in pmList:
-            if 'verbose' in pm:
-                self._p = pm['verbose']
-            # The following prevents me from getting verbose output from
-            # all the queries to gdaScore(). Limits verbose output to just
-            # gdaUtility()
-            #pm['verbose'] = False
-
-            baseName = ""
-
-            if 'rawDb' in pm and len(pm['rawDb']) > 0:
-                rawdbName=getDatabaseInfo(pm['rawDb'])['dbname']
-                baseName+=str(f"{rawdbName}")
-            if 'table' in pm and len(pm['table']) > 0:
-                baseName += str(f".{pm['table']}")
-            if 'anonDb' in pm or len(pm['anonDb']) > 0:
-                anondbName = getDatabaseInfo(pm['anonDb'])['dbname']
-                baseName += str(f"_{anondbName}.{pm['table']}")
-            if 'measureParam' in pm and len(pm['measureParam']) > 0:
-                baseName += str(f".{pm['measureParam']}")
-            pm['name'] = baseName
-            if 'samples' not in pm:
-                pm['samples'] = 25
-            if 'ranges' not in pm:
-                pm['ranges'] = [[10,50],[50,100],[100,500],
-                        [500,1000],[1000,5000]]
-
-
-            #Default path if resultDir is not sepcified in the parameters.
-            resultsDir = "../../scores/utility";
-
-            if 'resultsDir' in pm and len(pm['resultsDir']) > 0:
-                resultsDir = pm['resultsDir']
-
-            resultsPath = resultsDir + "/" + baseName + ".json"
-            pm['resultsPath'] = resultsPath
-            pm['finished'] = False
-            try:
-                f = open(resultsPath, 'r')
-            except:
-                # No prior results for this utility measure have been posted
-                pass
-            else:
-                # Prior results have been posted. Make sure they are complete.
-                res = json.load(f)
-                if 'finished' in res:
-                    pm['finished'] = True
-
-        return pmList
 
     def _doExplore(self,attack,db,sql):
         query = dict(db=db, sql=sql)
