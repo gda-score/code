@@ -7,7 +7,7 @@ from gdaScore import gdaAttack, gdaScores
 from gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack,makeInNotNullConditions
 # from makeGraphs import runOneDirectory
 
-
+v = True
 
 # This script makes attack queries, and then requests the
 # resulting GDA score.
@@ -51,6 +51,7 @@ def makeNoiseQuery(getKeycolumn, getCombinations,x):
     # Launch queries
     # TODO: Make the script dynamic for both raw and anondb
     # Test for annonDb
+    numAskAttack = 0
     colnames = x.getColNames(dbType = 'anonDb')
     # colnames = x.getColNames()
     # changed to uid from account_id
@@ -88,6 +89,8 @@ def makeNoiseQuery(getKeycolumn, getCombinations,x):
         # query = dict(db="raw", sql=sql)
         # make 20 clone of each queries, write now 20 is acclaimed as a branch of queries
         for q in range(branch):
+            if v: print(f"{numAskAttack}: {query}")
+            numAskAttack += 1
             x.askAttack(query)
         colLength = len(outputCol)
         comLength = comLength - 1
@@ -128,10 +131,10 @@ def Average(lst):
     return sum(lst) / len(lst)
 
 def uber_singling_out_attack(params,getKeyColumn,getResult,values):
-    x = gdaAttack(params)
-    getTotalUser(x)
-    #No longer needed so doing the clean up after getting the number of user in the table
-    x.cleanUp()
+#    x = gdaAttack(params)
+#    getTotalUser(x)
+#    #No longer needed so doing the clean up after getting the number of user in the table
+#    x.cleanUp()
 
     #Regenerate the x for further processing
     x = gdaAttack(params)
@@ -168,6 +171,7 @@ def uber_singling_out_attack(params,getKeyColumn,getResult,values):
         # make 20 clone of each queries, get result of 20 similar queries
         for item in range(branchReturn):
             reply = x.getAttack()
+            if v: print(reply)
             if 'error' in reply:
                 print(reply['error'])
             else:
@@ -200,7 +204,6 @@ def uber_singling_out_attack(params,getKeyColumn,getResult,values):
                 if v: pp.pprint(reply)
                 if reply['stillToCome'] == 0:
                     break
-            print("\nTest all correct (multiple guessed column):")
             # Clear cache all the time
             returnResults = []
         else:
