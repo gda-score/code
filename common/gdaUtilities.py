@@ -1,10 +1,11 @@
 import sys
+import importlib.util
 import json
 import pprint
 import math
 import os
 import copy
-from pkg_resources import Requirement, resource_filename
+from pkg_resources import Requirement, resource_exists, resource_filename
 
 
 def try_for_config_file(config_rel_path):
@@ -18,8 +19,10 @@ def try_for_config_file(config_rel_path):
                 return os.path.abspath(os.path.join(p, config_rel_path))
 
     # Second case: find config inside pip package location
-    if os.path.isfile(os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))):
-        return os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))
+    spec = importlib.util.find_spec("gda-score-code")
+    if spec is not None:
+        if os.path.isfile(os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))):
+            return os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))
 
     # Third case: look in typical config file locations
     if os.path.isfile(os.path.abspath(os.path.join(os.path.expanduser("~"), ".gdaScore", config_rel_path))):
@@ -48,7 +51,7 @@ def oldGetDatabaseInfo(dbName):
     '''
     path = try_for_config_file(os.path.join("common", "config", "myDatabases.json"))
     if path is None:
-        print(f"Error: No config file found")
+        print(f"ERROR: No config file found")
         return None
     fh = open(path, "r")
     j = json.load(fh)
@@ -65,7 +68,7 @@ def getMasterConfig():
     '''
     path = try_for_config_file(os.path.join("common", "config", "master.json"))
     if path is None:
-        print(f"Error: No config file found")
+        print(f"ERROR: No config file found")
         return None
     fh = open(path, "r")
     j = json.load(fh)
@@ -78,7 +81,7 @@ def getCredentials():
     '''
     path = try_for_config_file(os.path.join("common", "config", "myCredentials.json"))
     if path is None:
-        print(f"Error: No config file found")
+        print(f"ERROR: No config file found")
         return None
     fh = open(path, "r")
     j = json.load(fh)
@@ -336,7 +339,7 @@ def oldSetupGdaAttackParameters(pmList, criteria, attackType):
             pm['attackType'] = attackType
     
         if 'name' not in pm or len(pm['name']) == 0:
-            baseName = str(f"{sys.argv[0]}")
+            baseName = str(f"{sys.argv[0].replace(os.path.sep, '-').strip('-')}")
             if 'anonType' in pm and len(pm['anonType']) > 0:
                 baseName += str(f".{pm['anonType']}")
             if 'anonSubType' in pm and len(pm['anonSubType']) > 0:

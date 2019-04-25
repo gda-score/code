@@ -1,7 +1,7 @@
 import pprint
 from common.gdaScore import gdaAttack, gdaScores
 from common.gdaUtilities import setupGdaAttackParameters
-from .myUtilities import checkMatch
+from attacks.examples.myUtilities import checkMatch
 
 # Anon: None
 # Attack: List DB contents
