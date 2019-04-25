@@ -94,6 +94,9 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# PyCharm project settings
+.idea
+
 # Rope project settings
 .ropeproject
 
@@ -114,9 +117,4 @@ common/config/myDatabases.json
 *.bat
 *.html
 *.png
- 
-
- /.idea/
- /build/
- /dist/
- /gda_score_code.egg-info
+.DS_Store
