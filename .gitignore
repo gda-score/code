@@ -94,6 +94,9 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# PyCharm project settings
+.idea
+
 # Rope project settings
 .ropeproject
 
@@ -114,3 +117,4 @@ common/config/myDatabases.json
 *.bat
 *.html
 *.png
+.DS_Store
