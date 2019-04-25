@@ -187,7 +187,7 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
             """)
         # Pull in config from a json file
         if len(configInfo) == 1:
-            cmdName = os.path.basename(configInfo[0])
+            cmdName = os.path.abspath(configInfo[0])
             if len(cmdName) == 0:
                 sys.exit(usageStr)
             fileName = cmdName + '.json'
