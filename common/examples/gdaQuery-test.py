@@ -1,7 +1,5 @@
-import sys
 import pprint
-sys.path.append('../../common')
-from gdaQuery import findQueryConditions
+from common.gdaQuery import findQueryConditions
 
 pp = pprint.PrettyPrinter(indent=4)
 

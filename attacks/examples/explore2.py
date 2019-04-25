@@ -1,7 +1,5 @@
-import sys
 import pprint
-sys.path.append('../../common')
-from gdaScore import gdaAttack
+from common.gdaScore import gdaAttack
 
 # This script examines the schema of a raw database and
 # stores the schema (table names, column names and types) in a data
@@ -25,14 +23,14 @@ tables = x.getTableNames(dbType='rawDb')
 pp.pprint(tables)
 for table in tables:
     print(f"    {table}")
-    cols = x.getColNamesAndTypes(dbType='rawDb',tableName=table)
+    cols = x.getColNamesAndTypes(dbType='rawDb', tableName=table)
     pp.pprint(cols)
 
 sql = """SELECT tablename
          FROM pg_catalog.pg_tables
          WHERE schemaname != 'pg_catalog' AND
                schemaname != 'information_schema';"""
-query = dict(db="raw",sql=sql)
+query = dict(db="raw", sql=sql)
 x.askExplore(query)
 rawTables = x.getExplore()
 if not rawTables:
@@ -51,7 +49,7 @@ for tab in rawTables['answer']:
     sql = str(f"""select column_name, data_type 
                   from information_schema.columns where
                   table_name='{tableName}'""")
-    query = dict(db="raw",sql=sql)
+    query = dict(db="raw", sql=sql)
     x.askExplore(query)
     reply = x.getExplore()
     for row in reply['answer']:
@@ -60,7 +58,7 @@ for tab in rawTables['answer']:
         rawInfo[tableName][colName] = colType
 pp.pprint(rawInfo)
 
-query = dict(db="raw",sql="select count(*) from accounts")
+query = dict(db="raw", sql="select count(*) from accounts")
 for i in range(5):
     query['myTag'] = i
     x.askExplore(query)

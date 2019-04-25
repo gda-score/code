@@ -1,8 +1,6 @@
-import sys
 import pprint
-sys.path.append('../../common')
-from gdaScore import gdaAttack, gdaScores
-from myUtilities import checkMatch
+from common.gdaScore import gdaAttack, gdaScores
+from .myUtilities import checkMatch
 
 # Anon: None
 # Attack: List DB contents

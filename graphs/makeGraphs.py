@@ -3,7 +3,6 @@ import os
 import pprint
 import json
 import argparse
-sys.path.append('../graphs')
 from graphs.gdaPlotDefense import plotDefenseScore
 from graphs.gdaPlotUtility import plotUtilityScore
 

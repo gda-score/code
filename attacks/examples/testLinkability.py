@@ -1,8 +1,7 @@
 import sys
 import pprint
-sys.path.append('../../common')
-from gdaScore import gdaAttack, gdaScores
-from myUtilities import checkMatch
+from common.gdaScore import gdaAttack, gdaScores
+from .myUtilities import checkMatch
 
 # Anon: None
 # Attack: List DB contents
@@ -139,7 +138,7 @@ print("\nTest some correct (query pub table only):")
 if claimCorrect < 15 or claimCorrect > 35:
     # statistically very unlikely
     print(f"FAIL: Expected roughly 25 correct claims, got {claimCorrect}!")
-    cleanUp()
+    x.cleanUp()
     sys.exit()
 attackResult = x.getResults()
 sc = gdaScores(attackResult)

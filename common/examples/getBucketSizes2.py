@@ -1,10 +1,8 @@
-import sys
 import pprint
 # note simplejson because issues serializing decimal.Decimal
 import simplejson as json
-sys.path.append('../../common')
-from gdaQuery import findQueryConditions
-from gdaScore import gdaAttack
+from common.gdaQuery import findQueryConditions
+from common.gdaScore import gdaAttack
 
 pp = pprint.PrettyPrinter(indent=4)
 

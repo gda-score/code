@@ -1,5 +1,4 @@
 import sqlite3
-import json
 import simplejson
 import psycopg2
 import queue
@@ -8,12 +7,9 @@ import sys
 import os
 import copy
 import base64
-import ast
 import time
 import pprint
-import math
 import datetime
-sys.path.append('../common')
 from common.gdaUtilities import getInterpolatedValue,getDatabaseInfo
 
 class gdaScores:

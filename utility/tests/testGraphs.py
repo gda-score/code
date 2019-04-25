@@ -1,10 +1,8 @@
-import sys
 import os
 import pprint
 import json
 import argparse
-sys.path.append('../graphs')
-from gdaPlot import plotGdaScore
+from graphs.gdaPlot import plotGdaScore
 
 # score data
 score = {}

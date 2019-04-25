@@ -5,24 +5,47 @@ import math
 import os
 from pkg_resources import Requirement, resource_filename
 
+
+def try_for_config_file(config_rel_path):
+    # First case: find config in repository; use paths in PATH and PYTHONPATH as potential repository root folders
+    for p in sys.path:
+        if os.path.isfile(os.path.abspath(os.path.join(p, config_rel_path))):
+            return os.path.abspath(os.path.join(p, config_rel_path))
+    if "PYTHONPATH" in os.environ:
+        for p in os.environ["PYTHONPATH"].split(os.pathsep):
+            if os.path.isfile(os.path.abspath(os.path.join(p, config_rel_path))):
+                return os.path.abspath(os.path.join(p, config_rel_path))
+
+    # Second case: find config inside pip package location
+    if os.path.isfile(os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))):
+        return os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))
+
+    # Third case: look in typical config file locations
+    if os.path.isfile(os.path.abspath(os.path.join(os.path.expanduser("~"), ".gdaScore", config_rel_path))):
+        return os.path.abspath(os.path.join(os.path.expanduser("~"), ".gdaScore", config_rel_path))
+    if os.path.isfile(os.path.abspath(os.path.join(os.sep, "etc", "gdaScore", config_rel_path))):
+        return os.path.abspath(os.path.join(os.sep, "etc", "gdaScore", config_rel_path))
+
+    # Forth case: we find nothing
+    return None
+
+
 def getDatabaseInfo(dbName):
     ''' Retrieves the database info from the database config file.
 
         The path to the database config file must be hard-coded here.
     '''
-    # This is kludgey, but try to find the location of the config file
-    # relative to where we are. The root directory here must be above
-    # the directory from which the code is being executed
-    # dbConfig = os.getcwd()+"/config/myDatabases.json"
-    dbConfig = resource_filename(Requirement.parse("gda-score-code"),"common/config/myDatabases.json")
-    print(dbConfig)
-    path = dbConfig
+    path = try_for_config_file(os.path.join("common", "config", "myDatabases.json"))
+    if path is None:
+        print(f"Error: No config file found")
+        return None
+    print(path)
     fh = open(path, "r")
     j = json.load(fh)
     if dbName in j:
         return j[dbName]
     else:
-        print(f"Error: Database '{dbName}' not found in file {self._p['dbConfig']}")
+        print(f"Error: Database '{dbName}' not found in file {path}")
         return None
 
 def setupGdaAttackParameters(cmdArgs, criteria='', attackType=''):

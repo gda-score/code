@@ -1,10 +1,7 @@
-import sys
 import pprint
 import random
 import string
 import copy
-sys.path.append('../common')
-from common.gdaScore import gdaAttack
 from common.gdaUtilities import makeGroupBy
 
 class findQueryConditions:
@@ -137,7 +134,7 @@ class findQueryConditions:
             msg = "Failed _queryAndGather: " + "sql"
             x.cleanUp(exitMsg=msg)
         if 'answer' not in ans:
-            pp.pprint(ans)
+            self._pp.pprint(ans)
             msg = "Failed _queryAndGather: " + "sql"
             x.cleanUp(exitMsg=msg)
         if self._p: print(ans['answer'])

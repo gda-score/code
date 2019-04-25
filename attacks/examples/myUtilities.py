@@ -1,5 +1,5 @@
 
-def checkMatch(score,expect,colName):
+def checkMatch(score, expect, colName):
     passed = True
     for k,v in expect.items():
         if k in score['base']:

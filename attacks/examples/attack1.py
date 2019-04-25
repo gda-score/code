@@ -1,7 +1,5 @@
-import sys
 import pprint
-sys.path.append('../../common')
-from gdaScore import gdaAttack
+from common.gdaScore import gdaAttack
 
 # This script makes attack queries, and then requests the
 # resulting GDA score. 

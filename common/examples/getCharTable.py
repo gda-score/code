@@ -1,9 +1,5 @@
-import sys
 import pprint
-# note simplejson because issues serializing decimal.Decimal
-import simplejson as json
-sys.path.append('../../common')
-from gdaScore import gdaAttack
+from common.gdaScore import gdaAttack
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -25,4 +21,3 @@ x = gdaAttack(params)
 tabChar = x.getTableCharacteristics()
 pp.pprint(tabChar)
 x.cleanUp(doExit=True)
-

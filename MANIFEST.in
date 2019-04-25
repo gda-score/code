@@ -1,1 +1,1 @@
-include common/config/*
+include common/config/databases.json

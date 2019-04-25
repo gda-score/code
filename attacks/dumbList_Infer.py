@@ -1,6 +1,5 @@
 import sys
 import pprint
-sys.path.append('../common')
 from common.gdaScore import gdaAttack, gdaScores
 from common.gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack,makeInNotNullConditions
 

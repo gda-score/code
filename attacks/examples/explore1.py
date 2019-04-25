@@ -1,7 +1,5 @@
-import sys
 import pprint
-sys.path.append('../../common')
-from gdaScore import gdaAttack
+from common.gdaScore import gdaAttack
 
 # This script examines the schema of a raw and anon database, and
 # stores the schema (table names, column names and types) in a data
@@ -27,20 +25,20 @@ y = gdaAttack(params)
 # First a list of tables from the raw (postgres) database
 
 print("Tables and columns in both databases using class methods")
-for database in ('rawDb','anonDb'):
+for database in ('rawDb', 'anonDb'):
     print(f"{database}:")
     tables = x.getTableNames(dbType=database)
     pp.pprint(tables)
     for table in tables:
         print(f"    {table}")
-        cols = x.getColNamesAndTypes(dbType=database,tableName=table)
+        cols = x.getColNamesAndTypes(dbType=database, tableName=table)
         pp.pprint(cols)
 
 sql = """SELECT tablename
          FROM pg_catalog.pg_tables
          WHERE schemaname != 'pg_catalog' AND
                schemaname != 'information_schema';"""
-query = dict(db="raw",sql=sql)
+query = dict(db="raw", sql=sql)
 x.askExplore(query)
 rawTables = x.getExplore()
 if not rawTables:
@@ -53,7 +51,7 @@ for row in rawTables['answer']:
 
 # Now a list of tables from the anon (cloak) database
 sql = "show tables"
-query = dict(db="anon",sql=sql)
+query = dict(db="anon", sql=sql)
 y.askExplore(query)
 anonTables = y.getExplore()
 if not anonTables:
@@ -72,7 +70,7 @@ for tab in rawTables['answer']:
     sql = str(f"""select column_name, data_type 
                   from information_schema.columns where
                   table_name='{tableName}'""")
-    query = dict(db="raw",sql=sql)
+    query = dict(db="raw", sql=sql)
     x.askExplore(query)
     reply = x.getExplore()
     for row in reply['answer']:
@@ -86,7 +84,7 @@ for tab in anonTables['answer']:
     tableName = tab[0]
     anonInfo[tableName] = {}
     sql = str(f"show columns from {tableName}")
-    query = dict(db="anon",sql=sql)
+    query = dict(db="anon", sql=sql)
     y.askExplore(query)
     reply = y.getExplore()
     for row in reply['answer']:
@@ -95,7 +93,7 @@ for tab in anonTables['answer']:
         anonInfo[tableName][colName] = colType
 pp.pprint(anonInfo)
 
-query = dict(db="raw",sql="select count(*) from accounts")
+query = dict(db="raw", sql="select count(*) from accounts")
 for i in range(5):
     query['myTag'] = i
     x.askExplore(query)
