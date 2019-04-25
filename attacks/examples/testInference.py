@@ -1,5 +1,6 @@
 import pprint
 from common.gdaScore import gdaAttack, gdaScores
+from common.gdaUtilities import setupGdaAttackParameters
 from .myUtilities import checkMatch
 
 # Anon: None
@@ -17,14 +18,20 @@ v = verbose
 
 # Note in following that since there is no anonymization, the anonymized
 # DB is the same as the raw DB
-params = dict(name=__file__,
-              rawDb='localBankingRaw',
-              anonDb='localBankingRaw',
-              criteria='inference',
-              table='accounts',
-              flushCache=False,
-              verbose=False)
 
+config = {
+    "configVersion": "compact1",
+    "basic": {
+        "attackType": "Test",
+        "criteria": "inference"
+    },
+    'anonTypes': [ ['no_anon'] ],
+    'tables': [ ['banking','accounts'] ]
+}
+
+paramsList = setupGdaAttackParameters(config)
+params = paramsList[0]
+pp.pprint(params)
 # TEST ALL CORRECT
 
 x = gdaAttack(params)
@@ -60,13 +67,7 @@ replyCorrect = x.getAttack()
 # the first askClaim will pass on committing to the claim
 claim = 0
 for row in replyCorrect['answer']:
-    query = {}
-    sql = "select client_id, frequency "
-    sql += "from accounts where "
-    sql += str(f"acct_date = {row[0]} ")
-    query['sql'] = sql
-    spec = {'uid':'client_id',
-            'known':[{'col':'acct_date','val':row[0]}],
+    spec = {'known':[{'col':'acct_date','val':row[0]}],
             'guess':[{'col':'frequency','val':row[1]}]
            }
     x.askClaim(spec,claim=claim)
@@ -125,13 +126,7 @@ replyWrong = x.getAttack()
 
 claim = 0
 for row in replyWrong['answer']:
-    query = {}
-    sql = "select client_id, frequency "
-    sql += "from accounts where "
-    sql += str(f"acct_date = {row[0]} ")
-    query['sql'] = sql
-    spec = {'uid':'client_id',
-            'known':[{'col':'acct_date','val':row[0]}],
+    spec = {'known':[{'col':'acct_date','val':row[0]}],
             'guess':[{'col':'frequency','val':row[1]}]
            }
     x.askClaim(spec,claim=claim)
@@ -182,13 +177,7 @@ x = gdaAttack(params)
 
 claim = 0
 for row in replyWrong['answer']:
-    query = {}
-    sql = "select client_id, frequency "
-    sql += "from accounts where "
-    sql += str(f"acct_date = {row[0]} ")
-    query['sql'] = sql
-    spec = {'uid':'client_id',
-            'known':[{'col':'acct_date','val':row[0]}],
+    spec = {'known':[{'col':'acct_date','val':row[0]}],
             'guess':[{'col':'frequency','val':row[1]}]
            }
     x.askClaim(spec,claim=claim)
@@ -196,13 +185,7 @@ for row in replyWrong['answer']:
 
 claim = 0
 for row in replyCorrect['answer']:
-    query = {}
-    sql = "select client_id, frequency "
-    sql += "from accounts where "
-    sql += str(f"acct_date = {row[0]} ")
-    query['sql'] = sql
-    spec = {'uid':'client_id',
-            'known':[{'col':'acct_date','val':row[0]}],
+    spec = {'known':[{'col':'acct_date','val':row[0]}],
             'guess':[{'col':'frequency','val':row[1]}]
            }
     x.askClaim(spec,claim=claim)
@@ -237,4 +220,3 @@ print("\nOperational Parameters:")
 op = x.getOpParameters()
 pp.pprint(op)
 x.cleanUp()
-

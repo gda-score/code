@@ -4,6 +4,7 @@ from common.gdaScore import gdaAttack, gdaScores
 from common.gdaUtilities import setupGdaAttackParameters,comma_ize,makeGroupBy,finishGdaAttack,makeInNotNullConditions
 
 pp = pprint.PrettyPrinter(indent=4)
+doVerbose = False
 
 
 # -------------------------- subroutines --------------------
@@ -27,6 +28,10 @@ def dumb_list_singling_out_attack(params):
     table = attack.getAttackTableName()
     rawColNames = attack.getColNames(dbType='rawDb')
     anonColNames = attack.getColNames(dbType='anonDb')
+    if rawColNames is None or anonColNames is None:
+        print(f"No table to attack (raw {rawColNames}, anon {anonColNames}")
+        attack.cleanUp()
+        return
     uid = attack.getUidColName()
     colNamesAll = list(set(rawColNames) & set(anonColNames))
     if v: print(f"Use columns: {colNamesAll}")
@@ -112,12 +117,12 @@ def dumb_list_singling_out_attack(params):
 
 # This reads in the attack parameters and checks to see if the
 # attack has already been run and completed
-verbose = True
+verbose = False
 v = verbose
 
-paramsList = setupGdaAttackParameters(sys.argv, criteria="singlingOut",
-        attackType = "Simple List Singling-Out Attack")
+paramsList = setupGdaAttackParameters(sys.argv)
 for params in paramsList:
+    params['verbose'] = doVerbose
     if params['finished'] == True:
         print("The following attack has been previously completed:")
         pp.pprint(params)

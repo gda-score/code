@@ -1,5 +1,6 @@
 import pprint
 from common.gdaScore import gdaAttack, gdaScores
+from common.gdaUtilities import setupGdaAttackParameters
 from .myUtilities import checkMatch
 
 # Anon: None
@@ -19,23 +20,20 @@ doCache = True
 
 # Note in following that since there is no anonymization, the anonymized
 # DB is the same as the raw DB
-paramsLocal = dict(name=__file__,
-              rawDb='localBankingRaw',
-              anonDb='localBankingRaw',
-              criteria='singlingOut',
-              table='accounts',
-              flushCache=False,
-              verbose=False)
 
-paramsGda = dict(name=__file__ + 'gdaScore',
-              rawDb='gdaScoreBankingRaw',
-              anonDb='gdaScoreBankingRaw',
-              criteria='singlingOut',
-              table='accounts',
-              flushCache=True,
-              verbose=False)
+config = {
+    "configVersion": "compact1",
+    "basic": {
+        "attackType": "Test",
+        "criteria": "singlingOut"
+    },
+    'anonTypes': [ ['no_anon'] ],
+    'tables': [ ['banking','accounts'] ]
+}
 
-params = paramsLocal
+paramsList = setupGdaAttackParameters(config)
+params = paramsList[0]
+pp.pprint(params)
 
 # TEST ALL CORRECT (ONE GUESSED COLUMN)
 
@@ -69,7 +67,7 @@ if v: pp.pprint(replyCorrect)
 # the first askClaim will not commit to the claim
 claim = False
 for row in replyCorrect['answer']:
-    spec = {'uid':'client_id',
+    spec = {
             'known':[{'col':'acct_date','val':row[0]},
                      {'col':'acct_district_id','val':row[1]}],
             'guess':[{'col':'frequency','val':row[2]}]
@@ -135,7 +133,7 @@ if v: pp.pprint(replyCorrect)
 # the first askClaim will not commit to the claim
 claim = False
 for row in replyCorrect['answer']:
-    spec = {'uid':'client_id',
+    spec = {
             'known':[{'col':'acct_date','val':row[0]}],
             'guess':[{'col':'frequency','val':row[2]},
                      {'col':'acct_district_id','val':row[1]}]
@@ -200,7 +198,7 @@ if v: pp.pprint(replyWrong)
 
 claim = False
 for row in replyWrong['answer']:
-    spec = {'uid':'client_id',
+    spec = {
             'known':[{'col':'acct_date','val':row[0]},
                      {'col':'acct_district_id','val':row[1]}],
             'guess':[{'col':'frequency','val':row[2]}]
@@ -253,7 +251,7 @@ x = gdaAttack(params)
 
 claim = False
 for row in replyWrong['answer']:
-    spec = {'uid':'client_id',
+    spec = {
             'known':[{'col':'acct_date','val':row[0]},
                      {'col':'acct_district_id','val':row[1]}],
             'guess':[{'col':'frequency','val':row[2]}]
@@ -263,7 +261,7 @@ for row in replyWrong['answer']:
 
 claim = False
 for row in replyCorrect['answer']:
-    spec = {'uid':'client_id',
+    spec = {
             'known':[{'col':'acct_date','val':row[0]},
                      {'col':'acct_district_id','val':row[1]}],
             'guess':[{'col':'frequency','val':row[2]}]
@@ -338,7 +336,7 @@ if v: pp.pprint(replyCorrect)
 # -------------------  Claims Phase  ----------------------------
 
 for row in replyCorrect['answer']:
-    spec = {'uid':'client_id'}
+    spec = {}
     guess = []
     for i in range(len(cols)):
         guess.append({'col':cols[i],'val':row[i]})
@@ -359,7 +357,7 @@ attackResult = x.getResults()
 sc = gdaScores(attackResult)
 score = sc.getScores()
 if v: pp.pprint(score)
-expect = {'attackCells': 1000,
+expect = {'attackCells': 1700,
           'attackGets': 1,
           'claimCorrect': 100,
           'claimError': 0,
@@ -378,4 +376,3 @@ print("\nOperational Parameters:")
 op = x.getOpParameters()
 pp.pprint(op)
 x.cleanUp()
-

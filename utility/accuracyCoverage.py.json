@@ -1,0 +1,28 @@
+{
+  "configVersion": "compact1",
+  "basic": {
+    "utilityMeasure": "Simple UID Count, Single Column",
+    "measureParam":"uid",
+    "samples": 25,
+    "ranges": [[10,50],[50,100],[100,500],[500,1000],[1000,5000]]
+  },
+  "anonTypes": [
+    ["no_anon"],
+    ["diffix","latest"],
+    ["diffix","v19_1_0"],
+    ["k_anonymization","naive","k_2"],
+    ["k_anonymization","naive","k_5"],
+    ["pseudonymization","colSuppression"],
+    ["pseudonymization","kanon","k_2"],
+    ["pseudonymization","kanon","k_5"]
+  ],
+  "tables": [
+    ["banking","accounts"],
+    ["banking","cards"],
+    ["banking","loans"],
+    ["banking","transactions"],
+    ["census","persons"],
+    ["taxi","rides"],
+    ["scihub","downloads"]
+  ]
+}

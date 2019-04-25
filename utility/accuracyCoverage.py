@@ -1,11 +1,11 @@
 import sys
-
+from common.gdaUtilities import setupGdaAttackParameters
 from .gdaUtility import gdaUtility
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 gdaUtilityObj=gdaUtility()
-paramsList = gdaUtilityObj.setupGdaUtilityParameters(sys.argv)
+paramsList = setupGdaAttackParameters(sys.argv)
 print(f" param list:")
 pp.pprint(paramsList)
 for param in paramsList:

@@ -1,6 +1,7 @@
 import sys
 import pprint
 from common.gdaScore import gdaAttack, gdaScores
+from common.gdaUtilities import setupGdaAttackParameters
 from .myUtilities import checkMatch
 
 # Anon: None
@@ -20,16 +21,18 @@ doCache = True
 
 # Note in following that since there is no anonymization, the anonymized
 # DB is the same as the raw DB
-paramsGda = dict(name=__file__ + 'gdaScore',
-              rawDb='gdaScoreBankingRawLink',
-              anonDb='gdaScoreBankingRawLink',
-              pubDb='gdaScoreBankingRawPub',
-              criteria='linkability',
-              table='accounts',
-              flushCache=True,
-              verbose=False)
+config = {
+    "configVersion": "compact1",
+    "basic": {
+        "attackType": "Test",
+        "criteria": "linkability"
+    },
+    'anonTypes': [ ['no_anon'] ],
+    'tables': [ ['banking','accounts'] ]
+}
 
-params = paramsGda
+paramsList = setupGdaAttackParameters(config)
+params = paramsList[0]
 
 # TEST ALL CORRECT (UID ONLY)
 
@@ -46,7 +49,7 @@ x = gdaAttack(params)
 # First lets just get a list of UIDs from the raw table
 
 query = {}
-sql = """select distinct client_id
+sql = """select distinct uid
          from accounts
          limit 10"""
 query['sql'] = sql
@@ -59,8 +62,8 @@ if v: pp.pprint(replyCorrect)
 # the first askClaim will not commit to the claim
 claim = False
 for row in replyCorrect['answer']:
-    spec = {'uid':'client_id',
-            'guess':[{'col':'client_id','val':row[0]}]
+    spec = {
+            'guess':[{'col':'uid','val':row[0]}]
            }
     x.askClaim(spec,claim=claim,cache=doCache)
     claim = True
@@ -87,7 +90,7 @@ expect = {'attackCells': 10,
           'knowledgeCells': 0,
           'knowledgeGets': 0
          }
-checkMatch(score,expect,'client_id')
+checkMatch(score,expect,'uid')
 x.cleanUp()
 
 # TEST SOME CORRECT (QUERY PUB TABLE ONLY)
@@ -99,7 +102,7 @@ x = gdaAttack(params)
 # public table are also in the protected table
 
 query = {}
-sql = """select distinct client_id
+sql = """select distinct uid
          from accounts
          limit 50"""
 query['sql'] = sql
@@ -117,8 +120,8 @@ if v: pp.pprint(reply)
 # -------------------  Claims Phase  ----------------------------
 
 for row in reply['answer']:
-    spec = {'uid':'client_id',
-            'guess':[{'col':'client_id','val':row[0]}]
+    spec = {
+            'guess':[{'col':'uid','val':row[0]}]
            }
     x.askClaim(spec,claim=True,cache=doCache)
 
@@ -154,6 +157,6 @@ expect = {'attackCells': 0,
           'knowledgeCells': 0,
           'knowledgeGets': 0
          }
-checkMatch(score,expect,'client_id')
+checkMatch(score,expect,'uid')
 x.cleanUp()
 
