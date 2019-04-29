@@ -79,10 +79,7 @@ object ElasticSensitivityExample extends App {
   // variable to store the time of last modified file
   var time1 = 0.0
 
-  // array to store the files created by simpleServer.py
   var files: Array[File] = _
-
-  // temporary variable to store the name of last file created by simpleServer.py
   var tempLastFileCreated: File = _
 
   // timer to check the directory for new files periodically
@@ -92,16 +89,14 @@ object ElasticSensitivityExample extends App {
 
       // get the name of the latest file created by simpleServer.py
       val dir: File = new File(path)
-
-      // try-catch block in case no files are present in the JSON request directory
       try {
         files = dir.listFiles()
         if (files == null || files.length == 0) {
           //        throw new NoSuchElementException("No files exist!")
-          println("No files found")
+          println("No files found.")
         }
       }
-      catch{
+      catch {
         case e: NoSuchElementException => println("No files found.")
       }
 
@@ -110,7 +105,7 @@ object ElasticSensitivityExample extends App {
         tempLastFileCreated = files(0)
       }
       catch {
-        case e: Exception => println("Array out of bound.")
+        case e: Exception => println("Array out of bound")
       }
 
       // temporary variable to check last modified time of latest file
@@ -127,7 +122,7 @@ object ElasticSensitivityExample extends App {
         }
       }
       catch {
-        case e: NullPointerException => println("Exception occurred.")
+        case e: NullPointerException => println("Null Pointer Exception occurred.")
       }
 
       // check if any new file has been generated or any file has been modified by simpleServer.py
@@ -140,13 +135,12 @@ object ElasticSensitivityExample extends App {
 
         // append filename to the filepath
         val filename: String = lastFileCreated
-        print(filename)
+        println(filename)
 
         // read file to process JSON String
         for (line <- Source.fromFile(filename).getLines) {
           jsonStr = line;
         }
-
         // extract the query from the JSON file
         val resultOption = JSON.parseFull(jsonStr) match {
           case Some(map: Map[String, String]) => map.get("query")
@@ -154,8 +148,9 @@ object ElasticSensitivityExample extends App {
         }
         val query = resultOption.get;
 
-        if (query != "") {
 
+        if (query != "") {
+          try {
           // extract the epsilon value from the JSON file
           val resultEpsilon = JSON.parseFull(jsonStr) match {
             case Some(map: Map[String, String]) => map.get("epsilon")
@@ -183,14 +178,11 @@ object ElasticSensitivityExample extends App {
           val conn = DriverManager.getConnection(con_str)
 
           // run extracted query on the database to get private result
-          // try-catch block to handle exception while executing queries on the database
           try {
             val stm = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)
             val rs = stm.executeQuery(query)
 
             while (rs.next) {
-
-              // try-catch block to handle String to Double conversion error
               try {
                 // query result when executed on the database
                 QUERY_RESULT = rs.getString(1).toDouble;
@@ -199,14 +191,13 @@ object ElasticSensitivityExample extends App {
                 case e: Exception => new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
                   write(e.toString);
                   close
+                }
               }
             }
           }
-          }
-
           catch {
             case e: PSQLException => new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
-              write(e.toString);
+              write(e.toString)
               close
               println("File Created!")
             }
@@ -216,6 +207,7 @@ object ElasticSensitivityExample extends App {
           finally {
             conn.close()
           }
+
           // display query sent by client and the actual result
           println(s"Query sent by client: " + query);
           println(s"Private result: $QUERY_RESULT\n")
@@ -233,14 +225,26 @@ object ElasticSensitivityExample extends App {
             println("File Created!")
           }
           catch {
-            case e: Exception => print(e.getStackTrace)
+            case e: Exception => new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
+              write(e.toString)
+              close
+              println("File Created!")
+            }
           }
 
-
         }
-        else{
+          catch {
+            case e: Exception => new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
+              write(e.toString)
+              close
+              println("File Created!")
+            }
+          }
+        }
+
+        else {
           new PrintWriter(pathRes + "result" + LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd_HH-mm-ss")) + ".txt") {
-            write("No query was sent.")
+            write("Unknown error occurred. Please re-check the query.")
             close
             println("No query sent.")
           }
@@ -248,6 +252,7 @@ object ElasticSensitivityExample extends App {
         }
       }
     }
+
   }
 
   // schedule the task to check for new files and execute if new files are found
