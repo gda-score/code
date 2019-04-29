@@ -1,51 +1,61 @@
 #!/usr/bin/env python3
 
-""" client.py pastes some data to a url and sends it to the server.
-It also receives the parameters in the url extracted by the server
-and prints them in JSON along with a HTTP response code
+"""
+client.py sends some data in JSON format to the server.
+It also receives the noisy result of the sent query or an error message and displays it
+along with the HTTP response code.
 """
 
 import json
 import requests
 import pprint
 import functools
+from examples import config as cfg
 
-url = 'https://db001.gda-score.org/ubertool'  # Server URL
+
+url = cfg.url
 
 sid = ''  # Initialize Session ID variable
 
-# Make a Query list with count of number of times each query should be executed
-querylist = [{'query': '', 'count': 1}, {'query': 'SELECT COUNT(*) FROM accounts', 'count': 2}]
+querylist = cfg.querylist
 
-session = requests.Session()  # Client establishes a session
-session.get_orig, session.get = session.get, functools.partial(session.get, timeout=30)  # Set timeout factor here
+# Client establishes a session
+session = requests.Session()
+session.get_orig, session.get = session.get, functools.partial(session.get, timeout=100)  # Set timeout factor here
 
-
-# For loops to send queries from querylist
+# For loop to send queries from querylist
 for k in range(0, len(querylist)):
+    budget_flag = False
     for j in range(0, querylist[k]['count']):
-        request = {}  # Set the request to empty initially
+        request = {}
 
         # Exception handling in case exception occurs while connecting to server
         try:
-            # When sid in querylist is Null it indicates start of a session
-            # Client sends this data in url
             if not sid:
 
+                # ONLY change 'epsilon', 'budget' and 'dbname' values
+                # Keep 'query' and 'sid' fields as-is
+                # If any other non-existent 'sid' value is sent, Server returns an 'Error'
+                # The budget is set in the initial request only
+                # Once the budget is set, no further modification to the budget is possible in subsequent requests
+                # Client sends this data in url
                 request = {
                     'query': querylist[k]['query'],
-                    'epsilon': '1.0',
-                    'budget': '2.0',
-                    'dbname': 'raw_banking',
-                    'sid': ''
+                    'epsilon': '0.0',
+                    'budget': cfg.budget,
+                    'dbname': cfg.dbname,
+                    'sid': ''  # When sid is Null it indicates start of a session
                 }
 
-            # If sid is not Null in querylist, extract the query from the querylist and put it in the 'query' field
+                # If sid is not Null then put the sid returned by the server in the subsequent request
+                # Also extract the query from the `querylist` and put it in the `query` field
+                # ONLY `epsilon` can be changed
+                # `budget` and `dbname` just have placeholders
             else:
                 request = {
                     'query': querylist[k]['query'],
-                    'epsilon': '1.0',
-                    'budget': '2.0',
+                    'epsilon': querylist[k]['epsilon'],
+                    'budget': '1.0',
                     'dbname': 'raw_banking',
                     'sid': sid
                 }
@@ -54,9 +64,16 @@ for k in range(0, len(querylist)):
             response = session.get(url, params=json.dumps(request), verify=False)
 
             resp = response.json()  # Convert response sent by server to JSON
-
-            pprint.pprint(resp)  # Client prints the data returned by the server
-            sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+            if 'Error' in resp['Server Response']:
+                if 'Budget Exceeded' in resp['Server Response']['Error']:
+                    pprint.pprint(resp)
+                    budget_flag = True
+                    break
+                else:
+                    pprint.pprint(resp)  # Client prints the data returned by the server
+            else:
+                pprint.pprint(resp)  # Client prints the data returned by the server
+                sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
 
         except requests.ConnectionError as e:
             print("Connection Error. Make sure you are connected to Internet.")
@@ -72,3 +89,5 @@ for k in range(0, len(querylist)):
 
         except KeyboardInterrupt:
             print("Program closed")
+    if budget_flag:
+        break
