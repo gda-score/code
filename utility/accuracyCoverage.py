@@ -14,6 +14,10 @@ for param in paramsList:
         pp.pprint(param)
         print(f"Results may be found at {param['resultsPath']}")
         continue
-    gdaUtilityObj.distinctUidUtilityMeasureSingleAndDoubleColumn(param)
+    res = gdaUtilityObj.distinctUidUtilityMeasureSingleAndDoubleColumn(param)
+    if res is None:
+        print("Unable to complete.")
+        pp.pprint(param)
+        continue
     print("Finish up")
     gdaUtilityObj.finishGdaUtility(param)
