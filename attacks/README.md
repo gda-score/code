@@ -10,11 +10,13 @@ See https://gda-score.github.io/ for code documentation.
 
 This folder contains attacks as well as examples of how to design an attack. Best to just take one of the existing attacks as a template and work from there.  The `examples` folder contains additional snippits of code showing how to use different aspects of the attack API (class `gdaAttack()`, class `gdaScores()` etc.)
 
+To run these executables, the environment variable `PYTHONPATH` must be set to the path to the repo. (For example, `PYTHONPATH=C:\Users\francis\Documents\GitHub\code;`)
+
 # Main components
 
 ## ../common/config
 
-Databases (currently limited to postgres and aircloak) may be configured in a file formated like `../common/config/databases.json`. (Note that the code in `../common` assumes a databases config file called `../common/config/myDatabases.json`.)
+Note that the config file myCredentials.json must be configured here. (See example template.)
 
 ## ..
 
@@ -24,7 +26,7 @@ Contains the attacks themselves. Typically each attack consists of the basic att
 
 Contain random examples of how to use the APIs from `../common`.
 
-## attacks/attackResults
+## attacks/results
 
 Contains the outputs for a number of previously run attacks.
 
