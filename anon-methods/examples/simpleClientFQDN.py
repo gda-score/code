@@ -21,8 +21,8 @@ sid = ''  # Initialize Session ID variable
 querylist = cfg.querylist  # Get querylist from config file
 
 # Client establishes a session
-session = requests.Session()
-session.get_orig, session.get = session.get, functools.partial(session.get, timeout=100)  # Set timeout factor here
+# session = requests.Session()
+# session.get_orig, session.get = session.get, functools.partial(session.get, timeout=100)
 
 # For loop to send queries from querylist
 for k in range(0, len(querylist)):
