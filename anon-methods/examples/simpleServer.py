@@ -100,7 +100,7 @@ Returns the query result (Noisy Result) as response to Client.
 class GetParams(Resource):
     def get(self):
 
-        client_request = json.loads(list(dict(request.args).keys())[0])  # Stores the request in JSON format
+        client_request = request.json # Stores the request in JSON format
 
         print("JSON sent by Client: " + str(client_request))  # Print the JSON payload sent by Client
 
@@ -199,7 +199,7 @@ class GetParams(Resource):
 
                     return result_json
 
-            except FileNotFoundError as e:
+            except:
                 error_message = "No file with Session ID: " + sid + " found."
                 result_json = {
                     "Server Response": {

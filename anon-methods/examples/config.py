@@ -2,7 +2,7 @@
 
 budget = '6.0'  # Budget value
 dbname = 'raw_banking'  # Database name
-url = 'https://db001.gda-score.org/ubertool'  # Flask server url
+url = "https://db001.gda-score.org/ubertool"  # Flask server url
 
 """
 Send the first query as `NULL` with `'count': 1`.
@@ -17,6 +17,6 @@ Following valid queries return the noisy result in 'Result' field.
 Any invalid query will return an `Error` message.
 """
 
-querylist = [{'query': '', 'count': 1},
-             {'query': 'Select count(uid) from accounts', 'count': 2, 'epsilon': '2.0'},
-            {'query': 'Select count(uid) from accounts', 'count': 2, 'epsilon': '2.0'}]
+querylist = [{'query': "", 'count': 1},
+             {'query': "Select count(*) from transactions where operation = 'VKLAD' ", 'count': 2, 'epsilon': "0.5"},
+            {'query': "Select count(*) from accounts", 'count': 2, 'epsilon': "2.0"}]

@@ -6,18 +6,19 @@ It also receives the noisy result of the sent query or an error message and disp
 along with the HTTP response code.
 """
 
-import json
 import requests
 import pprint
 import functools
 from examples import config as cfg
 
 
-url = cfg.url
+url = cfg.url # Get URL of server from config file
+
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}  # Headers to be sent in the client request
 
 sid = ''  # Initialize Session ID variable
 
-querylist = cfg.querylist
+querylist = cfg.querylist  # Get querylist from config file
 
 # Client establishes a session
 session = requests.Session()
@@ -61,7 +62,7 @@ for k in range(0, len(querylist)):
                 }
 
             # Client stores the response sent by the simpleServer.py
-            response = session.get(url, params=json.dumps(request), verify=False)
+            response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
 
             resp = response.json()  # Convert response sent by server to JSON
             if 'Error' in resp['Server Response']:
