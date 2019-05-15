@@ -8,7 +8,7 @@ url = "https://db001.gda-score.org/ubertool"  # Flask server url
 Send the first query as `NULL` with `'count': 1`.
 Make separate `query`, `count` and `epsilon` key-value pairs for each subsequent query.
 Send the first query as NULL with count 1 to get back just the Session ID (See `README.md` file for detailed guidelines).
-VALID FORMAT: [{First Query: '', 'count': 1}, {Following Queries: 'Some Valid Query', 'count': x, 'epsilon': x}]
+VALID FORMAT: [{First Query: "", 'count': 1}, {Following Queries: "Some Valid Query", 'count': x, 'epsilon': x}]
 where `x` is the number of times you want to execute the query.
 NOTE: Make a separate 'query' and 'count' key-value pair for EACH query.
 
