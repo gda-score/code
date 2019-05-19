@@ -1,0 +1,344 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": {
+            "dbname": "k_anon_5_banking_partial",
+            "host": "db001.gda-score.org",
+            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "port": 5432,
+            "type": "postgres",
+            "user": "reshathacker.44@gmail.com"
+        },
+        "anonType": [
+            "pseudonymization",
+            "kanon",
+            "k_5"
+        ],
+        "basicConfig": {
+            "attackType": "Simple List",
+            "criteria": "singlingOut"
+        },
+        "criteria": "singlingOut",
+        "flushCache": false,
+        "friendly": {
+            "anonymization": [
+                "Anonymization Classes",
+                "Pseudonymization",
+                "K-anonymization",
+                "K = 5"
+            ],
+            "attack": [
+                "Simple List",
+                "singlingOut"
+            ],
+            "dataSource": [
+                "Data Sources",
+                "Czech Banking",
+                "accounts"
+            ]
+        },
+        "name": "imperial_attack_dummy.py.pseudonymization.kanon.k_5.banking.accounts",
+        "rawDb": {
+            "dbname": "raw_banking",
+            "host": "db001.gda-score.org",
+            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "port": 5432,
+            "type": "postgres",
+            "user": "reshathacker.44@gmail.com"
+        },
+        "resultsPath": "results/imperial_attack_dummy.py.pseudonymization.kanon.k_5.banking.accounts.json",
+        "table": "accounts",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": {
+                "dbname": "k_anon_5_banking_partial",
+                "host": "db001.gda-score.org",
+                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "port": 5432,
+                "type": "postgres",
+                "user": "reshathacker.44@gmail.com"
+            },
+            "anonDbName": "k_anon_5_banking_partial",
+            "anonHost": "db001.gda-score.org",
+            "anonPort": 5432,
+            "attackName": "imperial_attack_dummy.py.pseudonymization.kanon.k_5.banking.accounts",
+            "criteria": "singlingOut",
+            "rawDb": {
+                "dbname": "raw_banking",
+                "host": "db001.gda-score.org",
+                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "port": 5432,
+                "type": "postgres",
+                "user": "reshathacker.44@gmail.com"
+            },
+            "rawDbName": "raw_banking",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2019-05-18 10:53:17.967764",
+            "table": "accounts"
+        },
+        "base": {
+            "attackCells": 3828,
+            "attackGets": 3828,
+            "knowledgeCells": 15,
+            "knowledgeGets": 560
+        },
+        "col": {
+            "account_id": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "acct_date": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "acct_district_id": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "birth_number": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "birthdate": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "cli_district_id": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "disp_type": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "email": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "frequency": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "gender": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "street": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "uid": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "zip": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.0004763390578853817,
+            "avCachePutDuration": 0.009496085366072191,
+            "avQueryDuration": 0.04657940511030094,
+            "numCacheGets": 4388,
+            "numCachePuts": 112,
+            "numQueries": 4388,
+            "timeCacheGets": 2.090175786001055,
+            "timeCachePuts": 1.0635615610000855,
+            "timeQueries": 204.39042962400052
+        },
+        "scores": [
+            {
+                "claimProbability": 0,
+                "columnsUsed": [],
+                "confidenceImprovement": 0,
+                "defense": 1.0,
+                "knowledgeNeeded": null,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0,
+                "workNeeded": null
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "account_id",
+                    "integer"
+                ],
+                [
+                    "acct_district_id",
+                    "integer"
+                ],
+                [
+                    "frequency",
+                    "text"
+                ],
+                [
+                    "acct_date",
+                    "integer"
+                ],
+                [
+                    "uid",
+                    "integer"
+                ],
+                [
+                    "disp_type",
+                    "text"
+                ],
+                [
+                    "birth_number",
+                    "text"
+                ],
+                [
+                    "cli_district_id",
+                    "integer"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 16
+        }
+    }
+}
