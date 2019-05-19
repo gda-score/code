@@ -1,0 +1,14 @@
+{
+  "configVersion": "compact1",
+  "basic": {
+    "attackType": "Simple List",
+    "criteria": "singlingOut"
+  },
+  "anonTypes": [
+
+    ["diffix","v19_1_0"]
+  ],
+  "tables": [
+    ["taxi","rides"]
+  ]
+}
