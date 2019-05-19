@@ -300,6 +300,9 @@ class gdaUtility:
         uid = attack.getUidColName()
         rawColNames = attack.getColNames(dbType='rawDb')
         anonColNames = attack.getColNames(dbType='anonDb')
+        if rawColNames is None or anonColNames is None:
+            # This can happen if the anon table doesn't exist
+            return None
         # Get table characteristics. This tells us if a given column is
         # enumerative or continuous.
         tabChar = attack.getTableCharacteristics()
@@ -318,6 +321,7 @@ class gdaUtility:
         attackResult = attack.getResults()
         self._ar['operational']=attackResult['operational']
         attack.cleanUp()
+        return "Done"
 
     #Finish utility Measure: Write output to a file.
     def finishGdaUtility(self,params):
@@ -402,21 +406,29 @@ class gdaUtility:
         relError=0.0
         for item in absErrorList:
             absError += item * item
-        absError=absError/len(absErrorList);
+        if len(absErrorList) > 0:
+            absError=absError/len(absErrorList);
         for item in simpleRelErrorList:
             simpleRelError+=item*item
-        simpleRelError=simpleRelError/len(simpleRelErrorList);
+        if len(simpleRelErrorList) > 0:
+            simpleRelError=simpleRelError/len(simpleRelErrorList);
         for item in relErrorList:
             relError+=item*item
-        relError=relError/len(relErrorList);
+        if len(relErrorList) > 0:
+            relError=relError/len(relErrorList);
         accuracy={}
         accuracy['simpleRelErrorMetrics'] = {}
         accuracy['relErrorMetrics'] = {}
 
         absDict={}
-        absDict['min']=min(absErrorList)
-        absDict['max'] = max(absErrorList)
-        absDict['avg'] = mean(absErrorList)
+        if len(absErrorList) > 0:
+            absDict['min'] = min(absErrorList)
+            absDict['max'] = max(absErrorList)
+            absDict['avg'] = mean(absErrorList)
+        else:
+            absDict['min'] = None
+            absDict['max'] = None
+            absDict['avg'] = None
         if (len(absErrorList)>1):
             absDict['stddev'] = stdev(absErrorList)
         else:
@@ -431,9 +443,14 @@ class gdaUtility:
 
         #SimpleErrorRelDictionary
         simpleRelDict={}
-        simpleRelDict['min'] = min(simpleRelErrorList)
-        simpleRelDict['max'] = max(simpleRelErrorList)
-        simpleRelDict['avg'] = mean(simpleRelErrorList)
+        if len(simpleRelErrorList) > 0:
+            simpleRelDict['min'] = min(simpleRelErrorList)
+            simpleRelDict['max'] = max(simpleRelErrorList)
+            simpleRelDict['avg'] = mean(simpleRelErrorList)
+        else:
+            simpleRelDict['min'] = None
+            simpleRelDict['max'] = None
+            simpleRelDict['avg'] = None
         if(len(simpleRelErrorList)>1):
             simpleRelDict['stddev'] = stdev(simpleRelErrorList)
         else:
@@ -447,9 +464,14 @@ class gdaUtility:
 
         #RelErrorDictionary
         relDict = {}
-        relDict['min'] = min(relErrorList)
-        relDict['max'] = max(relErrorList)
-        relDict['avg'] = mean(relErrorList)
+        if len(relErrorList) > 0:
+            relDict['min'] = min(relErrorList)
+            relDict['max'] = max(relErrorList)
+            relDict['avg'] = mean(relErrorList)
+        else:
+            relDict['min'] = None
+            relDict['max'] = None
+            relDict['avg'] = None
         if(len(relErrorList)>1):
             relDict['stddev'] = stdev(relErrorList)
         else:
