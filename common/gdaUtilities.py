@@ -305,7 +305,7 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
                         params['pubDb']['port'] = servs[pubService]['port']
                         params['pubDb']['host'] = servs[pubService]['host']
                         params['pubDb']['type'] = servs[pubService]['type']
-                elif 'utilityMeasure' in config:
+                elif 'utilityMeasure' in config['basic']:
                     # This is a utility configuration
                     params['friendly']['utility'] = [
                             config['basic']['utilityMeasure'],
