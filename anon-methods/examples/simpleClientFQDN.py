@@ -10,7 +10,10 @@ import json
 import requests
 import pprint
 import functools
-from examples import config as cfg
+#from examples import config as cfg
+import config as cfg
+import urllib3
+urllib3.disable_warnings()
 
 
 url = cfg.url
