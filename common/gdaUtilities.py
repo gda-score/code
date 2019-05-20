@@ -483,3 +483,33 @@ def getInterpolatedValue(val0,val1,scoreGrid):
     frac = hypoPart / hypoFull
     interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
     return interpScore
+
+def findSnappedRange(val):
+    # simple brute force approach
+    start = 1
+    # find a starting value less than the target value val
+    while(1):
+        if start > val:
+            start /= 10
+        else:
+            break
+    # then find the pair of snapped values above and below val
+    while(1):
+        # the loop always starts at a power of 10
+        below = start
+        above = below * 2
+        if ((below <= val) and (above >= val)):
+            break
+        below = start * 2
+        above = start * 5
+        if ((below <= val) and (above >= val)):
+            break
+        below = start * 5
+        above = start * 10
+        if ((below <= val) and (above >= val)):
+            break
+        start *= 10
+    final = below
+    if ((above - val) < (val - below)):
+        final = above
+    return final
