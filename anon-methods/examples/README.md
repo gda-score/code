@@ -1,7 +1,7 @@
 # HOW THE FLASK SERVER INTERACTS WITH UBER TOOL
 
 The client sends a request to the Flask server. If the client request does not contain a Session ID i.e., 
-`sid` is `''` (Null), then the Flask server initiates a new session and generates a Session ID for the client.
+`sid` is `""` (Null), then the Flask server initiates a new session and generates a Session ID for the client.
 This Session ID is used to uniquely identify the client in future requests. All future requests from the same
 client contains this Session ID. The Flask server also writes all the data sent by the client (`budget`, `epsilon`, `dbname`, `query`) to a file which contains the generated Session ID.
 This file is read by the Uber Tool. Since this is the start of a session, there is no query associated with it and therefore no result is generated.
@@ -33,7 +33,7 @@ Make the `querylist` according to the guidelines provided below.
 After making the changes in `config.py`, run the script `simpleClientFQDN.py`.
 
 # VALID FORMAT of QUERYLIST SENT BY CLIENT
-Send the first query as `NULL` with `'count': 1`.
+Send the first query as `NULL` with `"count": 1`.
 
 Make separate `query`, `count` and `epsilon` key-value pairs for each subsequent query.
 This query list tells which query to execute how many times and its corresponding `epsilon` value.
@@ -44,7 +44,7 @@ When the first `query` is set to `NULL`, it returns just the `Session ID`.
 Following valid queries return the query result in `Result` field followed by the Session ID in the `Session ID` field.
 When the `budget` set initially by the user is exceeded, query execution stops. 
 
-VALID FORMAT: `{'query': '', 'count': 1}, {'query': 'Some Valid Query', 'count': x, 'epsilon': x}, {'query': 'Some Valid Query', 'count': x, 'epsilon': x}]`
+VALID FORMAT: `{"query": "", "count": 1}, {"query": "Some Valid Query", "count": x, "epsilon": "x"}, {"query": "Some Valid Query", "count": x, "epsilon": "x"}]`
 
 *NOTE 1: `count` is INTEGER while `epsilon` is DOUBLE*
 
@@ -55,19 +55,19 @@ value associated with it.*
 
 #INVALID FORMATS of QUERYLIST
 
-Invalid format #1: `[{'query': 'Invalid Query', 'count': 1}, {'query': 'Some Valid Query', 'count': x, 'epsilon': x}]`
+Invalid format #1: `[{"query": "Invalid Query", "count": 1}, {"query": "Some Valid Query", "count": x, "epsilon": "x"}]`
 
-This returns the `Session ID` followed by an `'Error': 'syntax error at or near "Invalid"\n'`
-
-
-Invalid Format #2: `[{'query': '' , 'count': 1}, {'query': 'Invalid Query', 'count': x, 'epsilon': x}]`
-
-E.g., `querylist = [{'query': '', 'count': 1}, {'query': 'SELECT COUNT(*) FROM InvalidTable', 'count': 1, 'epsilon': x}]`
-
-This returns the `Session ID` followed by an `'Error': 'relation "invalidtable" does not exist\n'`
+This returns the `Session ID` followed by an `"Error": "syntax error at or near "Invalid"\n"`
 
 
-Invalid Format #3: `[{'query': 'Valid/Invalid Query' , 'count': 0}, {'query': 'Valid/Invalid Query', 'count': x, 'epsilon': x}]`
+Invalid Format #2: `[{"query": "" , "count": 1}, {"query": "Invalid Query", "count": x, "epsilon": "x"}]`
+
+E.g., `querylist = [{"query": "", "count": 1}, {"query": "SELECT COUNT(*) FROM InvalidTable", "count": 1, "epsilon": "x"}]`
+
+This returns the `Session ID` followed by an `"Error": "relation "invalidtable" does not exist\n"`
+
+
+Invalid Format #3: `[{"query": "Valid/Invalid Query" , "count": 0}, {"query": "Valid/Invalid Query", "count": x, "epsilon": "x"}]`
 
 If `count` in first query is set to `0`, no queries (valid/invalid) thereafter will be executed.
 It will return only the `Session ID`.
@@ -75,9 +75,9 @@ It will return only the `Session ID`.
 Invalid Format #4: If `count` of any query is 0, the queries before the query with `count` `0` will execute i.e., query with count 0 will not execute.
 The following executes only upto `SELECT COUNT(uid) FROM accounts` i.e., second query.
 
-E.g., `querylist = [{'query': '', 'count': 1}, {'query': 'SELECT COUNT(*) FROM accounts', 'count': 1, 'epsilon': x},
-              {'query': 'SELECT COUNT(uid) FROM accounts', 'count': 1, 'epsilon': x},
-              {'query': 'SELECT COUNT(*) FROM accounts', 'count': 0, 'epsilon': x}]`
+E.g., `querylist = [{"query": "", "count": 1}, {"query": "SELECT COUNT(*) FROM accounts", "count": 1, "epsilon": "x"},
+              {"query": "SELECT COUNT(uid) FROM accounts", "count": 1, "epsilon": "x"},
+              {"query": "SELECT COUNT(*) FROM accounts", "count": 0, "epsilon": "x"}]`
               
 Invalid Format #4: If any query in between is an inavalid query, all queries are executed and
 `Result` field is displayed for valid queries and `Error` field is displayedd for 
@@ -85,7 +85,7 @@ invalid queries.
 
 The following executes all queries and displays and `Error` for the second query.
 
-E.g., `querylist = [{'query': '', 'count': 1}, {'query': 'SELECT COUNT(*) FROM InvalidTable', 'count': , 'epsilon': x},
-              {'query': 'SELECT COUNT(uid) FROM accounts', 'count': 1, 'epsilon': x}]`
+E.g., `querylist = [{"query": "", "count": 1}, {"query": "SELECT COUNT(*) FROM InvalidTable", "count": , "epsilon": "x"},
+              {"query": "SELECT COUNT(uid) FROM accounts", "count": 1, "epsilon": "x"}]`
 
 
