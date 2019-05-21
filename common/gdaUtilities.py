@@ -230,11 +230,15 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
     if 'anonTypes' not in config:
         config['anonTypes'] = [["no_anon"]]
     for anon in config['anonTypes']:
+        if not isinstance(anon, list):
+            print("ERROR: The 'anonTypes' config must be a list of lists")
+            quit()
         params = { "anonType": anon }
         if criteria == 'linkability':
             (anonDbs, anonFriendlyNames, anonService) = (
                     getAnonDbs(master, anon, 'link'))
         else:
+            pp.pprint(anon)
             (anonDbs, anonFriendlyNames, anonService) = (
                     getAnonDbs(master, anon, ''))
         if anonDbs is None:
