@@ -1,0 +1,543 @@
+{
+    "accuracy": {
+        "accuracy": {
+            "absolErrorMetrics": {
+                "avg": null,
+                "compute": "(count(distinct_rawDb)-count(distinct_anonDb))",
+                "max": null,
+                "meanSquareError": 0.0,
+                "min": null,
+                "stddev": null
+            },
+            "relErrorMetrics": {
+                "avg": null,
+                "compute": "(abs(count(distinct_rawDb)-count(distinct_anonDb))/max(count(distinct_rawDb),count(distinct_anonDb)))",
+                "max": null,
+                "meanSquareError": 0.0,
+                "min": null,
+                "stddev": null
+            },
+            "simpleRelErrorMetrics": {
+                "avg": null,
+                "compute": "(count(distinct_rawDb)/count(distinct_anonDb))",
+                "max": null,
+                "meanSquareError": 0.0,
+                "min": null,
+                "stddev": null
+            }
+        },
+        "queries": {
+            "doubleColumn": {
+                "stats": {
+                    "cli_district_id:birth_number": 12,
+                    "cli_district_id:disp_type": 13,
+                    "cli_district_id:frequency": 30
+                },
+                "totalQueries": 55
+            },
+            "ranges": {
+                "10-50": 43,
+                "100-500": 24,
+                "1000-5000": 8,
+                "50-100": 57,
+                "500-1000": 14
+            },
+            "singleColumn": {
+                "stats": {
+                    "acct_date": 7,
+                    "birth_number": 26,
+                    "cli_district_id": 53,
+                    "disp_type": 2,
+                    "frequency": 3
+                },
+                "totalQueries": 91
+            },
+            "totalQueries": 146
+        }
+    },
+    "coverage": [
+        {
+            "accuracy": null,
+            "col1": "account_id",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "acct_district_id",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "frequency",
+            "coverage": {
+                "colCountManyRawDb": 3,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 3,
+                "valuesInBothRawAndAnonDb": 3
+            }
+        },
+        {
+            "col1": "acct_date",
+            "coverage": {
+                "colCountManyRawDb": 1246,
+                "colCountOneRawDb": 289,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 1535,
+                "valuesInBothRawAndAnonDb": 1246
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "uid",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "col1": "disp_type",
+            "coverage": {
+                "colCountManyRawDb": 2,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 2,
+                "valuesInBothRawAndAnonDb": 2
+            }
+        },
+        {
+            "col1": "birth_number",
+            "coverage": {
+                "colCountManyRawDb": 333,
+                "colCountOneRawDb": 4686,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 5019,
+                "valuesInBothRawAndAnonDb": 333
+            }
+        },
+        {
+            "col1": "cli_district_id",
+            "coverage": {
+                "colCountManyRawDb": 77,
+                "colCountOneRawDb": 0,
+                "coveragePerCol": 1.0,
+                "totalValCntAnonDb": 77,
+                "valuesInBothRawAndAnonDb": 77
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "lastname",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "firstname",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "birthdate",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "gender",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "ssn",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "email",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "street",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        },
+        {
+            "accuracy": null,
+            "col1": "zip",
+            "coverage": {
+                "colCountManyRawDb": null,
+                "colCountOneRawDb": null,
+                "coveragePerCol": 0.0,
+                "totalValCntAnonDb": null,
+                "valuesInBothRawAndAnonDb": null
+            }
+        }
+    ],
+    "finished": true,
+    "operational": {
+        "avCacheGetDuration": 0.00021048039215140727,
+        "avCachePutDuration": 0,
+        "avQueryDuration": 0.008233915904140823,
+        "numCacheGets": 459,
+        "numCachePuts": 0,
+        "numQueries": 459,
+        "timeCacheGets": 0.09661049999749594,
+        "timeCachePuts": 0,
+        "timeQueries": 3.7793674000006376
+    },
+    "params": {
+        "anonDb": {
+            "dbname": "k_anon_5_banking_partial",
+            "host": "db001.gda-score.org",
+            "password": "mo7eiFaeP2ae",
+            "port": 5432,
+            "type": "postgres",
+            "user": "francis@mpi-sws.org"
+        },
+        "anonType": [
+            "pseudonymization",
+            "kanon",
+            "k_5"
+        ],
+        "basicConfig": {
+            "measureParam": "uid",
+            "ranges": [
+                [
+                    10,
+                    50
+                ],
+                [
+                    50,
+                    100
+                ],
+                [
+                    100,
+                    500
+                ],
+                [
+                    500,
+                    1000
+                ],
+                [
+                    1000,
+                    5000
+                ]
+            ],
+            "samples": 25,
+            "utilityMeasure": "Simple UID Count, Single Column"
+        },
+        "criteria": "singlingOut",
+        "flushCache": false,
+        "friendly": {
+            "anonymization": [
+                "Anonymization Classes",
+                "Pseudonymization",
+                "K-anonymization",
+                "K = 5"
+            ],
+            "dataSource": [
+                "Data Sources",
+                "Czech Banking",
+                "accounts"
+            ],
+            "utility": [
+                "Simple UID Count, Single Column",
+                "uid"
+            ]
+        },
+        "name": "accuracyCoverage.py.pseudonymization.kanon.k_5.banking.accounts_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery_gdaQuery",
+        "rawDb": {
+            "dbname": "raw_banking",
+            "host": "db001.gda-score.org",
+            "password": "mo7eiFaeP2ae",
+            "port": 5432,
+            "type": "postgres",
+            "user": "francis@mpi-sws.org"
+        },
+        "resultsPath": "results/accuracyCoverage.py.pseudonymization.kanon.k_5.banking.accounts.json",
+        "table": "accounts",
+        "uid": "uid",
+        "verbose": false
+    },
+    "tableStats": {
+        "account_id": {
+            "av_rows_per_vals": 1.19311,
+            "av_uids_per_val": 1.19311,
+            "column_label": "continuous",
+            "column_name": "account_id",
+            "column_type": "int",
+            "max": "11382",
+            "min": "1",
+            "num_distinct_vals": 4500,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.394783,
+            "std_uids_per_val": 0.394783
+        },
+        "acct_date": {
+            "av_rows_per_vals": 3.49772,
+            "av_uids_per_val": 3.49772,
+            "column_label": "enumerative",
+            "column_name": "acct_date",
+            "column_type": "int",
+            "max": "971229",
+            "min": "930101",
+            "num_distinct_vals": 1535,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 2.25056,
+            "std_uids_per_val": 2.25056
+        },
+        "acct_district_id": {
+            "av_rows_per_vals": 69.7273,
+            "av_uids_per_val": 69.7273,
+            "column_label": "enumerative",
+            "column_name": "acct_district_id",
+            "column_type": "int",
+            "max": "77",
+            "min": "1",
+            "num_distinct_vals": 77,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 73.5249,
+            "std_uids_per_val": 73.5249
+        },
+        "birth_number": {
+            "av_rows_per_vals": 1.06974,
+            "av_uids_per_val": 1.06974,
+            "column_label": "enumerative",
+            "column_name": "birth_number",
+            "column_type": "text",
+            "max": "875927",
+            "min": "110820",
+            "num_distinct_vals": 5019,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.268438,
+            "std_uids_per_val": 0.268438
+        },
+        "birthdate": {
+            "av_rows_per_vals": 1.07316,
+            "av_uids_per_val": 1.07316,
+            "column_label": "continuous",
+            "column_name": "birthdate",
+            "column_type": "date",
+            "max": "2019-09-29",
+            "min": "1918-01-03",
+            "num_distinct_vals": 5003,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.276793,
+            "std_uids_per_val": 0.276793
+        },
+        "cli_district_id": {
+            "av_rows_per_vals": 69.7273,
+            "av_uids_per_val": 69.7273,
+            "column_label": "enumerative",
+            "column_name": "cli_district_id",
+            "column_type": "int",
+            "max": "77",
+            "min": "1",
+            "num_distinct_vals": 77,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 72.7417,
+            "std_uids_per_val": 72.7417
+        },
+        "disp_type": {
+            "av_rows_per_vals": 2684.5,
+            "av_uids_per_val": 2684.5,
+            "column_label": "enumerative",
+            "column_name": "disp_type",
+            "column_type": "text",
+            "max": "OWNER",
+            "min": "DISPONENT",
+            "num_distinct_vals": 2,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 2567.5,
+            "std_uids_per_val": 2567.5
+        },
+        "email": {
+            "av_rows_per_vals": 1.00037,
+            "av_uids_per_val": 1.00037,
+            "column_label": "enumerative",
+            "column_name": "email",
+            "column_type": "text",
+            "max": "vulputate@utnisia.org",
+            "min": "Aenean.egestas.hendrerit@Integer.com",
+            "num_distinct_vals": 5367,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0193023,
+            "std_uids_per_val": 0.0193023
+        },
+        "firstname": {
+            "av_rows_per_vals": 4.68091,
+            "av_uids_per_val": 4.68091,
+            "column_label": "enumerative",
+            "column_name": "firstname",
+            "column_type": "text",
+            "max": "Zorita",
+            "min": "Aaron",
+            "num_distinct_vals": 1147,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 2.29523,
+            "std_uids_per_val": 2.29523
+        },
+        "frequency": {
+            "av_rows_per_vals": 1789.67,
+            "av_uids_per_val": 1789.67,
+            "column_label": "enumerative",
+            "column_name": "frequency",
+            "column_type": "text",
+            "max": "POPLATEK TYDNE",
+            "min": "POPLATEK MESICNE",
+            "num_distinct_vals": 3,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 2764.29,
+            "std_uids_per_val": 2764.29
+        },
+        "gender": {
+            "av_rows_per_vals": 2684.5,
+            "av_uids_per_val": 2684.5,
+            "column_label": "enumerative",
+            "column_name": "gender",
+            "column_type": "text",
+            "max": "Male",
+            "min": "Female",
+            "num_distinct_vals": 2,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 44.5477,
+            "std_uids_per_val": 44.5477
+        },
+        "lastname": {
+            "av_rows_per_vals": 1.37843,
+            "av_uids_per_val": 1.37843,
+            "column_label": "enumerative",
+            "column_name": "lastname",
+            "column_type": "text",
+            "max": "Zych",
+            "min": "Aanenson",
+            "num_distinct_vals": 3895,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 1.99165,
+            "std_uids_per_val": 1.99165
+        },
+        "ssn": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "ssn",
+            "column_type": "text",
+            "max": "899-75-0318",
+            "min": "001-01-0840",
+            "num_distinct_vals": 5369,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "street": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "enumerative",
+            "column_name": "street",
+            "column_type": "text",
+            "max": "P.O. Box 999, 4736 Dictum Ave",
+            "min": "100 Donec St.",
+            "num_distinct_vals": 5369,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "uid": {
+            "av_rows_per_vals": 1.0,
+            "av_uids_per_val": 1.0,
+            "column_label": "continuous",
+            "column_name": "uid",
+            "column_type": "int",
+            "max": "13998",
+            "min": "1",
+            "num_distinct_vals": 5369,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.0,
+            "std_uids_per_val": 0.0
+        },
+        "zip": {
+            "av_rows_per_vals": 1.01724,
+            "av_uids_per_val": 1.01724,
+            "column_label": "enumerative",
+            "column_name": "zip",
+            "column_type": "text",
+            "max": "ZX24 8HD",
+            "min": "00-702",
+            "num_distinct_vals": 5278,
+            "num_rows": 5369,
+            "num_uids": 5369,
+            "std_rows_per_val": 0.130182,
+            "std_uids_per_val": 0.130182
+        }
+    }
+}
