@@ -395,7 +395,7 @@ class gdaUtility:
         relErrorList=[]
         for q in queries:
             if q['anon'] == 0:
-                q['anon'] = 0.0001
+                continue
             absErrorList.append((abs(q['anon'] - q['raw'])))
             simpleRelErrorList.append((q['raw']/q['anon']))
             relErrorList.append((
