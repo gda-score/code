@@ -36,7 +36,7 @@ class gdaUtility:
            Currently limited to simple count of distinct users.
         '''
         self._ar={}
-        self._p = False
+        self._p = True
         self._nonCoveredDict = dict(accuracy=None,col1="TBD",
                 coverage=dict(colCountManyRawDb=None,
                     colCountOneRawDb=None,
@@ -70,8 +70,6 @@ class gdaUtility:
             if i >= targetCols:
                 break
             columns.append(ordered[i][0])
-            print(f"i is {i}")
-            print(columns)
         # Then datetime
         tuples = []
         for col in tabChar:
@@ -295,6 +293,7 @@ class gdaUtility:
             upper bound on the number of "things" that an answer should
             contain as specified by `measureParam`. <br/>
         '''
+        print("Enter distinctUidUtilityMeasureSingleAndDoubleColumn")
         attack = gdaAttack(param)
         table = attack.getAttackTableName()
         uid = attack.getUidColName()

@@ -10,7 +10,7 @@ class findQueryConditions:
     """
     # print or not, for debugging
     _p = 0
-    _pp = None      # for pretty printing (debugging)
+    _pp = pprint.PrettyPrinter(indent=4)
     _ret = []       # holds the discovered query conditions
     # The following used by getNextCondition()
     _nextConditionType = 0
@@ -93,12 +93,10 @@ class findQueryConditions:
                 f"{colInfo[col]['buckets'][index][0]} "
                 f"({colInfo[col]['buckets'][index][1]} against {targetBuckets})")
         colInfo2 = copy.deepcopy(colInfo)
-        # Change colInfo2 so that it encodes the range rather than the
-        # original native columns
         colInfo2[col]['condition'] = colInfo[col]['buckets'][index][0]
         return colInfo2
     
-    def _makeHistSql(self, table,columns,colInfo,uid,minCount,maxCount):
+    def _makeHistSql(self,table,columns,colInfo,uid,minCount,maxCount):
         if self._p: self._pp.pprint(colInfo)
         sql = "select ";
         notnull = 'WHERE '

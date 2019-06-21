@@ -20,3 +20,4 @@ Any invalid query will return an `Error` message.
 querylist = [{"query": "", 'count': 1},
              {"query": "Select count(*) from transactions where operation = 'VKLAD' ", "count": 2, "epsilon": "0.5"},
             {"query": "Select count(*) from accounts", "count": 2, "epsilon": "2.0"}]
+

@@ -9,6 +9,7 @@ paramsList = setupGdaAttackParameters(sys.argv)
 print(f" param list:")
 pp.pprint(paramsList)
 for param in paramsList:
+    print("Start next param")
     if param['finished'] == True:
         print("The following Utility measure has been previously completed:")
         pp.pprint(param)

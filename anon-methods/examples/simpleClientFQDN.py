@@ -9,7 +9,10 @@ along with the HTTP response code.
 import requests
 import pprint
 import functools
-from examples import config as cfg
+#from examples import config as cfg
+import config as cfg
+import urllib3
+urllib3.disable_warnings()
 
 
 url = cfg.url # Get URL of server from config file

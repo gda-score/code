@@ -230,11 +230,15 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
     if 'anonTypes' not in config:
         config['anonTypes'] = [["no_anon"]]
     for anon in config['anonTypes']:
+        if not isinstance(anon, list):
+            print("ERROR: The 'anonTypes' config must be a list of lists")
+            quit()
         params = { "anonType": anon }
         if criteria == 'linkability':
             (anonDbs, anonFriendlyNames, anonService) = (
                     getAnonDbs(master, anon, 'link'))
         else:
+            pp.pprint(anon)
             (anonDbs, anonFriendlyNames, anonService) = (
                     getAnonDbs(master, anon, ''))
         if anonDbs is None:
@@ -305,7 +309,7 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
                         params['pubDb']['port'] = servs[pubService]['port']
                         params['pubDb']['host'] = servs[pubService]['host']
                         params['pubDb']['type'] = servs[pubService]['type']
-                elif 'utilityMeasure' in config:
+                elif 'utilityMeasure' in config['basic']:
                     # This is a utility configuration
                     params['friendly']['utility'] = [
                             config['basic']['utilityMeasure'],
@@ -483,3 +487,33 @@ def getInterpolatedValue(val0,val1,scoreGrid):
     frac = hypoPart / hypoFull
     interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
     return interpScore
+
+def findSnappedRange(val):
+    # simple brute force approach
+    start = 1
+    # find a starting value less than the target value val
+    while(1):
+        if start > val:
+            start /= 10
+        else:
+            break
+    # then find the pair of snapped values above and below val
+    while(1):
+        # the loop always starts at a power of 10
+        below = start
+        above = below * 2
+        if ((below <= val) and (above >= val)):
+            break
+        below = start * 2
+        above = start * 5
+        if ((below <= val) and (above >= val)):
+            break
+        below = start * 5
+        above = start * 10
+        if ((below <= val) and (above >= val)):
+            break
+        start *= 10
+    final = below
+    if ((above - val) < (val - below)):
+        final = above
+    return final
