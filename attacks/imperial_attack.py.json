@@ -5,10 +5,20 @@
     "criteria": "singlingOut"
   },
   "anonTypes": [
-
-    ["diffix","v19_1_0"]
+    ["no_anon"],
+    ["diffix","v19_1_0"],
+    ["pseudonymization","kanon","k_2"],
+    ["pseudonymization","kanon","k_5"],
+    ["k_anonymization","naive","k_2"],
+    ["k_anonymization","naive","k_5"]
   ],
   "tables": [
-    ["taxi","rides"]
+    ["banking","accounts"],
+    ["banking","cards"],
+    ["banking","loans"],
+    ["scihub","downloads"],
+    ["taxi","rides"],
+    ["census","persons"],
+    ["banking","transactions"]
   ]
 }
