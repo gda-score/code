@@ -4,10 +4,10 @@
         "anonDb": {
             "dbname": "k_anon_2_banking_full",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
         "anonType": [
             "k_anonymization",
@@ -37,16 +37,16 @@
                 "accounts"
             ]
         },
-        "name": "imperial_attack_dummy.py.k_anonymization.naive.k_2.banking.accounts",
+        "name": "imperial_attack.py.k_anonymization.naive.k_2.banking.accounts",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.k_anonymization.naive.k_2.banking.accounts.json",
+        "resultsPath": "results/imperial_attack.py.k_anonymization.naive.k_2.banking.accounts.json",
         "table": "accounts",
         "uid": "uid",
         "verbose": false
@@ -56,35 +56,35 @@
             "anonDb": {
                 "dbname": "k_anon_2_banking_full",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "anonDbName": "k_anon_2_banking_full",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.k_anonymization.naive.k_2.banking.accounts",
+            "attackName": "imperial_attack.py.k_anonymization.naive.k_2.banking.accounts",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-18 10:59:26.136423",
+            "startTime": "2019-06-18 01:19:33.237344",
             "table": "accounts"
         },
         "base": {
-            "attackCells": 3828,
-            "attackGets": 3828,
-            "knowledgeCells": 15,
-            "knowledgeGets": 560
+            "attackCells": 2988,
+            "attackGets": 2988,
+            "knowledgeCells": 48,
+            "knowledgeGets": 20
         },
         "col": {
             "account_id": {
@@ -249,15 +249,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.0004126962149048188,
-            "avCachePutDuration": 0.0069712709792771575,
-            "avQueryDuration": 0.053057140308149044,
-            "numCacheGets": 4388,
-            "numCachePuts": 193,
-            "numQueries": 4381,
-            "timeCacheGets": 1.8109109910023449,
-            "timeCachePuts": 1.3454552990004913,
-            "timeQueries": 232.44333169000095
+            "avCacheGetDuration": 0.0002947032269859309,
+            "avCachePutDuration": 0.0028098315294100224,
+            "avQueryDuration": 0.02643097068363299,
+            "numCacheGets": 3009,
+            "numCachePuts": 85,
+            "numQueries": 3006,
+            "timeCacheGets": 0.8867620100006661,
+            "timeCachePuts": 0.2388356799998519,
+            "timeQueries": 79.45149787500077
         },
         "scores": [
             {

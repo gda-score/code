@@ -4,10 +4,10 @@
         "anonDb": {
             "dbname": "k_anon_5_banking_partial",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
         "anonType": [
             "pseudonymization",
@@ -37,16 +37,16 @@
                 "loans"
             ]
         },
-        "name": "imperial_attack_dummy.py.pseudonymization.kanon.k_5.banking.loans",
+        "name": "imperial_attack.py.pseudonymization.kanon.k_5.banking.loans",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.pseudonymization.kanon.k_5.banking.loans.json",
+        "resultsPath": "results/imperial_attack.py.pseudonymization.kanon.k_5.banking.loans.json",
         "table": "loans",
         "uid": "uid",
         "verbose": false
@@ -56,35 +56,35 @@
             "anonDb": {
                 "dbname": "k_anon_5_banking_partial",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "anonDbName": "k_anon_5_banking_partial",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.pseudonymization.kanon.k_5.banking.loans",
+            "attackName": "imperial_attack.py.pseudonymization.kanon.k_5.banking.loans",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-18 10:57:42.495887",
+            "startTime": "2019-06-18 01:19:11.287387",
             "table": "loans"
         },
         "base": {
             "attackCells": 372,
             "attackGets": 372,
-            "knowledgeCells": 15,
-            "knowledgeGets": 1540
+            "knowledgeCells": 42,
+            "knowledgeGets": 35
         },
         "col": {
             "account_id": {
@@ -309,15 +309,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.0003675364989538666,
-            "avCachePutDuration": 0.006803808230769776,
-            "avQueryDuration": 0.037512617316422234,
-            "numCacheGets": 1912,
-            "numCachePuts": 65,
-            "numQueries": 1912,
-            "timeCacheGets": 0.702729785999793,
-            "timeCachePuts": 0.44224753500003544,
-            "timeQueries": 71.72412430899931
+            "avCacheGetDuration": 0.0002241844779408251,
+            "avCachePutDuration": 0.0028069614000031605,
+            "avQueryDuration": 0.0304850445465687,
+            "numCacheGets": 408,
+            "numCachePuts": 15,
+            "numQueries": 408,
+            "timeCacheGets": 0.09146726699985663,
+            "timeCachePuts": 0.04210442100004741,
+            "timeQueries": 12.43789817500003
         },
         "scores": [
             {

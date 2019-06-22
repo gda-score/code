@@ -75,14 +75,14 @@
             "rawDbName": "raw_scihub",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-18 16:11:14.956726",
+            "startTime": "2019-06-18 01:29:04.216786",
             "table": "downloads"
         },
         "base": {
             "attackCells": 0,
             "attackGets": 0,
             "knowledgeCells": 0,
-            "knowledgeGets": 455
+            "knowledgeGets": 20
         },
         "col": {
             "birthdate": {
@@ -237,15 +237,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.0020469966263767852,
-            "avCachePutDuration": 0.002873730013183828,
-            "avQueryDuration": 4.710725121503295,
-            "numCacheGets": 455,
-            "numCachePuts": 455,
-            "numQueries": 455,
-            "timeCacheGets": 0.9313834650014372,
-            "timeCachePuts": 1.3075471559986416,
-            "timeQueries": 2143.379930283999
+            "avCacheGetDuration": 0.00030047828571306515,
+            "avCachePutDuration": 0.002166314142847287,
+            "avQueryDuration": 3.2223584510000074,
+            "numCacheGets": 21,
+            "numCachePuts": 21,
+            "numQueries": 21,
+            "timeCacheGets": 0.0063100439999743685,
+            "timeCachePuts": 0.04549259699979302,
+            "timeQueries": 67.66952747100015
         },
         "scores": [
             {

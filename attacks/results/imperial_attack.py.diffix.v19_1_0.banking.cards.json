@@ -75,14 +75,14 @@
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-14 09:45:28.850463",
+            "startTime": "2019-06-17 22:43:37.572330",
             "table": "cards"
         },
         "base": {
             "attackCells": 0,
             "attackGets": 0,
             "knowledgeCells": 0,
-            "knowledgeGets": 560
+            "knowledgeGets": 4
         },
         "col": {
             "birth_number": {
@@ -247,15 +247,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.00027834862856528683,
+            "avCacheGetDuration": 0.00034345839999936343,
             "avCachePutDuration": 0,
-            "avQueryDuration": 0.027557865632140226,
-            "numCacheGets": 560,
+            "avQueryDuration": 0.042620842200000196,
+            "numCacheGets": 5,
             "numCachePuts": 0,
-            "numQueries": 560,
-            "timeCacheGets": 0.15587523199656061,
+            "numQueries": 5,
+            "timeCacheGets": 0.0017172919999968173,
             "timeCachePuts": 0,
-            "timeQueries": 15.432404753998526
+            "timeQueries": 0.213104211000001
         },
         "scores": [
             {

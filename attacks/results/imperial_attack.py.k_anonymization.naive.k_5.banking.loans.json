@@ -37,7 +37,7 @@
                 "loans"
             ]
         },
-        "name": "imperial_attack_dummy.py.k_anonymization.naive.k_5.banking.loans",
+        "name": "imperial_attack.py.k_anonymization.naive.k_5.banking.loans",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
@@ -46,7 +46,7 @@
             "type": "postgres",
             "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.k_anonymization.naive.k_5.banking.loans.json",
+        "resultsPath": "results/imperial_attack.py.k_anonymization.naive.k_5.banking.loans.json",
         "table": "loans",
         "uid": "uid",
         "verbose": false
@@ -64,7 +64,7 @@
             "anonDbName": "k_anon_5_banking_full",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.k_anonymization.naive.k_5.banking.loans",
+            "attackName": "imperial_attack.py.k_anonymization.naive.k_5.banking.loans",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
@@ -77,14 +77,14 @@
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-20 00:39:13.880548",
+            "startTime": "2019-06-18 01:23:07.981532",
             "table": "loans"
         },
         "base": {
-            "attackCells": 372,
-            "attackGets": 372,
-            "knowledgeCells": 15,
-            "knowledgeGets": 1540
+            "attackCells": 300,
+            "attackGets": 300,
+            "knowledgeCells": 42,
+            "knowledgeGets": 35
         },
         "col": {
             "account_id": {
@@ -309,15 +309,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.00030520306903765015,
-            "avCachePutDuration": 0.0027230062826065628,
-            "avQueryDuration": 0.036692264323744575,
-            "numCacheGets": 1912,
-            "numCachePuts": 92,
-            "numQueries": 1912,
-            "timeCacheGets": 0.583548267999987,
-            "timeCachePuts": 0.25051657799980376,
-            "timeQueries": 70.15560938699963
+            "avCacheGetDuration": 0.00022151209821565825,
+            "avCachePutDuration": 0.0025598403333219723,
+            "avQueryDuration": 0.028794669544643863,
+            "numCacheGets": 336,
+            "numCachePuts": 15,
+            "numQueries": 336,
+            "timeCacheGets": 0.07442806500046117,
+            "timeCachePuts": 0.03839760499982958,
+            "timeQueries": 9.675008967000338
         },
         "scores": [
             {

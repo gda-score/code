@@ -4,10 +4,10 @@
         "anonDb": {
             "dbname": "k_anon_2_banking_full",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
         "anonType": [
             "k_anonymization",
@@ -37,16 +37,16 @@
                 "loans"
             ]
         },
-        "name": "imperial_attack_dummy.py.k_anonymization.naive.k_2.banking.loans",
+        "name": "imperial_attack.py.k_anonymization.naive.k_2.banking.loans",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.k_anonymization.naive.k_2.banking.loans.json",
+        "resultsPath": "results/imperial_attack.py.k_anonymization.naive.k_2.banking.loans.json",
         "table": "loans",
         "uid": "uid",
         "verbose": false
@@ -56,35 +56,35 @@
             "anonDb": {
                 "dbname": "k_anon_2_banking_full",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "anonDbName": "k_anon_2_banking_full",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.k_anonymization.naive.k_2.banking.loans",
+            "attackName": "imperial_attack.py.k_anonymization.naive.k_2.banking.loans",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-18 11:04:22.027988",
+            "startTime": "2019-06-18 01:21:09.908355",
             "table": "loans"
         },
         "base": {
-            "attackCells": 372,
-            "attackGets": 372,
-            "knowledgeCells": 15,
-            "knowledgeGets": 1540
+            "attackCells": 312,
+            "attackGets": 312,
+            "knowledgeCells": 42,
+            "knowledgeGets": 35
         },
         "col": {
             "account_id": {
@@ -309,15 +309,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.00039348210198748547,
-            "avCachePutDuration": 0.007369374869046483,
-            "avQueryDuration": 0.038742218984832974,
-            "numCacheGets": 1912,
-            "numCachePuts": 84,
-            "numQueries": 1912,
-            "timeCacheGets": 0.7523377790000723,
-            "timeCachePuts": 0.6190274889999046,
-            "timeQueries": 74.07512269900064
+            "avCacheGetDuration": 0.00021947638793029395,
+            "avCachePutDuration": 0.002510965499995775,
+            "avQueryDuration": 0.026474332540461883,
+            "numCacheGets": 348,
+            "numCachePuts": 14,
+            "numQueries": 346,
+            "timeCacheGets": 0.0763777829997423,
+            "timeCachePuts": 0.03515351699994085,
+            "timeQueries": 9.160119058999811
         },
         "scores": [
             {

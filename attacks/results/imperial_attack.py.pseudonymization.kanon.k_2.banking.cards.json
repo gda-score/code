@@ -4,10 +4,10 @@
         "anonDb": {
             "dbname": "k_anon_2_banking_partial",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
         "anonType": [
             "pseudonymization",
@@ -37,16 +37,16 @@
                 "cards"
             ]
         },
-        "name": "imperial_attack_dummy.py.pseudonymization.kanon.k_2.banking.cards",
+        "name": "imperial_attack.py.pseudonymization.kanon.k_2.banking.cards",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.pseudonymization.kanon.k_2.banking.cards.json",
+        "resultsPath": "results/imperial_attack.py.pseudonymization.kanon.k_2.banking.cards.json",
         "table": "cards",
         "uid": "uid",
         "verbose": false
@@ -56,35 +56,35 @@
             "anonDb": {
                 "dbname": "k_anon_2_banking_partial",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "anonDbName": "k_anon_2_banking_partial",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.pseudonymization.kanon.k_2.banking.cards",
+            "attackName": "imperial_attack.py.pseudonymization.kanon.k_2.banking.cards",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-18 10:44:43.956753",
+            "startTime": "2019-06-18 01:07:27.588972",
             "table": "cards"
         },
         "base": {
             "attackCells": 0,
             "attackGets": 0,
             "knowledgeCells": 0,
-            "knowledgeGets": 560
+            "knowledgeGets": 4
         },
         "col": {
             "birth_number": {
@@ -249,15 +249,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.00044933324285695775,
-            "avCachePutDuration": 0.013945107642856312,
-            "avQueryDuration": 0.040015901428571,
-            "numCacheGets": 560,
-            "numCachePuts": 14,
-            "numQueries": 560,
-            "timeCacheGets": 0.25162661599989633,
-            "timeCachePuts": 0.19523150699998837,
-            "timeQueries": 22.40890479999976
+            "avCacheGetDuration": 0.0002866064000016877,
+            "avCachePutDuration": 0,
+            "avQueryDuration": 0.04847968140000205,
+            "numCacheGets": 5,
+            "numCachePuts": 0,
+            "numQueries": 5,
+            "timeCacheGets": 0.0014330320000084384,
+            "timeCachePuts": 0,
+            "timeQueries": 0.24239840700001025
         },
         "scores": [
             {

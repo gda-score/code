@@ -4,10 +4,10 @@
         "anonDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
         "anonType": [
             "no_anon"
@@ -33,16 +33,16 @@
                 "accounts"
             ]
         },
-        "name": "imperial_attack_dummy.py.no_anon.banking.accounts",
+        "name": "imperial_attack.py.no_anon.banking.accounts",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
-            "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+            "password": "YgReittaekaing2bo",
             "port": 5432,
             "type": "postgres",
-            "user": "reshathacker.44@gmail.com"
+            "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.no_anon.banking.accounts.json",
+        "resultsPath": "results/imperial_attack.py.no_anon.banking.accounts.json",
         "table": "accounts",
         "uid": "uid",
         "verbose": false
@@ -52,35 +52,35 @@
             "anonDb": {
                 "dbname": "raw_banking",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "anonDbName": "raw_banking",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.no_anon.banking.accounts",
+            "attackName": "imperial_attack.py.no_anon.banking.accounts",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
                 "host": "db001.gda-score.org",
-                "password": "ny2l9iwZETEobLdeQVcRQ9CGSb5S7Cco",
+                "password": "YgReittaekaing2bo",
                 "port": 5432,
                 "type": "postgres",
-                "user": "reshathacker.44@gmail.com"
+                "user": "ankitdixit3004@gmail.com"
             },
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-17 02:44:45.884641",
+            "startTime": "2019-06-18 00:12:04.735819",
             "table": "accounts"
         },
         "base": {
-            "attackCells": 3828,
-            "attackGets": 3828,
-            "knowledgeCells": 15,
-            "knowledgeGets": 560
+            "attackCells": 3072,
+            "attackGets": 3072,
+            "knowledgeCells": 48,
+            "knowledgeGets": 20
         },
         "col": {
             "account_id": {
@@ -105,18 +105,18 @@
             },
             "acct_district_id": {
                 "avgConfidenceRatios": 0.12497671819705718,
-                "claimCorrect": 2,
+                "claimCorrect": 1,
                 "claimError": 0,
-                "claimMade": 2,
+                "claimMade": 1,
                 "claimPassCorrect": 0,
                 "claimProbability": 1.0,
-                "claimTrials": 2,
+                "claimTrials": 1,
                 "columnSusceptibility": 1.0,
                 "confidence": 1.0,
                 "confidenceImprovement": 1.0,
                 "defense": 0,
-                "numConfidenceRatios": 2,
-                "sumConfidenceRatios": 0.24995343639411435
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.12497671819705718
             },
             "birth_number": {
                 "avgConfidenceRatios": 0,
@@ -139,19 +139,19 @@
                 "sumConfidenceRatios": 0
             },
             "cli_district_id": {
-                "avgConfidenceRatios": 0.1234866828087167,
-                "claimCorrect": 3,
+                "avgConfidenceRatios": 0.06649282920469361,
+                "claimCorrect": 2,
                 "claimError": 0,
-                "claimMade": 3,
+                "claimMade": 2,
                 "claimPassCorrect": 0,
                 "claimProbability": 1.0,
-                "claimTrials": 3,
+                "claimTrials": 2,
                 "columnSusceptibility": 1.0,
                 "confidence": 1.0,
                 "confidenceImprovement": 1.0,
                 "defense": 0,
-                "numConfidenceRatios": 3,
-                "sumConfidenceRatios": 0.3704600484261501
+                "numConfidenceRatios": 2,
+                "sumConfidenceRatios": 0.13298565840938723
             },
             "disp_type": {
                 "avgConfidenceRatios": 0,
@@ -200,18 +200,18 @@
             },
             "gender": {
                 "avgConfidenceRatios": 0.4941329856584094,
-                "claimCorrect": 4,
+                "claimCorrect": 1,
                 "claimError": 0,
-                "claimMade": 4,
+                "claimMade": 1,
                 "claimPassCorrect": 0,
                 "claimProbability": 1.0,
-                "claimTrials": 4,
+                "claimTrials": 1,
                 "columnSusceptibility": 1.0,
                 "confidence": 1.0,
                 "confidenceImprovement": 1.0,
                 "defense": 0,
-                "numConfidenceRatios": 4,
-                "sumConfidenceRatios": 1.9765319426336376
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.4941329856584094
             },
             "lastname": {
                 "avgConfidenceRatios": 0,
@@ -265,15 +265,15 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.000454375044982076,
-            "avCachePutDuration": 0.013167813323076812,
-            "avQueryDuration": 0.04675308588698019,
-            "numCacheGets": 4424,
-            "numCachePuts": 65,
-            "numQueries": 4424,
-            "timeCacheGets": 2.010155199000704,
-            "timeCachePuts": 0.8559078659999928,
-            "timeQueries": 206.83565196400036
+            "avCacheGetDuration": 0.0003080573670518782,
+            "avCachePutDuration": 0.0028605156320000093,
+            "avQueryDuration": 0.03190802478042491,
+            "numCacheGets": 3114,
+            "numCachePuts": 125,
+            "numQueries": 3106,
+            "timeCacheGets": 0.9592906409995487,
+            "timeCachePuts": 0.35756445400000114,
+            "timeQueries": 99.10632496799977
         },
         "scores": [
             {
@@ -286,10 +286,10 @@
                 ],
                 "confidenceImprovement": 1.0,
                 "defense": 0.037878787878787956,
-                "knowledgeNeeded": 1.25,
+                "knowledgeNeeded": 6.857142857142857,
                 "method": "mpi_sws_basic_v1",
                 "susceptibility": 0.25,
-                "workNeeded": 319.0
+                "workNeeded": 438.85714285714283
             }
         ],
         "tableStats": {

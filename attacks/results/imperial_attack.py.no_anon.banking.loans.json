@@ -33,7 +33,7 @@
                 "loans"
             ]
         },
-        "name": "imperial_attack_dummy.py.no_anon.banking.loans",
+        "name": "imperial_attack.py.no_anon.banking.loans",
         "rawDb": {
             "dbname": "raw_banking",
             "host": "db001.gda-score.org",
@@ -42,7 +42,7 @@
             "type": "postgres",
             "user": "ankitdixit3004@gmail.com"
         },
-        "resultsPath": "results/imperial_attack_dummy.py.no_anon.banking.loans.json",
+        "resultsPath": "results/imperial_attack.py.no_anon.banking.loans.json",
         "table": "loans",
         "uid": "uid",
         "verbose": false
@@ -60,7 +60,7 @@
             "anonDbName": "raw_banking",
             "anonHost": "db001.gda-score.org",
             "anonPort": 5432,
-            "attackName": "imperial_attack_dummy.py.no_anon.banking.loans",
+            "attackName": "imperial_attack.py.no_anon.banking.loans",
             "criteria": "singlingOut",
             "rawDb": {
                 "dbname": "raw_banking",
@@ -73,14 +73,14 @@
             "rawDbName": "raw_banking",
             "rawHost": "db001.gda-score.org",
             "rawPort": 5432,
-            "startTime": "2019-05-17 02:23:36.150050",
+            "startTime": "2019-06-18 00:13:59.237604",
             "table": "loans"
         },
         "base": {
-            "attackCells": 372,
-            "attackGets": 372,
-            "knowledgeCells": 15,
-            "knowledgeGets": 1540
+            "attackCells": 312,
+            "attackGets": 312,
+            "knowledgeCells": 42,
+            "knowledgeGets": 35
         },
         "col": {
             "account_id": {
@@ -104,14 +104,19 @@
                 "sumConfidenceRatios": 0
             },
             "acct_district_id": {
-                "avgConfidenceRatios": 0,
-                "claimCorrect": 0,
+                "avgConfidenceRatios": 0.12575574365175332,
+                "claimCorrect": 1,
                 "claimError": 0,
-                "claimMade": 0,
+                "claimMade": 1,
                 "claimPassCorrect": 0,
-                "claimTrials": 0,
-                "numConfidenceRatios": 0,
-                "sumConfidenceRatios": 0
+                "claimProbability": 1.0,
+                "claimTrials": 1,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.12575574365175332
             },
             "amount": {
                 "avgConfidenceRatios": 0,
@@ -204,22 +209,7 @@
                 "sumConfidenceRatios": 0
             },
             "frequency": {
-                "avgConfidenceRatios": 0.8222490931076178,
-                "claimCorrect": 1,
-                "claimError": 0,
-                "claimMade": 1,
-                "claimPassCorrect": 0,
-                "claimProbability": 1.0,
-                "claimTrials": 1,
-                "columnSusceptibility": 1.0,
-                "confidence": 1.0,
-                "confidenceImprovement": 1.0,
-                "defense": 0,
-                "numConfidenceRatios": 1,
-                "sumConfidenceRatios": 0.8222490931076178
-            },
-            "gender": {
-                "avgConfidenceRatios": 0.49858927851672713,
+                "avgConfidenceRatios": 0.5912938331318017,
                 "claimCorrect": 3,
                 "claimError": 0,
                 "claimMade": 3,
@@ -231,7 +221,22 @@
                 "confidenceImprovement": 1.0,
                 "defense": 0,
                 "numConfidenceRatios": 3,
-                "sumConfidenceRatios": 1.4957678355501813
+                "sumConfidenceRatios": 1.773881499395405
+            },
+            "gender": {
+                "avgConfidenceRatios": 0.5,
+                "claimCorrect": 2,
+                "claimError": 0,
+                "claimMade": 2,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 2,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 2,
+                "sumConfidenceRatios": 1.0
             },
             "lastname": {
                 "avgConfidenceRatios": 0,
@@ -284,19 +289,19 @@
                 "sumConfidenceRatios": 0
             },
             "status": {
-                "avgConfidenceRatios": 0.31197097944377267,
-                "claimCorrect": 4,
+                "avgConfidenceRatios": 0.40669085046352277,
+                "claimCorrect": 3,
                 "claimError": 0,
-                "claimMade": 4,
+                "claimMade": 3,
                 "claimPassCorrect": 0,
                 "claimProbability": 1.0,
-                "claimTrials": 4,
+                "claimTrials": 3,
                 "columnSusceptibility": 1.0,
                 "confidence": 1.0,
                 "confidenceImprovement": 1.0,
                 "defense": 0,
-                "numConfidenceRatios": 4,
-                "sumConfidenceRatios": 1.2478839177750907
+                "numConfidenceRatios": 3,
+                "sumConfidenceRatios": 1.2200725513905684
             },
             "street": {
                 "avgConfidenceRatios": 0,
@@ -330,32 +335,33 @@
             }
         },
         "operational": {
-            "avCacheGetDuration": 0.0004497579187668424,
-            "avCachePutDuration": 0.0028626324409953092,
-            "avQueryDuration": 0.04197437238179021,
-            "numCacheGets": 1945,
-            "numCachePuts": 161,
-            "numQueries": 1933,
-            "timeCacheGets": 0.8747791520015085,
-            "timeCachePuts": 0.4608838230002448,
-            "timeQueries": 81.13646181400048
+            "avCacheGetDuration": 0.0002174103463544371,
+            "avCachePutDuration": 0,
+            "avQueryDuration": 0.02072410428385374,
+            "numCacheGets": 384,
+            "numCachePuts": 0,
+            "numQueries": 384,
+            "timeCacheGets": 0.08348557300010384,
+            "timeCachePuts": 0,
+            "timeQueries": 7.958056044999836
         },
         "scores": [
             {
                 "claimProbability": 1.0,
                 "columnsUsed": [
                     "status",
+                    "acct_district_id",
                     "frequency",
                     "disp_type",
                     "cli_district_id",
                     "gender"
                 ],
                 "confidenceImprovement": 1.0,
-                "defense": 0.039026629935720925,
-                "knowledgeNeeded": 1.3636363636363635,
+                "defense": 0.03673094582185499,
+                "knowledgeNeeded": 3.5,
                 "method": "mpi_sws_basic_v1",
-                "susceptibility": 0.22727272727272727,
-                "workNeeded": 33.81818181818182
+                "susceptibility": 0.2727272727272727,
+                "workNeeded": 26.0
             }
         ],
         "tableStats": {
