@@ -1,0 +1,550 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": {
+            "dbname": "gda_taxi",
+            "host": "attack.aircloak.com",
+            "password": "P8f86yAH4fQszyBEhsdSEMul2UmFR8Mm",
+            "port": 9432,
+            "type": "aircloak",
+            "user": "ankitdixit3004"
+        },
+        "anonType": [
+            "diffix",
+            "v19_1_0"
+        ],
+        "basicConfig": {
+            "attackType": "Simple List",
+            "criteria": "singlingOut"
+        },
+        "criteria": "singlingOut",
+        "flushCache": false,
+        "friendly": {
+            "anonymization": [
+                "Anonymization Classes",
+                "Diffix",
+                "Version V19.1.0"
+            ],
+            "attack": [
+                "Simple List",
+                "singlingOut"
+            ],
+            "dataSource": [
+                "Data Sources",
+                "NYC Taxi Rides",
+                "rides"
+            ]
+        },
+        "name": "imperial_attack.py.diffix.v19_1_0.taxi.rides",
+        "rawDb": {
+            "dbname": "raw_taxi",
+            "host": "db001.gda-score.org",
+            "password": "YgReittaekaing2bo",
+            "port": 5432,
+            "type": "postgres",
+            "user": "ankitdixit3004@gmail.com"
+        },
+        "resultsPath": "results/imperial_attack.py.diffix.v19_1_0.taxi.rides.json",
+        "table": "rides",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": {
+                "dbname": "gda_taxi",
+                "host": "attack.aircloak.com",
+                "password": "P8f86yAH4fQszyBEhsdSEMul2UmFR8Mm",
+                "port": 9432,
+                "type": "aircloak",
+                "user": "ankitdixit3004"
+            },
+            "anonDbName": "gda_taxi",
+            "anonHost": "attack.aircloak.com",
+            "anonPort": 9432,
+            "attackName": "imperial_attack.py.diffix.v19_1_0.taxi.rides",
+            "criteria": "singlingOut",
+            "rawDb": {
+                "dbname": "raw_taxi",
+                "host": "db001.gda-score.org",
+                "password": "YgReittaekaing2bo",
+                "port": 5432,
+                "type": "postgres",
+                "user": "ankitdixit3004@gmail.com"
+            },
+            "rawDbName": "raw_taxi",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2019-06-20 23:04:39.755216",
+            "table": "rides"
+        },
+        "base": {
+            "attackCells": 1488,
+            "attackGets": 744,
+            "knowledgeCells": 126,
+            "knowledgeGets": 100
+        },
+        "col": {
+            "birthdate": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "dropoff_datetime": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "dropoff_latitude": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "dropoff_longitude": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "email": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "fare_amount": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "gender": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "med": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "mta_tax": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "passenger_count": {
+                "avgConfidenceRatios": 0.06220261540885458,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 1,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 1,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.0,
+                "confidenceImprovement": -0.06632841638385807,
+                "defense": 1,
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.06220261540885458
+            },
+            "payment_type": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "pickup_datetime": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "pickup_latitude": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "pickup_longitude": {
+                "avgConfidenceRatios": 0.016291161178509532,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 1,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 1,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.0,
+                "confidenceImprovement": -0.016560958421423536,
+                "defense": 1,
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.016291161178509532
+            },
+            "rate_code": {
+                "avgConfidenceRatios": 0.009264219316212383,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 1,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 1,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.0,
+                "confidenceImprovement": -0.009350847619350528,
+                "defense": 1,
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.009264219316212383
+            },
+            "sf_flag": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "street": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "surcharge": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "tip_amount": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "tolls_amount": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "total_amount": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "trip_distance": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "trip_time_in_secs": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "uid": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "vendor_id": {
+                "avgConfidenceRatios": 0.5059083031353395,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 1,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 1,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.0,
+                "confidenceImprovement": -1.0239158163265305,
+                "defense": 1,
+                "numConfidenceRatios": 1,
+                "sumConfidenceRatios": 0.5059083031353395
+            },
+            "zip": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.07319308284714096,
+            "avCachePutDuration": 0.0028560859511224486,
+            "avQueryDuration": 0.4418411177526183,
+            "numCacheGets": 857,
+            "numCachePuts": 757,
+            "numQueries": 764,
+            "timeCacheGets": 62.7264719999998,
+            "timeCachePuts": 2.1620570649996935,
+            "timeQueries": 337.5666139630004
+        },
+        "scores": [
+            {
+                "claimProbability": 1.0,
+                "columnsUsed": [
+                    "vendor_id",
+                    "rate_code",
+                    "passenger_count",
+                    "pickup_longitude"
+                ],
+                "confidenceImprovement": -0.2790390096877906,
+                "defense": 1.0,
+                "knowledgeNeeded": 31.5,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0.13793103448275862,
+                "workNeeded": 372.0
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "med",
+                    "character varying"
+                ],
+                [
+                    "uid",
+                    "character varying"
+                ],
+                [
+                    "vendor_id",
+                    "character varying"
+                ],
+                [
+                    "rate_code",
+                    "smallint"
+                ],
+                [
+                    "sf_flag",
+                    "character varying"
+                ],
+                [
+                    "pickup_datetime",
+                    "timestamp without time zone"
+                ],
+                [
+                    "dropoff_datetime",
+                    "timestamp without time zone"
+                ],
+                [
+                    "passenger_count",
+                    "smallint"
+                ],
+                [
+                    "trip_time_in_secs",
+                    "bigint"
+                ],
+                [
+                    "trip_distance",
+                    "numeric"
+                ],
+                [
+                    "pickup_longitude",
+                    "numeric"
+                ],
+                [
+                    "pickup_latitude",
+                    "numeric"
+                ],
+                [
+                    "dropoff_longitude",
+                    "numeric"
+                ],
+                [
+                    "dropoff_latitude",
+                    "numeric"
+                ],
+                [
+                    "payment_type",
+                    "character varying"
+                ],
+                [
+                    "fare_amount",
+                    "numeric"
+                ],
+                [
+                    "surcharge",
+                    "numeric"
+                ],
+                [
+                    "mta_tax",
+                    "numeric"
+                ],
+                [
+                    "tip_amount",
+                    "numeric"
+                ],
+                [
+                    "tolls_amount",
+                    "numeric"
+                ],
+                [
+                    "total_amount",
+                    "numeric"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 29,
+            "totalRows": 95205
+        }
+    }
+}
