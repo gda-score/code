@@ -5,7 +5,8 @@ from setuptools.command.build_py import build_py as build_py_orig
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-excluded = ['common/gdaTool.py', 'common/gdaQuery.py']
+# excluded = ['common/gdaTool.py', 'common/gdaQuery.py']
+excluded = []
 
 
 class build_py(build_py_orig):
@@ -19,14 +20,14 @@ class build_py(build_py_orig):
 
 
 setuptools.setup(
-    name="gdascore-mock",
-    version="2.0.17",
+    name="gda-score-code",
+    version="2.0.0",
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/gda-score/code",
-    packages=setuptools.find_packages(include=['common', 'common.config']),
+    packages=setuptools.find_packages(include=['gdascore']),
     cmdclass={'build_py': build_py},
     classifiers=[
         "Programming Language :: Python :: 3.7",
