@@ -10,7 +10,7 @@ import base64
 import time
 import pprint
 import datetime
-from common.gdaUtilities import getInterpolatedValue,getDatabaseInfo
+from .gdaUtilities import getInterpolatedValue,getDatabaseInfo
 
 class gdaScores:
     """Computes the final GDA Score from the scores returned by gdaAttack

@@ -1,0 +1,20 @@
+{
+  "configVersion": "compact1",
+  "basic": {
+    "attackType": "Simple List",
+    "criteria": "linkability"
+  },
+  "anonTypes": [
+    ["no_anon"],
+    ["diffix","v19_1_0"]
+  ],
+  "tables": [
+    ["banking","accounts"],
+    ["banking","cards"],
+    ["banking","loans"],
+    ["banking","transactions"],
+    ["census","persons"],
+    ["taxi","rides"],
+    ["scihub","downloads"]
+  ]
+}

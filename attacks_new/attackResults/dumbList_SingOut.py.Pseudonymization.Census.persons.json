@@ -1,0 +1,2417 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": "pseudoCensus0",
+        "anonSubType": "",
+        "anonType": "Pseudonymization",
+        "attackType": "Simple List Singling Out",
+        "criteria": "singlingOut",
+        "dbType": "Census",
+        "flushCache": false,
+        "name": "dumbList_SingOut.py.Pseudonymization.Census.persons",
+        "rawDb": "gdaScoreCensus0Raw",
+        "resultsDir": "",
+        "resultsPath": "attackResults/dumbList_SingOut.py.Pseudonymization.Census.persons.json",
+        "table": "persons",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": "pseudoCensus0",
+            "anonDbName": "pseudo_census",
+            "anonHost": "db001.gda-score.org",
+            "anonPort": 5432,
+            "attackName": "dumbList_SingOut.py.Pseudonymization.Census.persons",
+            "criteria": "singlingOut",
+            "rawDb": "gdaScoreCensus0Raw",
+            "rawDbName": "raw_census",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2019-01-21 17:08:40.357159",
+            "table": "persons"
+        },
+        "base": {
+            "attackCells": 11400,
+            "attackGets": 1,
+            "knowledgeCells": 0,
+            "knowledgeGets": 0
+        },
+        "col": {
+            "absent": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "age": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "arrives": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "availble": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "birthdate": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "birthqtr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "birthyr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "bpl": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "bpld": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "carpool": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "citizen": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "classwkr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "classwkrd": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "datanum": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "degfield": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "degfield2": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "degfield2d": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "degfieldd": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "departs": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffcare": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffeye": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffhear": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffmob": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffphys": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffrem": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "diffsens": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "educ": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "educd": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "email": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "empstat": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "empstatd": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "famsize": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "ftotinc": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "gender": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "gq": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "gradeatt": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "gradeattd": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hcovany": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hcovpriv": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hcovpub": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hhwt": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinscaid": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinscare": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinsemp": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinsihs": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinspur": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinstri": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hinsva": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hispan": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "hispand": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incbus00": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incearn": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incinvst": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incother": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incretir": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incss": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incsupp": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "inctot": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incwage": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "incwelfr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "ind": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "labforce": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "language": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "languaged": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "looking": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "marrno": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "marst": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "migplac1": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "migpuma1": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "migrate1": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "migrate1d": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "movedin": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "nchild": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "nchlt5": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "nsibs": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "occ": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "occscore": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "pernum": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "perwt": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "poverty": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "pwpuma00": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "pwstate2": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "racamind": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "racasian": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "racblk": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "race": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "raced": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "racother": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "racpacis": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "racwht": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "relate": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "related": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "riders": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "schltype": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "school": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "serial": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "sex": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "speakeng": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "street": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "trantime": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "tranwork": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "uhrswork": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "uid": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "vet01ltr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "vetdisab": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "vetstat": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "vetstatd": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "wkswork2": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "workedyr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "wrkrecal": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "year": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "yrimmig": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "yrmarr": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "yrnatur": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "yrsusa1": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            },
+            "zip": {
+                "avgConfidenceRatios": 3.999999999999992e-06,
+                "claimCorrect": 100,
+                "claimError": 0,
+                "claimMade": 100,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 100,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 100,
+                "sumConfidenceRatios": 0.00039999999999999926
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.0010910127516784419,
+            "avCachePutDuration": 0.017119049514562886,
+            "avQueryDuration": 0.6689785975728147,
+            "numCacheGets": 298,
+            "numCachePuts": 206,
+            "numQueries": 206,
+            "timeCacheGets": 0.32512180000017565,
+            "timeCachePuts": 3.5265241999999546,
+            "timeQueries": 137.80959109999984
+        },
+        "scores": [
+            {
+                "claimProbability": 1.0,
+                "columnsUsed": [
+                    "uid",
+                    "year",
+                    "datanum",
+                    "serial",
+                    "hhwt",
+                    "gq",
+                    "pernum",
+                    "perwt",
+                    "famsize",
+                    "nchild",
+                    "nchlt5",
+                    "nsibs",
+                    "relate",
+                    "related",
+                    "sex",
+                    "age",
+                    "birthqtr",
+                    "marst",
+                    "birthyr",
+                    "marrno",
+                    "yrmarr",
+                    "race",
+                    "raced",
+                    "hispan",
+                    "hispand",
+                    "bpl",
+                    "bpld",
+                    "citizen",
+                    "yrnatur",
+                    "yrimmig",
+                    "yrsusa1",
+                    "language",
+                    "languaged",
+                    "speakeng",
+                    "racamind",
+                    "racasian",
+                    "racblk",
+                    "racpacis",
+                    "racwht",
+                    "racother",
+                    "hcovany",
+                    "hcovpriv",
+                    "hinsemp",
+                    "hinspur",
+                    "hinstri",
+                    "hcovpub",
+                    "hinscaid",
+                    "hinscare",
+                    "hinsva",
+                    "hinsihs",
+                    "school",
+                    "educ",
+                    "educd",
+                    "gradeatt",
+                    "gradeattd",
+                    "schltype",
+                    "degfield",
+                    "degfieldd",
+                    "degfield2",
+                    "degfield2d",
+                    "empstat",
+                    "empstatd",
+                    "labforce",
+                    "occ",
+                    "ind",
+                    "classwkr",
+                    "classwkrd",
+                    "wkswork2",
+                    "uhrswork",
+                    "absent",
+                    "looking",
+                    "availble",
+                    "wrkrecal",
+                    "workedyr",
+                    "inctot",
+                    "ftotinc",
+                    "incwage",
+                    "incbus00",
+                    "incss",
+                    "incwelfr",
+                    "incinvst",
+                    "incretir",
+                    "incsupp",
+                    "incother",
+                    "incearn",
+                    "poverty",
+                    "occscore",
+                    "migrate1",
+                    "migrate1d",
+                    "migplac1",
+                    "migpuma1",
+                    "movedin",
+                    "vetdisab",
+                    "diffrem",
+                    "diffphys",
+                    "diffmob",
+                    "diffcare",
+                    "diffsens",
+                    "diffeye",
+                    "diffhear",
+                    "vetstat",
+                    "vetstatd",
+                    "vet01ltr",
+                    "pwstate2",
+                    "pwpuma00",
+                    "tranwork",
+                    "carpool",
+                    "riders",
+                    "trantime",
+                    "departs",
+                    "arrives",
+                    "gender",
+                    "zip"
+                ],
+                "confidenceImprovement": 1.0,
+                "defense": 0.00254647313470846,
+                "knowledgeNeeded": 0.0,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0.9495798319327731,
+                "workNeeded": 1.008849557522124
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "uid",
+                    "integer"
+                ],
+                [
+                    "year",
+                    "integer"
+                ],
+                [
+                    "datanum",
+                    "integer"
+                ],
+                [
+                    "serial",
+                    "integer"
+                ],
+                [
+                    "hhwt",
+                    "integer"
+                ],
+                [
+                    "gq",
+                    "integer"
+                ],
+                [
+                    "pernum",
+                    "integer"
+                ],
+                [
+                    "perwt",
+                    "integer"
+                ],
+                [
+                    "famsize",
+                    "integer"
+                ],
+                [
+                    "nchild",
+                    "integer"
+                ],
+                [
+                    "nchlt5",
+                    "integer"
+                ],
+                [
+                    "nsibs",
+                    "integer"
+                ],
+                [
+                    "relate",
+                    "integer"
+                ],
+                [
+                    "related",
+                    "integer"
+                ],
+                [
+                    "sex",
+                    "integer"
+                ],
+                [
+                    "age",
+                    "integer"
+                ],
+                [
+                    "birthqtr",
+                    "integer"
+                ],
+                [
+                    "marst",
+                    "integer"
+                ],
+                [
+                    "birthyr",
+                    "integer"
+                ],
+                [
+                    "marrno",
+                    "integer"
+                ],
+                [
+                    "yrmarr",
+                    "integer"
+                ],
+                [
+                    "race",
+                    "integer"
+                ],
+                [
+                    "raced",
+                    "integer"
+                ],
+                [
+                    "hispan",
+                    "integer"
+                ],
+                [
+                    "hispand",
+                    "integer"
+                ],
+                [
+                    "bpl",
+                    "integer"
+                ],
+                [
+                    "bpld",
+                    "integer"
+                ],
+                [
+                    "citizen",
+                    "integer"
+                ],
+                [
+                    "yrnatur",
+                    "integer"
+                ],
+                [
+                    "yrimmig",
+                    "integer"
+                ],
+                [
+                    "yrsusa1",
+                    "integer"
+                ],
+                [
+                    "language",
+                    "integer"
+                ],
+                [
+                    "languaged",
+                    "integer"
+                ],
+                [
+                    "speakeng",
+                    "integer"
+                ],
+                [
+                    "racamind",
+                    "integer"
+                ],
+                [
+                    "racasian",
+                    "integer"
+                ],
+                [
+                    "racblk",
+                    "integer"
+                ],
+                [
+                    "racpacis",
+                    "integer"
+                ],
+                [
+                    "racwht",
+                    "integer"
+                ],
+                [
+                    "racother",
+                    "integer"
+                ],
+                [
+                    "hcovany",
+                    "integer"
+                ],
+                [
+                    "hcovpriv",
+                    "integer"
+                ],
+                [
+                    "hinsemp",
+                    "integer"
+                ],
+                [
+                    "hinspur",
+                    "integer"
+                ],
+                [
+                    "hinstri",
+                    "integer"
+                ],
+                [
+                    "hcovpub",
+                    "integer"
+                ],
+                [
+                    "hinscaid",
+                    "integer"
+                ],
+                [
+                    "hinscare",
+                    "integer"
+                ],
+                [
+                    "hinsva",
+                    "integer"
+                ],
+                [
+                    "hinsihs",
+                    "integer"
+                ],
+                [
+                    "school",
+                    "integer"
+                ],
+                [
+                    "educ",
+                    "integer"
+                ],
+                [
+                    "educd",
+                    "integer"
+                ],
+                [
+                    "gradeatt",
+                    "integer"
+                ],
+                [
+                    "gradeattd",
+                    "integer"
+                ],
+                [
+                    "schltype",
+                    "integer"
+                ],
+                [
+                    "degfield",
+                    "integer"
+                ],
+                [
+                    "degfieldd",
+                    "integer"
+                ],
+                [
+                    "degfield2",
+                    "integer"
+                ],
+                [
+                    "degfield2d",
+                    "integer"
+                ],
+                [
+                    "empstat",
+                    "integer"
+                ],
+                [
+                    "empstatd",
+                    "integer"
+                ],
+                [
+                    "labforce",
+                    "integer"
+                ],
+                [
+                    "occ",
+                    "integer"
+                ],
+                [
+                    "ind",
+                    "integer"
+                ],
+                [
+                    "classwkr",
+                    "integer"
+                ],
+                [
+                    "classwkrd",
+                    "integer"
+                ],
+                [
+                    "wkswork2",
+                    "integer"
+                ],
+                [
+                    "uhrswork",
+                    "integer"
+                ],
+                [
+                    "absent",
+                    "integer"
+                ],
+                [
+                    "looking",
+                    "integer"
+                ],
+                [
+                    "availble",
+                    "integer"
+                ],
+                [
+                    "wrkrecal",
+                    "integer"
+                ],
+                [
+                    "workedyr",
+                    "integer"
+                ],
+                [
+                    "inctot",
+                    "integer"
+                ],
+                [
+                    "ftotinc",
+                    "integer"
+                ],
+                [
+                    "incwage",
+                    "integer"
+                ],
+                [
+                    "incbus00",
+                    "integer"
+                ],
+                [
+                    "incss",
+                    "integer"
+                ],
+                [
+                    "incwelfr",
+                    "integer"
+                ],
+                [
+                    "incinvst",
+                    "integer"
+                ],
+                [
+                    "incretir",
+                    "integer"
+                ],
+                [
+                    "incsupp",
+                    "integer"
+                ],
+                [
+                    "incother",
+                    "integer"
+                ],
+                [
+                    "incearn",
+                    "integer"
+                ],
+                [
+                    "poverty",
+                    "integer"
+                ],
+                [
+                    "occscore",
+                    "integer"
+                ],
+                [
+                    "migrate1",
+                    "integer"
+                ],
+                [
+                    "migrate1d",
+                    "integer"
+                ],
+                [
+                    "migplac1",
+                    "integer"
+                ],
+                [
+                    "migpuma1",
+                    "integer"
+                ],
+                [
+                    "movedin",
+                    "integer"
+                ],
+                [
+                    "vetdisab",
+                    "integer"
+                ],
+                [
+                    "diffrem",
+                    "integer"
+                ],
+                [
+                    "diffphys",
+                    "integer"
+                ],
+                [
+                    "diffmob",
+                    "integer"
+                ],
+                [
+                    "diffcare",
+                    "integer"
+                ],
+                [
+                    "diffsens",
+                    "integer"
+                ],
+                [
+                    "diffeye",
+                    "integer"
+                ],
+                [
+                    "diffhear",
+                    "integer"
+                ],
+                [
+                    "vetstat",
+                    "integer"
+                ],
+                [
+                    "vetstatd",
+                    "integer"
+                ],
+                [
+                    "vet01ltr",
+                    "integer"
+                ],
+                [
+                    "pwstate2",
+                    "integer"
+                ],
+                [
+                    "pwpuma00",
+                    "integer"
+                ],
+                [
+                    "tranwork",
+                    "integer"
+                ],
+                [
+                    "carpool",
+                    "integer"
+                ],
+                [
+                    "riders",
+                    "integer"
+                ],
+                [
+                    "trantime",
+                    "integer"
+                ],
+                [
+                    "departs",
+                    "integer"
+                ],
+                [
+                    "arrives",
+                    "integer"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 119,
+            "totalRows": 250000
+        }
+    }
+}

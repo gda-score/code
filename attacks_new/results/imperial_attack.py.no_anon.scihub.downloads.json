@@ -1,0 +1,326 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": {
+            "dbname": "raw_scihub",
+            "host": "db001.gda-score.org",
+            "password": "YgReittaekaing2bo",
+            "port": 5432,
+            "type": "postgres",
+            "user": "ankitdixit3004@gmail.com"
+        },
+        "anonType": [
+            "no_anon"
+        ],
+        "basicConfig": {
+            "attackType": "Simple List",
+            "criteria": "singlingOut"
+        },
+        "criteria": "singlingOut",
+        "flushCache": false,
+        "friendly": {
+            "anonymization": [
+                "Anonymization Classes",
+                "No Anonymization"
+            ],
+            "attack": [
+                "Simple List",
+                "singlingOut"
+            ],
+            "dataSource": [
+                "Data Sources",
+                "Scihub Downloads",
+                "downloads"
+            ]
+        },
+        "name": "imperial_attack.py.no_anon.scihub.downloads",
+        "rawDb": {
+            "dbname": "raw_scihub",
+            "host": "db001.gda-score.org",
+            "password": "YgReittaekaing2bo",
+            "port": 5432,
+            "type": "postgres",
+            "user": "ankitdixit3004@gmail.com"
+        },
+        "resultsPath": "results/imperial_attack.py.no_anon.scihub.downloads.json",
+        "table": "downloads",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": {
+                "dbname": "raw_scihub",
+                "host": "db001.gda-score.org",
+                "password": "YgReittaekaing2bo",
+                "port": 5432,
+                "type": "postgres",
+                "user": "ankitdixit3004@gmail.com"
+            },
+            "anonDbName": "raw_scihub",
+            "anonHost": "db001.gda-score.org",
+            "anonPort": 5432,
+            "attackName": "imperial_attack.py.no_anon.scihub.downloads",
+            "criteria": "singlingOut",
+            "rawDb": {
+                "dbname": "raw_scihub",
+                "host": "db001.gda-score.org",
+                "password": "YgReittaekaing2bo",
+                "port": 5432,
+                "type": "postgres",
+                "user": "ankitdixit3004@gmail.com"
+            },
+            "rawDbName": "raw_scihub",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2019-06-18 01:23:59.877667",
+            "table": "downloads"
+        },
+        "base": {
+            "attackCells": 0,
+            "attackGets": 0,
+            "knowledgeCells": 0,
+            "knowledgeGets": 20
+        },
+        "col": {
+            "birthdate": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "city": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "country": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "datetime": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "doc": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "email": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "gender": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "lat": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "long": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "street": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "uid": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "zip": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.00034808538096274875,
+            "avCachePutDuration": 0.0033579947619056753,
+            "avQueryDuration": 3.359763028571427,
+            "numCacheGets": 21,
+            "numCachePuts": 21,
+            "numQueries": 21,
+            "timeCacheGets": 0.007309793000217724,
+            "timeCachePuts": 0.07051789000001918,
+            "timeQueries": 70.55502359999997
+        },
+        "scores": [
+            {
+                "claimProbability": 0,
+                "columnsUsed": [],
+                "confidenceImprovement": 0,
+                "defense": 1.0,
+                "knowledgeNeeded": null,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0,
+                "workNeeded": null
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "datetime",
+                    "timestamp without time zone"
+                ],
+                [
+                    "doc",
+                    "text"
+                ],
+                [
+                    "uid",
+                    "text"
+                ],
+                [
+                    "country",
+                    "text"
+                ],
+                [
+                    "city",
+                    "text"
+                ],
+                [
+                    "lat",
+                    "real"
+                ],
+                [
+                    "long",
+                    "real"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 15
+        }
+    }
+}

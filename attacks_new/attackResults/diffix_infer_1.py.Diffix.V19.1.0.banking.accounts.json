@@ -1,0 +1,340 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": "cloakBanking",
+        "anonSubType": "V19.1.0",
+        "anonType": "Diffix",
+        "attackType": "Inference Attack on Diffix 1",
+        "criteria": "inference",
+        "dbType": "banking",
+        "flushCache": false,
+        "name": "diffix_infer_1.py.Diffix.V19.1.0.banking.accounts",
+        "rawDb": "gdaScoreBankingRaw",
+        "resultsDir": "",
+        "resultsPath": "attackResults/diffix_infer_1.py.Diffix.V19.1.0.banking.accounts.json",
+        "table": "accounts",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": "cloakBanking",
+            "anonDbName": "gda_banking",
+            "anonHost": "attack.aircloak.com",
+            "anonPort": 8432,
+            "attackName": "diffix_infer_1.py.Diffix.V19.1.0.banking.accounts",
+            "criteria": "inference",
+            "rawDb": "gdaScoreBankingRaw",
+            "rawDbName": "raw_banking",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2019-01-16 14:29:56.681171",
+            "table": "accounts"
+        },
+        "base": {
+            "attackCells": 4135,
+            "attackGets": 25,
+            "knowledgeCells": 0,
+            "knowledgeGets": 0
+        },
+        "col": {
+            "account_id": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "acct_date": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "acct_district_id": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "birth_number": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "birthdate": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "cli_district_id": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "disp_type": {
+                "avgConfidenceRatios": 0.8324498338414512,
+                "claimCorrect": 182,
+                "claimError": 0,
+                "claimMade": 475,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 475,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.3831578947368421,
+                "confidenceImprovement": -2.6815368161405146,
+                "defense": 1,
+                "numConfidenceRatios": 475,
+                "sumConfidenceRatios": 395.4136710746893
+            },
+            "email": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "frequency": {
+                "avgConfidenceRatios": 0.9275470292419437,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 41,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 41,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.0,
+                "confidenceImprovement": -12.802056555269763,
+                "defense": 1,
+                "numConfidenceRatios": 41,
+                "sumConfidenceRatios": 38.02942819891969
+            },
+            "gender": {
+                "avgConfidenceRatios": 0.5013816518415348,
+                "claimCorrect": 56,
+                "claimError": 0,
+                "claimMade": 293,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 293,
+                "columnSusceptibility": 1.0,
+                "confidence": 0.19112627986348124,
+                "confidenceImprovement": -0.6222301548346788,
+                "defense": 1,
+                "numConfidenceRatios": 293,
+                "sumConfidenceRatios": 146.9048239895697
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "street": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "uid": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            },
+            "zip": {
+                "avgConfidenceRatios": 0,
+                "claimCorrect": 0,
+                "claimError": 0,
+                "claimMade": 0,
+                "claimPassCorrect": 0,
+                "claimTrials": 0,
+                "columnSusceptibility": 1.0,
+                "numConfidenceRatios": 0,
+                "sumConfidenceRatios": 0
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.000183087607011817,
+            "avCachePutDuration": 0.014717571428571346,
+            "avQueryDuration": 0.005393770882956872,
+            "numCacheGets": 2469,
+            "numCachePuts": 7,
+            "numQueries": 2451,
+            "timeCacheGets": 0.4529066999999882,
+            "timeCachePuts": 0.10302299999999942,
+            "timeQueries": 13.834560799999984
+        },
+        "scores": [
+            {
+                "claimProbability": 1.0,
+                "columnsUsed": [
+                    "frequency",
+                    "disp_type",
+                    "gender"
+                ],
+                "confidenceImprovement": -5.368607842081652,
+                "defense": 1.0,
+                "knowledgeNeeded": 0.0,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0.1875,
+                "workNeeded": 5.111248454882571
+            },
+            {
+                "claimProbability": 1.0,
+                "columnsUsed": [
+                    "frequency"
+                ],
+                "confidenceImprovement": -12.802056555269763,
+                "defense": 1.0,
+                "knowledgeNeeded": 0.0,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 0.0625,
+                "workNeeded": 100.85365853658537
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "account_id",
+                    "integer"
+                ],
+                [
+                    "acct_district_id",
+                    "integer"
+                ],
+                [
+                    "frequency",
+                    "text"
+                ],
+                [
+                    "acct_date",
+                    "integer"
+                ],
+                [
+                    "uid",
+                    "integer"
+                ],
+                [
+                    "disp_type",
+                    "text"
+                ],
+                [
+                    "birth_number",
+                    "text"
+                ],
+                [
+                    "cli_district_id",
+                    "integer"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 16,
+            "totalRows": 5369
+        }
+    }
+}
