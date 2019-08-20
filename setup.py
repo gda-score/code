@@ -21,7 +21,7 @@ class build_py(build_py_orig):
 
 setuptools.setup(
     name="gda-score-code",
-    version="2.0.0",
+    version="2.1.0",
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
     long_description=long_description,
