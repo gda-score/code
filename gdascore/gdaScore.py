@@ -1200,11 +1200,23 @@ class gdaAttack:
         sql = str(f"INSERT INTO tab VALUES ('{qStr}','{rStr}')")
         if self._vb: print(f"   cache DB: {sql}")
         start = time.perf_counter()
-        try:
-            cur.execute(sql)
-            conn.commit()
-        except sqlite3.Error as e:
-            print(f"putCache error '{e.args[0]}'")
+        err = None
+        for z in range(10):
+            try:
+                cur.execute(sql)
+                conn.commit()
+            except sqlite3.OperationalError as e:
+                print(f"putCache error '{e.args[0]}'")
+                err = e
+                continue
+            except sqlite3.Error as e:
+                print(f"putCache error '{e.args[0]}'")
+                err = e
+                continue
+            else:
+                break
+        else:
+            raise errmon
         end = time.perf_counter()
         self._op['numCachePuts'] += 1
         self._op['timeCachePuts'] += (end - start)
