@@ -1216,7 +1216,7 @@ class gdaAttack:
             else:
                 break
         else:
-            raise errmon
+            raise err
         end = time.perf_counter()
         self._op['numCachePuts'] += 1
         self._op['timeCachePuts'] += (end - start)
