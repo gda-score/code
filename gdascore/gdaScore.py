@@ -10,7 +10,10 @@ import base64
 import time
 import pprint
 import datetime
-from .gdaUtilities import getInterpolatedValue, getDatabaseInfo
+try:
+    from .gdaUtilities import getInterpolatedValue, getDatabaseInfo
+except ImportError:
+    from gdaUtilities import getInterpolatedValue, getDatabaseInfo
 
 
 class gdaScores:
