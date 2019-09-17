@@ -1,0 +1,241 @@
+{
+  "services": {
+    "postgres": {
+      "host": "db001.gda-score.org",
+      "port": 5432,
+      "type": "postgres"
+    },
+    "aircloak": {
+      "host": "attack.aircloak.com",
+      "port": 9432,
+      "type": "aircloak"
+    }
+  },
+  "datasources": {
+    "friendlyName": "Data Sources",
+    "banking": {
+      "friendlyName": "Czech Banking",
+      "tables": {
+        "accounts": { "uid": "uid" },
+        "cards": { "uid": "uid" },
+        "clients": { "uid": "uid" },
+        "disp": { "uid": "uid" },
+        "loans": { "uid": "uid" },
+        "orders": { "uid": "uid" },
+        "transactions": { "uid": "uid" },
+        "syn_accounts": { "uid": "uid" },
+        "syn_transactions": { "uid": "uid" }
+      },
+      "databases": [
+        "raw_banking",
+        "raw_banking_link",
+        "raw_banking_link_pub",
+        "pseudo_banking",
+        "k_anon_2_banking_partial",
+        "k_anon_2_banking_full",
+        "k_anon_5_banking_partial",
+        "k_anon_5_banking_full",
+        "gda_banking",
+        "gda_banking_link",
+        "gda_banking_link_pub"
+      ]
+    },
+    "census": {
+      "friendlyName": "USA Census",
+      "tables": {
+        "persons": { "uid": "uid" }
+      },
+      "databases": [
+        "raw_census",
+        "raw_census_link",
+        "raw_census_link_pub",
+        "pseudo_census",
+        "k_anon_2_census_partial",
+        "k_anon_2_census_full",
+        "k_anon_5_census_partial",
+        "k_anon_5_census_full",
+        "gda_census0",
+        "gda_census0_link",
+        "gda_census0_link_pub"
+      ]
+    },
+    "scihub": {
+      "friendlyName": "Scihub Downloads",
+      "tables": {
+        "downloads": { "uid": "uid" },
+        "syn_downloads": { "uid": "uid" }
+      },
+      "databases": [
+        "raw_scihub",
+        "raw_scihub_link",
+        "raw_scihub_link_pub",
+        "pseudo_scihub",
+        "k_anon_2_scihub_partial",
+        "k_anon_2_scihub_full",
+        "k_anon_5_scihub_partial",
+        "k_anon_5_scihub_full",
+        "gda_scihub",
+        "gda_scihub_link",
+        "gda_scihub_link_pub"
+      ]
+    },
+    "taxi": {
+      "friendlyName": "NYC Taxi Rides",
+      "tables": {
+        "rides": { "uid": "uid" },
+        "syn_rides": { "uid": "uid" }
+      },
+      "databases": [
+        "raw_taxi",
+        "raw_taxi_link",
+        "raw_taxi_link_pub",
+        "pseudo_taxi",
+        "k_anon_2_taxi_partial",
+        "k_anon_2_taxi_full",
+        "k_anon_5_taxi_partial",
+        "k_anon_5_taxi_full",
+        "gda_taxi",
+        "gda_taxi_link",
+        "gda_taxi_link_pub"
+      ]
+    }
+  },
+  "anonClasses": {
+    "friendlyName": "Anonymization Classes",
+    "pseudonymization": {
+      "friendlyName": "Pseudonymization",
+      "colSuppression": {
+        "friendlyName": "Column Suppression",
+        "service": "postgres",
+        "databases" : [
+          "pseudo_banking",
+          "pseudo_scihub",
+          "pseudo_taxi",
+          "pseudo_census"
+        ]
+      },
+      "kanon": {
+        "friendlyName": "K-anonymization",
+        "implementation": "ARX",
+        "k_2": {
+          "friendlyName": "K = 2",
+          "service": "postgres",
+          "databases" : [
+            "k_anon_2_banking_partial",
+            "k_anon_2_scihub_partial",
+            "k_anon_2_taxi_partial",
+            "k_anon_2_census_partial"
+          ]
+        },
+        "k_5": {
+          "friendlyName": "K = 5",
+          "service": "postgres",
+          "databases" : [
+            "k_anon_5_banking_partial",
+            "k_anon_5_scihub_partial",
+            "k_anon_5_taxi_partial",
+            "k_anon_5_census_partial"
+          ]
+        }
+      }
+    },
+    "k_anonymization": {
+      "friendlyName": "K-anonymization",
+      "naive": {
+        "friendlyName": "Naive Configuration",
+        "implementation": "ARX",
+        "k_2": {
+          "friendlyName": "K = 2",
+          "service": "postgres",
+          "databases" : [
+            "k_anon_2_banking_full",
+            "k_anon_2_scihub_full",
+            "k_anon_2_taxi_full",
+            "k_anon_2_census_full"
+          ]
+        },
+        "k_5": {
+          "friendlyName": "K = 5",
+          "service": "postgres",
+          "databases" : [
+            "k_anon_5_banking_full",
+            "k_anon_5_scihub_full",
+            "k_anon_5_taxi_full",
+            "k_anon_5_census_full"
+          ]
+        }
+      }
+    },
+    "diffix": {
+      "friendlyName": "Diffix",
+      "latest": {
+        "friendlyName": "Version V19.1.0",
+        "implementation": "Aircloak",
+        "service": "aircloak",
+        "databases" : [
+          "gda_census0",
+          "gda_banking",
+          "gda_scihub",
+          "gda_taxi"
+        ],
+        "linkDatabases": [
+          "gda_banking_link",
+          "gda_scihub_link",
+          "gda_taxi_link",
+          "gda_census0_link"
+        ],
+        "pubDatabases": [
+          "gda_banking_link_pub",
+          "gda_scihub_link_pub",
+          "gda_taxi_link_pub",
+          "gda_census0_link_pub"
+        ]
+      },
+      "v19_1_0": {
+        "friendlyName": "Version V19.1.0",
+        "implementation": "Aircloak",
+        "service": "aircloak",
+        "databases" : [
+          "gda_census0",
+          "gda_banking",
+          "gda_scihub",
+          "gda_taxi"
+        ],
+        "linkDatabases": [
+          "gda_banking_link",
+          "gda_scihub_link",
+          "gda_taxi_link",
+          "gda_census0_link"
+        ],
+        "pubDatabases": [
+          "gda_banking_link_pub",
+          "gda_scihub_link_pub",
+          "gda_taxi_link_pub",
+          "gda_census0_link_pub"
+        ]
+      }
+    },
+    "no_anon": {
+      "friendlyName": "No Anonymization",
+      "service": "postgres",
+      "databases": [
+        "raw_banking",
+        "raw_scihub",
+        "raw_taxi",
+        "raw_census"
+      ],
+      "linkDatabases": [
+        "raw_banking_link",
+        "raw_scihub_link",
+        "raw_taxi_link",
+        "raw_census_link"
+      ],
+      "pubDatabases": [
+        "raw_banking_link_pub",
+        "raw_scihub_link_pub",
+        "raw_taxi_link_pub",
+        "raw_census_link_pub"
+      ]
+    }
+  }
+}

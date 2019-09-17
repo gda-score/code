@@ -10,7 +10,8 @@ import base64
 import time
 import pprint
 import datetime
-from .gdaUtilities import getInterpolatedValue,getDatabaseInfo
+from .gdaUtilities import getInterpolatedValue, getDatabaseInfo
+
 
 class gdaScores:
     """Computes the final GDA Score from the scores returned by gdaAttack
@@ -21,9 +22,10 @@ class gdaScores:
     # ar (AttackResults) contains the combined results from one or more
     # addResult calls. Values like confidence scores are added in.
     _ar = {}
+
     def __init__(self, result=None):
         """Initializes state for class `gdaScores()`
-           
+
            `result` is the data structure returned by
            `gdaAttack.getResults()`"""
         self._ar = {}
@@ -53,14 +55,14 @@ class gdaScores:
         for key in self._ar['base']:
             self._ar['base'][key] += result['base'][key]
         # Add in column results
-        for col,data in result['col'].items():
-            for key,val in data:
+        for col, data in result['col'].items():
+            for key, val in data:
                 self._ar['col'][col][key] += val
         self._computeConfidence()
         self._assignDefaultSusceptability()
         return True
 
-    def assignColumnSusceptibility(self,column,susValue):
+    def assignColumnSusceptibility(self, column, susValue):
         """ Assigns a susceptibility value to the column
 
             By default, value will already be 1 (fully susceptible),
@@ -79,9 +81,9 @@ class gdaScores:
         self._ar['col'][column]['columnSusceptibility'] = susValue
         return True
 
-    def getScores(self,method='mpi_sws_basic_v1',numColumns=-1):
+    def getScores(self, method='mpi_sws_basic_v1', numColumns=-1):
         """ Returns all scores, both derived and attack generated
-        
+
             getScores() may be called multiple times with different
             scoring methods or numColumns. For each such call an additional
             score will be added. <br/> <br/>
@@ -107,20 +109,20 @@ class gdaScores:
     # (0) to best score (1).  The idea is to step through the list until
     # the best score is obtained. This is used by the MPI-SWS basic score
     _defenseGrid1 = [
-            (1,1,0),(1,.01,.1),(1,.001,.3),(1,.0001,.7),(1,.00001,1),
-            (.95,1,.1),(.95,.01,.3),(.95,.001,.7),(.95,.0001,.8),(.95,.00001,1),
-            (.90,1,.3),(.90,.01,.6),(.90,.001,.8),(.90,.0001,.9),(.90,.00001,1),
-            (.75,1,.7),(.75,.01,.9),(.75,.001,.95),(.75,.0001,1),(.75,.00001,1),
-            (.50,1,.95),(.50,.01,.95),(.50,.001,1),(.50,.0001,1),(.5,.00001,1),
-            (0,1,1),(0,.01,1),(0,.001,1),(0,.0001,1),(0,.00001,1)
-            ]
+        (1, 1, 0), (1, .01, .1), (1, .001, .3), (1, .0001, .7), (1, .00001, 1),
+        (.95, 1, .1), (.95, .01, .3), (.95, .001, .7), (.95, .0001, .8), (.95, .00001, 1),
+        (.90, 1, .3), (.90, .01, .6), (.90, .001, .8), (.90, .0001, .9), (.90, .00001, 1),
+        (.75, 1, .7), (.75, .01, .9), (.75, .001, .95), (.75, .0001, 1), (.75, .00001, 1),
+        (.50, 1, .95), (.50, .01, .95), (.50, .001, 1), (.50, .0001, 1), (.5, .00001, 1),
+        (0, 1, 1), (0, .01, 1), (0, .001, 1), (0, .0001, 1), (0, .00001, 1)
+    ]
     # This is organized by susceptibility score and multipliticative factor
     # on the overall score
-    _suscList1 = [(1.0,1.0),(0.01,0.95),(0.001,0.9),(0.0001,0.6),
-            (0.00001,0.3),(0.000001,0.1),(0.0,0.0)
-            ]
+    _suscList1 = [(1.0, 1.0), (0.01, 0.95), (0.001, 0.9), (0.0001, 0.6),
+                  (0.00001, 0.3), (0.000001, 0.1), (0.0, 0.0)
+                  ]
 
-    def _appendScoreToScores(self,sc):
+    def _appendScoreToScores(self, sc):
         if 'scores' not in self._ar:
             self._ar['scores'] = []
         self._ar['scores'].append(sc)
@@ -142,7 +144,7 @@ class gdaScores:
             totalClaimsMade += self._ar['col'][col]['claimMade']
             sc['defense'] += self._ar['col'][col]['defense']
             sc['confidenceImprovement'] += (
-                    self._ar['col'][col]['confidenceImprovement'])
+                self._ar['col'][col]['confidenceImprovement'])
             sc['claimProbability'] += self._ar['col'][col]['claimProbability']
             sc['susceptibility'] += self._ar['col'][col]['columnSusceptibility']
         if len(weakCols) > 0:
@@ -159,9 +161,9 @@ class gdaScores:
         # likewise "work" can be defined as the number of attack cells
         # requested over the total number of claimed cells
         if totalClaimsMade:
-            sc['knowledgeNeeded'] = ( 
+            sc['knowledgeNeeded'] = (
                     self._ar['base']['knowledgeCells'] / totalClaimsMade)
-            sc['workNeeded'] = ( 
+            sc['workNeeded'] = (
                     self._ar['base']['attackCells'] / totalClaimsMade)
         else:
             sc['knowledgeNeeded'] = None
@@ -177,9 +179,9 @@ class gdaScores:
         tuples = []
         cols = self._ar['col']
         # stuff the list with (columnName,defense) tuples
-        for colName,data in cols.items():
+        for colName, data in cols.items():
             if data['claimTrials'] > 0:
-                tuples.append([colName,data['defense']])
+                tuples.append([colName, data['defense']])
         weakest = sorted(tuples, key=lambda t: t[1])[:numColumns]
         cols = []
         for tup in weakest:
@@ -192,7 +194,7 @@ class gdaScores:
             if cols[col]['claimTrials'] > 0:
                 if cols[col]['numConfidenceRatios']:
                     cols[col]['avgConfidenceRatios'] = (
-                            cols[col]['sumConfidenceRatios'] / 
+                            cols[col]['sumConfidenceRatios'] /
                             cols[col]['numConfidenceRatios'])
                 if cols[col]['claimMade'] != 0:
                     cols[col]['confidence'] = (
@@ -201,8 +203,8 @@ class gdaScores:
                 cols[col]['confidenceImprovement'] = 0
                 if cols[col]['avgConfidenceRatios'] < 1.0:
                     cols[col]['confidenceImprovement'] = (
-                            (cols[col]['confidence'] - 
-                                cols[col]['avgConfidenceRatios']) / 
+                            (cols[col]['confidence'] -
+                             cols[col]['avgConfidenceRatios']) /
                             (1 - cols[col]['avgConfidenceRatios']))
         return
 
@@ -219,14 +221,14 @@ class gdaScores:
         for col in cols:
             if cols[col]['claimTrials'] > 0:
                 cols[col]['claimProbability'] = (cols[col]['claimMade'] /
-                        cols[col]['claimTrials'])
+                                                 cols[col]['claimTrials'])
                 cols[col]['defense'] = getInterpolatedValue(
-                        cols[col]['confidenceImprovement'], 
-                        cols[col]['claimProbability'],
-                        self._defenseGrid1)
+                    cols[col]['confidenceImprovement'],
+                    cols[col]['claimProbability'],
+                    self._defenseGrid1)
         return
 
-    def _getSuscListScore(self,susc):
+    def _getSuscListScore(self, susc):
         i = 0
         lastSusc = self._suscList1[i][0]
         lastScore = self._suscList1[i][1]
@@ -244,6 +246,7 @@ class gdaScores:
         score = (frac * (lastScore - nextScore)) + nextScore
         return (1 - score)
 
+
 class gdaAttack:
     """Manages a GDA Attack
 
@@ -253,25 +256,25 @@ class gdaAttack:
 
     # ------------- Class called parameters and configured parameters
     _vb = False
-    _cr = ''       # short for criteria
-    _pp = None     # pretty printer (for debugging)
+    _cr = ''  # short for criteria
+    _pp = None  # pretty printer (for debugging)
     _colNamesTypes = []
     _p = dict(name='',
-               rawDb = '',
-               anonDb = '',
-               pubDb = '',
-               criteria = 'singlingOut',
-               table = '',
-               uid = 'uid',
-               flushCache=False,
-               verbose=False,
-               # following not normally set by caller, but can be
-               locCacheDir = "cacheDBs",
-               numRawDbThreads = 3,
-               numAnonDbThreads = 3,
-               numPubDbThreads = 3,
+              rawDb='',
+              anonDb='',
+              pubDb='',
+              criteria='singlingOut',
+              table='',
+              uid='uid',
+              flushCache=False,
+              verbose=False,
+              # following not normally set by caller, but can be
+              locCacheDir="cacheDBs",
+              numRawDbThreads=3,
+              numAnonDbThreads=3,
+              numPubDbThreads=3,
               )
-    _requiredParams = ['name','rawDb']
+    _requiredParams = ['name', 'rawDb']
 
     # ---------- Private internal state
     # Threads
@@ -299,7 +302,7 @@ class gdaAttack:
     # State for various operational measures (see _initOp())
     _op = {}
 
-    def __init__(self,params):
+    def __init__(self, params):
         """ Sets everything up with 'gdaAttack(params)'
 
             params is a dictionary containing the following
@@ -351,14 +354,14 @@ class gdaAttack:
             if not os.path.exists(self._p['locCacheDir']):
                 os.makedirs(self._p['locCacheDir'])
         except OSError:
-            sys.exit("Error: Creating directory. " +  self._p['locCacheDir'])
+            sys.exit("Error: Creating directory. " + self._p['locCacheDir'])
 
         # Get the table name if not provided by the caller
         if len(self._p['table']) == 0:
             tables = self.getTableNames()
             if len(tables) != 1:
                 print("Error: gdaAttack(): Must include table name if " +
-                        "there is more than one table in database")
+                      "there is more than one table in database")
                 sys.exit()
             self._p['table'] = tables[0]
 
@@ -374,14 +377,14 @@ class gdaAttack:
         self._setupThreadsAndQueues()
         numThreads = threading.active_count()
         expectedThreads = (self._p['numRawDbThreads'] +
-                self._p['numAnonDbThreads'] + 1)
+                           self._p['numAnonDbThreads'] + 1)
         if len(self._p['pubDb']) > 0:
             expectedThreads += self._p['numPubDbThreads']
         if numThreads < expectedThreads:
             print(f"Error: Some thread(s) died "
-                   f"(count {numThreads}, expected {expectedThreads}). "
-                   f"Aborting.")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+                  f"(count {numThreads}, expected {expectedThreads}). "
+                  f"Aborting.")
+            self.cleanUp(cleanUpCache=False, doExit=True)
 
     def getResults(self):
         """ Returns all of the compiled attack results.
@@ -421,7 +424,7 @@ class gdaAttack:
     def cleanUp(self, cleanUpCache=True, doExit=False,
                 exitMsg="Finished cleanUp, exiting"):
         """ Garbage collect queues, threads, and cache.
-        
+
             By default, this wipes the cache. The idea being that if the
             entire attack finished successfully, then it won't be
             repeated and the cache isn't needed. Do `cleanUpCache=False`
@@ -451,7 +454,7 @@ class gdaAttack:
         if doExit:
             sys.exit(exitMsg)
 
-    def askClaim(self,spec,cache=True,claim=True):
+    def askClaim(self, spec, cache=True, claim=True):
         """Generate Claim query for raw and optionally pub databases.
 
         Making a claim results in a query to the raw database, and if
@@ -485,15 +488,15 @@ class gdaAttack:
         job = {}
         job['q'] = self._claimQ
         job['claim'] = claim
-        job['queries'] = [{'sql':sql,'cache':cache}]
+        job['queries'] = [{'sql': sql, 'cache': cache}]
         job['spec'] = spec
         for sqlConf in sqlConfs:
-            job['queries'].append({'sql':sqlConf,'cache':cache})
+            job['queries'].append({'sql': sqlConf, 'cache': cache})
         self._rawQ.put(job)
 
     def getClaim(self):
         """ Wait for and gather results of askClaim() calls
-        
+
             Returns a data structure that contains both the result
             of one finished claim, and the claim's input parameters.
             Note that the order in which results are returned by
@@ -518,8 +521,8 @@ class gdaAttack:
         if self._claimCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
-            return {'query':{'sql':'None'},'error':'Nothing to do',
-                    'stillToCome':0,'claimResult':'Error'}
+            return {'query': {'sql': 'None'}, 'error': 'Nothing to do',
+                    'stillToCome': 0, 'claimResult': 'Error'}
         job = self._claimQ.get()
         claim = job['claim']
         self._claimQ.task_done()
@@ -557,7 +560,7 @@ class gdaAttack:
             elif 'error' in job['replies'][1]:
                 self._pp.pprint(job)
                 print(f"Error: conf query:\n{job['replies'][1]['error']}")
-                self.cleanUp(cleanUpCache=False,doExit=True)
+                self.cleanUp(cleanUpCache=False, doExit=True)
             if 'answer' in job['replies'][2]:
                 if job['replies'][2]['answer']:
                     totalRows = job['replies'][2]['answer'][0][0]
@@ -566,10 +569,10 @@ class gdaAttack:
             elif 'error' in job['replies'][2]:
                 self._pp.pprint(job)
                 print(f"Error: conf query:\n{job['replies'][2]['error']}")
-                self.cleanUp(cleanUpCache=False,doExit=True)
+                self.cleanUp(cleanUpCache=False, doExit=True)
             if totalRows:
                 self._addToAtkRes('sumConfidenceRatios', job['spec'],
-                        guessedRows/totalRows)
+                                  guessedRows / totalRows)
                 self._addToAtkRes('numConfidenceRatios', job['spec'], 1)
                 self._atrs['tableStats']['totalRows'] = totalRows
         else:
@@ -578,9 +581,9 @@ class gdaAttack:
             self._addToAtkRes('numConfidenceRatios', job['spec'], 1)
         if 'q' in job:
             del job['q']
-        return(job)
+        return (job)
 
-    def askAttack(self,query,cache=True):
+    def askAttack(self, query, cache=True):
         """ Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: <br/>
@@ -597,7 +600,7 @@ class gdaAttack:
 
     def getAttack(self):
         """ Returns the result of one askAttack() call
-        
+
             Blocks until the result is available. Note that the order
             in which results are received is not necesarily the order
             in which `askAttack()` calls were made. <br/>
@@ -616,8 +619,8 @@ class gdaAttack:
         if self._attackCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
-            return {'query':{'sql':'None'},'error':'Nothing to do',
-                    'stillToCome':0}
+            return {'query': {'sql': 'None'}, 'error': 'Nothing to do',
+                    'stillToCome': 0}
         job = self._attackQ.get()
         self._attackQ.task_done()
         self._attackCounter -= 1
@@ -631,9 +634,9 @@ class gdaAttack:
                 self._atrs['base']['attackCells'] += reply['cells']
         else:
             self._atrs['base']['attackCells'] += 1
-        return(reply)
+        return (reply)
 
-    def askKnowledge(self,query,cache=True):
+    def askKnowledge(self, query, cache=True):
         """ Generate and queue up a prior knowledge query for database
 
             The class keeps track of how many prior knowledge cells were
@@ -642,7 +645,7 @@ class gdaAttack:
 
         self._knowledgeCounter += 1
         if self._vb: print(f"Calling {__name__}.askKnowledge with query "
-                f"'{query}', count {self._knowledgeCounter}")
+                           f"'{query}', count {self._knowledgeCounter}")
         # Make a copy of the query for passing around
         qCopy = copy.copy(query)
         job = {}
@@ -653,7 +656,7 @@ class gdaAttack:
 
     def getKnowledge(self):
         """ Wait for and gather results of prior askKnowledge() calls
-        
+
             Blocks until the result is available. Note that the order
             in which results are received is not necesarily the order
             in which `askKnowledge()` calls were made. <br/>
@@ -663,8 +666,8 @@ class gdaAttack:
         if self._knowledgeCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
-            return {'query':{'sql':'None'},'error':'Nothing to do',
-                    'stillToCome':0}
+            return {'query': {'sql': 'None'}, 'error': 'Nothing to do',
+                    'stillToCome': 0}
         job = self._knowledgeQ.get()
         self._knowledgeQ.task_done()
         self._knowledgeCounter -= 1
@@ -673,9 +676,9 @@ class gdaAttack:
         self._atrs['base']['knowledgeGets'] += 1
         if 'cells' in reply:
             self._atrs['base']['knowledgeCells'] += reply['cells']
-        return(reply)
+        return (reply)
 
-    def askExplore(self,query,cache=True):
+    def askExplore(self, query, cache=True):
         """ Generate and queue up an exploritory query for database
 
             No score book-keeping is done here. An analyst may make
@@ -687,7 +690,7 @@ class gdaAttack:
 
         self._exploreCounter += 1
         if self._vb: print(f"Calling {__name__}.askExplore with "
-                f"query '{query}', count {self._exploreCounter}")
+                           f"query '{query}', count {self._exploreCounter}")
         # Make a copy of the query for passing around
         qCopy = copy.copy(query)
         job = {}
@@ -703,7 +706,7 @@ class gdaAttack:
 
     def getExplore(self):
         """ Wait for and gather results of prior askExplore() calls.
-        
+
             Blocks until the result is available. Note that the order
             in which results are received is not necesarily the order
             in which `askExplore()` calls were made. <br/>
@@ -712,16 +715,16 @@ class gdaAttack:
         if self._exploreCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
-            return {'query':{'sql':'None'},'error':'Nothing to do',
-                    'stillToCome':0}
+            return {'query': {'sql': 'None'}, 'error': 'Nothing to do',
+                    'stillToCome': 0}
         job = self._exploreQ.get()
         self._exploreQ.task_done()
         self._exploreCounter -= 1
         reply = job['replies'][0]
         reply['stillToCome'] = self._exploreCounter
-        return(reply)
+        return (reply)
 
-    def getPublicColValues(self,colName,tableName=''):
+    def getPublicColValues(self, colName, tableName=''):
         """Return list of "publicly known" column values and counts
 
         Column value has index 0, count of distinct UIDs has index 1
@@ -738,7 +741,8 @@ class gdaAttack:
 
         # Establish connection to database
         db = getDatabaseInfo(self._p['rawDb'])
-        connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        connStr = str(
+            f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
         # First we need to know the total number of distinct users
@@ -748,7 +752,7 @@ class gdaAttack:
             cur.execute(sql)
         except psycopg2.Error as e:
             print(f"Error: getPublicColValues() query: '{e}'")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+            self.cleanUp(cleanUpCache=False, doExit=True)
         ans = cur.fetchall()
         numUid = ans[0][0]
         # Query the raw db for values in the column
@@ -761,18 +765,18 @@ class gdaAttack:
             cur.execute(sql)
         except psycopg2.Error as e:
             print(f"Error: getPublicColValues() query: '{e}'")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+            self.cleanUp(cleanUpCache=False, doExit=True)
         ans = cur.fetchall()
         ret = []
         for row in ans:
             # row[0] is the value, row[1] is the count
-            if (((row[1]/numUid) > 0.002) and
+            if (((row[1] / numUid) > 0.002) and
                     (row[1] >= 50)):
-                ret.append((row[0],row[1]))
+                ret.append((row[0], row[1]))
         conn.close()
         return ret
 
-    def getColNames(self,dbType='rawDb',tableName=''):
+    def getColNames(self, dbType='rawDb', tableName=''):
         """Return simple list of column names
 
         `dbType` is one of 'rawDb' or 'anonDb'"""
@@ -781,7 +785,7 @@ class gdaAttack:
             colsAndTypes = self.getColNamesAndTypes(dbType=dbType)
         else:
             colsAndTypes = self.getColNamesAndTypes(
-                    dbType=dbType,tableName=tableName)
+                dbType=dbType, tableName=tableName)
         if not colsAndTypes:
             return None
         cols = []
@@ -793,9 +797,9 @@ class gdaAttack:
         """Returns the name of the table being used in the attack."""
         return self._p['table']
 
-    def getTableCharacteristics(self,tableName=''):
+    def getTableCharacteristics(self, tableName=''):
         """Returns the full contents of the table characteristics
-        
+
            Return value is a dict indexed by column name: <br/>
 
                { '<colName>':
@@ -826,7 +830,8 @@ class gdaAttack:
 
         # Establish connection to database
         db = getDatabaseInfo(self._p['rawDb'])
-        connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        connStr = str(
+            f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
         # Set up return dict
@@ -839,7 +844,7 @@ class gdaAttack:
             cur.execute(sql)
         except psycopg2.Error as e:
             print(f"Error: getTableCharacteristics() query: '{e}'")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+            self.cleanUp(cleanUpCache=False, doExit=True)
         cols = cur.fetchall()
         # Make index for column name (should be 0, but just to be sure)
         for colNameIndex in range(len(cols)):
@@ -852,7 +857,7 @@ class gdaAttack:
             cur.execute(sql)
         except psycopg2.Error as e:
             print(f"Error: getTableCharacteristics() query: '{e}'")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+            self.cleanUp(cleanUpCache=False, doExit=True)
         ans = cur.fetchall()
         for row in ans:
             colName = row[colNameIndex]
@@ -864,7 +869,7 @@ class gdaAttack:
 
     # Note that following is used internally, but we expose it to the
     # caller as well because it is a useful function for exploration
-    def getColNamesAndTypes(self,dbType='rawDb',tableName=''):
+    def getColNamesAndTypes(self, dbType='rawDb', tableName=''):
         """Return raw database column names and types (or None if error)
 
         dbType is one of 'rawDb' or 'anonDb' <br/>
@@ -879,7 +884,8 @@ class gdaAttack:
         if db['type'] != 'postgres' and db['type'] != 'aircloak':
             print(f"DB type '{db['type']}' must be 'postgres' or 'aircloak'")
             return None
-        connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        connStr = str(
+            f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
         # Query it for column names
@@ -893,17 +899,17 @@ class gdaAttack:
             cur.execute(sql)
         except psycopg2.Error as e:
             print(f"Error: getColNamesAndTypes() query: '{e}'")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+            self.cleanUp(cleanUpCache=False, doExit=True)
         ans = cur.fetchall()
         ret = []
         for row in ans:
-            ret.append((row[0],row[1]))
+            ret.append((row[0], row[1]))
         conn.close()
         return ret
 
-    def getTableNames(self,dbType='rawDb'):
+    def getTableNames(self, dbType='rawDb'):
         """Return database table names
-        
+
         dbType is one of 'rawDb' or 'anonDb' <br/>
         Table names returned as list, unless error then return None"""
 
@@ -912,7 +918,8 @@ class gdaAttack:
         if db['type'] != 'postgres' and db['type'] != 'aircloak':
             print(f"DB type '{db['type']}' must be 'postgres' or 'aircloak'")
             return None
-        connStr = str(f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        connStr = str(
+            f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
         # Query it for column names
@@ -927,7 +934,7 @@ class gdaAttack:
             cur.execute(sql)
         except psycopg2.Error as e:
             print(f"Error: getTableNames() query: '{e}'")
-            self.cleanUp(cleanUpCache=False,doExit=True)
+            self.cleanUp(cleanUpCache=False, doExit=True)
         ans = cur.fetchall()
         ret = []
         for row in ans:
@@ -940,7 +947,7 @@ class gdaAttack:
         return self._p['uid']
 
     # -------------- Private Methods -------------------
-    def _assignGlobalParams(self,params):
+    def _assignGlobalParams(self, params):
         self._pp = pprint.PrettyPrinter(indent=4)
         for key, val in params.items():
             self._p[key] = val
@@ -995,22 +1002,22 @@ class gdaAttack:
         self._anonQ = queue.Queue()
         backQ = queue.Queue()
         for i in range(self._p['numRawDbThreads']):
-            d = dict(db=self._p['rawDb'],q=self._rawQ,
-                     kind='raw',backQ=backQ)
-            t = threading.Thread(target=self._dbWorker,kwargs=d)
+            d = dict(db=self._p['rawDb'], q=self._rawQ,
+                     kind='raw', backQ=backQ)
+            t = threading.Thread(target=self._dbWorker, kwargs=d)
             t.start()
             self._rawThreads.append(t)
         for i in range(self._p['numAnonDbThreads']):
-            d = dict(db=self._p['anonDb'],q=self._anonQ,
-                     kind='anon',backQ=backQ)
-            t = threading.Thread(target=self._dbWorker,kwargs=d)
+            d = dict(db=self._p['anonDb'], q=self._anonQ,
+                     kind='anon', backQ=backQ)
+            t = threading.Thread(target=self._dbWorker, kwargs=d)
             t.start()
             self._anonThreads.append(t)
         if self._cr == 'linkability':
             for i in range(self._p['numPubDbThreads']):
-                d = dict(db=self._p['pubDb'],q=self._pubQ,
-                         kind='pub',backQ=backQ)
-                t = threading.Thread(target=self._dbWorker,kwargs=d)
+                d = dict(db=self._p['pubDb'], q=self._pubQ,
+                         kind='pub', backQ=backQ)
+                t = threading.Thread(target=self._dbWorker, kwargs=d)
                 t.start()
                 self._pubThreads.append(t)
         num = (self._p['numRawDbThreads'] + self._p['numAnonDbThreads'])
@@ -1022,13 +1029,13 @@ class gdaAttack:
             if self._vb: print(f"{msg} is ready")
             backQ.task_done()
 
-
-    def _dbWorker(self,db,q,kind,backQ):
+    def _dbWorker(self, db, q, kind, backQ):
         if self._vb: print(f"Starting {__name__}.dbWorker:{db,kind}")
         me = threading.current_thread()
         d = getDatabaseInfo(db)
         # Establish connection to database
-        connStr = str(f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
+        connStr = str(
+            f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
         if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
@@ -1055,13 +1062,13 @@ class gdaAttack:
             replyQ = job['q']
             replies = []
             for query in job['queries']:
-                reply = self._processQuery(query,conn,cur,
-                        connInsert,curInsert,curRead)
+                reply = self._processQuery(query, conn, cur,
+                                           connInsert, curInsert, curRead)
                 replies.append(reply)
             job['replies'] = replies
             replyQ.put(job)
 
-    def _processQuery(self,query,conn,cur,connInsert,curInsert,curRead):
+    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
         # record and remove the return queue
         cache = query['cache']
         del query['cache']
@@ -1071,7 +1078,7 @@ class gdaAttack:
         # and any tags that the source added
         cachedReply = None
         if cache:
-           cachedReply = self._getCache(curRead,query)
+            cachedReply = self._getCache(curRead, query)
         if cachedReply:
             if self._vb: print("    Answer from cache")
             if 'answer' in cachedReply:
@@ -1087,7 +1094,7 @@ class gdaAttack:
             else:
                 ans = cur.fetchall()
                 numCells = self._computeNumCells(ans)
-                reply = dict(answer=ans,cells=numCells)
+                reply = dict(answer=ans, cells=numCells)
             end = time.perf_counter()
             duration = end - start
             self._op['numQueries'] += 1
@@ -1095,10 +1102,10 @@ class gdaAttack:
             reply['query'] = query
             # only cache if the native query is slow
             if duration > 0.1:
-                self._putCache(connInsert,curInsert,query,reply)
+                self._putCache(connInsert, curInsert, query, reply)
             return reply
 
-    def _checkInference(self,ans):
+    def _checkInference(self, ans):
         # column 0 must be UID
         # User is inferred if all users in answer have same attributes
         # Returns 1 if inference claim correct, else returns 0
@@ -1110,19 +1117,19 @@ class gdaAttack:
             # Can't test inference unless there is at least one column
             # (other than UID) that is the same
             return 0
-        for c in range(1,numColumns):
+        for c in range(1, numColumns):
             val = ans[0][c]
-            for r in range(1,numRows):
+            for r in range(1, numRows):
                 if val != ans[r][c]:
                     return 0
         return 1
 
-    def _checkLinkability(self,ans):
+    def _checkLinkability(self, ans):
         # The test is the same as with singling out
         # Returns 1 if linkability claim correct, else returns 0
         return self._checkSinglingOut(ans)
 
-    def _checkSinglingOut(self,ans):
+    def _checkSinglingOut(self, ans):
         # column 0 must be UID
         # User is singled-out if there is only one distinct UID
         # Returns 1 if singling out claim correct, else returns 0
@@ -1137,7 +1144,7 @@ class gdaAttack:
         else:
             return 0
 
-    def _computeNumCells(self,ans):
+    def _computeNumCells(self, ans):
         # ans is a list of tuples [(x,y),(x,y),(x,y) ...
         # Count the number of columns (in the first row)
         if len(ans) == 0:
@@ -1167,7 +1174,7 @@ class gdaAttack:
         if numThreads > 50:
             sys.exit("Error: Can't have more than 50 threads total")
 
-    def _getCache(self,cur,query):
+    def _getCache(self, cur, query):
         # turn the query (dict) into a string
         qStr = self._dict2Str(query)
         if qStr is None:
@@ -1189,7 +1196,7 @@ class gdaAttack:
         rtnDict = self._str2Dict(answer[0])
         return rtnDict
 
-    def _putCache(self,conn,cur,query,reply):
+    def _putCache(self, conn, cur, query, reply):
         # turn the query and reply (dict) into a string
         qStr = self._dict2Str(query)
         if qStr is None:
@@ -1221,7 +1228,7 @@ class gdaAttack:
         self._op['numCachePuts'] += 1
         self._op['timeCachePuts'] += (end - start)
 
-    def _dict2Str(self,d):
+    def _dict2Str(self, d):
         try:
             dStr = simplejson.dumps(d)
         except TypeError:
@@ -1236,14 +1243,14 @@ class gdaAttack:
             return None
         return dByte64Str
 
-    def _str2Dict(self,dByte64Str):
+    def _str2Dict(self, dByte64Str):
         dByte64 = str.encode(dByte64Str)
         dByte = base64.b64decode(dByte64)
         dStr = str(dByte, "utf-8")
         d = simplejson.loads(dStr)
         return d
 
-    def _makeSqlFromSpec(self,spec):
+    def _makeSqlFromSpec(self, spec):
         sql = "select "
         if 'known' in spec:
             numKnown = len(spec['known'])
@@ -1285,7 +1292,7 @@ class gdaAttack:
                     sql += "and "
         return sql
 
-    def _makeSqlConfFromSpec(self,spec):
+    def _makeSqlConfFromSpec(self, spec):
         sqls = []
         numGuess = len(spec['guess'])
         if self._cr == 'inference' or self._cr == 'singlingOut':
@@ -1313,10 +1320,10 @@ class gdaAttack:
             col = tup['col']
             if col not in self._atrs['col']:
                 print(f"Error: addToAtkRes(): Bad column in spec: '{col}'")
-                self.cleanUp(cleanUpCache=False,doExit=True)
+                self.cleanUp(cleanUpCache=False, doExit=True)
             if label not in self._atrs['col'][col]:
                 print(f"Error: addToAtkRes(): Bad label '{label}'")
-                self.cleanUp(cleanUpCache=False,doExit=True)
+                self.cleanUp(cleanUpCache=False, doExit=True)
             self._atrs['col'][col][label] += val
 
     def _initAtkRes(self):
@@ -1351,15 +1358,15 @@ class gdaAttack:
         self._atrs['attack']['startTime'] = str(datetime.datetime.now())
         # ----- Params for computing knowledge:
         # number of prior knowledge cells requested
-        self._atrs['base']['knowledgeCells'] = 0    
+        self._atrs['base']['knowledgeCells'] = 0
         # number of times knowledge was queried
-        self._atrs['base']['knowledgeGets'] = 0     
+        self._atrs['base']['knowledgeGets'] = 0
 
         # ----- Params for computing how much work needed to attack:
         # number of attack cells requested
-        self._atrs['base']['attackCells'] = 0       
+        self._atrs['base']['attackCells'] = 0
         # number of times attack was queried
-        self._atrs['base']['attackGets'] = 0        
+        self._atrs['base']['attackGets'] = 0
         self._atrs['tableStats']['colNamesAndTypes'] = self._colNamesTypes
         self._atrs['tableStats']['numColumns'] = len(self._colNamesTypes)
         for tup in self._colNamesTypes:
@@ -1369,24 +1376,24 @@ class gdaAttack:
 
             # ----- Params for computing claim success rate:
             # total possible number of claims
-            self._atrs['col'][col]['claimTrials'] = 0       
+            self._atrs['col'][col]['claimTrials'] = 0
             # actual number of claims
-            self._atrs['col'][col]['claimMade'] = 0         
+            self._atrs['col'][col]['claimMade'] = 0
             # number of correct claims
-            self._atrs['col'][col]['claimCorrect'] = 0      
+            self._atrs['col'][col]['claimCorrect'] = 0
             # number of claims that produced bad SQL answer
-            self._atrs['col'][col]['claimError'] = 0        
-            # claims where the attacker chose to pass (not make a claim), 
+            self._atrs['col'][col]['claimError'] = 0
+            # claims where the attacker chose to pass (not make a claim),
             # but where the claim would have been correct
-            self._atrs['col'][col]['claimPassCorrect'] = 0    
+            self._atrs['col'][col]['claimPassCorrect'] = 0
 
             # ----- Params for computing confidence:
             # sum of all known count to full count ratios
-            self._atrs['col'][col]['sumConfidenceRatios'] = 0    
+            self._atrs['col'][col]['sumConfidenceRatios'] = 0
             # number of such ratios
-            self._atrs['col'][col]['numConfidenceRatios'] = 0    
+            self._atrs['col'][col]['numConfidenceRatios'] = 0
             # average confidence ratio (division of above two params)
-            self._atrs['col'][col]['avgConfidenceRatios'] = 0    
+            self._atrs['col'][col]['avgConfidenceRatios'] = 0
 
     def _initOp(self):
         self._op['numQueries'] = 0

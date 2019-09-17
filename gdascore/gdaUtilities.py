@@ -9,6 +9,28 @@ from pkg_resources import Requirement, resource_exists, resource_filename
 
 
 def try_for_config_file(config_rel_path):
+    interested_file = config_rel_path.split('/')[-1]
+
+    # case 0: local config path defined by user: when installing by pip
+    global_config_variable = dict()
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'), 'r') as f:
+        file_content = f.read()
+        if len(file_content):
+            global_config_variable = json.loads(file_content)
+    try:
+        potential_path = os.path.join(global_config_variable['config_path'], 'config', interested_file)
+    except KeyError:
+        print('ERROR: config path not found. package has not been correctly initiated. ' +
+              'try executing "gdascore_init" first.')
+    else:
+        if os.path.isfile(potential_path):
+            return potential_path
+
+    # Case 0.5: global_config: when installing by pip
+    potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', interested_file)
+    if os.path.isfile(potential_path):
+        return potential_path
+
     # First case: find config in repository; use paths in PATH and PYTHONPATH as potential repository root folders
     for p in sys.path:
         if os.path.isfile(os.path.abspath(os.path.join(p, config_rel_path))):
@@ -36,13 +58,14 @@ def try_for_config_file(config_rel_path):
 
 def getDatabaseInfo(theDb):
     # For backwards compability, if this is a string use the old way
-    if isinstance(theDb,str):
+    if isinstance(theDb, str):
         return oldGetDatabaseInfo(theDb)
     # Get user name and password
     cred = getCredentials()
     theDb['password'] = cred[theDb['type']]['password']
     theDb['user'] = cred[theDb['type']]['user']
     return theDb
+
 
 def oldGetDatabaseInfo(dbName):
     ''' Retrieves the database info from the database config file.
@@ -61,6 +84,7 @@ def oldGetDatabaseInfo(dbName):
         print(f"Error: Database '{dbName}' not found in file {path}")
         return None
 
+
 def getMasterConfig():
     ''' Retrieves master.json from the config file
 
@@ -74,6 +98,7 @@ def getMasterConfig():
     j = json.load(fh)
     return j
 
+
 def getCredentials():
     ''' Retrieves master.json from the config file
 
@@ -86,6 +111,7 @@ def getCredentials():
     fh = open(path, "r")
     j = json.load(fh)
     return j
+
 
 def getAnonDbs(master, anon, dbType):
     if dbType == 'link':
@@ -103,7 +129,7 @@ def getAnonDbs(master, anon, dbType):
     friendlyNames.append(nextDict['friendlyName'])
     while True:
         if databases in nextDict:
-            return(nextDict[databases], friendlyNames, nextDict['service'])
+            return (nextDict[databases], friendlyNames, nextDict['service'])
         # databases isn't here, so need to look for next level
         nextLevel += 1
         if nextLevel > (len(anon) - 1):
@@ -114,14 +140,16 @@ def getAnonDbs(master, anon, dbType):
         friendlyNames.append(nextDict['friendlyName'])
     return (None, friendlyNames, None)
 
+
 def getTab(sourceDbs, useableDbs):
     for useDb in useableDbs:
         if useDb in sourceDbs:
             return useDb
     return None
 
-def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
-        criteria='', attackType=''):
+
+def setupGdaAttackParameters(configInfo=None, utilityMeasure='',
+                             criteria='', attackType=''):
     """ Basic prep for input and output of gdaAttack (attack or utility)
 
         If called with no parameters, then this routine
@@ -223,24 +251,24 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
         criteria = 'singlingOut'
     if criteria == 'linkability':
         (rawDbs, rawFriendlyNames, rawService) = (
-                getAnonDbs(master, ["no_anon"], 'link'))
+            getAnonDbs(master, ["no_anon"], 'link'))
     else:
         (rawDbs, rawFriendlyNames, rawService) = (
-                getAnonDbs(master, ["no_anon"], ''))
+            getAnonDbs(master, ["no_anon"], ''))
     if 'anonTypes' not in config:
         config['anonTypes'] = [["no_anon"]]
     for anon in config['anonTypes']:
         if not isinstance(anon, list):
             print("ERROR: The 'anonTypes' config must be a list of lists")
             quit()
-        params = { "anonType": anon }
+        params = {"anonType": anon}
         if criteria == 'linkability':
             (anonDbs, anonFriendlyNames, anonService) = (
-                    getAnonDbs(master, anon, 'link'))
+                getAnonDbs(master, anon, 'link'))
         else:
             pp.pprint(anon)
             (anonDbs, anonFriendlyNames, anonService) = (
-                    getAnonDbs(master, anon, ''))
+                getAnonDbs(master, anon, ''))
         if anonDbs is None:
             params["error"] = "Could not find anonymization in master"
             pmList.append(params)
@@ -264,16 +292,16 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
             dataFriendlyNames.append(table)
             uid = datasource['tables'][table]['uid']
             # We have the right records from master, so build the params
-            #pp.pprint(anonDbs)
-            #pp.pprint(rawDbs)
-            #pp.pprint(datasource)
+            # pp.pprint(anonDbs)
+            # pp.pprint(rawDbs)
+            # pp.pprint(datasource)
             servs = master['services']
-            rawTab = getTab(datasource['databases'],rawDbs)
+            rawTab = getTab(datasource['databases'], rawDbs)
             params['rawDb'] = {"dbname": rawTab}
             params['rawDb']['port'] = servs[rawService]['port']
             params['rawDb']['host'] = servs[rawService]['host']
             params['rawDb']['type'] = servs[rawService]['type']
-            anonTab = getTab(datasource['databases'],anonDbs)
+            anonTab = getTab(datasource['databases'], anonDbs)
             params['anonDb'] = {"dbname": anonTab}
             params['anonDb']['port'] = servs[anonService]['port']
             params['anonDb']['host'] = servs[anonService]['host']
@@ -289,7 +317,7 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
             params['resultsPath'] = 'results/' + name + '.json'
             params['table'] = table
             params['uid'] = uid
-            params['friendly'] = { "anonymization": anonFriendlyNames }
+            params['friendly'] = {"anonymization": anonFriendlyNames}
             params['friendly']['dataSource'] = dataFriendlyNames
             params['criteria'] = criteria
             if 'basic' in config:
@@ -298,13 +326,13 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
                 if 'attackType' in config['basic']:
                     # This is an attack configuration
                     params['friendly']['attack'] = [
-                            config['basic']['attackType'], criteria]
+                        config['basic']['attackType'], criteria]
                     # If criteria is linkability, we need to add the
                     # public linkability db
                     if criteria == 'linkability':
                         (pubDbs, pubFriendlyNames, pubService) = (
-                                getAnonDbs(master, anon, 'pub'))
-                        pubTab = getTab(datasource['databases'],pubDbs)
+                            getAnonDbs(master, anon, 'pub'))
+                        pubTab = getTab(datasource['databases'], pubDbs)
                         params['pubDb'] = {"dbname": pubTab}
                         params['pubDb']['port'] = servs[pubService]['port']
                         params['pubDb']['host'] = servs[pubService]['host']
@@ -312,9 +340,9 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
                 elif 'utilityMeasure' in config['basic']:
                     # This is a utility configuration
                     params['friendly']['utility'] = [
-                            config['basic']['utilityMeasure'],
-                            config['basic']['measureParam'] ]
-            #pp.pprint(params)
+                        config['basic']['utilityMeasure'],
+                        config['basic']['measureParam']]
+            # pp.pprint(params)
             # Need to determine if the results have already been finished
             params['finished'] = False
             try:
@@ -331,6 +359,7 @@ def setupGdaAttackParameters(configInfo = None, utilityMeasure = '',
             pmList.append(new)
     return pmList
 
+
 def oldSetupGdaAttackParameters(pmList, criteria, attackType):
     for pm in pmList:
         if 'criteria' not in pm or len(pm['criteria']) == 0:
@@ -341,7 +370,7 @@ def oldSetupGdaAttackParameters(pmList, criteria, attackType):
             if not attackType:
                 sys.exit("ERROR: attackType must be specified")
             pm['attackType'] = attackType
-    
+
         if 'name' not in pm or len(pm['name']) == 0:
             baseName = str(f"{sys.argv[0].replace(os.path.sep, '-').strip('-')}")
             if 'anonType' in pm and len(pm['anonType']) > 0:
@@ -349,7 +378,7 @@ def oldSetupGdaAttackParameters(pmList, criteria, attackType):
             if 'anonSubType' in pm and len(pm['anonSubType']) > 0:
                 baseName += str(f".{pm['anonSubType']}")
             if 'dbType' not in pm or len(pm['dbType']) == 0:
-                baseName +=  str(f".{pm['rawDb']}.{pm['anonDb']}")
+                baseName += str(f".{pm['rawDb']}.{pm['anonDb']}")
             else:
                 baseName += str(f".{pm['dbType']}")
             if 'table' in pm and len(pm['table']) > 0:
@@ -357,13 +386,13 @@ def oldSetupGdaAttackParameters(pmList, criteria, attackType):
         else:
             baseName = pm['name']
         # Remove any spaces in the base name
-        baseName.replace(" ","")
+        baseName.replace(" ", "")
         pm['name'] = baseName
-    
+
         resultsDir = "attackResults";
         if 'resultsDir' in pm and len(pm['resultsDir']) > 0:
             resultsDir = pm['resultsDir']
-    
+
         resultsPath = resultsDir + "/" + baseName + ".json"
         pm['resultsPath'] = resultsPath
         pm['finished'] = False
@@ -380,9 +409,10 @@ def oldSetupGdaAttackParameters(pmList, criteria, attackType):
 
     return pmList
 
-def finishGdaAttack(params,score):
+
+def finishGdaAttack(params, score):
     """ Stores the attack results in a json file
-    
+
         Returns the attack results data structure"""
 
     if 'finished' in params:
@@ -402,9 +432,10 @@ def finishGdaAttack(params,score):
     f.close()
     return final
 
-def comma_ize(strings,lastComma=True):
+
+def comma_ize(strings, lastComma=True):
     """ Make a single string with input strings separated by commas.
-        
+
         Set `lastComma=False` if there should be no ending comma."""
 
     string = ''
@@ -417,15 +448,17 @@ def comma_ize(strings,lastComma=True):
         ret = string
     return ret
 
+
 def makeGroupBy(columns):
     """ Make a GROUP BY clause appropriate for list of columns"""
 
     clause = 'GROUP BY '
-    for val in range(1,len(columns)+1):
+    for val in range(1, len(columns) + 1):
         clause += str(f"{val}, ")
     # Strip off the last comma and add a space
     ret = clause[0:-2] + ' '
     return ret
+
 
 def makeInNotNullConditions(columns):
     """ Make the WHERE clause conditions of IS NOT NULL for columns"""
@@ -437,9 +470,10 @@ def makeInNotNullConditions(columns):
     ret = clause[0:-4]
     return ret
 
-def getInterpolatedValue(val0,val1,scoreGrid):
+
+def getInterpolatedValue(val0, val1, scoreGrid):
     """Compute interpolated value from grid of mapping tuples
-    
+
        This routine takes as input a list of tuples ("grid") of the form
        `(val0,val1,score)`. It maps (val0,val1) values to a corresponding
        score. It returns a score that is interpolated between the
@@ -481,24 +515,25 @@ def getInterpolatedValue(val0,val1,scoreGrid):
     yLegFull = tup0Above - tup0Below
     xLegFull = tup1Above - tup1Below
     hypoFull = math.sqrt((xLegFull ** 2) + (yLegFull ** 2))
-    yLegPart =  val0 - tup0Below
-    xLegPart =  val1 - tup1Below
+    yLegPart = val0 - tup0Below
+    xLegPart = val1 - tup1Below
     hypoPart = math.sqrt((xLegPart ** 2) + (yLegPart ** 2))
     frac = hypoPart / hypoFull
     interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
     return interpScore
 
+
 def findSnappedRange(val):
     # simple brute force approach
     start = 1
     # find a starting value less than the target value val
-    while(1):
+    while (1):
         if start > val:
             start /= 10
         else:
             break
     # then find the pair of snapped values above and below val
-    while(1):
+    while (1):
         # the loop always starts at a power of 10
         below = start
         above = below * 2

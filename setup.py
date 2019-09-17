@@ -21,19 +21,20 @@ class build_py(build_py_orig):
 
 setuptools.setup(
     name="gda-score-code",
-    version="2.1.1",
+    version="2.2.1",
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/gda-score/code",
-    packages=setuptools.find_packages(include=['gdascore']),
+    packages=setuptools.find_packages(include=['gdascore', 'gdascore.global_config']),
     cmdclass={'build_py': build_py},
     classifiers=[
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    package_data={'': ['master.json', 'config_var.json']},
     include_package_data=True,
     install_requires=[
         'numpy>=1.16.0',
@@ -41,6 +42,13 @@ setuptools.setup(
         'matplotlib>=3.0.2',
         'python-dateutil>=2.7.5',
         'simplejson>=3.16.0',
-        'psycopg2>=2.8.3'
-    ]
+        'psycopg2>=2.8.3',
+        'PyInquirer==1.0.3',
+        'pyfiglet==0.8.post1'
+    ],
+    entry_points={
+        'console_scripts': [
+            'gdascore_init = gdascore.cli:init',
+        ]
+    }
 )
