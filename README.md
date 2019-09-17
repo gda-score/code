@@ -8,7 +8,7 @@ The primary language is Python, and requires Python3.7 or later. API documentati
 
 ## To run
 
- - usng `pip`:
+ - using `pip`:
     - step 1: `$ pip install gda-score-code`
         
     - step 2: initialize the program by executing `$ gdascore_init` in the console right after installation.
