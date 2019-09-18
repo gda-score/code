@@ -9,17 +9,17 @@ The primary language is Python, and requires Python3.7 or later. API documentati
 ## To run
 
 #### using `pip`:
-    - step 1: `$ pip install gda-score-code`
+ - step 1: `$ pip install gda-score-code`
         
-    - step 2: initialize the program by executing `$ gdascore_init` in the console right after installation.
+ - step 2: initialize the program by executing `$ gdascore_init` in the console right after installation.
 
 #### only in case of cloning the library:
 
-This repo has executable .py files in a variety of locations, most notably ./attacks and ./utility.
+ - This repo has executable .py files in a variety of locations, most notably ./attacks and ./utility.
 
-There are libraries and configuration files located under ./common.
+   There are libraries and configuration files located under ./common.
 
-To run these executables, the environment variable `PYTHONPATH` must be set to the path to the repo. (For example, `PYTHONPATH=C:\Users\francis\Documents\GitHub\code;`)
+   To run these executables, the environment variable `PYTHONPATH` must be set to the path to the repo. (For example,      `PYTHONPATH=C:\Users\francis\Documents\GitHub\code;`)
 
 
 ## Repo Organization
