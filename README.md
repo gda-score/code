@@ -8,12 +8,12 @@ The primary language is Python, and requires Python3.7 or later. API documentati
 
 ## To run
 
- - using `pip`:
+#### using `pip`:
     - step 1: `$ pip install gda-score-code`
         
     - step 2: initialize the program by executing `$ gdascore_init` in the console right after installation.
 
- - cloning the library:
+#### only in case of cloning the library:
 
 This repo has executable .py files in a variety of locations, most notably ./attacks and ./utility.
 
