@@ -6,6 +6,7 @@ from pprint import pprint
 from PyInquirer import style_from_dict, Token, prompt
 from PyInquirer import Validator, ValidationError
 from pyfiglet import Figlet
+import json
 
 import os, sys
 from time import sleep
@@ -115,8 +116,6 @@ def createConfigFolder(cnfPath):
 
 
 def propagateSampleConfig(cnfPath):
-    # common/config/*
-    # copy file contents ino variables and then make files here
     try:
         with open(os.path.join(cnfPath, 'config', 'myCredentials.json'), 'w') as f:
             f.write(myCredentials)
@@ -137,9 +136,11 @@ def propagateSampleConfig(cnfPath):
 
 
 def setGlobalVariables(cnfPath, resPath):
+    to_write_cnfPath = json.dumps(os.path.abspath(cnfPath))
+    to_write_resPath = json.dumps(os.path.abspath(resPath))
     res = f'''{{
-        "config_path": "{os.path.abspath(cnfPath)}",
-        "result_path": "{os.path.abspath(resPath)}"
+        "config_path": {to_write_cnfPath},
+        "result_path": {to_write_resPath}
 }}'''
     try:
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'),

@@ -6,10 +6,13 @@ import math
 import os
 import copy
 from pkg_resources import Requirement, resource_exists, resource_filename
+import ntpath
 
 
 def try_for_config_file(config_rel_path):
-    interested_file = config_rel_path.split('/')[-1]
+
+    ####### added by frzmohammadali #######
+    interested_file = ntpath.basename(config_rel_path)
 
     # case 0: local config path defined by user: when installing by pip
     global_config_variable = dict()
@@ -30,6 +33,7 @@ def try_for_config_file(config_rel_path):
     potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', interested_file)
     if os.path.isfile(potential_path):
         return potential_path
+    ####### added by frzmohammadali #######
 
     # First case: find config in repository; use paths in PATH and PYTHONPATH as potential repository root folders
     for p in sys.path:
@@ -92,7 +96,7 @@ def getMasterConfig():
     '''
     path = try_for_config_file(os.path.join("common", "config", "master.json"))
     if path is None:
-        print(f"ERROR: No config file found")
+        print(f"ERROR: No config file found (master.json)")
         return None
     fh = open(path, "r")
     j = json.load(fh)
@@ -106,7 +110,7 @@ def getCredentials():
     '''
     path = try_for_config_file(os.path.join("common", "config", "myCredentials.json"))
     if path is None:
-        print(f"ERROR: No config file found")
+        print(f"ERROR: No config file found (myCredentials.json)")
         return None
     fh = open(path, "r")
     j = json.load(fh)
