@@ -138,8 +138,8 @@ def propagateSampleConfig(cnfPath):
 
 def setGlobalVariables(cnfPath, resPath):
     res = f'''{{
-        "config_path": "{cnfPath}",
-        "result_path": "{resPath}"
+        "config_path": "{os.path.abspath(cnfPath)}",
+        "result_path": "{os.path.abspath(resPath)}"
 }}'''
     try:
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'),
