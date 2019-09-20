@@ -10,7 +10,6 @@ import ntpath
 
 
 def try_for_config_file(config_rel_path):
-
     ####### added by frzmohammadali #######
     interested_file = ntpath.basename(config_rel_path)
 
@@ -23,8 +22,8 @@ def try_for_config_file(config_rel_path):
     try:
         potential_path = os.path.join(global_config_variable['config_path'], 'config', interested_file)
     except KeyError:
-        print('ERROR: config path not found. package has not been correctly initiated. ' +
-              'try executing "gdascore_init" first.')
+        # local config path has not been provided. should look into global_config in next step.
+        pass
     else:
         if os.path.isfile(potential_path):
             return potential_path
