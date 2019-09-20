@@ -426,11 +426,17 @@ def finishGdaAttack(params, score):
     final['finished'] = True
     j = json.dumps(final, sort_keys=True, indent=4)
     resultsPath = params['resultsPath']
-    try:
-        f = open(resultsPath, 'w')
-    except:
-        e = str(f"Failed to open {resultsPath} for write")
-        sys.exit(e)
+    for _ in range(2):
+        try:
+            f = open(resultsPath, 'w')
+        except:
+            if not os.path.exists(os.path.dirname(resultsPath)):
+                os.mkdir(os.path.dirname(resultsPath))
+                continue
+            e = str(f"Failed to open {resultsPath} for write")
+            sys.exit(e)
+        else:
+            break
     f.write(j)
     f.close()
     return final

@@ -19,7 +19,8 @@ There are 2 possible ways of using this program:
    - step 3: use following import statements in your code:  
 	   ```python  
 	   from gdascore.gdaScore import gdaAttack, gdaScores  
-	   from gdascore.gdaUtilities import *  
+	   from gdascore.gdaUtilities import *
+	   from gdascore.gdaQuery import *
 	   ```  
   
 2. #### Cloning the repository:  
