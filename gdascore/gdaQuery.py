@@ -7,6 +7,7 @@ try:
 except ImportError:
     from gdaUtilities import makeGroupBy
 
+
 class findQueryConditions:
     """Build query conditions (WHERE) with between X and Y distinct users
 

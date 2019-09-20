@@ -23,7 +23,7 @@ client side.
 
 # How to use the application
 
-In `config.py` file set the values of `budget` and `dbname`.
+In `config.py` file, set the values of `budget` and `dbname`.
 
 Only the `epsilon` value, the `query` and the `count` of query can be updated for each query. 
 The `budget` and `dbname` (database name) *CANNOT* be updated once it is set for a particular session.
