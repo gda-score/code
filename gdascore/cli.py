@@ -23,8 +23,8 @@ def init():
     print(f.renderText('GDA Score'))
 
     print(
-        'Welcome to GDA Score project. for GDA Score module to function properly, you need to provide your desired ' +
-        '"results" and "config" folder through this initiation procedure.')
+        'Welcome to GDA Score project. After you provided a path for local configuration folder through this ' +
+        'process, You can modify its default configuration.')
     print()
 
     style = style_from_dict({
@@ -44,21 +44,21 @@ def init():
                     cursor_position=len(document.text))  # Move cursor to end
 
     questions = [
-        {
-            'type': 'input',
-            'name': 'resPath',
-            'message': 'where should "results" folder be placed? please provide absolute path.',
-            'validate': PathValidator,
-            'default': os.path.abspath(os.getcwd())
-        },
-        {
-            'type': 'list',
-            'name': 'boolCrtResFld',
-            'message': 'there is no folder named "results" in the path specified, it will be created. ' +
-                       'hit enter to continue.',
-            'choices': ['ok'],
-            'when': lambda ans: not os.path.exists(os.path.join(ans['resPath'], 'results'))
-        },
+        # {
+        #     'type': 'input',
+        #     'name': 'resPath',
+        #     'message': 'where should "results" folder be placed? please provide absolute path.',
+        #     'validate': PathValidator,
+        #     'default': os.path.abspath(os.getcwd())
+        # },
+        # {
+        #     'type': 'list',
+        #     'name': 'boolCrtResFld',
+        #     'message': 'there is no folder named "results" in the path specified, it will be created. ' +
+        #                'hit enter to continue.',
+        #     'choices': ['ok'],
+        #     'when': lambda ans: not os.path.exists(os.path.join(ans['resPath'], 'results'))
+        # },
         {
             'type': 'input',
             'name': 'cnfPath',
@@ -82,13 +82,13 @@ def init():
     print('\ninitiation done. you can start using the code.\n')
 
 
-def main(cnfPath, resPath, boolCrtResFld=None, boolCrtCnfFld=None):
+def main(cnfPath, boolCrtCnfFld=None):  # resPath, boolCrtResFld=None
     if boolCrtCnfFld:
         createConfigFolder(cnfPath)
-    if boolCrtResFld:
-        createResultFolder(resPath)
+    # if boolCrtResFld:
+    #     createResultFolder(resPath)
     propagateSampleConfig(cnfPath)
-    setGlobalVariables(cnfPath, resPath)
+    setGlobalVariables(cnfPath)  # , resPath)
 
 
 def createResultFolder(resPath):
@@ -135,13 +135,16 @@ def propagateSampleConfig(cnfPath):
         sleep(1)
 
 
-def setGlobalVariables(cnfPath, resPath):
+def setGlobalVariables(cnfPath):  # , resPath):
     to_write_cnfPath = json.dumps(os.path.abspath(cnfPath))
-    to_write_resPath = json.dumps(os.path.abspath(resPath))
+    # to_write_resPath = json.dumps(os.path.abspath(resPath))
+    #     res = f'''{{
+    #         "config_path": {to_write_cnfPath},
+    #         "result_path": {to_write_resPath}
+    # }}'''
     res = f'''{{
-        "config_path": {to_write_cnfPath},
-        "result_path": {to_write_resPath}
-}}'''
+            "config_path": {to_write_cnfPath}
+    }}'''
     try:
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'),
                   'w') as f:

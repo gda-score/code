@@ -1216,17 +1216,21 @@ class gdaAttack:
                 cur.execute(sql)
                 conn.commit()
             except sqlite3.OperationalError as e:
-                print(f"putCache error '{e.args[0]}'")
+                if self._p['verbose'] or self._vb:
+                    print(f"putCache error '{e.args[0]}'")
                 err = e
                 continue
             except sqlite3.Error as e:
-                print(f"putCache error '{e.args[0]}'")
+                if self._p['verbose'] or self._vb:
+                    print(f"putCache error '{e.args[0]}'")
                 err = e
                 continue
             else:
                 break
         else:
-            raise err
+            # raise err
+            if self._p['verbose'] or self._vb:
+                print(f'>> could not insert into cache DB >> ERROR: {err}')
         end = time.perf_counter()
         self._op['numCachePuts'] += 1
         self._op['timeCachePuts'] += (end - start)

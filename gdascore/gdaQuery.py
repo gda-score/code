@@ -2,7 +2,11 @@ import pprint
 import random
 import string
 import copy
-from gdascore.gdaUtilities import makeGroupBy
+try:
+    from .gdaUtilities import makeGroupBy
+except ImportError:
+    from gdaUtilities import makeGroupBy
+
 
 class findQueryConditions:
     """Build query conditions (WHERE) with between X and Y distinct users

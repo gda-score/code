@@ -1,49 +1,23 @@
-# code
 
-This repo holds a variety of tools in support of the GDA Score Project (General Data Anonymity Score Project).
+# code  
+  
+This repo holds a variety of tools in support of the GDA Score Project (General Data Anonymity Score Project).  
+  
+The code here is still very much alpha, and little effort has gone into making it easy for others to install and use.  
+  
+The primary language is Python, and requires Python3.7 or later. API documentation for some of the tools can be found at https://gda-score.github.io/.  
+  
+## To run  
+  
+#### Installing via `pip`:  
+   - step 1: `$ pip install gda-score-code`  
+          
+   - step 2: if you would like to stick to default configuration then skip this step. otherwise try executing `$ gdascore_init` in your console  to modify the configuration.  
+  
+   - step 3: use import statements such as the following in your code (see examples in `attacks` and `utility` repos):  
+	   ```python  
+	   from gdascore.gdaScore import gdaAttack, gdaScores  
+	   from gdascore.gdaUtilities import *
+	   from gdascore.gdaQuery import *
+	   ```  
 
-The code here is still very much alpha, and little effort has gone into making it easy for others to install and use.
-
-The primary language is Python, and requires Python3.7 or later. API documentation for some of the tools can be found at https://gda-score.github.io/.
-
-## To run
-
-There are 2 possible ways of using this program:
-
-1. #### Installing via `pip`:
-   - step 1: `$ pip install gda-score-code`
-        
-   - step 2: initialize the program by executing `$ gdascore_init` in the console right after installation.
-
-2. #### Cloning the repository:
-
-   This repo has executable .py files in a variety of locations, most notably ./attacks and ./utility.
-
-   There are libraries and configuration files located under ./common.
-
-   To run these executables, the environment variable `PYTHONPATH` must be set to the path to the repo. (For example,      `PYTHONPATH=C:\Users\francis\Documents\GitHub\code;`)
-
-
-## Repo Organization
-
-This repo is organized as follows:
-
-### anon-methods
-
-Contains tools to implement new anonymization methods.
-
-### attacks
-
-Contains all of the attacks on the various anonymization methods.
-
-### common
-
-Contains general support code.
-
-### graphs
-
-Contains tools to generate diagrams of the attack and utility scores.
-
-### utility
-
-Contains tools to measure the utility of various anonymization methods

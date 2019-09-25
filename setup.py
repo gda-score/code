@@ -22,7 +22,7 @@ class build_py(build_py_orig):
 setuptools.setup(
     name="gda-score-code",
     # name="gda-score-code-test",
-    version="2.2.3",
+    version="2.2.5",
     # version="2.3.6",  # for test.pypi
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
@@ -36,7 +36,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    package_data={'': ['master.json', 'config_var.json']},
+    package_data={'': ['master.json', 'myCredentials.json', 'config_var.json']},
     include_package_data=True,
     install_requires=[
         'numpy>=1.16.0',
