@@ -18,6 +18,7 @@ except ImportError:
     # this will work after gdaUtilities is renamed to gdaTools also in the pip-package
     # from gdaTools import getInterpolatedValue, getDatabaseInfo
 
+
 class gdaAttack:
     """Manages a GDA Attack
 
@@ -110,8 +111,10 @@ class gdaAttack:
             `param['verbose']`: Set to True for verbose output.
         """
 
-        if self._vb: print(f"Calling {__name__}.init")
-        if self._vb: print(f"   {params}")
+        if self._vb:
+            print(f"Calling {__name__}.init")
+        if self._vb:
+            print(f"   {params}")
         self._initOp()
         self._initCounters()
         self._assignGlobalParams(params)
@@ -138,7 +141,8 @@ class gdaAttack:
 
         # Get the column names for computing susceptibility later
         self._colNamesTypes = self.getColNamesAndTypes()
-        if self._vb: print(f"Columns are '{self._colNamesTypes}'")
+        if self._vb:
+            print(f"Columns are '{self._colNamesTypes}'")
         self._initAtkRes()
 
         # Setup the database which holds already executed queries so we
@@ -288,7 +292,8 @@ class gdaAttack:
             claims are still queued. When `stillToCome` is 0, then all
             claims submitted by `askClaim()` have been returned."""
 
-        if self._vb: print(f"Calling {__name__}.getClaim")
+        if self._vb:
+            print(f"Calling {__name__}.getClaim")
         if self._claimCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
@@ -386,7 +391,8 @@ class gdaAttack:
             `result['query']['sql']` is the query from the corresponding
             `askAttack()`."""
 
-        if self._vb: print(f"Calling {__name__}.getAttack")
+        if self._vb:
+            print(f"Calling {__name__}.getAttack")
         if self._attackCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
@@ -433,7 +439,8 @@ class gdaAttack:
             in which `askKnowledge()` calls were made. <br/>
             Return parameter formatted the same as with `getAttack()`"""
 
-        if self._vb: print(f"Calling {__name__}.getKnowledge")
+        if self._vb:
+            print(f"Calling {__name__}.getKnowledge")
         if self._knowledgeCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
@@ -482,7 +489,8 @@ class gdaAttack:
             in which results are received is not necesarily the order
             in which `askExplore()` calls were made. <br/>
             Return parameter formatted the same as with `getAttack()`"""
-        if self._vb: print(f"Calling {__name__}.getExplore")
+        if self._vb:
+            print(f"Calling {__name__}.getExplore")
         if self._exploreCounter == 0:
             # Caller shouldn't be calling if there are no expected
             # answers, but is anyway, so just return
@@ -801,7 +809,7 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-        if self._vb: print(f"Starting {__name__}.dbWorker:{db,kind}")
+        if self._vb: print(f"Starting {__name__}.dbWorker:{db, kind}")
         me = threading.current_thread()
         d = getDatabaseInfo(db)
         # Establish connection to database
@@ -823,7 +831,7 @@ class gdaAttack:
             jobOrig = q.get()
             q.task_done()
             if jobOrig is None:
-                if self._vb: print(f"    {me}: dbWorker done {db,kind}")
+                if self._vb: print(f"    {me}: dbWorker done {db, kind}")
                 conn.close()
                 connRead.close()
                 connInsert.close()
