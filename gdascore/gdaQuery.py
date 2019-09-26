@@ -3,9 +3,11 @@ import random
 import string
 import copy
 try:
-    from .gdaUtilities import makeGroupBy
+    from .gdaTools import makeGroupBy
 except ImportError:
-    from gdaUtilities import makeGroupBy
+    raise ImportError # just for now
+    # this will work after gdaUtilities is renamed to gdaTools also in the pip-package
+    # from gdaUtilities import makeGroupBy
 
 
 class findQueryConditions:
