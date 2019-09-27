@@ -26,7 +26,7 @@ Please follow the steps below if you are a contributor and want to upload new re
  1. open [pypi.org](https://pypi.org) and create a new account if you don't have.
  2. send us your username to be added as a maintainer of the package on pypi that lets you upload a new release
  3. install `twine` using: `pip install twine`
- 4. clean build files if there is any by running: `python setup.py clean --all`
+ 4. clean build files if there is any by running: `python setup.py clean --all` and also delete any folder named `dist` as the setup will create that itself and you won't face vrsion confilict because of past builds anymore.
  5. update the version of package in the file `setup.py` and increase it. it is not possible to upload same version twice so remember to do that. `name` parameter should not change.
 ``` 
 setuptools.setup(  
