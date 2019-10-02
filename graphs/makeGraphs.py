@@ -1,10 +1,11 @@
-import sys
+import json
 import os
 import pprint
-import json
-import argparse
+import sys
+
 from graphs.gdaPlotDefense import plotDefenseScore
 from graphs.gdaPlotUtility import plotUtilityScore
+
 
 def runOneDirectory(jsonDir, graphDir, plotType, scoreType, force):
     jsonFiles = os.listdir(jsonDir)

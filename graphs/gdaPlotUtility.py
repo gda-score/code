@@ -1,10 +1,8 @@
-import os
-import sys
-import math
-import json
-import matplotlib.pyplot as plt
-from common.gdaUtilities import getInterpolatedValue
 import pprint
+import matplotlib.pyplot as plt
+
+from gdascore.gdaTools import getInterpolatedValue
+
 pp = pprint.PrettyPrinter(indent=4)
 
 
