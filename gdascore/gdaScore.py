@@ -10,6 +10,7 @@ import base64
 import time
 import pprint
 import datetime
+
 try:
     from .gdaUtilities import getInterpolatedValue, getDatabaseInfo
 except ImportError:
@@ -341,6 +342,12 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
         """
+
+        ########### added by frzmohammadali ##########
+        self.cacheQueue = queue.Queue()
+        self.cacheThreadObject = CacheThread(self.cacheQueue, self)
+        self.cacheThreadObject.start()
+        ##############################################
 
         if self._vb: print(f"Calling {__name__}.init")
         if self._vb: print(f"   {params}")
@@ -1104,8 +1111,9 @@ class gdaAttack:
             self._op['timeQueries'] += duration
             reply['query'] = query
             # only cache if the native query is slow
-            if duration > 0.1:
-                self._putCache(connInsert, curInsert, query, reply)
+            if True:  # duration > 0.1:
+                # self._putCache(connInsert, curInsert, query, reply)
+                self.cacheQueue.put([connInsert, curInsert, query, reply])
             return reply
 
     def _checkInference(self, ans):
@@ -1197,6 +1205,8 @@ class gdaAttack:
         if not answer:
             return None
         rtnDict = self._str2Dict(answer[0])
+        if self._p['verbose'] or self._vb:
+            printTitle('getCache successful')
         return rtnDict
 
     def _putCache(self, conn, cur, query, reply):
@@ -1231,9 +1241,13 @@ class gdaAttack:
             # raise err
             if self._p['verbose'] or self._vb:
                 print(f'>> could not insert into cache DB >> ERROR: {err}')
+
         end = time.perf_counter()
         self._op['numCachePuts'] += 1
         self._op['timeCachePuts'] += (end - start)
+
+    def putCacheWrapper(self, conn, cur, query, reply):
+        self._putCache(conn, cur, query, reply)
 
     def _dict2Str(self, d):
         try:
@@ -1416,3 +1430,27 @@ class gdaAttack:
         self._attackCounter = 0
         self._claimCounter = 0
         self._guessCounter = 0
+
+
+class CacheThread(threading.Thread):
+    def __init__(self, theQueue, atcObject):
+        threading.Thread.__init__(self)
+        self.theQueue = theQueue
+        self.atcObject = atcObject
+        self.lastQSizePrinted = 0
+        printTitle('cache thread initialized')
+
+    def run(self):
+        while True:
+            if self.theQueue.qsize() > 0 and self.theQueue.qsize() != self.lastQSizePrinted:
+                self.lastQSizePrinted = self.theQueue.qsize()
+
+            if not self.theQueue.empty():
+                data = self.theQueue.get()
+                self.atcObject.putCacheWrapper(*data)
+                if self.atcObject._p['verbose'] or self.atcObject._vb:
+                    printTitle('cache insert successful. queue length: ' + str(self.theQueue.qsize()))
+
+
+def printTitle(text):
+    print(f'\n^^^^^^^^ {text} ^^^^^^^^\n')
