@@ -251,6 +251,9 @@ class gdaScores:
         return (1 - score)
 
 
+theCacheQueue = None
+theCacheThreadObject = None
+
 class gdaAttack:
     """Manages a GDA Attack
 
@@ -344,8 +347,19 @@ class gdaAttack:
         """
 
         ########### added by frzmohammadali ##########
-        self.cacheQueue = queue.Queue()
-        self.cacheThreadObject = CacheThread(self.cacheQueue, self)
+        global theCacheQueue
+        global theCacheThreadObject
+
+        if not theCacheQueue and not theCacheThreadObject:
+            theCacheQueue = queue.Queue()
+            theCacheThreadObject = CacheThread(theCacheQueue, self)
+            printTitle('cache thread initialized.')
+        elif theCacheThreadObject:
+            theCacheThreadObject.terminateThread()
+            theCacheThreadObject = CacheThread(theCacheQueue, self)
+
+        self.cacheQueue = theCacheQueue
+        self.cacheThreadObject = theCacheThreadObject
         self.cacheThreadObject.start()
         ##############################################
 
@@ -1431,6 +1445,9 @@ class gdaAttack:
         self._claimCounter = 0
         self._guessCounter = 0
 
+    def __del__(self):
+        self.cacheThreadObject.terminateThread()
+
 
 class CacheThread(threading.Thread):
     def __init__(self, theQueue, atcObject):
@@ -1438,10 +1455,14 @@ class CacheThread(threading.Thread):
         self.theQueue = theQueue
         self.atcObject = atcObject
         self.lastQSizePrinted = 0
-        printTitle('cache thread initialized')
+        self.exitingFlag = False
+
+    def terminateThread(self):
+        self.exitingFlag = True
+        self.join()
 
     def run(self):
-        while True:
+        while not self.exitingFlag:
             if self.theQueue.qsize() > 0 and self.theQueue.qsize() != self.lastQSizePrinted:
                 self.lastQSizePrinted = self.theQueue.qsize()
 
