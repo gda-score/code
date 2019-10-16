@@ -1,12 +1,8 @@
-import os
-import sys
-import matplotlib.pyplot as plt
-import math
-from matplotlib.patches import Rectangle
-import json
-import numpy as np
-from common.gdaUtilities import getInterpolatedValue
 import pprint
+import matplotlib.pyplot as plt
+
+from matplotlib.patches import Rectangle
+
 pp = pprint.PrettyPrinter(indent=4)
 
 def buildOneDiagram(score, oneScore, fileName, form, show, plotType):

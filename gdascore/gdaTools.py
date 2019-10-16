@@ -1,12 +1,13 @@
-import sys
+import copy
 import importlib.util
 import json
-import pprint
 import math
-import os
-import copy
-from pkg_resources import Requirement, resource_exists, resource_filename
 import ntpath
+import os
+import pprint
+import sys
+
+from pkg_resources import Requirement, resource_filename
 
 
 def try_for_config_file(config_rel_path):

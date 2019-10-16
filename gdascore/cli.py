@@ -2,14 +2,14 @@
 
 from __future__ import print_function, unicode_literals
 
-from pprint import pprint
-from PyInquirer import style_from_dict, Token, prompt
-from PyInquirer import Validator, ValidationError
-from pyfiglet import Figlet
 import json
-
-import os, sys
+import os
+import sys
 from time import sleep
+
+from PyInquirer import Validator, ValidationError
+from PyInquirer import style_from_dict, Token, prompt
+from pyfiglet import Figlet
 
 try:
     from .sampleConfig import readme, myCredentials

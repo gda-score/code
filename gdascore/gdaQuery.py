@@ -3,9 +3,9 @@ import random
 import string
 import copy
 try:
-    from .gdaUtilities import makeGroupBy
+    from .gdaTools import makeGroupBy
 except ImportError:
-    from gdaUtilities import makeGroupBy
+    from gdaTools import makeGroupBy
 
 
 class findQueryConditions:
