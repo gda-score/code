@@ -16,8 +16,9 @@ The primary language is Python, and requires Python3.7 or later. API documentati
     
    - step 3: use import statements such as the following in your code (see examples in `attacks` and `utility` repos):    
       ```python    
-      from gdascore.gdaScore import gdaAttack, gdaScores    
-      from gdascore.gdaUtilities import *  
+      from gdascore.gdaAttack import gdaAttack
+      from gdascore.gdaScore import gdaScores    
+      from gdascore.gdaTools import *  
       from gdascore.gdaQuery import *  
       ```
 
@@ -27,7 +28,7 @@ Please follow the steps below if you are a contributor and want to upload new re
  2. send us your username to be added as a maintainer of the package on pypi that lets you upload a new release
  3. install `twine` using: `pip install twine`
  4. clean build files if there is any by running: `python setup.py clean --all` and also delete any folder named `dist` as the setup will create that itself and you won't face vrsion confilict because of past builds anymore.
- 5. update the version of package in the file `setup.py` and increase it. it is not possible to upload same version twice so remember to do that. `name` parameter should not change.
+ 5. update the version of package in the file `setup.py` and increase it. it is not possible to upload same version twice so remember to do that. `name` parameter should not change. For example:
 ``` 
 setuptools.setup(  
     name="gda-score-code",  
