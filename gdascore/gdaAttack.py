@@ -1030,6 +1030,9 @@ class gdaAttack:
         self._op['numCachePuts'] += 1
         self._op['timeCachePuts'] += (end - start)
 
+    def putCacheWrapper(self, conn, cur, query, reply):
+        self._putCache(conn, cur, query, reply)
+
     def _dict2Str(self, d):
         try:
             dStr = simplejson.dumps(d)
