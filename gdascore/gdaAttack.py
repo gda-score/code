@@ -1226,13 +1226,14 @@ class CacheThread(threading.Thread):
         self.atcObject = atcObject
         self.lastQSizePrinted = 0
         self.exitingFlag = False
+        self.kill_received = False
 
     def terminateThread(self):
         self.exitingFlag = True
         self.join()
 
     def run(self):
-        while not self.exitingFlag:
+        while (not self.exitingFlag) and (not self.kill_received):
             if self.theQueue.qsize() > 0 and self.theQueue.qsize() != self.lastQSizePrinted:
                 self.lastQSizePrinted = self.theQueue.qsize()
 
