@@ -10,6 +10,7 @@ import base64
 import time
 import pprint
 import datetime
+import signal
 
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
@@ -18,6 +19,7 @@ except ImportError:
 
 theCacheQueue = None
 theCacheThreadObject = None
+
 
 class gdaAttack:
     """Manages a GDA Attack
@@ -120,7 +122,7 @@ class gdaAttack:
             theCacheThreadObject = CacheThread(theCacheQueue, self)
             printTitle('cache thread initialized.')
         elif theCacheThreadObject:
-            theCacheThreadObject.terminateThread()
+            theCacheThreadObject.terminate()
             theCacheThreadObject = CacheThread(theCacheQueue, self)
 
         self.cacheQueue = theCacheQueue
@@ -226,14 +228,23 @@ class gdaAttack:
             print("Warning, trying to clean up when raw queue not empty!")
         if self._anonQ.empty() != True:
             print("Warning, trying to clean up when anon queue not empty!")
+        if self.cacheQueue.empty() != True:
+            print("Warning, trying to clean up when cache queue not empty!")
         # Stuff in end signals for the workers (this is a bit bogus, cause
         # if a thread is gone or hanging, not all signals will get read)
         for i in range(self._p['numRawDbThreads']):
             self._rawQ.put(None)
         for i in range(self._p['numAnonDbThreads']):
             self._anonQ.put(None)
+
+        for i in range(self.cacheQueue.qsize()):
+            self.cacheQueue.put(None)
+
         for t in self._rawThreads + self._anonThreads:
             if t.isAlive(): t.join()
+
+        self.cacheThreadObject.terminate()
+
         if len(self._p['pubDb']) > 0:
             if self._pubQ.empty() != True:
                 print("Warning, trying to clean up when pub queue not empty!")
@@ -780,8 +791,8 @@ class gdaAttack:
         if os.path.exists(path):
             try:
                 os.remove(path)
-            except:
-                print(f"ERROR: Failed to remove cache DB {path}")
+            except Exception as ex:
+                print(f"ERROR: Failed to remove cache DB {path} => ex: {ex}")
 
     def _setupThreadsAndQueues(self):
         self._anonThreads = []
@@ -800,20 +811,20 @@ class gdaAttack:
         for i in range(self._p['numRawDbThreads']):
             d = dict(db=self._p['rawDb'], q=self._rawQ,
                      kind='raw', backQ=backQ)
-            t = threading.Thread(target=self._dbWorker, kwargs=d)
+            t = EnhancedThread(target=self._dbWorker, kwargs=d)
             t.start()
             self._rawThreads.append(t)
         for i in range(self._p['numAnonDbThreads']):
             d = dict(db=self._p['anonDb'], q=self._anonQ,
                      kind='anon', backQ=backQ)
-            t = threading.Thread(target=self._dbWorker, kwargs=d)
+            t = EnhancedThread(target=self._dbWorker, kwargs=d)
             t.start()
             self._anonThreads.append(t)
         if self._cr == 'linkability':
             for i in range(self._p['numPubDbThreads']):
                 d = dict(db=self._p['pubDb'], q=self._pubQ,
                          kind='pub', backQ=backQ)
-                t = threading.Thread(target=self._dbWorker, kwargs=d)
+                t = EnhancedThread(target=self._dbWorker, kwargs=d)
                 t.start()
                 self._pubThreads.append(t)
         num = (self._p['numRawDbThreads'] + self._p['numAnonDbThreads'])
@@ -1216,24 +1227,34 @@ class gdaAttack:
         self._guessCounter = 0
 
     def __del__(self):
-        self.cacheThreadObject.terminateThread()
+        self.cacheThreadObject.terminate()
 
 
-class CacheThread(threading.Thread):
+class EnhancedThread(threading.Thread):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__kill_received = False
+        self.daemon = True
+
+    @property
+    def signalKill(self):
+        return self.__kill_received
+
+    def terminate(self):
+        self.__kill_received = True
+        if self.isAlive():
+            self.join(timeout=0.1)
+
+
+class CacheThread(EnhancedThread):
     def __init__(self, theQueue, atcObject):
-        threading.Thread.__init__(self)
+        super().__init__()
         self.theQueue = theQueue
         self.atcObject = atcObject
         self.lastQSizePrinted = 0
-        self.exitingFlag = False
-        self.kill_received = False
-
-    def terminateThread(self):
-        self.exitingFlag = True
-        self.join()
 
     def run(self):
-        while (not self.exitingFlag) and (not self.kill_received):
+        while not super().signalKill:
             if self.theQueue.qsize() > 0 and self.theQueue.qsize() != self.lastQSizePrinted:
                 self.lastQSizePrinted = self.theQueue.qsize()
 
@@ -1246,3 +1267,18 @@ class CacheThread(threading.Thread):
 
 def printTitle(text):
     print(f'\n^^^^^^^^ {text} ^^^^^^^^\n')
+
+
+def signal_kill_handler(signum, frame):
+    printTitle("Terminating the program ...")
+    print(f' > active background threads: {threading.active_count() - 1} | sending termination signal to all. please wait ...\n')
+    for item in threading.enumerate():
+        if item != threading.current_thread():
+            item.terminate()
+            print(f' > {item.getName()} sent.')
+    printTitle('All done!')
+
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, signal_kill_handler)
+signal.signal(signal.SIGINT, signal_kill_handler)
