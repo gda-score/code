@@ -167,5 +167,5 @@ for params in paramsList:
     # pp.pprint(params)
     dumb_list_singling_out_attack(params)
 
-while threading.active_count() > 1:
-    pass
+# while threading.active_count() > 1:
+#     pass

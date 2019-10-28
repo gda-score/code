@@ -11,6 +11,7 @@ import time
 import pprint
 import datetime
 import signal
+import atexit
 
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
@@ -19,7 +20,6 @@ except ImportError:
 
 theCacheQueue = None
 theCacheThreadObject = None
-
 
 class gdaAttack:
     """Manages a GDA Attack
@@ -1266,12 +1266,18 @@ class CacheThread(EnhancedThread):
 
 
 def printTitle(text):
-    print(f'\n^^^^^^^^ {text} ^^^^^^^^\n')
+    text = " " + text + " "
+    print(f'\n{text:#^100}\n')
 
+signal_kill_received = False
 
 def signal_kill_handler(signum, frame):
+    global signal_kill_received
+    signal_kill_received = True
+
     printTitle("Terminating the program ...")
-    print(f' > active background threads: {threading.active_count() - 1} | sending termination signal to all. please wait ...\n')
+    print(
+        f' > active background threads: {threading.active_count() - 1} | sending termination signal to all. please wait ...\n')
     for item in threading.enumerate():
         if item != threading.current_thread():
             item.terminate()
@@ -1280,5 +1286,18 @@ def signal_kill_handler(signum, frame):
 
     sys.exit(0)
 
+
+def on_exit():
+    if not signal_kill_received:
+        printTitle('Main program finished successfully. Threads in background are running...')
+        if threading.active_count() > 1:
+            for t in threading.enumerate():
+                if t != threading.main_thread():
+                    t.join()
+        printTitle("Whole execution process finished successfully.")
+
+
 signal.signal(signal.SIGTERM, signal_kill_handler)
 signal.signal(signal.SIGINT, signal_kill_handler)
+
+atexit.register(on_exit)
