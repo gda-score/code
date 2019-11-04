@@ -1279,7 +1279,7 @@ def signal_kill_handler(signum, frame):
     print(
         f' > active background threads: {threading.active_count() - 1} | sending termination signal to all. please wait ...\n')
     for item in threading.enumerate():
-        if item != threading.current_thread():
+        if item != threading.current_thread() and isinstance(item, EnhancedThread):
             item.terminate()
             print(f' > {item.getName()} sent.')
     printTitle('All done!')
