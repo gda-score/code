@@ -20,6 +20,7 @@ except ImportError:
 
 theCacheQueue = None
 theCacheThreadObject = None
+flgCacheThreadStarted = False
 
 class gdaAttack:
     """Manages a GDA Attack
@@ -27,54 +28,6 @@ class gdaAttack:
        See __init__ for input parameters. <br/>
        WARNING: this code is fragile, and can fail ungracefully, or
        just hang."""
-
-    # ------------- Class called parameters and configured parameters
-    _vb = False
-    _cr = ''  # short for criteria
-    _pp = None  # pretty printer (for debugging)
-    _colNamesTypes = []
-    _p = dict(name='',
-              rawDb='',
-              anonDb='',
-              pubDb='',
-              criteria='singlingOut',
-              table='',
-              uid='uid',
-              flushCache=False,
-              verbose=False,
-              # following not normally set by caller, but can be
-              locCacheDir="cacheDBs",
-              numRawDbThreads=3,
-              numAnonDbThreads=3,
-              numPubDbThreads=3,
-              )
-    _requiredParams = ['name', 'rawDb']
-
-    # ---------- Private internal state
-    # Threads
-    _rawThreads = []
-    _anonThreads = []
-    _pubThreads = []
-    # Queues read by database threads _rawThreads and _anonThreads
-    _rawQ = None
-    _anonQ = None
-    _pubQ = None
-    # Queues read by various caller functions
-    _exploreQ = None
-    _knowledgeQ = None
-    _attackQ = None
-    _claimQ = None
-    _guessQ = None
-    # ask/get counters for setting 'stillToCome'
-    _exploreCounter = 0
-    _knowledgeCounter = 0
-    _attackCounter = 0
-    _claimCounter = 0
-    _guessCounter = 0
-    # State for computing attack results (see _initAtkRes())
-    _atrs = {}
-    # State for various operational measures (see _initOp())
-    _op = {}
 
     def __init__(self, params):
         """ Sets everything up with 'gdaAttack(params)'
@@ -116,18 +69,68 @@ class gdaAttack:
         ########### added by frzmohammadali ##########
         global theCacheQueue
         global theCacheThreadObject
+        global flgCacheThreadStarted
 
         if not theCacheQueue and not theCacheThreadObject:
             theCacheQueue = queue.Queue()
             theCacheThreadObject = CacheThread(theCacheQueue, self)
             printTitle('cache thread initialized.')
-        elif theCacheThreadObject:
-            theCacheThreadObject.terminate()
-            theCacheThreadObject = CacheThread(theCacheQueue, self)
 
         self.cacheQueue = theCacheQueue
         self.cacheThreadObject = theCacheThreadObject
-        self.cacheThreadObject.start()
+        if not flgCacheThreadStarted:
+            self.cacheThreadObject.start()
+            flgCacheThreadStarted = True
+        ##############################################
+
+        ############## parameters and instance variables ###############
+        # ------------- Class called parameters and configured parameters
+        self._vb = False
+        self._cr = ''  # short for criteria
+        self._pp = None  # pretty printer (for debugging)
+        self._colNamesTypes = []
+        self._p = dict(name='',
+                  rawDb='',
+                  anonDb='',
+                  pubDb='',
+                  criteria='singlingOut',
+                  table='',
+                  uid='uid',
+                  flushCache=False,
+                  verbose=False,
+                  # following not normally set by caller, but can be
+                  locCacheDir="cacheDBs",
+                  numRawDbThreads=3,
+                  numAnonDbThreads=3,
+                  numPubDbThreads=3,
+                  )
+        self._requiredParams = ['name', 'rawDb']
+
+        # ---------- Private internal state
+        # Threads
+        self._rawThreads = []
+        self._anonThreads = []
+        self._pubThreads = []
+        # Queues read by database threads _rawThreads and _anonThreads
+        self._rawQ = None
+        self._anonQ = None
+        self._pubQ = None
+        # Queues read by various caller functions
+        self._exploreQ = None
+        self._knowledgeQ = None
+        self._attackQ = None
+        self._claimQ = None
+        self._guessQ = None
+        # ask/get counters for setting 'stillToCome'
+        self._exploreCounter = 0
+        self._knowledgeCounter = 0
+        self._attackCounter = 0
+        self._claimCounter = 0
+        self._guessCounter = 0
+        # State for computing attack results (see _initAtkRes())
+        self._atrs = {}
+        # State for various operational measures (see _initOp())
+        self._op = {}
         ##############################################
 
         if self._vb:
@@ -1251,13 +1254,9 @@ class CacheThread(EnhancedThread):
         super().__init__()
         self.theQueue = theQueue
         self.atcObject = atcObject
-        self.lastQSizePrinted = 0
 
     def run(self):
         while not super().signalKill:
-            if self.theQueue.qsize() > 0 and self.theQueue.qsize() != self.lastQSizePrinted:
-                self.lastQSizePrinted = self.theQueue.qsize()
-
             if not self.theQueue.empty():
                 data = self.theQueue.get()
                 self.atcObject.putCacheWrapper(*data)
