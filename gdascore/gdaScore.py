@@ -91,7 +91,7 @@ class gdaScores:
         if method == 'mpi_sws_basic_v1':
             self._computeMpiSwsBasicV1Scores(numColumns)
         return self._ar
-    
+
     def getBountyScoreFromScore(self, score, type='mpi_sws_diffix_cedar'):
         """ Computes the parameters needed for the 'type' bounty program
 
