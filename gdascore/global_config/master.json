@@ -9,6 +9,13 @@
       "host": "attack.aircloak.com",
       "port": 9432,
       "type": "aircloak"
+    },
+    "uber": {
+      "host": "db001.gda-score.org",
+      "port" 5432,
+      "type": "uber",
+      "budget": 5,
+      "epsilon": 0.1
     }
   },
   "datasources": {
