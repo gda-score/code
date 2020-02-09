@@ -1084,41 +1084,46 @@ class gdaAttack:
                 job['replies'] = replies
                 replyQ.put(job)
 
-    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
-        # record and remove the return queue
-        cache = query['cache']
-        del query['cache']
-        # Check the cache for the answer
-        # Note that at this point query is a dict
-        # containing the sql, the db (raw, anon, or pub),
-        # and any tags that the source added
-        cachedReply = None
-        if cache:
-            cachedReply = self._getCache(curRead, query)
-        if cachedReply:
-            if self._vb: print("    Answer from cache")
-            if 'answer' in cachedReply:
-                numCells = self._computeNumCells(cachedReply['answer'])
-                cachedReply['cells'] = numCells
-            return cachedReply
-        else:
-            start = time.perf_counter()
-            try:
-                cur.execute(query['sql'])
-            except psycopg2.Error as e:
-                reply = dict(error=e.pgerror)
+    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead, queryType='db'):
+        # queryType specifies if we are asking the queries from a db (aircloak, postgres)
+        # or from a server, like uber_dp
+        if queryType == 'server':
+            pass
+        elif queryType == 'db':
+            # record and remove the return queue
+            cache = query['cache']
+            del query['cache']
+            # Check the cache for the answer
+            # Note that at this point query is a dict
+            # containing the sql, the db (raw, anon, or pub),
+            # and any tags that the source added
+            cachedReply = None
+            if cache:
+                cachedReply = self._getCache(curRead, query)
+            if cachedReply:
+                if self._vb: print("    Answer from cache")
+                if 'answer' in cachedReply:
+                    numCells = self._computeNumCells(cachedReply['answer'])
+                    cachedReply['cells'] = numCells
+                return cachedReply
             else:
-                ans = cur.fetchall()
-                numCells = self._computeNumCells(ans)
-                reply = dict(answer=ans, cells=numCells)
-            end = time.perf_counter()
-            duration = end - start
-            self._op['numQueries'] += 1
-            self._op['timeQueries'] += duration
-            reply['query'] = query
-            # only cache if the native query is slow
-            if duration > 0.1:
-                self._putCache(connInsert, curInsert, query, reply)
+                start = time.perf_counter()
+                try:
+                    cur.execute(query['sql'])
+                except psycopg2.Error as e:
+                    reply = dict(error=e.pgerror)
+                else:
+                    ans = cur.fetchall()
+                    numCells = self._computeNumCells(ans)
+                    reply = dict(answer=ans, cells=numCells)
+                end = time.perf_counter()
+                duration = end - start
+                self._op['numQueries'] += 1
+                self._op['timeQueries'] += duration
+                reply['query'] = query
+                # only cache if the native query is slow
+                if duration > 0.1:
+                    self._putCache(connInsert, curInsert, query, reply)
             return reply
 
     def _checkInference(self, ans):
