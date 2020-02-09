@@ -1035,41 +1035,45 @@ class gdaAttack:
     def _dbWorker(self, db, q, kind, backQ):
         if self._vb: print(f"Starting {__name__}.dbWorker:{db,kind}")
         me = threading.current_thread()
-        d = getDatabaseInfo(db)
-        # Establish connection to database
-        connStr = str(
-            f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
-        if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
-        conn = psycopg2.connect(connStr)
-        cur = conn.cursor()
-        # Establish connection to local cache
-        path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
-        # Set timeout low so that we don't spend a lot of time inserting
-        # into the cache in case it gets overloaded
-        connInsert = sqlite3.connect(path, timeout=0.1)
-        curInsert = connInsert.cursor()
-        connRead = sqlite3.connect(path)
-        curRead = connRead.cursor()
-        backQ.put(me)
-        while True:
-            jobOrig = q.get()
-            q.task_done()
-            if jobOrig is None:
-                if self._vb: print(f"    {me}: dbWorker done {db,kind}")
-                conn.close()
-                connRead.close()
-                connInsert.close()
-                break
-            # make a copy for passing around
-            job = copy.copy(jobOrig)
-            replyQ = job['q']
-            replies = []
-            for query in job['queries']:
-                reply = self._processQuery(query, conn, cur,
-                                           connInsert, curInsert, curRead)
-                replies.append(reply)
-            job['replies'] = replies
-            replyQ.put(job)
+        if db['type'] == 'uber_dp':
+            pass 
+
+        elif db['type'] == 'aircloak' or db['type'] == 'postgres':
+            d = getDatabaseInfo(db)
+            # Establish connection to database
+            connStr = str(
+                f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
+            if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
+            conn = psycopg2.connect(connStr)
+            cur = conn.cursor()
+            # Establish connection to local cache
+            path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
+            # Set timeout low so that we don't spend a lot of time inserting
+            # into the cache in case it gets overloaded
+            connInsert = sqlite3.connect(path, timeout=0.1)
+            curInsert = connInsert.cursor()
+            connRead = sqlite3.connect(path)
+            curRead = connRead.cursor()
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f"    {me}: dbWorker done {db,kind}")
+                    conn.close()
+                    connRead.close()
+                    connInsert.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job['q']
+                replies = []
+                for query in job['queries']:
+                    reply = self._processQuery(query, conn, cur,
+                                               connInsert, curInsert, curRead)
+                    replies.append(reply)
+                job['replies'] = replies
+                replyQ.put(job)
 
     def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
         # record and remove the return queue
