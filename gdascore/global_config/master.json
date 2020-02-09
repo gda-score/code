@@ -10,10 +10,10 @@
       "port": 9432,
       "type": "aircloak"
     },
-    "uber": {
+    "uber_dp": {
       "host": "db001.gda-score.org",
       "port": 5432,
-      "type": "uber",
+      "type": "uber_dp",
       "budget": 5,
       "epsilon": 0.1
     }
