@@ -1035,9 +1035,11 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-        if self._vb: print(f"Starting {__name__}.dbWorker:{db,kind}")
-        me = threading.current_thread()
+
         if db['type'] == 'uber_dp':
+            if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
+            me = threading.current_thread()
+
             url = db['host']  # Get URL of server from config file
             headers = {'Content-Type': 'application/json',
                        'Accept': 'application/json'}  # Headers to be sent in the client request
@@ -1047,7 +1049,90 @@ class gdaAttack:
             session = requests.Session()
             session.get_orig, session.get = session.get, functools.partial(session.get, timeout=100)
 
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f"    {me}: serverWorker done {db, kind}")
+                    session.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job['q']
+                replies = []
+                for query in job['queries']:
+                    request = {}
+
+                    # Exception handling in case exception occurs while connecting to server
+                    try:
+                        if not sid:
+
+                            # ONLY change 'epsilon', 'budget' and 'dbname' values
+                            # Keep 'query' and 'sid' fields as-is
+                            # If any other non-existent 'sid' value is sent, Server returns an 'Error'
+                            # The budget is set in the initial request only
+                            # Once the budget is set, no further modification to the budget is possible in subsequent requests
+                            # Client sends this data in url
+                            request = {
+                                'query': query,
+                                'epsilon': '0.0',
+                                'budget': db['budget'],
+                                'dbname': db['dbname'],
+                                'sid': ''  # When sid is Null it indicates start of a session
+                            }
+
+                            # If sid is not Null then put the sid returned by the server in the subsequent request
+                            # Also extract the query from the `querylist` and put it in the `query` field
+                            # ONLY `epsilon` can be changed
+                            # `budget` and `dbname` just have placeholders
+                        else:
+                            request = {
+                                'query': query,
+                                'epsilon': 0, # this is still a dummy value, find out where to get values from
+                                'budget': db['budget'],
+                                'dbname': db['dbname'],
+                                'sid': sid
+                            }
+
+                        # Client stores the response sent by the simpleServer.py
+                        response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
+
+                        resp = response.json()  # Convert response sent by server to JSON
+                        if 'Error' in resp['Server Response']:
+                            if 'Budget Exceeded' in resp['Server Response']['Error']:
+                                pprint.pprint(resp)
+                                budget_flag = True
+                                break
+                            else:
+                                pprint.pprint(resp)  # Client prints the data returned by the server
+                        else:
+                            pprint.pprint(resp)  # Client prints the data returned by the server
+                            sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+
+                    except requests.ConnectionError as e:
+                        print("Connection Error. Make sure you are connected to Internet.")
+                        print(str(e))
+
+                    except requests.Timeout as e:
+                        print("Timeout Error")
+                        print(str(e))
+
+                    except requests.RequestException as e:
+                        print("General Error")
+                        print(str(e))
+
+                    except KeyboardInterrupt:
+                        print("Program closed")
+                if budget_flag:
+                    break
+                    replies.append(resp)
+                job['replies'] = replies
+                replyQ.put(job)
+
         elif db['type'] == 'aircloak' or db['type'] == 'postgres':
+            if self._vb: print(f"Starting {__name__}.dbWorker:{db, kind}")
+            me = threading.current_thread()
             d = getDatabaseInfo(db)
             # Establish connection to database
             connStr = str(
@@ -1084,46 +1169,42 @@ class gdaAttack:
                 job['replies'] = replies
                 replyQ.put(job)
 
-    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead, queryType='db'):
-        # queryType specifies if we are asking the queries from a db (aircloak, postgres)
-        # or from a server, like uber_dp
-        if queryType == 'server':
-            pass
-        elif queryType == 'db':
-            # record and remove the return queue
-            cache = query['cache']
-            del query['cache']
-            # Check the cache for the answer
-            # Note that at this point query is a dict
-            # containing the sql, the db (raw, anon, or pub),
-            # and any tags that the source added
-            cachedReply = None
-            if cache:
-                cachedReply = self._getCache(curRead, query)
-            if cachedReply:
-                if self._vb: print("    Answer from cache")
-                if 'answer' in cachedReply:
-                    numCells = self._computeNumCells(cachedReply['answer'])
-                    cachedReply['cells'] = numCells
-                return cachedReply
+
+    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
+        # record and remove the return queue
+        cache = query['cache']
+        del query['cache']
+        # Check the cache for the answer
+        # Note that at this point query is a dict
+        # containing the sql, the db (raw, anon, or pub),
+        # and any tags that the source added
+        cachedReply = None
+        if cache:
+            cachedReply = self._getCache(curRead, query)
+        if cachedReply:
+            if self._vb: print("    Answer from cache")
+            if 'answer' in cachedReply:
+                numCells = self._computeNumCells(cachedReply['answer'])
+                cachedReply['cells'] = numCells
+            return cachedReply
+        else:
+            start = time.perf_counter()
+            try:
+                cur.execute(query['sql'])
+            except psycopg2.Error as e:
+                reply = dict(error=e.pgerror)
             else:
-                start = time.perf_counter()
-                try:
-                    cur.execute(query['sql'])
-                except psycopg2.Error as e:
-                    reply = dict(error=e.pgerror)
-                else:
-                    ans = cur.fetchall()
-                    numCells = self._computeNumCells(ans)
-                    reply = dict(answer=ans, cells=numCells)
-                end = time.perf_counter()
-                duration = end - start
-                self._op['numQueries'] += 1
-                self._op['timeQueries'] += duration
-                reply['query'] = query
-                # only cache if the native query is slow
-                if duration > 0.1:
-                    self._putCache(connInsert, curInsert, query, reply)
+                ans = cur.fetchall()
+                numCells = self._computeNumCells(ans)
+                reply = dict(answer=ans, cells=numCells)
+            end = time.perf_counter()
+            duration = end - start
+            self._op['numQueries'] += 1
+            self._op['timeQueries'] += duration
+            reply['query'] = query
+            # only cache if the native query is slow
+            if duration > 0.1:
+                self._putCache(connInsert, curInsert, query, reply)
             return reply
 
     def _checkInference(self, ans):
