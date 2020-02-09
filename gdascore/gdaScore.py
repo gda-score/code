@@ -10,6 +10,8 @@ import base64
 import time
 import pprint
 import datetime
+import requests
+import functools
 try:
     from .gdaUtilities import getInterpolatedValue, getDatabaseInfo
 except ImportError:
@@ -1036,7 +1038,14 @@ class gdaAttack:
         if self._vb: print(f"Starting {__name__}.dbWorker:{db,kind}")
         me = threading.current_thread()
         if db['type'] == 'uber_dp':
-            pass 
+            url = db['host']  # Get URL of server from config file
+            headers = {'Content-Type': 'application/json',
+                       'Accept': 'application/json'}  # Headers to be sent in the client request
+            sid = ''  # Initialize Session ID variable
+
+            # Client establishes a session
+            session = requests.Session()
+            session.get_orig, session.get = session.get, functools.partial(session.get, timeout=100)
 
         elif db['type'] == 'aircloak' or db['type'] == 'postgres':
             d = getDatabaseInfo(db)
