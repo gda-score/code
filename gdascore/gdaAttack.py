@@ -12,6 +12,8 @@ import pprint
 import datetime
 import signal
 import atexit
+import requests
+import functools
 import random
 
 # for pdoc documentation
@@ -817,7 +819,7 @@ class gdaAttack:
         if count and not isinstance(count, int):
             print(f"getPriorKnowledge Error: if set, count must be an integer")
             self.cleanUp(cleanUpCache=False, doExit=True)
-        if selectColumn: 
+        if selectColumn:
             if selectColumn not in self._colNames:
                 print(f"getPriorKnowledge Error: selectColumn '{selectColumn}' is not a valid column")
                 self.cleanUp(cleanUpCache=False, doExit=True)
@@ -1030,43 +1032,157 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-        if self._vb: print(f"Starting {__name__}.dbWorker:{db, kind}")
-        me = threading.current_thread()
-        d = getDatabaseInfo(db)
-        # Establish connection to database
-        connStr = str(
-            f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
-        if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
-        conn = psycopg2.connect(connStr)
-        cur = conn.cursor()
-        # Establish connection to local cache
-        path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
-        # Set timeout low so that we don't spend a lot of time inserting
-        # into the cache in case it gets overloaded
-        connInsert = sqlite3.connect(path, timeout=0.1)
-        curInsert = connInsert.cursor()
-        connRead = sqlite3.connect(path)
-        curRead = connRead.cursor()
-        backQ.put(me)
-        while True:
-            jobOrig = q.get()
-            q.task_done()
-            if jobOrig is None:
-                if self._vb: print(f"    {me}: dbWorker done {db, kind}")
-                conn.close()
-                connRead.close()
-                connInsert.close()
-                break
-            # make a copy for passing around
-            job = copy.copy(jobOrig)
-            replyQ = job['q']
-            replies = []
-            for query in job['queries']:
-                reply = self._processQuery(query, conn, cur,
-                                           connInsert, curInsert, curRead)
-                replies.append(reply)
-            job['replies'] = replies
-            replyQ.put(job)
+        if db['type'] == 'uber_dp':
+            if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
+            me = threading.current_thread()
+
+            url = db['host']  # Get URL of server from config file
+            headers = {'Content-Type': 'application/json',
+                       'Accept': 'application/json'}  # Headers to be sent in the client request
+            sid = ''  # Initialize Session ID variable
+
+            # Client establishes a session
+            session = requests.Session()
+            session.get_orig, session.get = session.get, functools.partial(session.get, timeout=100)
+
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f"    {me}: serverWorker done {db, kind}")
+                    session.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job['q']
+                replies = []
+                for query in job['queries']:
+                    budget_flag = False # indicator that the budget was used up
+                    request = {}
+
+                    # Exception handling in case exception occurs while connecting to server
+                    try:
+                        if not sid:
+
+                            # ONLY change 'epsilon', 'budget' and 'dbname' values
+                            # Keep 'query' and 'sid' fields as-is
+                            # If any other non-existent 'sid' value is sent, Server returns an 'Error'
+                            # The budget is set in the initial request only
+                            # Once the budget is set, no further modification to the budget is possible in subsequent requests
+                            # Client sends this data in url
+                            request = {
+                                'query': query['sql'],
+                                'epsilon': 0, # nothing used up in the initialization phase
+                                'budget': query['budget'],
+                                'dbname': db['dbname'],
+                                'sid': ''  # When sid is Null it indicates start of a session
+                            }
+
+                            # If sid is not Null then put the sid returned by the server in the subsequent request
+                            # Also extract the query from the `querylist` and put it in the `query` field
+                            # ONLY `epsilon` can be changed
+                            # `budget` and `dbname` just have placeholders
+                        else:
+                            request = {
+                                'query': query['sql'],
+                                'epsilon': query['epsilon'],
+                                'budget': query['budget'],
+                                'dbname': db['dbname'],
+                                'sid': sid
+                            }
+                        # store the time of query excecution
+                        start = time.perf_counter()
+
+                        # Client stores the response sent by the simpleServer.py
+                        response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
+
+                        resp = response.json()  # Convert response sent by server to JSON
+                        if 'Error' in resp['Server Response']:
+                            if 'Budget Exceeded' in resp['Server Response']['Error']:
+                                pprint.pprint(resp)
+                                budget_flag = True
+                                break
+                            else:
+                                pprint.pprint(resp)  # Client prints the data returned by the server
+                        else:
+                            pprint.pprint(resp)  # Client prints the data returned by the server
+                            sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+
+                    except requests.ConnectionError as e:
+                        print("Connection Error. Make sure you are connected to Internet.")
+                        print(str(e))
+
+                    except requests.Timeout as e:
+                        print("Timeout Error")
+                        print(str(e))
+
+                    except requests.RequestException as e:
+                        print("General Error")
+                        print(str(e))
+
+                    except KeyboardInterrupt:
+                        print("Program closed")
+                ans = resp # TODO: format the answer like what is returned from fetchall
+                numCells = self._computeNumCells(ans)
+
+                # format the reply similarly as for aircloak and postgres
+                reply = dict(answer=ans, cells=numCells)
+                reply['query'] = query
+
+                # calculate the time we needed for the query
+                end = time.perf_counter()
+                duration = end - start
+
+                # for statistics
+                self._op['numQueries'] += 1
+                self._op['timeQueries'] += duration
+
+                replies.append(resp)
+                job['replies'] = replies
+                replyQ.put(job)
+                # if everything else is stored, check if we need to stop
+                if budget_flag:
+                    break
+
+        elif db['type'] == 'aircloak' or db['type'] == 'postgres':
+            if self._vb: print(f"Starting {__name__}.dbWorker:{db, kind}")
+            me = threading.current_thread()
+            d = getDatabaseInfo(db)
+            # Establish connection to database
+            connStr = str(
+                f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
+            if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
+            conn = psycopg2.connect(connStr)
+            cur = conn.cursor()
+            # Establish connection to local cache
+            path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
+            # Set timeout low so that we don't spend a lot of time inserting
+            # into the cache in case it gets overloaded
+            connInsert = sqlite3.connect(path, timeout=0.1)
+            curInsert = connInsert.cursor()
+            connRead = sqlite3.connect(path)
+            curRead = connRead.cursor()
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f"    {me}: dbWorker done {db, kind}")
+                    conn.close()
+                    connRead.close()
+                    connInsert.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job['q']
+                replies = []
+                for query in job['queries']:
+                    reply = self._processQuery(query, conn, cur,
+                                               connInsert, curInsert, curRead)
+                    replies.append(reply)
+                job['replies'] = replies
+                replyQ.put(job)
 
     def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
         # record and remove the return queue
