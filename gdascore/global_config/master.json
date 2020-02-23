@@ -11,7 +11,7 @@
       "type": "aircloak"
     },
     "uber_dp": {
-      "host": "db001.gda-score.org",
+      "host": "https://db001.gda-score.org/ubertool",
       "port": 5432,
       "type": "uber_dp",
       "budget": 5,
@@ -242,6 +242,19 @@
         "raw_scihub_link_pub",
         "raw_taxi_link_pub",
         "raw_census_link_pub"
+      ]
+    },
+    "uber_anon": {
+      "friendlyName": "Uber Anonymization",
+      "service": "uber_dp",
+      "databases": [
+        "raw_banking"
+      ],
+      "linkDatabases": [
+        "raw_banking_link"
+      ],
+      "pubDatabases": [
+        "raw_banking_link_pub"
       ]
     }
   }
