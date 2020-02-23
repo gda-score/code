@@ -94,7 +94,8 @@ def getMasterConfig():
 
         The path to the database config file must be hard-coded here.
     '''
-    path = try_for_config_file(os.path.join("common", "config", "master.json"))
+    # path = try_for_config_file(os.path.join("common", "config", "master.json"))
+    path = "C:/Users/fra82576/PycharmProjects/gda-score/code/gdascore/global_config/master.json"
     if path is None:
         print(f"ERROR: No config file found (master.json)")
         return None
@@ -108,7 +109,8 @@ def getCredentials():
 
         The path to the database config file must be hard-coded here.
     '''
-    path = try_for_config_file(os.path.join("common", "config", "myCredentials.json"))
+    # path = try_for_config_file(os.path.join("common", "config", "myCredentials.json"))
+    path = "C:/Users/fra82576/PycharmProjects/gda-score/code/gdascore/global_config/myCredentials.json"
     if path is None:
         print(f"ERROR: No config file found (myCredentials.json)")
         return None
