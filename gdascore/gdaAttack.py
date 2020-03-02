@@ -882,22 +882,25 @@ class gdaAttack:
                             # Once the budget is set, no further modification to the budget is possible in subsequent requests
                             # Client sends this data in url
                             request = {
-                                'query': query['sql'],
-                                'epsilon': 0, # nothing used up in the initialization phase
-                                'budget': query['budget'],
+                                'query': "",  # empty query, just serves to get a session ID
+                                'epsilon': str(0), # nothing used up in the initialization phase
+                                'budget': str(query['budget']), # the numeric values are sent as strings
                                 'dbname': db['dbname'],
                                 'sid': ''  # When sid is Null it indicates start of a session
                             }
 
+                            # append query back the query to the first position of the list as it has not been processed
+                            # because of the dummy value we had to send to get a session ID
+                            job['queries'].insert(0, query)
+                        else:
                             # If sid is not Null then put the sid returned by the server in the subsequent request
                             # Also extract the query from the `querylist` and put it in the `query` field
                             # ONLY `epsilon` can be changed
                             # `budget` and `dbname` just have placeholders
-                        else:
                             request = {
                                 'query': query['sql'],
-                                'epsilon': query['epsilon'],
-                                'budget': query['budget'],
+                                'epsilon': str(query['epsilon']),
+                                'budget': str(query['budget']),
                                 'dbname': db['dbname'],
                                 'sid': sid
                             }
