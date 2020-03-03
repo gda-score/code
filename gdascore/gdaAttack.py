@@ -190,6 +190,7 @@ class gdaAttack:
             `gdaScores.addResult()`."""
         # Add the operational parameters
         self._atrs['operational'] = self.getOpParameters()
+        self._cleanPasswords()
         return self._atrs
 
     def getOpParameters(self):
@@ -757,6 +758,20 @@ class gdaAttack:
         return self._p['uid']
 
     # -------------- Private Methods -------------------
+    def _cleanPasswords(self):
+        if 'attack' in self._atrs:
+            if ('anonDb' in self._atrs['attack'] and
+                    'password' in self._atrs['attack']['anonDb']):
+                self._atrs['attack']['anonDb']['password'] = 'xxxxxxx'
+            if ('rawDb' in self._atrs['attack'] and
+                    'password' in self._atrs['attack']['rawDb']):
+                self._atrs['attack']['rawDb']['password'] = 'xxxxxxx'
+            if ('pubDb' in self._atrs['attack'] and
+                    'password' in self._atrs['attack']['pubDb']):
+                self._atrs['attack']['pubDb']['password'] = 'xxxxxxx'
+
+        return
+
     def _assignGlobalParams(self, params):
         self._pp = pprint.PrettyPrinter(indent=4)
         for key, val in params.items():
