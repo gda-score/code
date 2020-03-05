@@ -233,7 +233,6 @@ class gdaScores:
             lastSusc = nextSusc
             lastScore = nextScore
             i += 1
-        print(f"susc {susc}, nextSusc {nextSusc}, lastSusc {lastSusc}")
         frac = (susc - nextSusc) / (lastSusc - nextSusc)
         score = (frac * (lastScore - nextScore)) + nextScore
         return (1 - score)

@@ -12,6 +12,7 @@ import pprint
 import datetime
 import signal
 import atexit
+import random
 
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
@@ -89,6 +90,7 @@ class gdaAttack:
         self._cr = ''  # short for criteria
         self._pp = None  # pretty printer (for debugging)
         self._colNamesTypes = []
+        self._colNames = []
         self._p = dict(name='',
                   rawDb='',
                   anonDb='',
@@ -166,6 +168,9 @@ class gdaAttack:
         if self._vb:
             print(f"Columns are '{self._colNamesTypes}'")
         self._initAtkRes()
+        # And make a convenient list of column names
+        for colNameType in self._colNamesTypes:
+            self._colNames.append(colNameType[0])
 
         # Setup the database which holds already executed queries so we
         # don't have to repeat them if we are restarting
@@ -757,7 +762,174 @@ class gdaAttack:
         """ Returns the name of the UID column"""
         return self._p['uid']
 
+    def getPriorKnowledge(self, dataColumns, method,
+            fraction=None, count=None, selectColumn=None, colRange=[None,None], values=[None]):
+        """ Returns data from the rawDB according to a specification
+
+        This mimics external knowledge that an attacker may have about the data, and
+        influences the 'knowledge' part of the GDA Score. <br/>
+            `dataColumns` is a list of column names. The data for these columns is returned <br/>
+            `method` can be 'rows' or 'users'. If 'rows', then rows are selected
+            according to the criteria (`fraction`, `count`, `selectColumn`, `colRange`,
+            or `values`).
+            If 'users', then all rows for a set of selected users is returned.
+            The users are selected according to the criteria (`fraction` or `count`) <br/>
+            If none of the criteria are set, or if `fraction` is set to 1.0, then all
+            rows are returned (for the selected column values) One of `fraction`, `count`,
+            or `selectColumn` must be set. <br/>
+            `fraction` or `count` are set to obtain a random set of rows or users. If
+            `fraction`, then an approximate fraction of all rows/users is selected.
+            `fraction` is a value between 0 and 1.0. If `count`, then exactly `count`
+            random rows/users are selected. <br/>
+            `selectColumn` is set to select rows according to the values of the specified
+            column. `selectColumn` is a column name. If set, then either a range of
+            values (`colRange`), or a set of values (`values`) must be chosen. <br/>
+            `colRange` is
+            a list with two numeric or datetime values: `[min,max]`. This selects all values
+            between min and max inclusive. <br/>
+            `values` is a list
+            of one or more values of any type. This selects all values matching those in
+            the list. <br/>
+            The return value is a list in this format: <br/>
+                `[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]` <br/>
+            where C1 corresponds to the first column in `dataColumns`, C2 corresponds to
+            the second column in `dataColumns`, and so on.  <br/>
+        """
+        # Check input parameters
+        if not isinstance(dataColumns, list):
+            print(f"getPriorKnowledge Error: dataColumns must be a list of one or more column names")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        if method not in ['rows','users']:
+            print(f"getPriorKnowledge Error: method must be 'rows' or 'users'")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        if fraction is None and count is None and selectColumn is None:
+            print(f"getPriorKnowledge Error: one of fraction, count, or selectColumn must be set")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        if fraction and not isinstance(fraction, float):
+            print(f"getPriorKnowledge Error: if set, fraction must be a float")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        if (fraction and (count or selectColumn)) or (count and (fraction or selectColumn)):
+            print(f"getPriorKnowledge Error: only one of fraction, count, or selectColumn may be set")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        if count and not isinstance(count, int):
+            print(f"getPriorKnowledge Error: if set, count must be an integer")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        if selectColumn: 
+            if selectColumn not in self._colNames:
+                print(f"getPriorKnowledge Error: selectColumn '{selectColumn}' is not a valid column")
+                self.cleanUp(cleanUpCache=False, doExit=True)
+            if colRange == [None,None] and values == [None]:
+                print(f"getPriorKnowledge Error: if selectColumn is set, one of colRange or values must be set")
+                self.cleanUp(cleanUpCache=False, doExit=True)
+            if not isinstance(colRange, list):
+                print(f"getPriorKnowledge Error: colRange must be a list with two values")
+                self.cleanUp(cleanUpCache=False, doExit=True)
+            if not isinstance(values, list) or len(values) == 0:
+                print(f"getPriorKnowledge Error: values must be a list with one or more values")
+                self.cleanUp(cleanUpCache=False, doExit=True)
+        for col in dataColumns:
+            if col not in self._colNames:
+                print(f"getPriorKnowledge Error: column '{col}' is not a valid column")
+                self.cleanUp(cleanUpCache=False, doExit=True)
+        # Basic input checks finished
+        # Establish connection to database
+        db = getDatabaseInfo(self._p['rawDb'])
+        connStr = str(
+            f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        conn = psycopg2.connect(connStr)
+        cur = conn.cursor()
+        table = self._p['table']
+        uid = self._p['uid']
+        # Make the SELECT part of the SQL query
+        initSql = 'SELECT '
+        for col in dataColumns:
+            initSql += str(f"{col}, ")
+        initSql = initSql[0:-2]
+        if method == 'rows' and fraction:
+            sql = initSql + str(f" FROM {table} WHERE random() <= {fraction}")
+            ans = self._doQuery(cur,sql)
+            self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
+            return(ans)
+        if method == 'users' and fraction:
+            sql = initSql + str(f" FROM {table} WHERE {uid} IN ")
+            sql += str(f"(SELECT {uid} from (SELECT DISTINCT {uid} FROM {table}) t WHERE random() < {fraction})")
+            ans = self._doQuery(cur,sql)
+            self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
+            return(ans)
+        if method == 'rows' and colRange[0] is not None:
+            sql = initSql + str(f" FROM {table} WHERE {selectColumn} >= {colRange[0]} and {selectColumn} <= {colRange[1]}")
+            ans = self._doQuery(cur,sql)
+            self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
+            return(ans)
+        if method == 'rows' and values[0] is not None:
+            sql = initSql + str(f" FROM {table} WHERE {selectColumn} IN (")
+            for pair in self._colNamesTypes:
+                if selectColumn in pair[0]:
+                    colType = pair[1]
+                    break
+            for value in values:
+                if "text" in colType or "date" in colType or "time" in colType:
+                    sql += str(f"'{value}', ")
+                else:
+                    sql += str(f"{value}, ")
+            sql = sql[0:-2]
+            sql += ")"
+            ans = self._doQuery(cur,sql)
+            self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
+            return(ans)
+        if method == 'rows' and count:
+            # need to know the total number of rows
+            sql = str(f"select count(*) from {table}")
+            ans = self._doQuery(cur,sql)
+            numRows = ans[0][0]
+            # next we get some random set of rows that is certainly more than we need
+            frac = (count/numRows)*2
+            sql = initSql + str(f" FROM {table} WHERE random() <= {frac}")
+            temp = self._doQuery(cur,sql)
+            # next we scramble these so that we get a random sampling from the random sampling
+            random.shuffle(temp)
+            # finally pick the exact count
+            ans = temp[0:count]
+            self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
+            return(ans)
+        if method == 'users' and count:
+            # get the full list of distinct UIDs
+            sql = str(f"SELECT DISTINCT {uid} from {table}")
+            uidList = self._doQuery(cur,sql)
+            # next we scramble these so that we can get a random sampling
+            random.shuffle(uidList)
+            # pick the exact count of UIDs
+            uidList = uidList[0:count]
+            sql = initSql + str(f" FROM {table} WHERE {uid} IN (")
+            for pair in self._colNamesTypes:
+                if uid in pair[0]:
+                    colType = pair[1]
+                    break
+            for uidVal in uidList:
+                if "text" in colType or "date" in colType or "time" in colType:
+                    sql += str(f"'{uidVal[0]}', ")
+                else:
+                    sql += str(f"{uidVal[0]}, ")
+            sql = sql[0:-2]
+            sql += ")"
+            ans = self._doQuery(cur,sql)
+            self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
+            return(ans)
+        #zzzz
+        return None
+    #def getPriorKnowledge(self, dataColumns, method,
+            #fraction=None, count=None, selectColumn=None, colRange=[None,None], values=[None]):
+
     # -------------- Private Methods -------------------
+    def _doQuery(self,cur,sql):
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getPublicColValues() query: '{e}'")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        ans = cur.fetchall()
+        return ans
+
     def _cleanPasswords(self):
         if 'attack' in self._atrs:
             if ('anonDb' in self._atrs['attack'] and
