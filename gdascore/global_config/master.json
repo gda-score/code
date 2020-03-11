@@ -185,10 +185,10 @@
           "gda_census0_link"
         ],
         "pubDatabases": [
-          "gda_banking_link_pub",
-          "gda_scihub_link_pub",
-          "gda_taxi_link_pub",
-          "gda_census0_link_pub"
+          "raw_banking_link_pub",
+          "raw_scihub_link_pub",
+          "raw_taxi_link_pub",
+          "raw_census0_link_pub"
         ]
       },
       "v19_1_0": {
@@ -208,10 +208,10 @@
           "gda_census0_link"
         ],
         "pubDatabases": [
-          "gda_banking_link_pub",
-          "gda_scihub_link_pub",
-          "gda_taxi_link_pub",
-          "gda_census0_link_pub"
+          "raw_banking_link_pub",
+          "raw_scihub_link_pub",
+          "raw_taxi_link_pub",
+          "raw_census0_link_pub"
         ]
       }
     },
