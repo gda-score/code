@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>gdascore.gdaTools API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<style>
+</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>gdascore.gdaTools</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import copy
+import importlib.util
+import json
+import math
+import ntpath
+import os
+import pprint
+import sys
+
+# for pdoc documentation
+__all__ = [&#34;setupGdaAttackParameters&#34;]
+
+from pkg_resources import Requirement, resource_filename
+
+
+def try_for_config_file(config_rel_path):
+    ####### added by frzmohammadali #######
+    interested_file = ntpath.basename(config_rel_path)
+
+    # case 0: local config path defined by user: when installing by pip
+    global_config_variable = dict()
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), &#39;global_config&#39;, &#39;config_var.json&#39;), &#39;r&#39;) as f:
+        file_content = f.read()
+        if len(file_content):
+            global_config_variable = json.loads(file_content)
+    try:
+        potential_path = os.path.join(global_config_variable[&#39;config_path&#39;], &#39;config&#39;, interested_file)
+    except KeyError:
+        # local config path has not been provided. should look into global_config in next step.
+        pass
+    else:
+        if os.path.isfile(potential_path):
+            return potential_path
+
+    # Case 0.5: global_config: when installing by pip
+    potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), &#39;global_config&#39;, interested_file)
+    if os.path.isfile(potential_path):
+        return potential_path
+    ####### added by frzmohammadali #######
+
+    # First case: find config in repository; use paths in PATH and PYTHONPATH as potential repository root folders
+    for p in sys.path:
+        if os.path.isfile(os.path.abspath(os.path.join(p, config_rel_path))):
+            return os.path.abspath(os.path.join(p, config_rel_path))
+    if &#34;PYTHONPATH&#34; in os.environ:
+        for p in os.environ[&#34;PYTHONPATH&#34;].split(os.pathsep):
+            if os.path.isfile(os.path.abspath(os.path.join(p, config_rel_path))):
+                return os.path.abspath(os.path.join(p, config_rel_path))
+
+    # Second case: find config inside pip package location
+    spec = importlib.util.find_spec(&#34;gda-score-code&#34;)
+    if spec is not None:
+        if os.path.isfile(os.path.abspath(resource_filename(Requirement.parse(&#34;gda-score-code&#34;), config_rel_path))):
+            return os.path.abspath(resource_filename(Requirement.parse(&#34;gda-score-code&#34;), config_rel_path))
+
+    # Third case: look in typical config file locations
+    if os.path.isfile(os.path.abspath(os.path.join(os.path.expanduser(&#34;~&#34;), &#34;.gdaScore&#34;, config_rel_path))):
+        return os.path.abspath(os.path.join(os.path.expanduser(&#34;~&#34;), &#34;.gdaScore&#34;, config_rel_path))
+    if os.path.isfile(os.path.abspath(os.path.join(os.sep, &#34;etc&#34;, &#34;gdaScore&#34;, config_rel_path))):
+        return os.path.abspath(os.path.join(os.sep, &#34;etc&#34;, &#34;gdaScore&#34;, config_rel_path))
+
+    # Fourth case: we find nothing
+    return None
+
+
+def getDatabaseInfo(theDb):
+    # For backwards compability, if this is a string use the old way
+    if isinstance(theDb, str):
+        return oldGetDatabaseInfo(theDb)
+    # Get user name and password
+    cred = getCredentials()
+    theDb[&#39;password&#39;] = cred[theDb[&#39;type&#39;]][&#39;password&#39;]
+    theDb[&#39;user&#39;] = cred[theDb[&#39;type&#39;]][&#39;user&#39;]
+    return theDb
+
+
+def oldGetDatabaseInfo(dbName):
+    &#39;&#39;&#39; Retrieves the database info from the database config file.
+
+        The path to the database config file must be hard-coded here.
+    &#39;&#39;&#39;
+    path = try_for_config_file(os.path.join(&#34;common&#34;, &#34;config&#34;, &#34;myDatabases.json&#34;))
+    if path is None:
+        print(f&#34;ERROR: No config file found&#34;)
+        return None
+    fh = open(path, &#34;r&#34;)
+    j = json.load(fh)
+    if dbName in j:
+        return j[dbName]
+    else:
+        print(f&#34;Error: Database &#39;{dbName}&#39; not found in file {path}&#34;)
+        return None
+
+
+def getMasterConfig():
+    &#39;&#39;&#39; Retrieves master.json from the config file
+
+        The path to the database config file must be hard-coded here.
+    &#39;&#39;&#39;
+    path = try_for_config_file(os.path.join(&#34;common&#34;, &#34;config&#34;, &#34;master.json&#34;))
+    if path is None:
+        print(f&#34;ERROR: No config file found (master.json)&#34;)
+        return None
+    fh = open(path, &#34;r&#34;)
+    j = json.load(fh)
+    return j
+
+
+def getCredentials():
+    &#39;&#39;&#39; Retrieves master.json from the config file
+
+        The path to the database config file must be hard-coded here.
+    &#39;&#39;&#39;
+    path = try_for_config_file(os.path.join(&#34;common&#34;, &#34;config&#34;, &#34;myCredentials.json&#34;))
+    if path is None:
+        print(f&#34;ERROR: No config file found (myCredentials.json)&#34;)
+        return None
+    fh = open(path, &#34;r&#34;)
+    j = json.load(fh)
+    return j
+
+
+def getAnonDbs(master, anon, dbType):
+    if dbType == &#39;link&#39;:
+        databases = &#39;linkDatabases&#39;
+    elif dbType == &#39;pub&#39;:
+        databases = &#39;pubDatabases&#39;
+    else:
+        databases = &#39;databases&#39;
+    nextLevel = 0
+    friendlyNames = [master[&#39;anonClasses&#39;][&#39;friendlyName&#39;]]
+    pp = pprint.PrettyPrinter(indent=4)
+    if anon[nextLevel] not in master[&#39;anonClasses&#39;]:
+        return (None, friendlyNames, None)
+    nextDict = master[&#39;anonClasses&#39;][anon[nextLevel]]
+    friendlyNames.append(nextDict[&#39;friendlyName&#39;])
+    while True:
+        if databases in nextDict:
+            return (nextDict[databases], friendlyNames, nextDict[&#39;service&#39;])
+        # databases isn&#39;t here, so need to look for next level
+        nextLevel += 1
+        if nextLevel &gt; (len(anon) - 1):
+            return (None, friendlyNames, None)
+        if anon[nextLevel] not in nextDict:
+            return (None, friendlyNames, None)
+        nextDict = nextDict[anon[nextLevel]]
+        friendlyNames.append(nextDict[&#39;friendlyName&#39;])
+    return (None, friendlyNames, None)
+
+
+def getTab(sourceDbs, useableDbs):
+    for useDb in useableDbs:
+        if useDb in sourceDbs:
+            return useDb
+    return None
+
+
+def setupGdaAttackParameters(configInfo=None, utilityMeasure=&#39;&#39;,
+                             criteria=&#39;&#39;, attackType=&#39;&#39;):
+    &#34;&#34;&#34; Basic prep for input and output of gdaAttack (attack or utility)
+
+        If called with no parameters, then this routine
+        reads a configuration file of the same name as the python file
+        but with `.json` appended. (I.e. if the python file is `test.py`,
+        then `test.py.json` is read.) &lt;br/&gt;
+        Otherwise, `configInfo` is a python dict. &lt;br/&gt;
+        Either way (json file or python dict), the basic structure of the
+        configuration is: &lt;br/&gt;
+
+            {
+              &#34;configVersion&#34;: &#34;compact1&#34;,
+              &#34;basic&#34;: {
+                &#34;attackType&#34;: &#34;Simple List&#34;,
+                &#34;criteria&#34;: &#34;linkability&#34;
+              },
+              &#34;anonTypes&#34;: [
+                [&#34;no_anon&#34;],
+                [&#34;diffix&#34;,&#34;latest&#34;],
+              ],
+              &#34;tables&#34;: [
+                [&#34;banking&#34;,&#34;accounts&#34;],
+                [&#34;taxi&#34;,&#34;rides&#34;],
+              ]
+            }
+
+        The above is for attacks. If utility measure, then the `&#34;basic&#34;`
+        contents may be for instance: &lt;br/&gt;
+
+          &#34;basic&#34;: {
+            &#34;utilityMeasure&#34;: &#34;Single Column Count&#34;,
+            &#34;measureParam&#34;:&#34;uid&#34;,
+            &#34;samples&#34;: 25,
+            &#34;ranges&#34;: [[10,50],[50,100],[100,500],[500,1000],[1000,5000]]
+          },
+
+        Returns a list of data structures that can be used for
+        class `gdaAttack()`. One such data structure will be returned for
+        every `anonTypes`/`tables` combination. (The above example would
+        therefore return four data structures in the list.) &lt;br/&gt;
+        If `anonTypes` is missing, then `[[&#34;no_anon&#34;]]` is used by
+        default. `basic` is not needed if the configuration is not used
+        for either an attack or a utility measure. As such, the simplest
+        valid configuration is: &lt;br/&gt;
+
+            { &#34;tables&#34;: [[&#34;table&#34;,&#34;column&#34;]] }
+
+        which gives access to the non-anonymized (raw) table. &lt;br/&gt;
+        If the attack or utility measure has already been run (i.e. there is
+        a complete scores json file), then `&#34;finished&#34;: True` is added to the
+        returned data structure. &lt;br/&gt;
+        The other calling parameters are for backwards compatibility. &lt;br/&gt;
+    &#34;&#34;&#34;
+
+    pp = pprint.PrettyPrinter(indent=4)
+    # We can either pull in the config from a file, or from a dict.
+    # If the former, configFile will be a list.
+    if configInfo is None:
+        configInfo = sys.argv
+    if isinstance(configInfo, list):
+        usageStr = str(f&#34;&#34;&#34;Usage: 
+            Either specify configuration file:
+                &gt; {configInfo[0]} config.json
+            Or assume default configuration file &#39;{configInfo[0]}.json&#39;:
+                &gt; {configInfo[0]}
+            &#34;&#34;&#34;)
+        # Pull in config from a json file
+        if len(configInfo) == 1:
+            cmdName = os.path.abspath(configInfo[0])
+            if len(cmdName) == 0:
+                sys.exit(usageStr)
+            fileName = cmdName + &#39;.json&#39;
+        elif len(configInfo) != 2:
+            sys.exit(usageStr)
+        else:
+            fileName = sys.argv[1]
+
+        try:
+            f = open(fileName, &#39;r&#39;)
+        except:
+            e = str(f&#34;ERROR: file &#39;{fileName}&#39; not found.\n{usageStr}&#34;)
+            sys.exit(e)
+
+        config = json.load(f)
+        f.close()
+    else:
+        # use the dict
+        config = configInfo
+
+    if isinstance(config, list):
+        # This is the old config style
+        return oldSetupGdaAttackParameters(config, criteria, attackType)
+    pmList = []
+    master = getMasterConfig()
+    if &#39;basic&#39; in config and &#39;criteria&#39; in config[&#39;basic&#39;]:
+        criteria = config[&#39;basic&#39;][&#39;criteria&#39;]
+    else:
+        # just a dummy value
+        criteria = &#39;singlingOut&#39;
+    if criteria == &#39;linkability&#39;:
+        (rawDbs, rawFriendlyNames, rawService) = (
+            getAnonDbs(master, [&#34;no_anon&#34;], &#39;link&#39;))
+    else:
+        (rawDbs, rawFriendlyNames, rawService) = (
+            getAnonDbs(master, [&#34;no_anon&#34;], &#39;&#39;))
+    if &#39;anonTypes&#39; not in config:
+        config[&#39;anonTypes&#39;] = [[&#34;no_anon&#34;]]
+    for anon in config[&#39;anonTypes&#39;]:
+        if not isinstance(anon, list):
+            print(&#34;ERROR: The &#39;anonTypes&#39; config must be a list of lists&#34;)
+            quit()
+        params = {&#34;anonType&#34;: anon}
+        if criteria == &#39;linkability&#39;:
+            (anonDbs, anonFriendlyNames, anonService) = (
+                getAnonDbs(master, anon, &#39;link&#39;))
+        else:
+            pp.pprint(anon)
+            (anonDbs, anonFriendlyNames, anonService) = (
+                getAnonDbs(master, anon, &#39;&#39;))
+        if anonDbs is None:
+            params[&#34;error&#34;] = &#34;Could not find anonymization in master&#34;
+            pmList.append(params)
+            continue
+        for tab in config[&#39;tables&#39;]:
+            # For each table, we need to find the database name
+            params[&#34;table&#34;] = tab
+            db = tab[0]
+            table = tab[1]
+            dataFriendlyNames = [master[&#39;datasources&#39;][&#39;friendlyName&#39;]]
+            if db not in master[&#39;datasources&#39;]:
+                params[&#34;error&#34;] = &#34;Could not find database in master&#34;
+                pmList.append(params)
+                continue
+            datasource = master[&#39;datasources&#39;][db]
+            dataFriendlyNames.append(datasource[&#39;friendlyName&#39;])
+            if table not in datasource[&#39;tables&#39;]:
+                params[&#34;error&#34;] = &#34;Could not find table in master&#34;
+                pmList.append(params)
+                continue
+            dataFriendlyNames.append(table)
+            uid = datasource[&#39;tables&#39;][table][&#39;uid&#39;]
+            # We have the right records from master, so build the params
+            # pp.pprint(anonDbs)
+            # pp.pprint(rawDbs)
+            # pp.pprint(datasource)
+            servs = master[&#39;services&#39;]
+            rawTab = getTab(datasource[&#39;databases&#39;], rawDbs)
+            params[&#39;rawDb&#39;] = {&#34;dbname&#34;: rawTab}
+            params[&#39;rawDb&#39;][&#39;port&#39;] = servs[rawService][&#39;port&#39;]
+            params[&#39;rawDb&#39;][&#39;host&#39;] = servs[rawService][&#39;host&#39;]
+            params[&#39;rawDb&#39;][&#39;type&#39;] = servs[rawService][&#39;type&#39;]
+            anonTab = getTab(datasource[&#39;databases&#39;], anonDbs)
+            params[&#39;anonDb&#39;] = {&#34;dbname&#34;: anonTab}
+            params[&#39;anonDb&#39;][&#39;port&#39;] = servs[anonService][&#39;port&#39;]
+            params[&#39;anonDb&#39;][&#39;host&#39;] = servs[anonService][&#39;host&#39;]
+            params[&#39;anonDb&#39;][&#39;type&#39;] = servs[anonService][&#39;type&#39;]
+            resultsPath = &#39;results/&#39;
+            name = os.path.basename(sys.argv[0])
+            for item in anon:
+                name += &#39;.&#39; + item
+            name += &#39;.&#39; + db + &#39;.&#39; + table
+            params[&#39;name&#39;] = name
+            params[&#39;flushCache&#39;] = False
+            params[&#39;verbose&#39;] = False
+            params[&#39;resultsPath&#39;] = &#39;results/&#39; + name + &#39;.json&#39;
+            params[&#39;table&#39;] = table
+            params[&#39;uid&#39;] = uid
+            params[&#39;friendly&#39;] = {&#34;anonymization&#34;: anonFriendlyNames}
+            params[&#39;friendly&#39;][&#39;dataSource&#39;] = dataFriendlyNames
+            params[&#39;criteria&#39;] = criteria
+            if &#39;basic&#39; in config:
+                # basic is needed if attack or utility measure
+                params[&#39;basicConfig&#39;] = config[&#39;basic&#39;]
+                if &#39;attackType&#39; in config[&#39;basic&#39;]:
+                    # This is an attack configuration
+                    params[&#39;friendly&#39;][&#39;attack&#39;] = [
+                        config[&#39;basic&#39;][&#39;attackType&#39;], criteria]
+                    # If criteria is linkability, we need to add the
+                    # public linkability db
+                    if criteria == &#39;linkability&#39;:
+                        (pubDbs, pubFriendlyNames, pubService) = (
+                            getAnonDbs(master, anon, &#39;pub&#39;))
+                        pubTab = getTab(datasource[&#39;databases&#39;], pubDbs)
+                        params[&#39;pubDb&#39;] = {&#34;dbname&#34;: pubTab}
+                        params[&#39;pubDb&#39;][&#39;port&#39;] = servs[pubService][&#39;port&#39;]
+                        params[&#39;pubDb&#39;][&#39;host&#39;] = servs[pubService][&#39;host&#39;]
+                        params[&#39;pubDb&#39;][&#39;type&#39;] = servs[pubService][&#39;type&#39;]
+                elif &#39;utilityMeasure&#39; in config[&#39;basic&#39;]:
+                    # This is a utility configuration
+                    params[&#39;friendly&#39;][&#39;utility&#39;] = [
+                        config[&#39;basic&#39;][&#39;utilityMeasure&#39;],
+                        config[&#39;basic&#39;][&#39;measureParam&#39;]]
+            # pp.pprint(params)
+            # Need to determine if the results have already been finished
+            params[&#39;finished&#39;] = False
+            try:
+                f = open(params[&#39;resultsPath&#39;], &#39;r&#39;)
+            except:
+                # No prior results for this attack have been posted
+                pass
+            else:
+                # Prior results have been posted. Make sure they are complete.
+                res = json.load(f)
+                if &#39;finished&#39; in res:
+                    params[&#39;finished&#39;] = True
+            new = copy.deepcopy(params)
+            pmList.append(new)
+    return pmList
+
+
+def oldSetupGdaAttackParameters(pmList, criteria, attackType):
+    for pm in pmList:
+        if &#39;criteria&#39; not in pm or len(pm[&#39;criteria&#39;]) == 0:
+            if not criteria:
+                sys.exit(&#34;ERROR: criteria must be specified&#34;)
+            pm[&#39;criteria&#39;] = criteria
+        if &#39;attackType&#39; not in pm or len(pm[&#39;attackType&#39;]) == 0:
+            if not attackType:
+                sys.exit(&#34;ERROR: attackType must be specified&#34;)
+            pm[&#39;attackType&#39;] = attackType
+
+        if &#39;name&#39; not in pm or len(pm[&#39;name&#39;]) == 0:
+            baseName = str(f&#34;{sys.argv[0].replace(os.path.sep, &#39;-&#39;).strip(&#39;-&#39;)}&#34;)
+            if &#39;anonType&#39; in pm and len(pm[&#39;anonType&#39;]) &gt; 0:
+                baseName += str(f&#34;.{pm[&#39;anonType&#39;]}&#34;)
+            if &#39;anonSubType&#39; in pm and len(pm[&#39;anonSubType&#39;]) &gt; 0:
+                baseName += str(f&#34;.{pm[&#39;anonSubType&#39;]}&#34;)
+            if &#39;dbType&#39; not in pm or len(pm[&#39;dbType&#39;]) == 0:
+                baseName += str(f&#34;.{pm[&#39;rawDb&#39;]}.{pm[&#39;anonDb&#39;]}&#34;)
+            else:
+                baseName += str(f&#34;.{pm[&#39;dbType&#39;]}&#34;)
+            if &#39;table&#39; in pm and len(pm[&#39;table&#39;]) &gt; 0:
+                baseName += str(f&#34;.{pm[&#39;table&#39;]}&#34;)
+        else:
+            baseName = pm[&#39;name&#39;]
+        # Remove any spaces in the base name
+        baseName.replace(&#34; &#34;, &#34;&#34;)
+        pm[&#39;name&#39;] = baseName
+
+        resultsDir = &#34;attackResults&#34;;
+        if &#39;resultsDir&#39; in pm and len(pm[&#39;resultsDir&#39;]) &gt; 0:
+            resultsDir = pm[&#39;resultsDir&#39;]
+
+        resultsPath = resultsDir + &#34;/&#34; + baseName + &#34;.json&#34;
+        pm[&#39;resultsPath&#39;] = resultsPath
+        pm[&#39;finished&#39;] = False
+        try:
+            f = open(resultsPath, &#39;r&#39;)
+        except:
+            # No prior results for this attack have been posted
+            pass
+        else:
+            # Prior results have been posted. Make sure they are complete.
+            res = json.load(f)
+            if &#39;finished&#39; in res:
+                pm[&#39;finished&#39;] = True
+
+    return pmList
+
+
+def finishGdaAttack(params, score):
+    &#34;&#34;&#34; Stores the attack results in a json file
+
+        Returns the attack results data structure&#34;&#34;&#34;
+
+    if &#39;finished&#39; in params:
+        del params[&#39;finished&#39;]
+    final = {}
+    final[&#39;score&#39;] = score
+    final[&#39;params&#39;] = params
+    final[&#39;finished&#39;] = True
+    j = json.dumps(final, sort_keys=True, indent=4)
+    resultsPath = params[&#39;resultsPath&#39;]
+    for _ in range(2):
+        try:
+            f = open(resultsPath, &#39;w&#39;)
+        except:
+            if not os.path.exists(os.path.dirname(resultsPath)):
+                os.mkdir(os.path.dirname(resultsPath))
+                continue
+            e = str(f&#34;Failed to open {resultsPath} for write&#34;)
+            sys.exit(e)
+        else:
+            break
+    f.write(j)
+    f.close()
+    return final
+
+
+def comma_ize(strings, lastComma=True):
+    &#34;&#34;&#34; Make a single string with input strings separated by commas.
+
+        Set `lastComma=False` if there should be no ending comma.&#34;&#34;&#34;
+
+    string = &#39;&#39;
+    for s in strings:
+        string += str(f&#34;{s}, &#34;)
+    if not lastComma:
+        # snip off the last &#39;, &#39;
+        ret = string[0:-2]
+    else:
+        ret = string
+    return ret
+
+
+def makeGroupBy(columns):
+    &#34;&#34;&#34; Make a GROUP BY clause appropriate for list of columns&#34;&#34;&#34;
+
+    clause = &#39;GROUP BY &#39;
+    for val in range(1, len(columns) + 1):
+        clause += str(f&#34;{val}, &#34;)
+    # Strip off the last comma and add a space
+    ret = clause[0:-2] + &#39; &#39;
+    return ret
+
+
+def makeInNotNullConditions(columns):
+    &#34;&#34;&#34; Make the WHERE clause conditions of IS NOT NULL for columns&#34;&#34;&#34;
+
+    clause = &#39;&#39;
+    for col in columns:
+        clause += str(f&#34; {col} IS NOT NULL AND &#34;)
+    # Strip off the last AND
+    ret = clause[0:-4]
+    return ret
+
+
+def getInterpolatedValue(val0, val1, scoreGrid):
+    &#34;&#34;&#34;Compute interpolated value from grid of mapping tuples
+
+       This routine takes as input a list of tuples (&#34;grid&#34;) of the form
+       `(val0,val1,score)`. It maps (val0,val1) values to a corresponding
+       score. It returns a score that is interpolated between the
+       scores in the grid. An example of such a grid can be found in
+       gdaScore.py, called `_defenseGrid1`. Note that val0 and val1 must
+       go in descending order as shown. Input values that are above the
+       highest val0 and val1 values will take the score of the first
+       entry. Input values that are below the lowest val0 and val1 will
+       take the score of the last entry.
+    &#34;&#34;&#34;
+    scoreAbove = -1
+    scoreBelow = -1
+    for tup in scoreGrid:
+        tup0 = tup[0]
+        tup1 = tup[1]
+        score = tup[2]
+        if val0 &lt;= tup0 and val1 &lt;= tup1:
+            tup0Above = tup0
+            tup1Above = tup1
+            scoreAbove = score
+    for tup in reversed(scoreGrid):
+        tup0 = tup[0]
+        tup1 = tup[1]
+        score = tup[2]
+        if val0 &gt;= tup0 and val1 &gt;= tup1:
+            tup0Below = tup0
+            tup1Below = tup1
+            scoreBelow = score
+    if scoreAbove == -1 and scoreBelow == -1:
+        return None
+    if scoreAbove == -1:
+        return scoreBelow
+    if scoreBelow == -1:
+        return scoreAbove
+    if scoreAbove == scoreBelow:
+        return scoreAbove
+    # Interpolate by treating as right triangle with tup0 as y and
+    # tup1 as x
+    yLegFull = tup0Above - tup0Below
+    xLegFull = tup1Above - tup1Below
+    hypoFull = math.sqrt((xLegFull ** 2) + (yLegFull ** 2))
+    yLegPart = val0 - tup0Below
+    xLegPart = val1 - tup1Below
+    hypoPart = math.sqrt((xLegPart ** 2) + (yLegPart ** 2))
+    frac = hypoPart / hypoFull
+    interpScore = scoreBelow - (frac * (scoreBelow - scoreAbove))
+    return interpScore
+
+
+def findSnappedRange(val):
+    # simple brute force approach
+    start = 1
+    # find a starting value less than the target value val
+    while (1):
+        if start &gt; val:
+            start /= 10
+        else:
+            break
+    # then find the pair of snapped values above and below val
+    while (1):
+        # the loop always starts at a power of 10
+        below = start
+        above = below * 2
+        if ((below &lt;= val) and (above &gt;= val)):
+            break
+        below = start * 2
+        above = start * 5
+        if ((below &lt;= val) and (above &gt;= val)):
+            break
+        below = start * 5
+        above = start * 10
+        if ((below &lt;= val) and (above &gt;= val)):
+            break
+        start *= 10
+    final = below
+    if ((above - val) &lt; (val - below)):
+        final = above
+    return final</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="gdascore.gdaTools.setupGdaAttackParameters"><code class="name flex">
+<span>def <span class="ident">setupGdaAttackParameters</span></span>(<span>configInfo=None, utilityMeasure='', criteria='', attackType='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Basic prep for input and output of gdaAttack (attack or utility)</p>
+<p>If called with no parameters, then this routine
+reads a configuration file of the same name as the python file
+but with <code>.json</code> appended. (I.e. if the python file is <code>test.py</code>,
+then <code>test.py.json</code> is read.) <br/>
+Otherwise, <code>configInfo</code> is a python dict. <br/>
+Either way (json file or python dict), the basic structure of the
+configuration is: <br/></p>
+<pre><code>{
+  "configVersion": "compact1",
+  "basic": {
+    "attackType": "Simple List",
+    "criteria": "linkability"
+  },
+  "anonTypes": [
+    ["no_anon"],
+    ["diffix","latest"],
+  ],
+  "tables": [
+    ["banking","accounts"],
+    ["taxi","rides"],
+  ]
+}
+</code></pre>
+<p>The above is for attacks. If utility measure, then the <code>"basic"</code>
+contents may be for instance: <br/></p>
+<p>"basic": {
+"utilityMeasure": "Single Column Count",
+"measureParam":"uid",
+"samples": 25,
+"ranges": [[10,50],[50,100],[100,500],[500,1000],[1000,5000]]
+},</p>
+<p>Returns a list of data structures that can be used for
+class <code>gdaAttack()</code>. One such data structure will be returned for
+every <code>anonTypes</code>/<code>tables</code> combination. (The above example would
+therefore return four data structures in the list.) <br/>
+If <code>anonTypes</code> is missing, then <code>[["no_anon"]]</code> is used by
+default. <code>basic</code> is not needed if the configuration is not used
+for either an attack or a utility measure. As such, the simplest
+valid configuration is: <br/></p>
+<pre><code>{ "tables": [["table","column"]] }
+</code></pre>
+<p>which gives access to the non-anonymized (raw) table. <br/>
+If the attack or utility measure has already been run (i.e. there is
+a complete scores json file), then <code>"finished": True</code> is added to the
+returned data structure. <br/>
+The other calling parameters are for backwards compatibility. <br/></p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setupGdaAttackParameters(configInfo=None, utilityMeasure=&#39;&#39;,
+                             criteria=&#39;&#39;, attackType=&#39;&#39;):
+    &#34;&#34;&#34; Basic prep for input and output of gdaAttack (attack or utility)
+
+        If called with no parameters, then this routine
+        reads a configuration file of the same name as the python file
+        but with `.json` appended. (I.e. if the python file is `test.py`,
+        then `test.py.json` is read.) &lt;br/&gt;
+        Otherwise, `configInfo` is a python dict. &lt;br/&gt;
+        Either way (json file or python dict), the basic structure of the
+        configuration is: &lt;br/&gt;
+
+            {
+              &#34;configVersion&#34;: &#34;compact1&#34;,
+              &#34;basic&#34;: {
+                &#34;attackType&#34;: &#34;Simple List&#34;,
+                &#34;criteria&#34;: &#34;linkability&#34;
+              },
+              &#34;anonTypes&#34;: [
+                [&#34;no_anon&#34;],
+                [&#34;diffix&#34;,&#34;latest&#34;],
+              ],
+              &#34;tables&#34;: [
+                [&#34;banking&#34;,&#34;accounts&#34;],
+                [&#34;taxi&#34;,&#34;rides&#34;],
+              ]
+            }
+
+        The above is for attacks. If utility measure, then the `&#34;basic&#34;`
+        contents may be for instance: &lt;br/&gt;
+
+          &#34;basic&#34;: {
+            &#34;utilityMeasure&#34;: &#34;Single Column Count&#34;,
+            &#34;measureParam&#34;:&#34;uid&#34;,
+            &#34;samples&#34;: 25,
+            &#34;ranges&#34;: [[10,50],[50,100],[100,500],[500,1000],[1000,5000]]
+          },
+
+        Returns a list of data structures that can be used for
+        class `gdaAttack()`. One such data structure will be returned for
+        every `anonTypes`/`tables` combination. (The above example would
+        therefore return four data structures in the list.) &lt;br/&gt;
+        If `anonTypes` is missing, then `[[&#34;no_anon&#34;]]` is used by
+        default. `basic` is not needed if the configuration is not used
+        for either an attack or a utility measure. As such, the simplest
+        valid configuration is: &lt;br/&gt;
+
+            { &#34;tables&#34;: [[&#34;table&#34;,&#34;column&#34;]] }
+
+        which gives access to the non-anonymized (raw) table. &lt;br/&gt;
+        If the attack or utility measure has already been run (i.e. there is
+        a complete scores json file), then `&#34;finished&#34;: True` is added to the
+        returned data structure. &lt;br/&gt;
+        The other calling parameters are for backwards compatibility. &lt;br/&gt;
+    &#34;&#34;&#34;
+
+    pp = pprint.PrettyPrinter(indent=4)
+    # We can either pull in the config from a file, or from a dict.
+    # If the former, configFile will be a list.
+    if configInfo is None:
+        configInfo = sys.argv
+    if isinstance(configInfo, list):
+        usageStr = str(f&#34;&#34;&#34;Usage: 
+            Either specify configuration file:
+                &gt; {configInfo[0]} config.json
+            Or assume default configuration file &#39;{configInfo[0]}.json&#39;:
+                &gt; {configInfo[0]}
+            &#34;&#34;&#34;)
+        # Pull in config from a json file
+        if len(configInfo) == 1:
+            cmdName = os.path.abspath(configInfo[0])
+            if len(cmdName) == 0:
+                sys.exit(usageStr)
+            fileName = cmdName + &#39;.json&#39;
+        elif len(configInfo) != 2:
+            sys.exit(usageStr)
+        else:
+            fileName = sys.argv[1]
+
+        try:
+            f = open(fileName, &#39;r&#39;)
+        except:
+            e = str(f&#34;ERROR: file &#39;{fileName}&#39; not found.\n{usageStr}&#34;)
+            sys.exit(e)
+
+        config = json.load(f)
+        f.close()
+    else:
+        # use the dict
+        config = configInfo
+
+    if isinstance(config, list):
+        # This is the old config style
+        return oldSetupGdaAttackParameters(config, criteria, attackType)
+    pmList = []
+    master = getMasterConfig()
+    if &#39;basic&#39; in config and &#39;criteria&#39; in config[&#39;basic&#39;]:
+        criteria = config[&#39;basic&#39;][&#39;criteria&#39;]
+    else:
+        # just a dummy value
+        criteria = &#39;singlingOut&#39;
+    if criteria == &#39;linkability&#39;:
+        (rawDbs, rawFriendlyNames, rawService) = (
+            getAnonDbs(master, [&#34;no_anon&#34;], &#39;link&#39;))
+    else:
+        (rawDbs, rawFriendlyNames, rawService) = (
+            getAnonDbs(master, [&#34;no_anon&#34;], &#39;&#39;))
+    if &#39;anonTypes&#39; not in config:
+        config[&#39;anonTypes&#39;] = [[&#34;no_anon&#34;]]
+    for anon in config[&#39;anonTypes&#39;]:
+        if not isinstance(anon, list):
+            print(&#34;ERROR: The &#39;anonTypes&#39; config must be a list of lists&#34;)
+            quit()
+        params = {&#34;anonType&#34;: anon}
+        if criteria == &#39;linkability&#39;:
+            (anonDbs, anonFriendlyNames, anonService) = (
+                getAnonDbs(master, anon, &#39;link&#39;))
+        else:
+            pp.pprint(anon)
+            (anonDbs, anonFriendlyNames, anonService) = (
+                getAnonDbs(master, anon, &#39;&#39;))
+        if anonDbs is None:
+            params[&#34;error&#34;] = &#34;Could not find anonymization in master&#34;
+            pmList.append(params)
+            continue
+        for tab in config[&#39;tables&#39;]:
+            # For each table, we need to find the database name
+            params[&#34;table&#34;] = tab
+            db = tab[0]
+            table = tab[1]
+            dataFriendlyNames = [master[&#39;datasources&#39;][&#39;friendlyName&#39;]]
+            if db not in master[&#39;datasources&#39;]:
+                params[&#34;error&#34;] = &#34;Could not find database in master&#34;
+                pmList.append(params)
+                continue
+            datasource = master[&#39;datasources&#39;][db]
+            dataFriendlyNames.append(datasource[&#39;friendlyName&#39;])
+            if table not in datasource[&#39;tables&#39;]:
+                params[&#34;error&#34;] = &#34;Could not find table in master&#34;
+                pmList.append(params)
+                continue
+            dataFriendlyNames.append(table)
+            uid = datasource[&#39;tables&#39;][table][&#39;uid&#39;]
+            # We have the right records from master, so build the params
+            # pp.pprint(anonDbs)
+            # pp.pprint(rawDbs)
+            # pp.pprint(datasource)
+            servs = master[&#39;services&#39;]
+            rawTab = getTab(datasource[&#39;databases&#39;], rawDbs)
+            params[&#39;rawDb&#39;] = {&#34;dbname&#34;: rawTab}
+            params[&#39;rawDb&#39;][&#39;port&#39;] = servs[rawService][&#39;port&#39;]
+            params[&#39;rawDb&#39;][&#39;host&#39;] = servs[rawService][&#39;host&#39;]
+            params[&#39;rawDb&#39;][&#39;type&#39;] = servs[rawService][&#39;type&#39;]
+            anonTab = getTab(datasource[&#39;databases&#39;], anonDbs)
+            params[&#39;anonDb&#39;] = {&#34;dbname&#34;: anonTab}
+            params[&#39;anonDb&#39;][&#39;port&#39;] = servs[anonService][&#39;port&#39;]
+            params[&#39;anonDb&#39;][&#39;host&#39;] = servs[anonService][&#39;host&#39;]
+            params[&#39;anonDb&#39;][&#39;type&#39;] = servs[anonService][&#39;type&#39;]
+            resultsPath = &#39;results/&#39;
+            name = os.path.basename(sys.argv[0])
+            for item in anon:
+                name += &#39;.&#39; + item
+            name += &#39;.&#39; + db + &#39;.&#39; + table
+            params[&#39;name&#39;] = name
+            params[&#39;flushCache&#39;] = False
+            params[&#39;verbose&#39;] = False
+            params[&#39;resultsPath&#39;] = &#39;results/&#39; + name + &#39;.json&#39;
+            params[&#39;table&#39;] = table
+            params[&#39;uid&#39;] = uid
+            params[&#39;friendly&#39;] = {&#34;anonymization&#34;: anonFriendlyNames}
+            params[&#39;friendly&#39;][&#39;dataSource&#39;] = dataFriendlyNames
+            params[&#39;criteria&#39;] = criteria
+            if &#39;basic&#39; in config:
+                # basic is needed if attack or utility measure
+                params[&#39;basicConfig&#39;] = config[&#39;basic&#39;]
+                if &#39;attackType&#39; in config[&#39;basic&#39;]:
+                    # This is an attack configuration
+                    params[&#39;friendly&#39;][&#39;attack&#39;] = [
+                        config[&#39;basic&#39;][&#39;attackType&#39;], criteria]
+                    # If criteria is linkability, we need to add the
+                    # public linkability db
+                    if criteria == &#39;linkability&#39;:
+                        (pubDbs, pubFriendlyNames, pubService) = (
+                            getAnonDbs(master, anon, &#39;pub&#39;))
+                        pubTab = getTab(datasource[&#39;databases&#39;], pubDbs)
+                        params[&#39;pubDb&#39;] = {&#34;dbname&#34;: pubTab}
+                        params[&#39;pubDb&#39;][&#39;port&#39;] = servs[pubService][&#39;port&#39;]
+                        params[&#39;pubDb&#39;][&#39;host&#39;] = servs[pubService][&#39;host&#39;]
+                        params[&#39;pubDb&#39;][&#39;type&#39;] = servs[pubService][&#39;type&#39;]
+                elif &#39;utilityMeasure&#39; in config[&#39;basic&#39;]:
+                    # This is a utility configuration
+                    params[&#39;friendly&#39;][&#39;utility&#39;] = [
+                        config[&#39;basic&#39;][&#39;utilityMeasure&#39;],
+                        config[&#39;basic&#39;][&#39;measureParam&#39;]]
+            # pp.pprint(params)
+            # Need to determine if the results have already been finished
+            params[&#39;finished&#39;] = False
+            try:
+                f = open(params[&#39;resultsPath&#39;], &#39;r&#39;)
+            except:
+                # No prior results for this attack have been posted
+                pass
+            else:
+                # Prior results have been posted. Make sure they are complete.
+                res = json.load(f)
+                if &#39;finished&#39; in res:
+                    params[&#39;finished&#39;] = True
+            new = copy.deepcopy(params)
+            pmList.append(new)
+    return pmList</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<a href="https://www.gda-score.org/" class="custom-logo-link" rel="home" itemprop="url">
+<img src="https://www.gda-score.org/wp-content/uploads/2018/10/GDA_Logo_04.svg" width="250" class="custom-logo" alt="GDA Score"
+itemprop="logo" />
+</a>
+<hr style="margin-top:20px;" />
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="gdascore" href="index.html">gdascore</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="gdascore.gdaTools.setupGdaAttackParameters" href="#gdascore.gdaTools.setupGdaAttackParameters">setupGdaAttackParameters</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<!--<a href="https://www.gda-score.org/legal-notice/">Legal notice</a>&nbsp;&nbsp;&nbsp;
+<a href="https://www.gda-score.org/privacy-policy/">Privacy policy</a>-->
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

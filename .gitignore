@@ -116,6 +116,6 @@ common/config/myDatabases.json
 *.db
 *.sql
 *.bat
-*.html
+# *.html
 *.png
 .DS_Store
