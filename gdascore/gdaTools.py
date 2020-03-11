@@ -341,9 +341,9 @@ def setupGdaAttackParameters(configInfo=None, utilityMeasure='',
                             getAnonDbs(master, anon, 'pub'))
                         pubTab = getTab(datasource['databases'], pubDbs)
                         params['pubDb'] = {"dbname": pubTab}
-                        params['pubDb']['port'] = servs[pubService]['port']
-                        params['pubDb']['host'] = servs[pubService]['host']
-                        params['pubDb']['type'] = servs[pubService]['type']
+                        params['pubDb']['port'] = servs[rawService]['port']
+                        params['pubDb']['host'] = servs[rawService]['host']
+                        params['pubDb']['type'] = servs[rawService]['type']
                 elif 'utilityMeasure' in config['basic']:
                     # This is a utility configuration
                     params['friendly']['utility'] = [
