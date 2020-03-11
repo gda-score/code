@@ -7,6 +7,9 @@ import os
 import pprint
 import sys
 
+# for pdoc documentation
+__all__ = ["setupGdaAttackParameters"]
+
 from pkg_resources import Requirement, resource_filename
 
 

@@ -14,6 +14,9 @@ import signal
 import atexit
 import random
 
+# for pdoc documentation
+__all__ = ["gdaAttack"]
+
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
 except ImportError:
