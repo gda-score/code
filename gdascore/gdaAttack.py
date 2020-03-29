@@ -1081,8 +1081,9 @@ class gdaAttack:
                     # can only execute queries if the budget is not used up
                     if not budget_flag:
                         reply, sid, budget_flag = self._processUberQuery(query, db, url, headers, sid, budget_flag)
+                        replies.append(reply)
 
-                replies.append(reply)
+
                 job['replies'] = replies
                 replyQ.put(job)
 
