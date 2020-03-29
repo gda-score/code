@@ -866,77 +866,91 @@ class gdaAttack:
                 # make a copy for passing around
                 job = copy.copy(jobOrig)
                 replyQ = job['q']
+                ans = [] # collect answers over queries executed several times
                 replies = []
                 for query in job['queries']:
-                    budget_flag = False # indicator that the budget was used up
-                    request = {}
 
-                    # Exception handling in case exception occurs while connecting to server
-                    try:
-                        if not sid:
+                    # possibly execute the query multiple times
+                    for j in range(0, query['count']):
+                        budget_flag = False # indicator that the budget was used up
+                        request = {}
 
-                            # ONLY change 'epsilon', 'budget' and 'dbname' values
-                            # Keep 'query' and 'sid' fields as-is
-                            # If any other non-existent 'sid' value is sent, Server returns an 'Error'
-                            # The budget is set in the initial request only
-                            # Once the budget is set, no further modification to the budget is possible in subsequent requests
-                            # Client sends this data in url
-                            request = {
-                                'query': "",  # empty query, just serves to get a session ID
-                                'epsilon': str(0), # nothing used up in the initialization phase
-                                'budget': str(query['budget']), # the numeric values are sent as strings
-                                'dbname': db['dbname'],
-                                'sid': ''  # When sid is Null it indicates start of a session
-                            }
+                        # Exception handling in case exception occurs while connecting to server
+                        try:
+                            if not sid:
 
-                            # append query back the query to the first position of the list as it has not been processed
-                            # because of the dummy value we had to send to get a session ID
-                            job['queries'].insert(0, query)
-                        else:
-                            # If sid is not Null then put the sid returned by the server in the subsequent request
-                            # Also extract the query from the `querylist` and put it in the `query` field
-                            # ONLY `epsilon` can be changed
-                            # `budget` and `dbname` just have placeholders
-                            request = {
-                                'query': query['sql'],
-                                'epsilon': str(query['epsilon']),
-                                'budget': str(query['budget']),
-                                'dbname': db['dbname'],
-                                'sid': sid
-                            }
-                        # store the time of query excecution
-                        start = time.perf_counter()
+                                # ONLY change 'epsilon', 'budget' and 'dbname' values
+                                # Keep 'query' and 'sid' fields as-is
+                                # If any other non-existent 'sid' value is sent, Server returns an 'Error'
+                                # The budget is set in the initial request only
+                                # Once the budget is set, no further modification to the budget is possible in subsequent requests
+                                # Client sends this data in url
+                                request = {
+                                    'query': "",  # empty query, just serves to get a session ID
+                                    'epsilon': str(0), # nothing used up in the initialization phase
+                                    'budget': str(query['budget']), # the numeric values are sent as strings
+                                    'dbname': db['dbname'],
+                                    'sid': ''  # When sid is Null it indicates start of a session
+                                }
 
-                        # Client stores the response sent by the simpleServer.py
-                        response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
+                                # append query back the query to the first position of the list as it has not been processed
+                                # because of the dummy value we had to send to get a session ID
+                                job['queries'].insert(0, query)
+                            else:
+                                # If sid is not Null then put the sid returned by the server in the subsequent request
+                                # Also extract the query from the `querylist` and put it in the `query` field
+                                # ONLY `epsilon` can be changed
+                                # `budget` and `dbname` just have placeholders
+                                request = {
+                                    'query': query['sql'],
+                                    'epsilon': str(query['epsilon']),
+                                    'budget': str(query['budget']),
+                                    'dbname': db['dbname'],
+                                    'sid': sid
+                                }
+                            # store the time of query excecution
+                            start = time.perf_counter()
 
-                        resp = response.json()  # Convert response sent by server to JSON
-                        if 'Error' in resp['Server Response']:
-                            if 'Budget Exceeded' in resp['Server Response']['Error']:
-                                pprint.pprint(resp)
-                                budget_flag = True
-                                break
+                            # Client stores the response sent by the simpleServer.py
+                            response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
+
+                            resp = response.json()  # Convert response sent by server to JSON
+                            if 'Error' in resp['Server Response']:
+                                if 'Budget Exceeded' in resp['Server Response']['Error']:
+                                    pprint.pprint(resp)
+                                    budget_flag = True
+                                    break
+                                else:
+                                    pprint.pprint(resp)  # Client prints the data returned by the server
+
+                            # in case there is no error, but we are at the "dummy query" to get the session ID
+                            elif not sid:
+                                pprint.pprint(resp)  # Client prints the data returned by the server
+                                sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+                            # in case of an error-free normal query
                             else:
                                 pprint.pprint(resp)  # Client prints the data returned by the server
-                        else:
-                            pprint.pprint(resp)  # Client prints the data returned by the server
-                            sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+                                ans.append((resp['Server Response']['Result']))  # record the answer and append it as
 
-                    except requests.ConnectionError as e:
-                        print("Connection Error. Make sure you are connected to Internet.")
-                        print(str(e))
 
-                    except requests.Timeout as e:
-                        print("Timeout Error")
-                        print(str(e))
+                        except requests.ConnectionError as e:
+                            print("Connection Error. Make sure you are connected to Internet.")
+                            print(str(e))
 
-                    except requests.RequestException as e:
-                        print("General Error")
-                        print(str(e))
+                        except requests.Timeout as e:
+                            print("Timeout Error")
+                            print(str(e))
 
-                    except KeyboardInterrupt:
-                        print("Program closed")
-                ans = resp # TODO: format the answer like what is returned from fetchall
+                        except requests.RequestException as e:
+                            print("General Error")
+                            print(str(e))
+
+                        except KeyboardInterrupt:
+                            print("Program closed")
+
+
+
+                # after all for loops find the shape of the resulting answers
                 numCells = self._computeNumCells(ans)
 
                 # format the reply similarly as for aircloak and postgres
