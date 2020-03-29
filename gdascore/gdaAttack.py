@@ -401,7 +401,7 @@ class gdaAttack:
             del job['q']
         return (job)
 
-    def askAttack(self, query, cache=True):
+    def askAttack(self, queries, cache=True):
         """ Generate and queue up attack queries for database.
             queries contains a list of single `query` dictionaries
 
@@ -411,35 +411,26 @@ class gdaAttack:
             query['budget'] sets the privacy budget
             query['epsilon'] defines how much of the budget is used up per query
             """
-        self._attackCounter += 1
-        if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
-        # Make a copy of the query for passing around
-        qCopy = copy.copy(query)
         job = {}
         job['q'] = self._attackQ
-        qCopy['cache'] = cache
-        job['queries'] = [qCopy]
-
-        # not working properly: call function attribute "queries" to use it
-        # # if there is only one query, we do not need to iterate
-        # if isinstance(queries, dict):
-        #     self._attackCounter += 1
-        #     if self._vb: print(f"Calling {__name__}.askAttack with query '{queries}', count {self._attackCounter}")
-        #     # Make a copy of the query for passing around
-        #     qCopy = copy.copy(queries)
-        #     qCopy['cache'] = cache
-        #     job['queries'] = [qCopy]  #assign query directly
-        # # if there are several queries, the assign them all to the job
-        # elif isinstance(queries, list):
-        #     for query in queries:
-        #         self._attackCounter += 1
-        #         if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
-        #         # Make a copy of the query for passing around
-        #         qCopy = copy.copy(query)
-        #         qCopy['cache'] = cache
-        #         job['queries'].append([qCopy])
-        # else:
-        #     raise Exception("Type of input should either be a list of dicts or a single dict")
+        self._attackCounter += 1
+        if isinstance(queries, dict):
+            if self._vb: print(f"Calling {__name__}.askAttack with query '{queries}', count {self._attackCounter}")
+            # Make a copy of the query for passing around
+            qCopy = copy.copy(queries)
+            qCopy['cache'] = cache
+            job['queries'] = [qCopy]  # assign query directly
+        # if there are several queries, the assign them all to the job
+        elif isinstance(queries, list):
+            job['queries'] = []
+            for query in queries:
+                if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
+                # Make a copy of the query for passing around
+                qCopy = copy.copy(query)
+                qCopy['cache'] = cache
+                job['queries'].append(qCopy)
+        else:
+            raise Exception("Type of input should either be a list of dicts or a single dict")
         self._anonQ.put(job)
 
     def getAttack(self):
