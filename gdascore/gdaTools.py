@@ -68,9 +68,28 @@ def getDatabaseInfo(theDb):
     if isinstance(theDb, str):
         return oldGetDatabaseInfo(theDb)
     # Get user name and password
-    cred = getCredentials()
-    theDb['password'] = cred[theDb['type']]['password']
-    theDb['user'] = cred[theDb['type']]['user']
+    ### <OLD WAY> ###
+    # cred = getCredentials()
+    # theDb['password'] = cred[theDb['type']]['password']
+    # theDb['user'] = cred[theDb['type']]['user']
+    ### </OLD WAY> ###
+
+    ### <NEW WAY> ###
+    if theDb['type'] == "postgres":
+        theDb['password'] = os.environ.get("GDA_SCORE_RAW_PASS")
+        theDb['user'] = os.environ.get("GDA_SCORE_RAW_USER")
+
+    elif theDb['type'] == "aircloak":
+        theDb['password'] = os.environ.get("GDA_SCORE_DIFFIX_PASS")
+        theDb['user'] = os.environ.get("GDA_SCORE_DIFFIX_USER")
+
+    else:
+        raise ValueError("[invalid dbtype value] type of database in .json conf file should be "
+                         "either 'postgres' or 'aircloak'.")
+
+    assert theDb["user"] and theDb["password"], "db user and password has not been set."
+    ### </NEW WAY> ###
+
     return theDb
 
 
@@ -210,6 +229,16 @@ def setupGdaAttackParameters(configInfo=None, utilityMeasure='',
         returned data structure. <br/>
         The other calling parameters are for backwards compatibility. <br/>
     """
+
+    ### < check for existence of database user and password environment variables > ###
+    __userDIFFIX, __passDIFFIX, __userRAW, __passRAW = os.environ.get("GDA_SCORE_DIFFIX_USER"), \
+                                                       os.environ.get("GDA_SCORE_DIFFIX_PASS"), \
+                                                       os.environ.get("GDA_SCORE_RAW_USER"), \
+                                                       os.environ.get("GDA_SCORE_RAW_PASS")
+    if not (__userDIFFIX and __passDIFFIX and __userRAW and __passRAW):
+        raise ValueError("database user and password environment variables not found. "
+                         "check out Readme.md to see how to set them.")
+    ### </ check for existence of database user and password environment variables > ###
 
     pp = pprint.PrettyPrinter(indent=4)
     # We can either pull in the config from a file, or from a dict.

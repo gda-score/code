@@ -1478,7 +1478,7 @@ def signal_kill_handler(signum, frame):
 
 def on_exit():
     if not signal_kill_received:
-        printTitle('Main program finished successfully. Threads in background are running...')
+        printTitle('Main program finished successfully. Threads in background may be running...')
         if threading.active_count() > 1:
             for t in threading.enumerate():
                 if t != threading.main_thread():
