@@ -1,6 +1,7 @@
 import copy
 import importlib.util
 import json
+import logging
 import math
 import ntpath
 import os
@@ -64,7 +65,7 @@ def try_for_config_file(config_rel_path):
 
 
 def getDatabaseInfo(theDb):
-    # For backwards compability, if this is a string use the old way
+    # For backwards compatibility, if this is a string use the old way
     if isinstance(theDb, str):
         return oldGetDatabaseInfo(theDb)
     # Get user name and password
@@ -76,18 +77,20 @@ def getDatabaseInfo(theDb):
 
     ### <NEW WAY> ###
     if theDb['type'] == "postgres":
-        theDb['password'] = os.environ.get("GDA_SCORE_RAW_PASS")
-        theDb['user'] = os.environ.get("GDA_SCORE_RAW_USER")
+        if os.environ.get("GDA_SCORE_RAW_PASS") and os.environ.get("GDA_SCORE_RAW_USER"):
+            theDb['password'] = os.environ.get("GDA_SCORE_RAW_PASS")
+            theDb['user'] = os.environ.get("GDA_SCORE_RAW_USER")
+        else:
+            sys.exit("GDA_SCORE_RAW_USER and GDA_SCORE_RAW_PASS must be set as environment variables "
+                     "for working with rawDB. see README.md")
 
     elif theDb['type'] == "aircloak":
-        theDb['password'] = os.environ.get("GDA_SCORE_DIFFIX_PASS")
-        theDb['user'] = os.environ.get("GDA_SCORE_DIFFIX_USER")
-
-    else:
-        raise ValueError("[invalid dbtype value] type of database in .json conf file should be "
-                         "either 'postgres' or 'aircloak'.")
-
-    assert theDb["user"] and theDb["password"], "db user and password has not been set."
+        if os.environ.get("GDA_SCORE_DIFFIX_PASS") and os.environ.get("GDA_SCORE_DIFFIX_USER"):
+            theDb['password'] = os.environ.get("GDA_SCORE_DIFFIX_PASS")
+            theDb['user'] = os.environ.get("GDA_SCORE_DIFFIX_USER")
+        else:
+            sys.exit("GDA_SCORE_DIFFIX_USER and GDA_SCORE_DIFFIX_PASS must be set as "
+                     "environment variables for working with Aircloak database. see README.md")
     ### </NEW WAY> ###
 
     return theDb
@@ -229,17 +232,6 @@ def setupGdaAttackParameters(configInfo=None, utilityMeasure='',
         returned data structure. <br/>
         The other calling parameters are for backwards compatibility. <br/>
     """
-
-    ### < check for existence of database user and password environment variables > ###
-    __userDIFFIX, __passDIFFIX, __userRAW, __passRAW = os.environ.get("GDA_SCORE_DIFFIX_USER"), \
-                                                       os.environ.get("GDA_SCORE_DIFFIX_PASS"), \
-                                                       os.environ.get("GDA_SCORE_RAW_USER"), \
-                                                       os.environ.get("GDA_SCORE_RAW_PASS")
-    if not (__userDIFFIX and __passDIFFIX and __userRAW and __passRAW):
-        raise ValueError("database user and password environment variables not found. "
-                         "check out Readme.md to see how to set them.")
-    ### </ check for existence of database user and password environment variables > ###
-
     pp = pprint.PrettyPrinter(indent=4)
     # We can either pull in the config from a file, or from a dict.
     # If the former, configFile will be a list.

@@ -1049,7 +1049,13 @@ class gdaAttack:
         curRead = connRead.cursor()
         backQ.put(me)
         while True:
-            jobOrig = q.get()
+            if isinstance(me, EnhancedThread) and me.stopped():
+                print(f'\n > {me.getName()} stopped.')
+                return
+            try:
+                jobOrig = q.get(block=True, timeout=3)
+            except queue.Empty:
+                continue
             q.task_done()
             if jobOrig is None:
                 if self._vb: print(f"    {me}: dbWorker done {db, kind}")
@@ -1419,24 +1425,17 @@ class gdaAttack:
         self._claimCounter = 0
         self._guessCounter = 0
 
-    def __del__(self):
-        self.cacheThreadObject.terminate()
-
-
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__kill_received = False
         self.daemon = True
+        self._stopFlag = threading.Event()
 
-    @property
-    def signalKill(self):
-        return self.__kill_received
+    def stop(self):
+        self._stopFlag.set()
 
-    def terminate(self):
-        self.__kill_received = True
-        if self.isAlive():
-            self.join(timeout=0.1)
+    def stopped(self):
+        return self._stopFlag.isSet()
 
 
 class CacheThread(EnhancedThread):
@@ -1444,9 +1443,13 @@ class CacheThread(EnhancedThread):
         super().__init__()
         self.theQueue = theQueue
         self.atcObject = atcObject
+        self.name = self.getName() + " (cache thread)"
 
     def run(self):
-        while not super().signalKill:
+        while True:
+            if self.stopped():
+                print(f'\n > {self.getName()} stopped.')
+                return
             if not self.theQueue.empty():
                 data = self.theQueue.get()
                 self.atcObject.putCacheWrapper(*data)
@@ -1454,36 +1457,27 @@ class CacheThread(EnhancedThread):
                     printTitle('cache insert successful. queue length: ' + str(self.theQueue.qsize()))
 
 
-def printTitle(text):
-    text = " " + text + " "
-    print(f'\n{text:#^100}\n')
+def cleanBgThreads():
+    for t in threading.enumerate():
+        if isinstance(t, EnhancedThread) and (not t.stopped()):
+            t.stop()
 
-signal_kill_received = False
+def printTitle(text):
+    print(f'\n{" "+text:->46}\n')
 
 def signal_kill_handler(signum, frame):
-    global signal_kill_received
-    signal_kill_received = True
-
     printTitle("Terminating the program ...")
-    print(
-        f' > active background threads: {threading.active_count() - 1} | sending termination signal to all. please wait ...\n')
-    for item in threading.enumerate():
-        if item != threading.current_thread() and isinstance(item, EnhancedThread):
-            item.terminate()
-            print(f' > {item.getName()} sent.')
-    printTitle('All done!')
+    print(f' > active background threads: {threading.active_count() - 1} | '
+          f'sending termination signal to all. please wait ...\n')
+    cleanBgThreads()
 
     sys.exit(0)
 
-
 def on_exit():
-    if not signal_kill_received:
-        printTitle('Main program finished successfully. Threads in background may be running...')
-        if threading.active_count() > 1:
-            for t in threading.enumerate():
-                if t != threading.main_thread():
-                    t.join()
-        printTitle("Whole execution process finished successfully.")
+    if len([t for t in threading.enumerate() if isinstance(t, EnhancedThread) and (not t.stopped())]):
+        cleanBgThreads()
+    while threading.active_count() > 1:
+        pass
 
 
 signal.signal(signal.SIGTERM, signal_kill_handler)

@@ -3,7 +3,10 @@
 from __future__ import print_function, unicode_literals
 
 import json
+import logging
 import os
+import platform
+import subprocess as subp
 import sys
 from time import sleep
 
@@ -11,10 +14,7 @@ from PyInquirer import Validator, ValidationError
 from PyInquirer import style_from_dict, Token, prompt
 from pyfiglet import Figlet
 
-try:
-    from .sampleConfig import readme, myCredentials
-except ImportError:
-    from sampleConfig import readme, myCredentials
+from sampleConfig import readme, myCredentials
 
 
 def init():
@@ -44,21 +44,6 @@ def init():
                     cursor_position=len(document.text))  # Move cursor to end
 
     questions = [
-        # {
-        #     'type': 'input',
-        #     'name': 'resPath',
-        #     'message': 'where should "results" folder be placed? please provide absolute path.',
-        #     'validate': PathValidator,
-        #     'default': os.path.abspath(os.getcwd())
-        # },
-        # {
-        #     'type': 'list',
-        #     'name': 'boolCrtResFld',
-        #     'message': 'there is no folder named "results" in the path specified, it will be created. ' +
-        #                'hit enter to continue.',
-        #     'choices': ['ok'],
-        #     'when': lambda ans: not os.path.exists(os.path.join(ans['resPath'], 'results'))
-        # },
         {
             'type': 'input',
             'name': 'cnfPath',
@@ -73,34 +58,30 @@ def init():
                        'hit enter to continue',
             'choices': ['ok'],
             'when': lambda ans: not os.path.exists(os.path.join(ans['cnfPath'], 'config'))
+        },
+        {
+            'type': 'list',
+            'name': 'crtEnvVars',
+            'message': 'Set required environment variables for working with rawDB and Aircloak?' +
+                       ' (see README.md for more explanation.)',
+            'choices': ['yes', 'no'],
         }
     ]
 
     answers = prompt(questions, style=style)
     print()
     main(**answers)
-    print('\ninitiation done. you can start using the code.\n')
+    print('\ninitiation phase finished.\n')
 
 
-def main(cnfPath, boolCrtCnfFld=None):  # resPath, boolCrtResFld=None
+def main(cnfPath, crtEnvVars, boolCrtCnfFld=None):
     if boolCrtCnfFld:
         createConfigFolder(cnfPath)
-    # if boolCrtResFld:
-    #     createResultFolder(resPath)
-    propagateSampleConfig(cnfPath)
-    setGlobalVariables(cnfPath)  # , resPath)
-
-
-def createResultFolder(resPath):
-    try:
-        os.mkdir(os.path.join(resPath, 'results'))
-    except IOError as ex:
-        print(f'result folder could not be created due to an error: {ex}')
-        print('Initiation failed. Fix the error and start procedure again.\n')
-        exit(-1)
-    else:
-        print(' > result folder created successfully. ')
-        sleep(1)
+    if crtEnvVars == 'yes':
+        setEnvVars()
+    # NOTE: after env vars no need to have myCredentials.json so line below is commented out
+    # propagateSampleConfig(cnfPath)
+    setGlobalVariables(cnfPath)
 
 
 def createConfigFolder(cnfPath):
@@ -114,13 +95,45 @@ def createConfigFolder(cnfPath):
         print(' > config folder created successfully. ')
         sleep(1)
 
+def setEnvVars():
+    if platform.system() == "Windows":
+        r0 = subp.call(['setx', 'GDA_SCORE_DIFFIX_USER', 'gda-score_ro_user'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        r1 = subp.call(['setx', 'GDA_SCORE_DIFFIX_PASS', 'moquaiR7'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        r2 = subp.call(['setx', 'GDA_SCORE_RAW_USER', 'gda-score_ro_user'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        r3 = subp.call(['setx', 'GDA_SCORE_RAW_PASS', 'moquaiR7'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        if not (r0 and r1 and r2 and r3):
+            print(f" > windows environment variables has been set successfully. before using gdascore, "
+                  f"you may need to open another command prompt for changes to be effective.")
+        else:
+            logging.error(" setting environment variables failed. please set them manually.")
 
+    elif platform.system() == "Linux":
+        r0 = subp.call(['export', 'GDA_SCORE_DIFFIX_USER=gda-score_ro_user'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        r1 = subp.call(['export', 'GDA_SCORE_DIFFIX_PASS=moquaiR7'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        r2 = subp.call(['export', 'GDA_SCORE_RAW_USER=gda-score_ro_user'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        r3 = subp.call(['export', 'GDA_SCORE_RAW_PASS=moquaiR7'], stdout=subp.DEVNULL,
+                       stderr=subp.STDOUT)
+        if not (r0 and r1 and r2 and r3):
+            print(f" > linux environment variables has been set successfully. you may need to open another"
+                  f"terminal for changes to be effective.")
+        else:
+            logging.error("setting environment variables failed. please set them manually.")
+    else:
+        logging.error(" setting environment variables failed because platform in not recognized"
+                      " as windows or linux. do set variables manually.")
+
+# py myCredentials.json in config folder
 def propagateSampleConfig(cnfPath):
     try:
         with open(os.path.join(cnfPath, 'config', 'myCredentials.json'), 'w') as f:
             f.write(myCredentials)
-        # with open(os.path.join(cnfPath, 'config', 'README.md'), 'w') as f:
-        #     f.write(readme)
     except IOError as e:
         # print("I/O error({0}): {1}".format(e.errno, e.strerror))
         print(f'propagating default config files failed due to an error: {e} \n')
@@ -134,14 +147,8 @@ def propagateSampleConfig(cnfPath):
         print(' > default config files propagated successfully.')
         sleep(1)
 
-
-def setGlobalVariables(cnfPath):  # , resPath):
+def setGlobalVariables(cnfPath):
     to_write_cnfPath = json.dumps(os.path.abspath(cnfPath))
-    # to_write_resPath = json.dumps(os.path.abspath(resPath))
-    #     res = f'''{{
-    #         "config_path": {to_write_cnfPath},
-    #         "result_path": {to_write_resPath}
-    # }}'''
     res = f'''{{
             "config_path": {to_write_cnfPath}
     }}'''

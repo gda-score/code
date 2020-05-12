@@ -12,14 +12,17 @@ The primary language is Python, and requires Python3.7 or later. API documentati
 #### Installing via `pip`:    
    - step 1: `$ pip install gda-score-code`    
    
-   - step 2: gdascore package need at least 4 environment variables as for fatabase credentials.
+   - step 2: if you would like to stick to default configuration then skip this step. otherwise try executing `$ gdascore_init` in your console  to modify the configuration.
+   This initiation script can also set required environment variables 
+   (step 3) automatically.
+       
+   - step 3: gdascore package needs at least 4 environment variables as for fatabase credentials.
    to set those on windows, go to "Edit the system environment variable > Environment Variables... > New..." and set:
         - `GDA_SCORE_DIFFIX_USER` : `gda-score_ro_user` 
         - `GDA_SCORE_DIFFIX_PASS` : `moquaiR7` 
         - `GDA_SCORE_RAW_USER` : `gda-score_ro_user` 
         - `GDA_SCORE_RAW_PASS` : `moquaiR7` 
             
-   - step 3: if you would like to stick to default configuration then skip this step. otherwise try executing `$ gdascore_init` in your console  to modify the configuration.    
     
    - step 4: use import statements such as the following in your code (see examples in `attacks` and `utility` repos):    
       ```python    
