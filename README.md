@@ -16,7 +16,8 @@ The primary language is Python, and requires Python3.7 or later. API documentati
    This initiation script can also set required environment variables 
    (step 3) automatically.
        
-   - step 3: gdascore package needs at least 4 environment variables as for fatabase credentials.
+   - step 3: gdascore package needs at least 4 environment variables as for database credentials
+   to work with rawDB and Aircloak.
    to set those on windows, go to "Edit the system environment variable > Environment Variables... > New..." and set:
         - `GDA_SCORE_DIFFIX_USER` : `gda-score_ro_user` 
         - `GDA_SCORE_DIFFIX_PASS` : `moquaiR7` 
