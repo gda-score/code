@@ -1479,7 +1479,6 @@ def on_exit():
     while threading.active_count() > 1:
         pass
 
-
 signal.signal(signal.SIGTERM, signal_kill_handler)
 signal.signal(signal.SIGINT, signal_kill_handler)
 
