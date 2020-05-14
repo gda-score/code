@@ -14,7 +14,10 @@ from PyInquirer import Validator, ValidationError
 from PyInquirer import style_from_dict, Token, prompt
 from pyfiglet import Figlet
 
-from sampleConfig import readme, myCredentials
+try:
+    from .sampleconfig import readme, myCredentials
+except ImportError:
+    from sampleconfig import readme, myCredentials
 
 
 def init():

@@ -255,7 +255,7 @@ class gdaAttack:
         for t in self._rawThreads + self._anonThreads:
             if t.isAlive(): t.join()
 
-        self.cacheThreadObject.terminate()
+        self.cacheThreadObject.stop()
 
         if len(self._p['pubDb']) > 0:
             if self._pubQ.empty() != True:
