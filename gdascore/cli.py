@@ -15,9 +15,9 @@ from PyInquirer import style_from_dict, Token, prompt
 from pyfiglet import Figlet
 
 try:
-    from .sampleconfig import readme, myCredentials
+    from .sampleConfig import readme, myCredentials
 except ImportError:
-    from sampleconfig import readme, myCredentials
+    from sampleConfig import readme, myCredentials
 
 
 def init():
