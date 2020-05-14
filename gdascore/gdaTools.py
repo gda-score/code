@@ -20,18 +20,20 @@ def try_for_config_file(config_rel_path):
 
     # case 0: local config path defined by user: when installing by pip
     global_config_variable = dict()
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'), 'r') as f:
-        file_content = f.read()
-        if len(file_content):
-            global_config_variable = json.loads(file_content)
-    try:
-        potential_path = os.path.join(global_config_variable['config_path'], 'config', interested_file)
-    except KeyError:
-        # local config path has not been provided. should look into global_config in next step.
-        pass
-    else:
-        if os.path.isfile(potential_path):
-            return potential_path
+    config_var = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json')
+    if os.path.isfile(config_var):
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'), 'r') as f:
+            file_content = f.read()
+            if len(file_content):
+                global_config_variable = json.loads(file_content)
+        try:
+            potential_path = os.path.join(global_config_variable['config_path'], 'config', interested_file)
+        except KeyError:
+            # local config path has not been provided. should look into global_config in next step.
+            pass
+        else:
+            if os.path.isfile(potential_path):
+                return potential_path
 
     # Case 0.5: global_config: when installing by pip
     potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', interested_file)
