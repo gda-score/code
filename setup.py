@@ -23,7 +23,7 @@ setuptools.setup(
     # name="gda-score-code",
     name="gda-score-code-test",
     # version="2.3.5",
-    version="2.5.6",  # for test.pypi
+    version="2.5.7",  # for test.pypi
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
     long_description=long_description,
