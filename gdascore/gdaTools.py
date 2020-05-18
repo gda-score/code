@@ -1,13 +1,21 @@
 import copy
 import importlib.util
 import json
-import logging
+import coloredlogs, logging
 import math
 import ntpath
 import os
 import pprint
 import sys
 
+coloredlogs.DEFAULT_FIELD_STYLES['asctime'] = {}
+coloredlogs.DEFAULT_FIELD_STYLES['levelname'] = {'bold': True, 'color': 'white', 'bright': True}
+coloredlogs.DEFAULT_LEVEL_STYLES['info'] = {'color': 'cyan', 'bright': True}
+coloredlogs.install(
+        fmt="[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)",
+        datefmt='%Y-%m-%d %H:%M',
+        level=logging.INFO,
+)
 # for pdoc documentation
 __all__ = ["setupGdaAttackParameters"]
 
@@ -83,16 +91,18 @@ def getDatabaseInfo(theDb):
             theDb['password'] = os.environ.get("GDA_SCORE_RAW_PASS")
             theDb['user'] = os.environ.get("GDA_SCORE_RAW_USER")
         else:
-            sys.exit("GDA_SCORE_RAW_USER and GDA_SCORE_RAW_PASS must be set as environment variables "
+            logging.critical("GDA_SCORE_RAW_USER and GDA_SCORE_RAW_PASS must be set as environment variables "
                      "for working with rawDB. see README.md")
+            sys.exit(0)
 
     elif theDb['type'] == "aircloak":
         if os.environ.get("GDA_SCORE_DIFFIX_PASS") and os.environ.get("GDA_SCORE_DIFFIX_USER"):
             theDb['password'] = os.environ.get("GDA_SCORE_DIFFIX_PASS")
             theDb['user'] = os.environ.get("GDA_SCORE_DIFFIX_USER")
         else:
-            sys.exit("GDA_SCORE_DIFFIX_USER and GDA_SCORE_DIFFIX_PASS must be set as "
+            logging.critical("GDA_SCORE_DIFFIX_USER and GDA_SCORE_DIFFIX_PASS must be set as "
                      "environment variables for working with Aircloak database. see README.md")
+            sys.exit(0)
     ### </NEW WAY> ###
 
     return theDb
