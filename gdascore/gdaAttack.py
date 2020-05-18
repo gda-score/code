@@ -1,4 +1,4 @@
-import logging
+import coloredlogs, logging
 import sqlite3
 import simplejson
 import psycopg2
@@ -15,11 +15,19 @@ import signal
 import atexit
 import random
 
-logging.basicConfig(
-        format="[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)",
+coloredlogs.DEFAULT_FIELD_STYLES['asctime'] = {}
+coloredlogs.DEFAULT_FIELD_STYLES['levelname'] = {'bold': True, 'color': 'white', 'bright': True}
+coloredlogs.DEFAULT_LEVEL_STYLES['info'] = {'color': 'cyan', 'bright': True}
+coloredlogs.install(
+        fmt="[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)",
         datefmt='%Y-%m-%d %H:%M',
-        level=logging.DEBUG,
-    )
+        level=logging.INFO,
+)
+# logging.basicConfig(
+#         format="[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)",
+#         datefmt='%Y-%m-%d %H:%M',
+#         level=logging.INFO,
+#     )
 
 # for pdoc documentation
 __all__ = ["gdaAttack"]
@@ -32,7 +40,7 @@ except ImportError:
 theCacheQueue = None
 theCacheThreadObject = None
 flgCacheThreadStarted = False
-
+atcObject = None
 
 class gdaAttack:
     """Manages a GDA Attack
@@ -82,10 +90,12 @@ class gdaAttack:
         global theCacheQueue
         global theCacheThreadObject
         global flgCacheThreadStarted
+        global atcObject
 
         if not theCacheQueue and not theCacheThreadObject:
             theCacheQueue = queue.Queue()
             theCacheThreadObject = CacheThread(theCacheQueue, self)
+            atcObject = self
             printTitle('cache thread initialized.')
 
         self.cacheQueue = theCacheQueue
@@ -245,11 +255,11 @@ class gdaAttack:
             if that isn't what you want."""
         if self._vb: print(f"Calling {__name__}.cleanUp")
         if self._rawQ.empty() != True:
-            print("Warning, trying to clean up when raw queue not empty!")
+            logging.warning("Warning, trying to clean up when raw queue not empty!")
         if self._anonQ.empty() != True:
-            print("Warning, trying to clean up when anon queue not empty!")
+            logging.warning("Warning, trying to clean up when anon queue not empty!")
         if self.cacheQueue.empty() != True:
-            print("Warning, trying to clean up when cache queue not empty!")
+            logging.warning("Warning, trying to clean up when cache queue not empty!")
         # Stuff in end signals for the workers (this is a bit bogus, cause
         # if a thread is gone or hanging, not all signals will get read)
         for i in range(self._p['numRawDbThreads']):
@@ -261,9 +271,6 @@ class gdaAttack:
             self.cacheQueue.put(None)
 
         cleanBgThreads()
-        # for t in self._rawThreads + self._anonThreads:
-        #     if t.isAlive(): t.stop() # t.join()
-        # self.cacheThreadObject.stop()
 
         if len(self._p['pubDb']) > 0:
             if self._pubQ.empty() != True:
@@ -1003,12 +1010,16 @@ class gdaAttack:
                 except Exception as ex:
                     _ex = ex
                     removeFlag = False
+                time.sleep(0.3)
 
             if not removeFlag:
-                logging.error(f"cache db removing error after {attempt} attempts.")
-                print(f"ERROR: Failed to remove cache DB {path} => ex: {_ex}")
+                logging.error(f"cache db removing error after {attempt} attempts.\n"
+                              f"ERROR: Failed to remove cache DB {path} => ex: {_ex}")
             else:
                 logging.info(f"cache db removed successfully after {attempt} attempt(s).")
+
+    def removeLocalCacheDBWrapper(self):
+        return self._removeLocalCacheDB()
 
     def _setupThreadsAndQueues(self):
         self._anonThreads = []
@@ -1073,7 +1084,7 @@ class gdaAttack:
         backQ.put(me)
         while True:
             if isinstance(me, EnhancedThread) and me.stopped():
-                print(f'\n > {me.getName()} stopped.')
+                logging.info(f' > {me.getName()} stopped.')
                 return
             try:
                 jobOrig = q.get(block=True, timeout=3)
@@ -1468,34 +1479,35 @@ class CacheThread(EnhancedThread):
         self.theQueue = theQueue
         self.atcObject = atcObject
         self.name = self.getName() + " (cache thread)"
-        self.dbconnection = None
+        self.dbConnection = None
 
     def run(self):
         while True:
             if self.stopped():
-                print(f'\n > {self.getName()} stopped.')
-                return
+                logging.info(f' > {self.getName()} stopped.')
+                break
             try:
                 data = self.theQueue.get(block=True, timeout=3)
             except queue.Empty:
                 continue
             if data is not None:
                 self.atcObject.putCacheWrapper(*data)
-                self.dbconnection = data[0] # this is connInsert for closing later
+                self.dbConnection = data[0] # this is connInsert for closing later
                 if self.atcObject._p['verbose'] or self.atcObject._vb:
                     printTitle('cache insert successful. queue length: ' + str(self.theQueue.qsize()))
             self.theQueue.task_done()
 
     def stop(self):
         logging.debug("CacheThread received stop signal")
-        if self.dbconnection:
+        super().stop()
+        if self.dbConnection:
             try:
-                self.dbconnection.interrupt()
+                self.dbConnection.interrupt()
             except sqlite3.ProgrammingError:
                 pass
             else:
                 logging.debug("interrupt signal sent to cacheDb for safe deleting cacheDb file later.")
-        super().stop()
+
 
 
 def cleanBgThreads():
@@ -1508,13 +1520,14 @@ def printTitle(text):
     print(f'\n{" "+text:->46}\n')
 
 def signal_kill_handler(signum, frame):
-    global _signal_kill_received
+    global atcObject
     printTitle("Terminating the program ...")
-    _signal_kill_received = True
-    print(f' > active background threads: {threading.active_count() - 1} \n'
-          f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
-          f' > sending termination signal to all. please wait ...\n')
+    logging.info(f'\n > active background threads: {threading.active_count() - 1} \n'
+                 f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
+                 f' > sending termination signal to all. please wait ... ')
     cleanBgThreads()
+    if atcObject:
+        atcObject.cleanUp()
 
     sys.exit(-1)
 

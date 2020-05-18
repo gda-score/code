@@ -23,7 +23,7 @@ setuptools.setup(
     # name="gda-score-code",
     name="gda-score-code-test",
     # version="2.3.5",
-    version="2.5.7",  # for test.pypi
+    version="2.5.8",  # for test.pypi
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
     long_description=long_description,
@@ -46,7 +46,8 @@ setuptools.setup(
         'simplejson>=3.16.0',
         'psycopg2>=2.8.3',
         'PyInquirer==1.0.3',
-        'pyfiglet==0.8.post1'
+        'pyfiglet==0.8.post1',
+        'coloredlogs==14.0'
     ],
     entry_points={
         'console_scripts': [
