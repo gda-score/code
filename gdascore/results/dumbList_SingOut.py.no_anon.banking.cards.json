@@ -1,0 +1,439 @@
+{
+    "finished": true,
+    "params": {
+        "anonDb": {
+            "dbname": "raw_banking",
+            "host": "db001.gda-score.org",
+            "password": "xxxxxxx",
+            "port": 5432,
+            "type": "postgres",
+            "user": "gda-score_ro_user"
+        },
+        "anonType": [
+            "no_anon"
+        ],
+        "basicConfig": {
+            "attackType": "Simple List",
+            "criteria": "singlingOut"
+        },
+        "criteria": "singlingOut",
+        "flushCache": false,
+        "friendly": {
+            "anonymization": [
+                "Anonymization Classes",
+                "No Anonymization"
+            ],
+            "attack": [
+                "Simple List",
+                "singlingOut"
+            ],
+            "dataSource": [
+                "Data Sources",
+                "Czech Banking",
+                "cards"
+            ]
+        },
+        "name": "dumbList_SingOut.py.no_anon.banking.cards",
+        "rawDb": {
+            "dbname": "raw_banking",
+            "host": "db001.gda-score.org",
+            "password": "xxxxxxx",
+            "port": 5432,
+            "type": "postgres",
+            "user": "gda-score_ro_user"
+        },
+        "resultsPath": "results/dumbList_SingOut.py.no_anon.banking.cards.json",
+        "table": "cards",
+        "uid": "uid",
+        "verbose": false
+    },
+    "score": {
+        "attack": {
+            "anonDb": {
+                "dbname": "raw_banking",
+                "host": "db001.gda-score.org",
+                "password": "xxxxxxx",
+                "port": 5432,
+                "type": "postgres",
+                "user": "gda-score_ro_user"
+            },
+            "anonDbName": "raw_banking",
+            "anonHost": "db001.gda-score.org",
+            "anonPort": 5432,
+            "attackName": "dumbList_SingOut.py.no_anon.banking.cards",
+            "criteria": "singlingOut",
+            "rawDb": {
+                "dbname": "raw_banking",
+                "host": "db001.gda-score.org",
+                "password": "xxxxxxx",
+                "port": 5432,
+                "type": "postgres",
+                "user": "gda-score_ro_user"
+            },
+            "rawDbName": "raw_banking",
+            "rawHost": "db001.gda-score.org",
+            "rawPort": 5432,
+            "startTime": "2020-05-18 03:41:53.409284",
+            "table": "cards"
+        },
+        "base": {
+            "attackCells": 115,
+            "attackGets": 4,
+            "knowledgeCells": 0,
+            "knowledgeGets": 0
+        },
+        "col": {
+            "birth_number": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "birthdate": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "card_id": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "card_type": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "cli_district_id": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "disp_id": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "disp_type": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "email": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "firstname": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "gender": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "issues": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "lastname": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "ssn": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "street": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            },
+            "uid": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 20,
+                "claimError": 0,
+                "claimMade": 20,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 20,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 20,
+                "sumConfidenceRatios": 0.02242152466367713
+            },
+            "zip": {
+                "avgConfidenceRatios": 0.0011210762331838565,
+                "claimCorrect": 5,
+                "claimError": 0,
+                "claimMade": 5,
+                "claimPassCorrect": 0,
+                "claimProbability": 1.0,
+                "claimTrials": 5,
+                "columnSusceptibility": 1.0,
+                "confidence": 1.0,
+                "confidenceImprovement": 1.0,
+                "defense": 0,
+                "numConfidenceRatios": 5,
+                "sumConfidenceRatios": 0.005605381165919282
+            }
+        },
+        "operational": {
+            "avCacheGetDuration": 0.00044751406250002207,
+            "avCachePutDuration": 0,
+            "avQueryDuration": 0.017289051562499998,
+            "numCacheGets": 64,
+            "numCachePuts": 0,
+            "numQueries": 64,
+            "timeCacheGets": 0.028640900000001412,
+            "timeCachePuts": 0,
+            "timeQueries": 1.1064992999999999
+        },
+        "scores": [
+            {
+                "claimProbability": 1.0,
+                "columnsUsed": [
+                    "card_id",
+                    "disp_id",
+                    "card_type",
+                    "issues",
+                    "uid",
+                    "disp_type",
+                    "birth_number",
+                    "cli_district_id",
+                    "lastname",
+                    "firstname",
+                    "birthdate",
+                    "gender",
+                    "ssn",
+                    "email",
+                    "street",
+                    "zip"
+                ],
+                "confidenceImprovement": 1.0,
+                "defense": 0.0,
+                "knowledgeNeeded": 0.0,
+                "method": "mpi_sws_basic_v1",
+                "susceptibility": 1.0,
+                "totalClaims": 95,
+                "workNeeded": 1.2105263157894737
+            }
+        ],
+        "tableStats": {
+            "colNamesAndTypes": [
+                [
+                    "card_id",
+                    "integer"
+                ],
+                [
+                    "disp_id",
+                    "integer"
+                ],
+                [
+                    "card_type",
+                    "text"
+                ],
+                [
+                    "issues",
+                    "text"
+                ],
+                [
+                    "uid",
+                    "integer"
+                ],
+                [
+                    "disp_type",
+                    "text"
+                ],
+                [
+                    "birth_number",
+                    "text"
+                ],
+                [
+                    "cli_district_id",
+                    "integer"
+                ],
+                [
+                    "lastname",
+                    "text"
+                ],
+                [
+                    "firstname",
+                    "text"
+                ],
+                [
+                    "birthdate",
+                    "date"
+                ],
+                [
+                    "gender",
+                    "text"
+                ],
+                [
+                    "ssn",
+                    "text"
+                ],
+                [
+                    "email",
+                    "text"
+                ],
+                [
+                    "street",
+                    "text"
+                ],
+                [
+                    "zip",
+                    "text"
+                ]
+            ],
+            "numColumns": 16,
+            "totalRows": 892
+        }
+    }
+}

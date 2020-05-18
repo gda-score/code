@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 import simplejson
 import psycopg2
@@ -14,6 +15,12 @@ import signal
 import atexit
 import random
 
+logging.basicConfig(
+        format="[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)",
+        datefmt='%Y-%m-%d %H:%M',
+        level=logging.DEBUG,
+    )
+
 # for pdoc documentation
 __all__ = ["gdaAttack"]
 
@@ -25,6 +32,7 @@ except ImportError:
 theCacheQueue = None
 theCacheThreadObject = None
 flgCacheThreadStarted = False
+
 
 class gdaAttack:
     """Manages a GDA Attack
@@ -252,10 +260,10 @@ class gdaAttack:
         for i in range(self.cacheQueue.qsize()):
             self.cacheQueue.put(None)
 
-        for t in self._rawThreads + self._anonThreads:
-            if t.isAlive(): t.join()
-
-        self.cacheThreadObject.stop()
+        cleanBgThreads()
+        # for t in self._rawThreads + self._anonThreads:
+        #     if t.isAlive(): t.stop() # t.join()
+        # self.cacheThreadObject.stop()
 
         if len(self._p['pubDb']) > 0:
             if self._pubQ.empty() != True:
@@ -263,7 +271,7 @@ class gdaAttack:
             for i in range(self._p['numPubDbThreads']):
                 self._pubQ.put(None)
             for t in self._pubThreads:
-                if t.isAlive(): t.join()
+                if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
         if doExit:
@@ -981,11 +989,26 @@ class gdaAttack:
 
     def _removeLocalCacheDB(self):
         path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
+        max_attempts = 5
+        attempt = 0
+        removeFlag = False
+        _ex = None
         if os.path.exists(path):
-            try:
-                os.remove(path)
-            except Exception as ex:
-                print(f"ERROR: Failed to remove cache DB {path} => ex: {ex}")
+            while attempt <= max_attempts:
+                attempt += 1
+                try:
+                    os.remove(path)
+                    removeFlag = True
+                    break
+                except Exception as ex:
+                    _ex = ex
+                    removeFlag = False
+
+            if not removeFlag:
+                logging.error(f"cache db removing error after {attempt} attempts.")
+                print(f"ERROR: Failed to remove cache DB {path} => ex: {_ex}")
+            else:
+                logging.info(f"cache db removed successfully after {attempt} attempt(s).")
 
     def _setupThreadsAndQueues(self):
         self._anonThreads = []
@@ -1425,6 +1448,7 @@ class gdaAttack:
         self._claimCounter = 0
         self._guessCounter = 0
 
+
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1444,34 +1468,55 @@ class CacheThread(EnhancedThread):
         self.theQueue = theQueue
         self.atcObject = atcObject
         self.name = self.getName() + " (cache thread)"
+        self.dbconnection = None
 
     def run(self):
         while True:
             if self.stopped():
                 print(f'\n > {self.getName()} stopped.')
                 return
-            if not self.theQueue.empty():
-                data = self.theQueue.get()
+            try:
+                data = self.theQueue.get(block=True, timeout=3)
+            except queue.Empty:
+                continue
+            if data is not None:
                 self.atcObject.putCacheWrapper(*data)
+                self.dbconnection = data[0] # this is connInsert for closing later
                 if self.atcObject._p['verbose'] or self.atcObject._vb:
                     printTitle('cache insert successful. queue length: ' + str(self.theQueue.qsize()))
+            self.theQueue.task_done()
+
+    def stop(self):
+        logging.debug("CacheThread received stop signal")
+        if self.dbconnection:
+            try:
+                self.dbconnection.interrupt()
+            except sqlite3.ProgrammingError:
+                pass
+            else:
+                logging.debug("interrupt signal sent to cacheDb for safe deleting cacheDb file later.")
+        super().stop()
 
 
 def cleanBgThreads():
     for t in threading.enumerate():
         if isinstance(t, EnhancedThread) and (not t.stopped()):
             t.stop()
+            t.join(timeout=1.0)
 
 def printTitle(text):
     print(f'\n{" "+text:->46}\n')
 
 def signal_kill_handler(signum, frame):
+    global _signal_kill_received
     printTitle("Terminating the program ...")
-    print(f' > active background threads: {threading.active_count() - 1} | '
-          f'sending termination signal to all. please wait ...\n')
+    _signal_kill_received = True
+    print(f' > active background threads: {threading.active_count() - 1} \n'
+          f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
+          f' > sending termination signal to all. please wait ...\n')
     cleanBgThreads()
 
-    sys.exit(0)
+    sys.exit(-1)
 
 def on_exit():
     if len([t for t in threading.enumerate() if isinstance(t, EnhancedThread) and (not t.stopped())]):
