@@ -114,8 +114,12 @@ class gdaScores:
             bounty['CI'] = score['scores'][0]['confidenceImprovement']
             explain += "PK is number of prior knowledge cells\n"
             bounty['PK'] = score['base']['knowledgeCells']
-            explain += "E is effectiveness `E=L/(PK+1)`\n"
-            bounty['E'] = bounty['L'] / (bounty['PK']+1)
+            explain += "LPK_one = 1/(PK+1)\n"
+            LPKone = 1/(bounty['PK']+1)
+            explain += "LPK_all = L/(PK+1)\n"
+            LPKall = bounty['L'] / (bounty['PK']+1)
+            explain += "E is effectiveness `E=(LPK_one + LPK_all)/2`\n"
+            bounty['E'] = (LPKone + LPKall)/2
             bounty['explain'] = explain
             self._ar['bounty'] = bounty
             return(bounty,self._ar)
