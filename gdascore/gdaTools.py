@@ -1,12 +1,21 @@
 import copy
 import importlib.util
 import json
+import coloredlogs, logging
 import math
 import ntpath
 import os
 import pprint
 import sys
 
+coloredlogs.DEFAULT_FIELD_STYLES['asctime'] = {}
+coloredlogs.DEFAULT_FIELD_STYLES['levelname'] = {'bold': True, 'color': 'white', 'bright': True}
+coloredlogs.DEFAULT_LEVEL_STYLES['info'] = {'color': 'cyan', 'bright': True}
+coloredlogs.install(
+        fmt="[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)",
+        datefmt='%Y-%m-%d %H:%M',
+        level=logging.INFO,
+)
 # for pdoc documentation
 __all__ = ["setupGdaAttackParameters"]
 
@@ -19,18 +28,20 @@ def try_for_config_file(config_rel_path):
 
     # case 0: local config path defined by user: when installing by pip
     global_config_variable = dict()
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'), 'r') as f:
-        file_content = f.read()
-        if len(file_content):
-            global_config_variable = json.loads(file_content)
-    try:
-        potential_path = os.path.join(global_config_variable['config_path'], 'config', interested_file)
-    except KeyError:
-        # local config path has not been provided. should look into global_config in next step.
-        pass
-    else:
-        if os.path.isfile(potential_path):
-            return potential_path
+    config_var = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json')
+    if os.path.isfile(config_var):
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'), 'r') as f:
+            file_content = f.read()
+            if len(file_content):
+                global_config_variable = json.loads(file_content)
+        try:
+            potential_path = os.path.join(global_config_variable['config_path'], 'config', interested_file)
+        except KeyError:
+            # local config path has not been provided. should look into global_config in next step.
+            pass
+        else:
+            if os.path.isfile(potential_path):
+                return potential_path
 
     # Case 0.5: global_config: when installing by pip
     potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', interested_file)
@@ -64,13 +75,36 @@ def try_for_config_file(config_rel_path):
 
 
 def getDatabaseInfo(theDb):
-    # For backwards compability, if this is a string use the old way
+    # For backwards compatibility, if this is a string use the old way
     if isinstance(theDb, str):
         return oldGetDatabaseInfo(theDb)
     # Get user name and password
-    cred = getCredentials()
-    theDb['password'] = cred[theDb['type']]['password']
-    theDb['user'] = cred[theDb['type']]['user']
+    ### <OLD WAY> ###
+    # cred = getCredentials()
+    # theDb['password'] = cred[theDb['type']]['password']
+    # theDb['user'] = cred[theDb['type']]['user']
+    ### </OLD WAY> ###
+
+    ### <NEW WAY> ###
+    if theDb['type'] == "postgres":
+        if os.environ.get("GDA_SCORE_RAW_PASS") and os.environ.get("GDA_SCORE_RAW_USER"):
+            theDb['password'] = os.environ.get("GDA_SCORE_RAW_PASS")
+            theDb['user'] = os.environ.get("GDA_SCORE_RAW_USER")
+        else:
+            logging.critical("GDA_SCORE_RAW_USER and GDA_SCORE_RAW_PASS must be set as environment variables "
+                     "for working with rawDB. see README.md")
+            sys.exit(0)
+
+    elif theDb['type'] == "aircloak":
+        if os.environ.get("GDA_SCORE_DIFFIX_PASS") and os.environ.get("GDA_SCORE_DIFFIX_USER"):
+            theDb['password'] = os.environ.get("GDA_SCORE_DIFFIX_PASS")
+            theDb['user'] = os.environ.get("GDA_SCORE_DIFFIX_USER")
+        else:
+            logging.critical("GDA_SCORE_DIFFIX_USER and GDA_SCORE_DIFFIX_PASS must be set as "
+                     "environment variables for working with Aircloak database. see README.md")
+            sys.exit(0)
+    ### </NEW WAY> ###
+
     return theDb
 
 
@@ -210,7 +244,6 @@ def setupGdaAttackParameters(configInfo=None, utilityMeasure='',
         returned data structure. <br/>
         The other calling parameters are for backwards compatibility. <br/>
     """
-
     pp = pprint.PrettyPrinter(indent=4)
     # We can either pull in the config from a file, or from a dict.
     # If the former, configFile will be a list.

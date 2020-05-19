@@ -369,9 +369,9 @@ def setupGdaAttackParameters(configInfo=None, utilityMeasure=&#39;&#39;,
                             getAnonDbs(master, anon, &#39;pub&#39;))
                         pubTab = getTab(datasource[&#39;databases&#39;], pubDbs)
                         params[&#39;pubDb&#39;] = {&#34;dbname&#34;: pubTab}
-                        params[&#39;pubDb&#39;][&#39;port&#39;] = servs[pubService][&#39;port&#39;]
-                        params[&#39;pubDb&#39;][&#39;host&#39;] = servs[pubService][&#39;host&#39;]
-                        params[&#39;pubDb&#39;][&#39;type&#39;] = servs[pubService][&#39;type&#39;]
+                        params[&#39;pubDb&#39;][&#39;port&#39;] = servs[rawService][&#39;port&#39;]
+                        params[&#39;pubDb&#39;][&#39;host&#39;] = servs[rawService][&#39;host&#39;]
+                        params[&#39;pubDb&#39;][&#39;type&#39;] = servs[rawService][&#39;type&#39;]
                 elif &#39;utilityMeasure&#39; in config[&#39;basic&#39;]:
                     # This is a utility configuration
                     params[&#39;friendly&#39;][&#39;utility&#39;] = [
@@ -843,9 +843,9 @@ The other calling parameters are for backwards compatibility. <br/></p></section
                             getAnonDbs(master, anon, &#39;pub&#39;))
                         pubTab = getTab(datasource[&#39;databases&#39;], pubDbs)
                         params[&#39;pubDb&#39;] = {&#34;dbname&#34;: pubTab}
-                        params[&#39;pubDb&#39;][&#39;port&#39;] = servs[pubService][&#39;port&#39;]
-                        params[&#39;pubDb&#39;][&#39;host&#39;] = servs[pubService][&#39;host&#39;]
-                        params[&#39;pubDb&#39;][&#39;type&#39;] = servs[pubService][&#39;type&#39;]
+                        params[&#39;pubDb&#39;][&#39;port&#39;] = servs[rawService][&#39;port&#39;]
+                        params[&#39;pubDb&#39;][&#39;host&#39;] = servs[rawService][&#39;host&#39;]
+                        params[&#39;pubDb&#39;][&#39;type&#39;] = servs[rawService][&#39;type&#39;]
                 elif &#39;utilityMeasure&#39; in config[&#39;basic&#39;]:
                     # This is a utility configuration
                     params[&#39;friendly&#39;][&#39;utility&#39;] = [
