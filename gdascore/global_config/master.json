@@ -169,7 +169,7 @@
     "diffix": {
       "friendlyName": "Diffix",
       "latest": {
-        "friendlyName": "Version V19.1.0",
+        "friendlyName": "Version Dogwood",
         "implementation": "Aircloak",
         "service": "aircloak",
         "databases" : [
@@ -191,8 +191,8 @@
           "raw_census0_link_pub"
         ]
       },
-      "v19_1_0": {
-        "friendlyName": "Version V19.1.0",
+      "cedar": {
+        "friendlyName": "Version Cedar",
         "implementation": "Aircloak",
         "service": "aircloak",
         "databases" : [
