@@ -141,8 +141,12 @@ class gdaScores:
             bounty[&#39;CI&#39;] = score[&#39;scores&#39;][0][&#39;confidenceImprovement&#39;]
             explain += &#34;PK is number of prior knowledge cells\n&#34;
             bounty[&#39;PK&#39;] = score[&#39;base&#39;][&#39;knowledgeCells&#39;]
-            explain += &#34;E is effectiveness `E=L/(PK+1)`\n&#34;
-            bounty[&#39;E&#39;] = bounty[&#39;L&#39;] / (bounty[&#39;PK&#39;]+1)
+            explain += &#34;LPK_one = 1/(PK+1)\n&#34;
+            LPKone = 1/(bounty[&#39;PK&#39;]+1)
+            explain += &#34;LPK_all = L/(PK+1)\n&#34;
+            LPKall = bounty[&#39;L&#39;] / (bounty[&#39;PK&#39;]+1)
+            explain += &#34;E is effectiveness `E=(LPK_one + LPK_all)/2`\n&#34;
+            bounty[&#39;E&#39;] = (LPKone + LPKall)/2
             bounty[&#39;explain&#39;] = explain
             self._ar[&#39;bounty&#39;] = bounty
             return(bounty,self._ar)
@@ -426,8 +430,12 @@ WARNING: this code is fragile, and can fail ungracefully.</p>
             bounty[&#39;CI&#39;] = score[&#39;scores&#39;][0][&#39;confidenceImprovement&#39;]
             explain += &#34;PK is number of prior knowledge cells\n&#34;
             bounty[&#39;PK&#39;] = score[&#39;base&#39;][&#39;knowledgeCells&#39;]
-            explain += &#34;E is effectiveness `E=L/(PK+1)`\n&#34;
-            bounty[&#39;E&#39;] = bounty[&#39;L&#39;] / (bounty[&#39;PK&#39;]+1)
+            explain += &#34;LPK_one = 1/(PK+1)\n&#34;
+            LPKone = 1/(bounty[&#39;PK&#39;]+1)
+            explain += &#34;LPK_all = L/(PK+1)\n&#34;
+            LPKall = bounty[&#39;L&#39;] / (bounty[&#39;PK&#39;]+1)
+            explain += &#34;E is effectiveness `E=(LPK_one + LPK_all)/2`\n&#34;
+            bounty[&#39;E&#39;] = (LPKone + LPKall)/2
             bounty[&#39;explain&#39;] = explain
             self._ar[&#39;bounty&#39;] = bounty
             return(bounty,self._ar)
@@ -693,8 +701,12 @@ Returns <code>(bounty,score)</code>, where <code>bounty</code> is the bounty par
         bounty[&#39;CI&#39;] = score[&#39;scores&#39;][0][&#39;confidenceImprovement&#39;]
         explain += &#34;PK is number of prior knowledge cells\n&#34;
         bounty[&#39;PK&#39;] = score[&#39;base&#39;][&#39;knowledgeCells&#39;]
-        explain += &#34;E is effectiveness `E=L/(PK+1)`\n&#34;
-        bounty[&#39;E&#39;] = bounty[&#39;L&#39;] / (bounty[&#39;PK&#39;]+1)
+        explain += &#34;LPK_one = 1/(PK+1)\n&#34;
+        LPKone = 1/(bounty[&#39;PK&#39;]+1)
+        explain += &#34;LPK_all = L/(PK+1)\n&#34;
+        LPKall = bounty[&#39;L&#39;] / (bounty[&#39;PK&#39;]+1)
+        explain += &#34;E is effectiveness `E=(LPK_one + LPK_all)/2`\n&#34;
+        bounty[&#39;E&#39;] = (LPKone + LPKall)/2
         bounty[&#39;explain&#39;] = explain
         self._ar[&#39;bounty&#39;] = bounty
         return(bounty,self._ar)</code></pre>

@@ -26,7 +26,8 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import sqlite3
+<pre><code class="python">import coloredlogs, logging
+import sqlite3
 import simplejson
 import psycopg2
 import queue
@@ -42,6 +43,20 @@ import signal
 import atexit
 import random
 
+coloredlogs.DEFAULT_FIELD_STYLES[&#39;asctime&#39;] = {}
+coloredlogs.DEFAULT_FIELD_STYLES[&#39;levelname&#39;] = {&#39;bold&#39;: True, &#39;color&#39;: &#39;white&#39;, &#39;bright&#39;: True}
+coloredlogs.DEFAULT_LEVEL_STYLES[&#39;info&#39;] = {&#39;color&#39;: &#39;cyan&#39;, &#39;bright&#39;: True}
+coloredlogs.install(
+        fmt=&#34;[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)&#34;,
+        datefmt=&#39;%Y-%m-%d %H:%M&#39;,
+        level=logging.INFO,
+)
+# logging.basicConfig(
+#         format=&#34;[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)&#34;,
+#         datefmt=&#39;%Y-%m-%d %H:%M&#39;,
+#         level=logging.INFO,
+#     )
+
 # for pdoc documentation
 __all__ = [&#34;gdaAttack&#34;]
 
@@ -53,6 +68,7 @@ except ImportError:
 theCacheQueue = None
 theCacheThreadObject = None
 flgCacheThreadStarted = False
+atcObject = None
 
 class gdaAttack:
     &#34;&#34;&#34;Manages a GDA Attack
@@ -102,10 +118,12 @@ class gdaAttack:
         global theCacheQueue
         global theCacheThreadObject
         global flgCacheThreadStarted
+        global atcObject
 
         if not theCacheQueue and not theCacheThreadObject:
             theCacheQueue = queue.Queue()
             theCacheThreadObject = CacheThread(theCacheQueue, self)
+            atcObject = self
             printTitle(&#39;cache thread initialized.&#39;)
 
         self.cacheQueue = theCacheQueue
@@ -265,11 +283,11 @@ class gdaAttack:
             if that isn&#39;t what you want.&#34;&#34;&#34;
         if self._vb: print(f&#34;Calling {__name__}.cleanUp&#34;)
         if self._rawQ.empty() != True:
-            print(&#34;Warning, trying to clean up when raw queue not empty!&#34;)
+            logging.warning(&#34;Warning, trying to clean up when raw queue not empty!&#34;)
         if self._anonQ.empty() != True:
-            print(&#34;Warning, trying to clean up when anon queue not empty!&#34;)
+            logging.warning(&#34;Warning, trying to clean up when anon queue not empty!&#34;)
         if self.cacheQueue.empty() != True:
-            print(&#34;Warning, trying to clean up when cache queue not empty!&#34;)
+            logging.warning(&#34;Warning, trying to clean up when cache queue not empty!&#34;)
         # Stuff in end signals for the workers (this is a bit bogus, cause
         # if a thread is gone or hanging, not all signals will get read)
         for i in range(self._p[&#39;numRawDbThreads&#39;]):
@@ -280,10 +298,7 @@ class gdaAttack:
         for i in range(self.cacheQueue.qsize()):
             self.cacheQueue.put(None)
 
-        for t in self._rawThreads + self._anonThreads:
-            if t.isAlive(): t.join()
-
-        self.cacheThreadObject.terminate()
+        cleanBgThreads()
 
         if len(self._p[&#39;pubDb&#39;]) &gt; 0:
             if self._pubQ.empty() != True:
@@ -291,7 +306,7 @@ class gdaAttack:
             for i in range(self._p[&#39;numPubDbThreads&#39;]):
                 self._pubQ.put(None)
             for t in self._pubThreads:
-                if t.isAlive(): t.join()
+                if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
         if doExit:
@@ -816,7 +831,7 @@ class gdaAttack:
             column. `selectColumn` is a column name. If set, then either a range of
             values (`colRange`), or a set of values (`values`) must be chosen. &lt;br/&gt;
             `colRange` is
-            a list with two numeric or datetime values: `[min,max]`. This selects all values
+            a list with two values: `[min,max]`. This selects all values
             between min and max inclusive. &lt;br/&gt;
             `values` is a list
             of one or more values of any type. This selects all values matching those in
@@ -855,8 +870,8 @@ class gdaAttack:
             if not isinstance(colRange, list):
                 print(f&#34;getPriorKnowledge Error: colRange must be a list with two values&#34;)
                 self.cleanUp(cleanUpCache=False, doExit=True)
-            if not isinstance(values, list) or len(values) == 0:
-                print(f&#34;getPriorKnowledge Error: values must be a list with one or more values&#34;)
+            if not (isinstance(values, list) or isinstance(values, tuple)) or len(values) == 0:
+                print(f&#34;getPriorKnowledge Error: values must be a list or tuple with one or more values&#34;)
                 self.cleanUp(cleanUpCache=False, doExit=True)
         for col in dataColumns:
             if col not in self._colNames:
@@ -888,7 +903,14 @@ class gdaAttack:
             self._atrs[&#39;base&#39;][&#39;knowledgeCells&#39;] += len(dataColumns) * len(ans)
             return(ans)
         if method == &#39;rows&#39; and colRange[0] is not None:
-            sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
+            for pair in self._colNamesTypes:
+                if selectColumn in pair[0]:
+                    colType = pair[1]
+                    break
+            if colType == &#39;text&#39; or &#39;date&#39; in colType or &#39;time&#39; in colType:
+                sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= &#39;{colRange[0]}&#39; and {selectColumn} &lt;= &#39;{colRange[1]}&#39;&#34;)
+            else:
+                sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
             ans = self._doQuery(cur,sql)
             self._atrs[&#39;base&#39;][&#39;knowledgeCells&#39;] += len(dataColumns) * len(ans)
             return(ans)
@@ -1009,11 +1031,30 @@ class gdaAttack:
 
     def _removeLocalCacheDB(self):
         path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
+        max_attempts = 5
+        attempt = 0
+        removeFlag = False
+        _ex = None
         if os.path.exists(path):
-            try:
-                os.remove(path)
-            except Exception as ex:
-                print(f&#34;ERROR: Failed to remove cache DB {path} =&gt; ex: {ex}&#34;)
+            while attempt &lt;= max_attempts:
+                attempt += 1
+                try:
+                    os.remove(path)
+                    removeFlag = True
+                    break
+                except Exception as ex:
+                    _ex = ex
+                    removeFlag = False
+                time.sleep(0.3)
+
+            if not removeFlag:
+                logging.error(f&#34;cache db removing error after {attempt} attempts.\n&#34;
+                              f&#34;ERROR: Failed to remove cache DB {path} =&gt; ex: {_ex}&#34;)
+            else:
+                logging.info(f&#34;cache db removed successfully after {attempt} attempt(s).&#34;)
+
+    def removeLocalCacheDBWrapper(self):
+        return self._removeLocalCacheDB()
 
     def _setupThreadsAndQueues(self):
         self._anonThreads = []
@@ -1077,7 +1118,13 @@ class gdaAttack:
         curRead = connRead.cursor()
         backQ.put(me)
         while True:
-            jobOrig = q.get()
+            if isinstance(me, EnhancedThread) and me.stopped():
+                logging.info(f&#39; &gt; {me.getName()} stopped.&#39;)
+                return
+            try:
+                jobOrig = q.get(block=True, timeout=3)
+            except queue.Empty:
+                continue
             q.task_done()
             if jobOrig is None:
                 if self._vb: print(f&#34;    {me}: dbWorker done {db, kind}&#34;)
@@ -1447,24 +1494,18 @@ class gdaAttack:
         self._claimCounter = 0
         self._guessCounter = 0
 
-    def __del__(self):
-        self.cacheThreadObject.terminate()
-
 
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__kill_received = False
         self.daemon = True
+        self._stopFlag = threading.Event()
 
-    @property
-    def signalKill(self):
-        return self.__kill_received
+    def stop(self):
+        self._stopFlag.set()
 
-    def terminate(self):
-        self.__kill_received = True
-        if self.isAlive():
-            self.join(timeout=0.1)
+    def stopped(self):
+        return self._stopFlag.isSet()
 
 
 class CacheThread(EnhancedThread):
@@ -1472,47 +1513,64 @@ class CacheThread(EnhancedThread):
         super().__init__()
         self.theQueue = theQueue
         self.atcObject = atcObject
+        self.name = self.getName() + &#34; (cache thread)&#34;
+        self.dbConnection = None
 
     def run(self):
-        while not super().signalKill:
-            if not self.theQueue.empty():
-                data = self.theQueue.get()
+        while True:
+            if self.stopped():
+                logging.info(f&#39; &gt; {self.getName()} stopped.&#39;)
+                break
+            try:
+                data = self.theQueue.get(block=True, timeout=3)
+            except queue.Empty:
+                continue
+            if data is not None:
                 self.atcObject.putCacheWrapper(*data)
+                self.dbConnection = data[0] # this is connInsert for closing later
                 if self.atcObject._p[&#39;verbose&#39;] or self.atcObject._vb:
                     printTitle(&#39;cache insert successful. queue length: &#39; + str(self.theQueue.qsize()))
+            self.theQueue.task_done()
 
+    def stop(self):
+        logging.debug(&#34;CacheThread received stop signal&#34;)
+        super().stop()
+        if self.dbConnection:
+            try:
+                self.dbConnection.interrupt()
+            except sqlite3.ProgrammingError:
+                pass
+            else:
+                logging.debug(&#34;interrupt signal sent to cacheDb for safe deleting cacheDb file later.&#34;)
+
+
+
+def cleanBgThreads():
+    for t in threading.enumerate():
+        if isinstance(t, EnhancedThread) and (not t.stopped()):
+            t.stop()
+            t.join(timeout=1.0)
 
 def printTitle(text):
-    text = &#34; &#34; + text + &#34; &#34;
-    print(f&#39;\n{text:#^100}\n&#39;)
-
-signal_kill_received = False
+    print(f&#39;\n{&#34; &#34;+text:-&gt;46}\n&#39;)
 
 def signal_kill_handler(signum, frame):
-    global signal_kill_received
-    signal_kill_received = True
-
+    global atcObject
     printTitle(&#34;Terminating the program ...&#34;)
-    print(
-        f&#39; &gt; active background threads: {threading.active_count() - 1} | sending termination signal to all. please wait ...\n&#39;)
-    for item in threading.enumerate():
-        if item != threading.current_thread() and isinstance(item, EnhancedThread):
-            item.terminate()
-            print(f&#39; &gt; {item.getName()} sent.&#39;)
-    printTitle(&#39;All done!&#39;)
+    logging.info(f&#39;\n &gt; active background threads: {threading.active_count() - 1} \n&#39;
+                 f&#39;    &gt;&gt; {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n&#39;
+                 f&#39; &gt; sending termination signal to all. please wait ... &#39;)
+    cleanBgThreads()
+    if atcObject:
+        atcObject.cleanUp()
 
-    sys.exit(0)
-
+    sys.exit(-1)
 
 def on_exit():
-    if not signal_kill_received:
-        printTitle(&#39;Main program finished successfully. Threads in background are running...&#39;)
-        if threading.active_count() &gt; 1:
-            for t in threading.enumerate():
-                if t != threading.main_thread():
-                    t.join()
-        printTitle(&#34;Whole execution process finished successfully.&#34;)
-
+    if len([t for t in threading.enumerate() if isinstance(t, EnhancedThread) and (not t.stopped())]):
+        cleanBgThreads()
+    while threading.active_count() &gt; 1:
+        pass
 
 signal.signal(signal.SIGTERM, signal_kill_handler)
 signal.signal(signal.SIGINT, signal_kill_handler)
@@ -1623,10 +1681,12 @@ that can be made to the public linkability DB. Default 3. <br/>
         global theCacheQueue
         global theCacheThreadObject
         global flgCacheThreadStarted
+        global atcObject
 
         if not theCacheQueue and not theCacheThreadObject:
             theCacheQueue = queue.Queue()
             theCacheThreadObject = CacheThread(theCacheQueue, self)
+            atcObject = self
             printTitle(&#39;cache thread initialized.&#39;)
 
         self.cacheQueue = theCacheQueue
@@ -1786,11 +1846,11 @@ that can be made to the public linkability DB. Default 3. <br/>
             if that isn&#39;t what you want.&#34;&#34;&#34;
         if self._vb: print(f&#34;Calling {__name__}.cleanUp&#34;)
         if self._rawQ.empty() != True:
-            print(&#34;Warning, trying to clean up when raw queue not empty!&#34;)
+            logging.warning(&#34;Warning, trying to clean up when raw queue not empty!&#34;)
         if self._anonQ.empty() != True:
-            print(&#34;Warning, trying to clean up when anon queue not empty!&#34;)
+            logging.warning(&#34;Warning, trying to clean up when anon queue not empty!&#34;)
         if self.cacheQueue.empty() != True:
-            print(&#34;Warning, trying to clean up when cache queue not empty!&#34;)
+            logging.warning(&#34;Warning, trying to clean up when cache queue not empty!&#34;)
         # Stuff in end signals for the workers (this is a bit bogus, cause
         # if a thread is gone or hanging, not all signals will get read)
         for i in range(self._p[&#39;numRawDbThreads&#39;]):
@@ -1801,10 +1861,7 @@ that can be made to the public linkability DB. Default 3. <br/>
         for i in range(self.cacheQueue.qsize()):
             self.cacheQueue.put(None)
 
-        for t in self._rawThreads + self._anonThreads:
-            if t.isAlive(): t.join()
-
-        self.cacheThreadObject.terminate()
+        cleanBgThreads()
 
         if len(self._p[&#39;pubDb&#39;]) &gt; 0:
             if self._pubQ.empty() != True:
@@ -1812,7 +1869,7 @@ that can be made to the public linkability DB. Default 3. <br/>
             for i in range(self._p[&#39;numPubDbThreads&#39;]):
                 self._pubQ.put(None)
             for t in self._pubThreads:
-                if t.isAlive(): t.join()
+                if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
         if doExit:
@@ -2337,7 +2394,7 @@ that can be made to the public linkability DB. Default 3. <br/>
             column. `selectColumn` is a column name. If set, then either a range of
             values (`colRange`), or a set of values (`values`) must be chosen. &lt;br/&gt;
             `colRange` is
-            a list with two numeric or datetime values: `[min,max]`. This selects all values
+            a list with two values: `[min,max]`. This selects all values
             between min and max inclusive. &lt;br/&gt;
             `values` is a list
             of one or more values of any type. This selects all values matching those in
@@ -2376,8 +2433,8 @@ that can be made to the public linkability DB. Default 3. <br/>
             if not isinstance(colRange, list):
                 print(f&#34;getPriorKnowledge Error: colRange must be a list with two values&#34;)
                 self.cleanUp(cleanUpCache=False, doExit=True)
-            if not isinstance(values, list) or len(values) == 0:
-                print(f&#34;getPriorKnowledge Error: values must be a list with one or more values&#34;)
+            if not (isinstance(values, list) or isinstance(values, tuple)) or len(values) == 0:
+                print(f&#34;getPriorKnowledge Error: values must be a list or tuple with one or more values&#34;)
                 self.cleanUp(cleanUpCache=False, doExit=True)
         for col in dataColumns:
             if col not in self._colNames:
@@ -2409,7 +2466,14 @@ that can be made to the public linkability DB. Default 3. <br/>
             self._atrs[&#39;base&#39;][&#39;knowledgeCells&#39;] += len(dataColumns) * len(ans)
             return(ans)
         if method == &#39;rows&#39; and colRange[0] is not None:
-            sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
+            for pair in self._colNamesTypes:
+                if selectColumn in pair[0]:
+                    colType = pair[1]
+                    break
+            if colType == &#39;text&#39; or &#39;date&#39; in colType or &#39;time&#39; in colType:
+                sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= &#39;{colRange[0]}&#39; and {selectColumn} &lt;= &#39;{colRange[1]}&#39;&#34;)
+            else:
+                sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
             ans = self._doQuery(cur,sql)
             self._atrs[&#39;base&#39;][&#39;knowledgeCells&#39;] += len(dataColumns) * len(ans)
             return(ans)
@@ -2530,11 +2594,30 @@ that can be made to the public linkability DB. Default 3. <br/>
 
     def _removeLocalCacheDB(self):
         path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
+        max_attempts = 5
+        attempt = 0
+        removeFlag = False
+        _ex = None
         if os.path.exists(path):
-            try:
-                os.remove(path)
-            except Exception as ex:
-                print(f&#34;ERROR: Failed to remove cache DB {path} =&gt; ex: {ex}&#34;)
+            while attempt &lt;= max_attempts:
+                attempt += 1
+                try:
+                    os.remove(path)
+                    removeFlag = True
+                    break
+                except Exception as ex:
+                    _ex = ex
+                    removeFlag = False
+                time.sleep(0.3)
+
+            if not removeFlag:
+                logging.error(f&#34;cache db removing error after {attempt} attempts.\n&#34;
+                              f&#34;ERROR: Failed to remove cache DB {path} =&gt; ex: {_ex}&#34;)
+            else:
+                logging.info(f&#34;cache db removed successfully after {attempt} attempt(s).&#34;)
+
+    def removeLocalCacheDBWrapper(self):
+        return self._removeLocalCacheDB()
 
     def _setupThreadsAndQueues(self):
         self._anonThreads = []
@@ -2598,7 +2681,13 @@ that can be made to the public linkability DB. Default 3. <br/>
         curRead = connRead.cursor()
         backQ.put(me)
         while True:
-            jobOrig = q.get()
+            if isinstance(me, EnhancedThread) and me.stopped():
+                logging.info(f&#39; &gt; {me.getName()} stopped.&#39;)
+                return
+            try:
+                jobOrig = q.get(block=True, timeout=3)
+            except queue.Empty:
+                continue
             q.task_done()
             if jobOrig is None:
                 if self._vb: print(f&#34;    {me}: dbWorker done {db, kind}&#34;)
@@ -2966,10 +3055,7 @@ that can be made to the public linkability DB. Default 3. <br/>
         self._knowledgeCounter = 0
         self._attackCounter = 0
         self._claimCounter = 0
-        self._guessCounter = 0
-
-    def __del__(self):
-        self.cacheThreadObject.terminate()</code></pre>
+        self._guessCounter = 0</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -3166,11 +3252,11 @@ if that isn't what you want.</p></section>
         if that isn&#39;t what you want.&#34;&#34;&#34;
     if self._vb: print(f&#34;Calling {__name__}.cleanUp&#34;)
     if self._rawQ.empty() != True:
-        print(&#34;Warning, trying to clean up when raw queue not empty!&#34;)
+        logging.warning(&#34;Warning, trying to clean up when raw queue not empty!&#34;)
     if self._anonQ.empty() != True:
-        print(&#34;Warning, trying to clean up when anon queue not empty!&#34;)
+        logging.warning(&#34;Warning, trying to clean up when anon queue not empty!&#34;)
     if self.cacheQueue.empty() != True:
-        print(&#34;Warning, trying to clean up when cache queue not empty!&#34;)
+        logging.warning(&#34;Warning, trying to clean up when cache queue not empty!&#34;)
     # Stuff in end signals for the workers (this is a bit bogus, cause
     # if a thread is gone or hanging, not all signals will get read)
     for i in range(self._p[&#39;numRawDbThreads&#39;]):
@@ -3181,10 +3267,7 @@ if that isn't what you want.</p></section>
     for i in range(self.cacheQueue.qsize()):
         self.cacheQueue.put(None)
 
-    for t in self._rawThreads + self._anonThreads:
-        if t.isAlive(): t.join()
-
-    self.cacheThreadObject.terminate()
+    cleanBgThreads()
 
     if len(self._p[&#39;pubDb&#39;]) &gt; 0:
         if self._pubQ.empty() != True:
@@ -3192,7 +3275,7 @@ if that isn't what you want.</p></section>
         for i in range(self._p[&#39;numPubDbThreads&#39;]):
             self._pubQ.put(None)
         for t in self._pubThreads:
-            if t.isAlive(): t.join()
+            if t.isAlive(): t.stop() # t.join()
     if cleanUpCache:
         self._removeLocalCacheDB()
     if doExit:
@@ -3599,7 +3682,7 @@ random rows/users are selected. <br/>
 column. <code>selectColumn</code> is a column name. If set, then either a range of
 values (<code>colRange</code>), or a set of values (<code>values</code>) must be chosen. <br/>
 <code>colRange</code> is
-a list with two numeric or datetime values: <code>[min,max]</code>. This selects all values
+a list with two values: <code>[min,max]</code>. This selects all values
 between min and max inclusive. <br/>
 <code>values</code> is a list
 of one or more values of any type. This selects all values matching those in
@@ -3636,7 +3719,7 @@ the second column in <code>dataColumns</code>, and so on.
         column. `selectColumn` is a column name. If set, then either a range of
         values (`colRange`), or a set of values (`values`) must be chosen. &lt;br/&gt;
         `colRange` is
-        a list with two numeric or datetime values: `[min,max]`. This selects all values
+        a list with two values: `[min,max]`. This selects all values
         between min and max inclusive. &lt;br/&gt;
         `values` is a list
         of one or more values of any type. This selects all values matching those in
@@ -3675,8 +3758,8 @@ the second column in <code>dataColumns</code>, and so on.
         if not isinstance(colRange, list):
             print(f&#34;getPriorKnowledge Error: colRange must be a list with two values&#34;)
             self.cleanUp(cleanUpCache=False, doExit=True)
-        if not isinstance(values, list) or len(values) == 0:
-            print(f&#34;getPriorKnowledge Error: values must be a list with one or more values&#34;)
+        if not (isinstance(values, list) or isinstance(values, tuple)) or len(values) == 0:
+            print(f&#34;getPriorKnowledge Error: values must be a list or tuple with one or more values&#34;)
             self.cleanUp(cleanUpCache=False, doExit=True)
     for col in dataColumns:
         if col not in self._colNames:
@@ -3708,7 +3791,14 @@ the second column in <code>dataColumns</code>, and so on.
         self._atrs[&#39;base&#39;][&#39;knowledgeCells&#39;] += len(dataColumns) * len(ans)
         return(ans)
     if method == &#39;rows&#39; and colRange[0] is not None:
-        sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
+        for pair in self._colNamesTypes:
+            if selectColumn in pair[0]:
+                colType = pair[1]
+                break
+        if colType == &#39;text&#39; or &#39;date&#39; in colType or &#39;time&#39; in colType:
+            sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= &#39;{colRange[0]}&#39; and {selectColumn} &lt;= &#39;{colRange[1]}&#39;&#34;)
+        else:
+            sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
         ans = self._doQuery(cur,sql)
         self._atrs[&#39;base&#39;][&#39;knowledgeCells&#39;] += len(dataColumns) * len(ans)
         return(ans)
@@ -4028,6 +4118,19 @@ Table names returned as list, unless error then return None</p></section>
     self._putCache(conn, cur, query, reply)</code></pre>
 </details>
 </dd>
+<dt id="gdascore.gdaAttack.gdaAttack.removeLocalCacheDBWrapper"><code class="name flex">
+<span>def <span class="ident">removeLocalCacheDBWrapper</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def removeLocalCacheDBWrapper(self):
+    return self._removeLocalCacheDB()</code></pre>
+</details>
+</dd>
 <dt id="gdascore.gdaAttack.gdaAttack.setVerbose"><code class="name flex">
 <span>def <span class="ident">setVerbose</span></span>(<span>self)</span>
 </code></dt>
@@ -4102,6 +4205,7 @@ itemprop="logo" />
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getTableNames" href="#gdascore.gdaAttack.gdaAttack.getTableNames">getTableNames</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getUidColName" href="#gdascore.gdaAttack.gdaAttack.getUidColName">getUidColName</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.putCacheWrapper" href="#gdascore.gdaAttack.gdaAttack.putCacheWrapper">putCacheWrapper</a></code></li>
+<li><code><a title="gdascore.gdaAttack.gdaAttack.removeLocalCacheDBWrapper" href="#gdascore.gdaAttack.gdaAttack.removeLocalCacheDBWrapper">removeLocalCacheDBWrapper</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.setVerbose" href="#gdascore.gdaAttack.gdaAttack.setVerbose">setVerbose</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.unsetVerbose" href="#gdascore.gdaAttack.gdaAttack.unsetVerbose">unsetVerbose</a></code></li>
 </ul>

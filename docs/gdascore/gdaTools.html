@@ -29,12 +29,21 @@
 <pre><code class="python">import copy
 import importlib.util
 import json
+import coloredlogs, logging
 import math
 import ntpath
 import os
 import pprint
 import sys
 
+coloredlogs.DEFAULT_FIELD_STYLES[&#39;asctime&#39;] = {}
+coloredlogs.DEFAULT_FIELD_STYLES[&#39;levelname&#39;] = {&#39;bold&#39;: True, &#39;color&#39;: &#39;white&#39;, &#39;bright&#39;: True}
+coloredlogs.DEFAULT_LEVEL_STYLES[&#39;info&#39;] = {&#39;color&#39;: &#39;cyan&#39;, &#39;bright&#39;: True}
+coloredlogs.install(
+        fmt=&#34;[%(levelname)s] %(message)s (%(filename)s, %(funcName)s(), line %(lineno)d, %(asctime)s)&#34;,
+        datefmt=&#39;%Y-%m-%d %H:%M&#39;,
+        level=logging.INFO,
+)
 # for pdoc documentation
 __all__ = [&#34;setupGdaAttackParameters&#34;]
 
@@ -47,18 +56,20 @@ def try_for_config_file(config_rel_path):
 
     # case 0: local config path defined by user: when installing by pip
     global_config_variable = dict()
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), &#39;global_config&#39;, &#39;config_var.json&#39;), &#39;r&#39;) as f:
-        file_content = f.read()
-        if len(file_content):
-            global_config_variable = json.loads(file_content)
-    try:
-        potential_path = os.path.join(global_config_variable[&#39;config_path&#39;], &#39;config&#39;, interested_file)
-    except KeyError:
-        # local config path has not been provided. should look into global_config in next step.
-        pass
-    else:
-        if os.path.isfile(potential_path):
-            return potential_path
+    config_var = os.path.join(os.path.dirname(os.path.abspath(__file__)), &#39;global_config&#39;, &#39;config_var.json&#39;)
+    if os.path.isfile(config_var):
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), &#39;global_config&#39;, &#39;config_var.json&#39;), &#39;r&#39;) as f:
+            file_content = f.read()
+            if len(file_content):
+                global_config_variable = json.loads(file_content)
+        try:
+            potential_path = os.path.join(global_config_variable[&#39;config_path&#39;], &#39;config&#39;, interested_file)
+        except KeyError:
+            # local config path has not been provided. should look into global_config in next step.
+            pass
+        else:
+            if os.path.isfile(potential_path):
+                return potential_path
 
     # Case 0.5: global_config: when installing by pip
     potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), &#39;global_config&#39;, interested_file)
@@ -92,13 +103,36 @@ def try_for_config_file(config_rel_path):
 
 
 def getDatabaseInfo(theDb):
-    # For backwards compability, if this is a string use the old way
+    # For backwards compatibility, if this is a string use the old way
     if isinstance(theDb, str):
         return oldGetDatabaseInfo(theDb)
     # Get user name and password
-    cred = getCredentials()
-    theDb[&#39;password&#39;] = cred[theDb[&#39;type&#39;]][&#39;password&#39;]
-    theDb[&#39;user&#39;] = cred[theDb[&#39;type&#39;]][&#39;user&#39;]
+    ### &lt;OLD WAY&gt; ###
+    # cred = getCredentials()
+    # theDb[&#39;password&#39;] = cred[theDb[&#39;type&#39;]][&#39;password&#39;]
+    # theDb[&#39;user&#39;] = cred[theDb[&#39;type&#39;]][&#39;user&#39;]
+    ### &lt;/OLD WAY&gt; ###
+
+    ### &lt;NEW WAY&gt; ###
+    if theDb[&#39;type&#39;] == &#34;postgres&#34;:
+        if os.environ.get(&#34;GDA_SCORE_RAW_PASS&#34;) and os.environ.get(&#34;GDA_SCORE_RAW_USER&#34;):
+            theDb[&#39;password&#39;] = os.environ.get(&#34;GDA_SCORE_RAW_PASS&#34;)
+            theDb[&#39;user&#39;] = os.environ.get(&#34;GDA_SCORE_RAW_USER&#34;)
+        else:
+            logging.critical(&#34;GDA_SCORE_RAW_USER and GDA_SCORE_RAW_PASS must be set as environment variables &#34;
+                     &#34;for working with rawDB. see README.md&#34;)
+            sys.exit(0)
+
+    elif theDb[&#39;type&#39;] == &#34;aircloak&#34;:
+        if os.environ.get(&#34;GDA_SCORE_DIFFIX_PASS&#34;) and os.environ.get(&#34;GDA_SCORE_DIFFIX_USER&#34;):
+            theDb[&#39;password&#39;] = os.environ.get(&#34;GDA_SCORE_DIFFIX_PASS&#34;)
+            theDb[&#39;user&#39;] = os.environ.get(&#34;GDA_SCORE_DIFFIX_USER&#34;)
+        else:
+            logging.critical(&#34;GDA_SCORE_DIFFIX_USER and GDA_SCORE_DIFFIX_PASS must be set as &#34;
+                     &#34;environment variables for working with Aircloak database. see README.md&#34;)
+            sys.exit(0)
+    ### &lt;/NEW WAY&gt; ###
+
     return theDb
 
 
@@ -238,7 +272,6 @@ def setupGdaAttackParameters(configInfo=None, utilityMeasure=&#39;&#39;,
         returned data structure. &lt;br/&gt;
         The other calling parameters are for backwards compatibility. &lt;br/&gt;
     &#34;&#34;&#34;
-
     pp = pprint.PrettyPrinter(indent=4)
     # We can either pull in the config from a file, or from a dict.
     # If the former, configFile will be a list.
@@ -712,7 +745,6 @@ The other calling parameters are for backwards compatibility. <br/></p></section
         returned data structure. &lt;br/&gt;
         The other calling parameters are for backwards compatibility. &lt;br/&gt;
     &#34;&#34;&#34;
-
     pp = pprint.PrettyPrinter(indent=4)
     # We can either pull in the config from a file, or from a dict.
     # If the former, configFile will be a list.
