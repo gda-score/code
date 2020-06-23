@@ -842,8 +842,8 @@ class gdaAttack:
             if not isinstance(colRange, list):
                 print(f"getPriorKnowledge Error: colRange must be a list with two values")
                 self.cleanUp(cleanUpCache=False, doExit=True)
-            if not isinstance(values, list) or len(values) == 0:
-                print(f"getPriorKnowledge Error: values must be a list with one or more values")
+            if not (isinstance(values, list) or isinstance(values, tuple)) or len(values) == 0:
+                print(f"getPriorKnowledge Error: values must be a list or tuple with one or more values")
                 self.cleanUp(cleanUpCache=False, doExit=True)
         for col in dataColumns:
             if col not in self._colNames:
