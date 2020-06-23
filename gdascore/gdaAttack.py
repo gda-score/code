@@ -803,7 +803,7 @@ class gdaAttack:
             column. `selectColumn` is a column name. If set, then either a range of
             values (`colRange`), or a set of values (`values`) must be chosen. <br/>
             `colRange` is
-            a list with two numeric or datetime values: `[min,max]`. This selects all values
+            a list with two values: `[min,max]`. This selects all values
             between min and max inclusive. <br/>
             `values` is a list
             of one or more values of any type. This selects all values matching those in
@@ -875,7 +875,14 @@ class gdaAttack:
             self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
             return(ans)
         if method == 'rows' and colRange[0] is not None:
-            sql = initSql + str(f" FROM {table} WHERE {selectColumn} >= {colRange[0]} and {selectColumn} <= {colRange[1]}")
+            for pair in self._colNamesTypes:
+                if selectColumn in pair[0]:
+                    colType = pair[1]
+                    break
+            if colType == 'text' or 'date' in colType or 'time' in colType:
+                sql = initSql + str(f" FROM {table} WHERE {selectColumn} >= '{colRange[0]}' and {selectColumn} <= '{colRange[1]}'")
+            else:
+                sql = initSql + str(f" FROM {table} WHERE {selectColumn} >= {colRange[0]} and {selectColumn} <= {colRange[1]}")
             ans = self._doQuery(cur,sql)
             self._atrs['base']['knowledgeCells'] += len(dataColumns) * len(ans)
             return(ans)
