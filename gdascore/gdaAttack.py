@@ -722,6 +722,76 @@ class gdaAttack:
         conn.close()
         return ret
 
+    def getAnonTableCharacteristics(self, tableName=''):
+        """Returns the full contents of the table characteristics
+
+           Return value is a dict indexed by column name: <br/>
+
+               { '<colName>':
+                   {
+                       'av_rows_per_vals': 3.93149,
+                       'av_uids_per_val': 0.468698,
+                       'column_label': 'continuous',
+                       'column_name': 'dropoff_latitude',
+                       'column_type': 'real',
+                       'max': '898.29382000000000',
+                       'min': '-0.56333297000000',
+                       'num_distinct_vals': 24216,
+                       'num_rows': 95205,
+                       'num_uids': 11350,
+                       'std_rows_per_val': 10.8547,
+                       'std_uids_per_val': 4.09688},
+                   }
+               }
+
+        """
+        if len(tableName) == 0:
+            # caller didn't supply a table name, so get it from the
+            # class init
+            tableName = self._p['table']
+
+        # Modify table name to the default for the characteristics table
+        tableName += '_char'
+
+        # Establish connection to database
+        db = getDatabaseInfo(self._p['anonDb'])
+        connStr = str(
+            f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
+        conn = psycopg2.connect(connStr)
+        cur = conn.cursor()
+        # Set up return dict
+        ret = {}
+        # Query it for column names
+        sql = str(f"""select column_name, data_type 
+                  from information_schema.columns where
+                  table_name='{tableName}'""")
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getTableCharacteristics() query: '{e}'")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        cols = cur.fetchall()
+        # Make index for column name (should be 0, but just to be sure)
+        for colNameIndex in range(len(cols)):
+            if cols[colNameIndex][0] == 'column_name':
+                break
+
+        # Query it for table contents
+        sql = str(f"SELECT * FROM {tableName}")
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f"Error: getTableCharacteristics() query: '{e}'")
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        ans = cur.fetchall()
+        for row in ans:
+            colName = row[colNameIndex]
+            ret[colName] = {}
+            for i in range(len(row)):
+                ret[colName][cols[i][0]] = row[i]
+        conn.close()
+        return ret
+
     # Note that following is used internally, but we expose it to the
     # caller as well because it is a useful function for exploration
     def getColNamesAndTypes(self, dbType='rawDb', tableName=''):
