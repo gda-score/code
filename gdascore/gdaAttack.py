@@ -1,3 +1,6 @@
+import re
+import subprocess
+
 import coloredlogs, logging
 import sqlite3
 import simplejson
@@ -88,6 +91,24 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
         """
+
+        #### gda-score-code version check warning ####
+        process = subprocess.run([sys.executable, "-m", "pip", "list","--outdated"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+        upgradable_pkgs = process.stdout
+        if "gda-score-code" in upgradable_pkgs:
+            pkgs = upgradable_pkgs.split('\n')
+            potential_gdascore_pkgs = list(filter(lambda x: 'gda-score-code' in x, pkgs))
+            if len(potential_gdascore_pkgs) == 1:
+                gdascore_pkg = potential_gdascore_pkgs[0]
+                pkg_name, curr_ver, latest_ver, ins_type = (re.sub(r'\s+', '|', gdascore_pkg)
+                                                               .split('|'))
+                print('\n')
+                logging.warning(f'WARNING: You have {pkg_name} version {curr_ver} installed; '
+                                f'however, version {latest_ver} is available.')
+                logging.warning(f'You should consider upgrading via the '
+                                f'"pip install --upgrade {pkg_name}" command.')
+                print('\n')
+        ########
 
         ########### added by frzmohammadali ##########
         global theCacheQueue
@@ -842,7 +863,7 @@ class gdaAttack:
         if count and not isinstance(count, int):
             print(f"getPriorKnowledge Error: if set, count must be an integer")
             self.cleanUp(cleanUpCache=False, doExit=True)
-        if selectColumn: 
+        if selectColumn:
             if selectColumn not in self._colNames:
                 print(f"getPriorKnowledge Error: selectColumn '{selectColumn}' is not a valid column")
                 self.cleanUp(cleanUpCache=False, doExit=True)
@@ -1539,9 +1560,16 @@ def printTitle(text):
 def signal_kill_handler(signum, frame):
     global atcObject
     printTitle("Terminating the program ...")
+    thread_info = (
+        (f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
+        f' > sending termination signal to all. please wait ... ') if threading.active_count() > 1
+                                                                   else ''
+    )
     logging.info(f'\n > active background threads: {threading.active_count() - 1} \n'
-                 f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
-                 f' > sending termination signal to all. please wait ... ')
+                 f'{thread_info}')
+    # logging.info(f'\n > active background threads: {threading.active_count() - 1} \n'
+    #              f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
+    #              f' > sending termination signal to all. please wait ... ')
     cleanBgThreads()
     if atcObject:
         atcObject.cleanUp()
