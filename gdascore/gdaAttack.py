@@ -1383,7 +1383,7 @@ class gdaAttack:
         sqls = []
         numGuess = len(spec['guess'])
         if self._cr == 'inference' or self._cr == 'singlingOut':
-            sql = str(f"select count(*) from {self._p['table']} where ")
+            sql = str(f"select count(distinct {self._p['uid']}) from {self._p['table']} where ")
             # This first sql learns the number of rows matching the
             # guessed values
             for i in range(numGuess):
@@ -1394,7 +1394,7 @@ class gdaAttack:
             sqls.append(sql)
             # This second sql learns the total number of rows (should
             # normally be a cached result)
-            sql = str(f"select count(*) from {self._p['table']}")
+            sql = str(f"select count(distinct {self._p['uid']}) from {self._p['table']}")
             sqls.append(sql)
         elif self._cr == 'linkability':
             # nothing happens for linkability
