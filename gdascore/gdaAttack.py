@@ -15,6 +15,7 @@ import signal
 import atexit
 import random
 
+
 coloredlogs.DEFAULT_FIELD_STYLES['asctime'] = {}
 coloredlogs.DEFAULT_FIELD_STYLES['levelname'] = {'bold': True, 'color': 'white', 'bright': True}
 coloredlogs.DEFAULT_LEVEL_STYLES['info'] = {'color': 'cyan', 'bright': True}
@@ -34,8 +35,10 @@ __all__ = ["gdaAttack"]
 
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
+    from .dupCheck import DupCheck
 except ImportError:
     from gdaTools import getInterpolatedValue, getDatabaseInfo
+    from dupCheck import DupCheck
 
 theCacheQueue = None
 theCacheThreadObject = None
@@ -150,6 +153,8 @@ class gdaAttack:
         self._attackCounter = 0
         self._claimCounter = 0
         self._guessCounter = 0
+        # State for duplicate claim detection
+        self._dupCheck = DupCheck()
         # State for computing attack results (see _initAtkRes())
         self._atrs = {}
         # State for various operational measures (see _initOp())
@@ -284,6 +289,9 @@ class gdaAttack:
         if doExit:
             sys.exit(exitMsg)
 
+    def isClaim(self, spec):
+        return self._dupCheck.is_claimed(spec, verbose=self._vb)
+
     def askClaim(self, spec, cache=True, claim=True):
         """Generate Claim query for raw and optionally pub databases.
 
@@ -309,6 +317,8 @@ class gdaAttack:
         Answers are cached <br/>
         Returns immediately"""
         if self._vb: print(f"Calling {__name__}.askClaim with spec '{spec}', count {self._claimCounter}")
+        if not self._dupCheck.is_claimed(spec, verbose=self._vb, raise_true=True):
+            self._dupCheck.claim(spec, verbose=self._vb)
         self._claimCounter += 1
         sql = self._makeSqlFromSpec(spec)
         if self._vb: print(f"Sql is '{sql}'")
