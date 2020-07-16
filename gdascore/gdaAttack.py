@@ -310,7 +310,7 @@ class gdaAttack:
         if doExit:
             sys.exit(exitMsg)
 
-    def isClaim(self, spec):
+    def isClaimed(self, spec):
         return self._dupCheck.is_claimed(spec, verbose=self._vb)
 
     def askClaim(self, spec, cache=True, claim=True):
