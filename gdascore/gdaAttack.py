@@ -1,3 +1,6 @@
+import re
+import subprocess
+
 import coloredlogs, logging
 import sqlite3
 import simplejson
@@ -14,6 +17,7 @@ import datetime
 import signal
 import atexit
 import random
+
 
 coloredlogs.DEFAULT_FIELD_STYLES['asctime'] = {}
 coloredlogs.DEFAULT_FIELD_STYLES['levelname'] = {'bold': True, 'color': 'white', 'bright': True}
@@ -34,8 +38,10 @@ __all__ = ["gdaAttack"]
 
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
+    from .dupCheck import DupCheck
 except ImportError:
     from gdaTools import getInterpolatedValue, getDatabaseInfo
+    from dupCheck import DupCheck
 
 theCacheQueue = None
 theCacheThreadObject = None
@@ -85,6 +91,24 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
         """
+
+        #### gda-score-code version check warning ####
+        process = subprocess.run([sys.executable, "-m", "pip", "list","--outdated"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+        upgradable_pkgs = process.stdout
+        if "gda-score-code" in upgradable_pkgs:
+            pkgs = upgradable_pkgs.split('\n')
+            potential_gdascore_pkgs = list(filter(lambda x: 'gda-score-code' in x, pkgs))
+            if len(potential_gdascore_pkgs) == 1:
+                gdascore_pkg = potential_gdascore_pkgs[0]
+                pkg_name, curr_ver, latest_ver, ins_type = (re.sub(r'\s+', '|', gdascore_pkg)
+                                                               .split('|'))
+                print('\n')
+                logging.warning(f'WARNING: You have {pkg_name} version {curr_ver} installed; '
+                                f'however, version {latest_ver} is available.')
+                logging.warning(f'You should consider upgrading via the '
+                                f'"pip install --upgrade {pkg_name}" command.')
+                print('\n')
+        ########
 
         ########### added by frzmohammadali ##########
         global theCacheQueue
@@ -150,6 +174,8 @@ class gdaAttack:
         self._attackCounter = 0
         self._claimCounter = 0
         self._guessCounter = 0
+        # State for duplicate claim detection
+        self._dupCheck = DupCheck()
         # State for computing attack results (see _initAtkRes())
         self._atrs = {}
         # State for various operational measures (see _initOp())
@@ -284,6 +310,9 @@ class gdaAttack:
         if doExit:
             sys.exit(exitMsg)
 
+    def isClaimed(self, spec):
+        return self._dupCheck.is_claimed(spec, verbose=self._vb)
+
     def askClaim(self, spec, cache=True, claim=True):
         """Generate Claim query for raw and optionally pub databases.
 
@@ -309,6 +338,8 @@ class gdaAttack:
         Answers are cached <br/>
         Returns immediately"""
         if self._vb: print(f"Calling {__name__}.askClaim with spec '{spec}', count {self._claimCounter}")
+        if not self._dupCheck.is_claimed(spec, verbose=self._vb, raise_true=True):
+            self._dupCheck.claim(spec, verbose=self._vb)
         self._claimCounter += 1
         sql = self._makeSqlFromSpec(spec)
         if self._vb: print(f"Sql is '{sql}'")
@@ -832,7 +863,7 @@ class gdaAttack:
         if count and not isinstance(count, int):
             print(f"getPriorKnowledge Error: if set, count must be an integer")
             self.cleanUp(cleanUpCache=False, doExit=True)
-        if selectColumn: 
+        if selectColumn:
             if selectColumn not in self._colNames:
                 print(f"getPriorKnowledge Error: selectColumn '{selectColumn}' is not a valid column")
                 self.cleanUp(cleanUpCache=False, doExit=True)
@@ -1352,7 +1383,7 @@ class gdaAttack:
         sqls = []
         numGuess = len(spec['guess'])
         if self._cr == 'inference' or self._cr == 'singlingOut':
-            sql = str(f"select count(*) from {self._p['table']} where ")
+            sql = str(f"select count(distinct {self._p['uid']}) from {self._p['table']} where ")
             # This first sql learns the number of rows matching the
             # guessed values
             for i in range(numGuess):
@@ -1363,7 +1394,7 @@ class gdaAttack:
             sqls.append(sql)
             # This second sql learns the total number of rows (should
             # normally be a cached result)
-            sql = str(f"select count(*) from {self._p['table']}")
+            sql = str(f"select count(distinct {self._p['uid']}) from {self._p['table']}")
             sqls.append(sql)
         elif self._cr == 'linkability':
             # nothing happens for linkability
@@ -1529,9 +1560,16 @@ def printTitle(text):
 def signal_kill_handler(signum, frame):
     global atcObject
     printTitle("Terminating the program ...")
+    thread_info = (
+        (f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
+        f' > sending termination signal to all. please wait ... ') if threading.active_count() > 1
+                                                                   else ''
+    )
     logging.info(f'\n > active background threads: {threading.active_count() - 1} \n'
-                 f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
-                 f' > sending termination signal to all. please wait ... ')
+                 f'{thread_info}')
+    # logging.info(f'\n > active background threads: {threading.active_count() - 1} \n'
+    #              f'    >> {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n'
+    #              f' > sending termination signal to all. please wait ... ')
     cleanBgThreads()
     if atcObject:
         atcObject.cleanUp()
