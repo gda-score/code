@@ -751,7 +751,7 @@ class gdaAttack:
             tableName = self._p['table']
 
         # Modify table name to the default for the characteristics table
-        tableName += '_char'
+        # tableName += '_char'
 
         # Establish connection to database
         db = getDatabaseInfo(self._p['anonDb'])
@@ -763,12 +763,13 @@ class gdaAttack:
         ret = {}
         # Query it for column names
         sql = str(f"""select column_name, data_type 
-                  from information_schema.columns where
+                  from information_schema.columns
+                  where table_schema NOT IN ('information_schema', 'pg_catalog') and 
                   table_name='{tableName}'""")
         try:
             cur.execute(sql)
         except psycopg2.Error as e:
-            print(f"Error: getTableCharacteristics() query: '{e}'")
+            print(f"Error: getAnonTableCharacteristics() query: '{e}'")
             self.cleanUp(cleanUpCache=False, doExit=True)
         cols = cur.fetchall()
         # Make index for column name (should be 0, but just to be sure)
