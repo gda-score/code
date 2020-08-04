@@ -759,8 +759,7 @@ class gdaAttack:
             f"host={db['host']} port={db['port']} dbname={db['dbname']} user={db['user']} password={db['password']}")
         conn = psycopg2.connect(connStr)
         cur = conn.cursor()
-        # Set up return dict
-        ret = {}
+
         # Query it for column names
         sql = str(f"""select column_name, data_type 
                   from information_schema.columns
@@ -771,25 +770,11 @@ class gdaAttack:
         except psycopg2.Error as e:
             print(f"Error: getAnonTableCharacteristics() query: '{e}'")
             self.cleanUp(cleanUpCache=False, doExit=True)
-        cols = cur.fetchall()
-        # Make index for column name (should be 0, but just to be sure)
-        for colNameIndex in range(len(cols)):
-            if cols[colNameIndex][0] == 'column_name':
-                break
-
-        # Query it for table contents
-        sql = str(f"SELECT * FROM {tableName}")
-        try:
-            cur.execute(sql)
-        except psycopg2.Error as e:
-            print(f"Error: getTableCharacteristics() query: '{e}'")
-            self.cleanUp(cleanUpCache=False, doExit=True)
         ans = cur.fetchall()
-        for row in ans:
-            colName = row[colNameIndex]
-            ret[colName] = {}
-            for i in range(len(row)):
-                ret[colName][cols[i][0]] = row[i]
+
+        # Set up return dict
+        ret = {_row[0]: {'column_name': _row[0], 'column_type': _row[1]} for _row in ans}
+
         conn.close()
         return ret
 
