@@ -49,7 +49,9 @@ class DupCheck:
         self._insert_row(spec)
 
     def _insert_row(self, spec):
-        data_lst = spec['known'] + spec['guess']
+        data_lst = []
+        data_lst += spec['known'] if 'known' in spec and spec['known'] else []
+        data_lst += spec['guess'] if 'guess' in spec and spec['guess'] else []
         self._create_missing_columns(data_lst)
         val_lst = []
         for col in self._data.columns:
@@ -59,6 +61,8 @@ class DupCheck:
 
     def _create_missing_columns(self, lst):
         for dct in lst:
+            if 'col' not in dct:
+                raise ValueError(f"key 'col' not found in partial spec: {dct}")
             col = dct['col']
             if col in self._data.columns:
                 continue
@@ -67,13 +71,20 @@ class DupCheck:
     @staticmethod
     def _find_val(col, lst):
         for dct in lst:
+            if 'col' not in dct:
+                raise ValueError(f"key 'col' not found in partial spec: {dct}")
             if dct['col'] == col:
+                if 'val' not in dct:
+                    raise ValueError(f"key 'val' not found in partial spec: {dct}")
                 return dct['val']
         return None
 
     @staticmethod
     def _match(spec, data, remaining_cols, none_matches=True):
-        return DupCheck._match_step(spec['known'] + spec['guess'], 0, data, remaining_cols, none_matches=none_matches)
+        val_lst = []
+        val_lst += spec['known'] if 'known' in spec and spec['known'] else []
+        val_lst += spec['guess'] if 'guess' in spec and spec['guess'] else []
+        return DupCheck._match_step(val_lst, 0, data, remaining_cols, none_matches=none_matches)
 
     @staticmethod
     def _match_step(val_lst, idx, data, remaining_cols, none_matches=True):
@@ -83,7 +94,11 @@ class DupCheck:
             return DupCheck._match_step([{'col': c, 'val': None} for c in remaining_cols], 0, data, remaining_cols,
                                         none_matches=none_matches)
         val_dct = val_lst[idx]
+        if 'col' not in val_dct:
+            raise ValueError(f"key 'col' not found in partial spec: {val_dct}")
         col = val_dct['col']
+        if 'val' not in val_dct:
+            raise ValueError(f"key 'val' not found in partial spec: {val_dct}")
         val = val_dct['val']
         if col not in data.columns:
             return pandas.DataFrame()
@@ -101,6 +116,8 @@ class DupCheck:
     def _cols_of_lst(lst):
         cols = set()
         for col_dct in lst:
+            if 'col' not in col_dct:
+                raise ValueError(f"key 'col' not found in partial spec: {col_dct}")
             col = col_dct['col']
             if col in cols:
                 raise ValueError(f"DupCheck: Column {col} cannot occur twice.")
@@ -109,8 +126,8 @@ class DupCheck:
 
     @staticmethod
     def _check_cols(spec):
-        known = DupCheck._cols_of_lst(spec['known']) if spec['known'] else set()
-        guess = DupCheck._cols_of_lst(spec['guess']) if spec['guess'] else set()
+        known = DupCheck._cols_of_lst(spec['known']) if 'known' in spec and spec['known'] else set()
+        guess = DupCheck._cols_of_lst(spec['guess']) if 'guess' in spec and spec['guess'] else set()
         intersection = known.intersection(guess)
         if intersection:
             raise ValueError(f"DupCheck: Columns {intersection} cannot occur in both 'known' and 'guess'.")
