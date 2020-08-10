@@ -910,7 +910,7 @@ class gdaAttack:
                 if selectColumn in pair[0]:
                     colType = pair[1]
                     break
-            if colType == 'text' or 'date' in colType or 'time' in colType:
+            if 'text' in colType or 'char' in colType or 'date' in colType or 'time' in colType:
                 sql = initSql + str(f" FROM {table} WHERE {selectColumn} >= '{colRange[0]}' and {selectColumn} <= '{colRange[1]}'")
             else:
                 sql = initSql + str(f" FROM {table} WHERE {selectColumn} >= {colRange[0]} and {selectColumn} <= {colRange[1]}")
