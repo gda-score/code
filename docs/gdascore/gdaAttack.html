@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.5" />
+<meta name="generator" content="pdoc 0.8.4" />
 <title>gdascore.gdaAttack API documentation</title>
 <meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 <style>
 </style>
 </head>
@@ -26,7 +28,10 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import coloredlogs, logging
+<pre><code class="python">import re
+import subprocess
+
+import coloredlogs, logging
 import sqlite3
 import simplejson
 import psycopg2
@@ -42,6 +47,7 @@ import datetime
 import signal
 import atexit
 import random
+
 
 coloredlogs.DEFAULT_FIELD_STYLES[&#39;asctime&#39;] = {}
 coloredlogs.DEFAULT_FIELD_STYLES[&#39;levelname&#39;] = {&#39;bold&#39;: True, &#39;color&#39;: &#39;white&#39;, &#39;bright&#39;: True}
@@ -62,8 +68,10 @@ __all__ = [&#34;gdaAttack&#34;]
 
 try:
     from .gdaTools import getInterpolatedValue, getDatabaseInfo
+    from .dupCheck import DupCheck
 except ImportError:
     from gdaTools import getInterpolatedValue, getDatabaseInfo
+    from dupCheck import DupCheck
 
 theCacheQueue = None
 theCacheThreadObject = None
@@ -73,12 +81,11 @@ atcObject = None
 class gdaAttack:
     &#34;&#34;&#34;Manages a GDA Attack
 
-       See __init__ for input parameters. &lt;br/&gt;
        WARNING: this code is fragile, and can fail ungracefully, or
        just hang.&#34;&#34;&#34;
 
     def __init__(self, params):
-        &#34;&#34;&#34; Sets everything up with &#39;gdaAttack(params)&#39;
+        &#34;&#34;&#34; Everything gets set up with &#39;gdaAttack(params)&#39;
 
             params is a dictionary containing the following
             required parameters: &lt;br/&gt;
@@ -113,6 +120,24 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. &lt;br/&gt;
             `param[&#39;verbose&#39;]`: Set to True for verbose output.
         &#34;&#34;&#34;
+
+        #### gda-score-code version check warning ####
+        process = subprocess.run([sys.executable, &#34;-m&#34;, &#34;pip&#34;, &#34;list&#34;,&#34;--outdated&#34;],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+        upgradable_pkgs = process.stdout
+        if &#34;gda-score-code&#34; in upgradable_pkgs:
+            pkgs = upgradable_pkgs.split(&#39;\n&#39;)
+            potential_gdascore_pkgs = list(filter(lambda x: &#39;gda-score-code&#39; in x, pkgs))
+            if len(potential_gdascore_pkgs) == 1:
+                gdascore_pkg = potential_gdascore_pkgs[0]
+                pkg_name, curr_ver, latest_ver, ins_type = (re.sub(r&#39;\s+&#39;, &#39;|&#39;, gdascore_pkg)
+                                                               .split(&#39;|&#39;))
+                print(&#39;\n&#39;)
+                logging.warning(f&#39;WARNING: You have {pkg_name} version {curr_ver} installed; &#39;
+                                f&#39;however, version {latest_ver} is available.&#39;)
+                logging.warning(f&#39;You should consider upgrading via the &#39;
+                                f&#39;&#34;pip install --upgrade {pkg_name}&#34; command.&#39;)
+                print(&#39;\n&#39;)
+        ########
 
         ########### added by frzmohammadali ##########
         global theCacheQueue
@@ -178,6 +203,8 @@ class gdaAttack:
         self._attackCounter = 0
         self._claimCounter = 0
         self._guessCounter = 0
+        # State for duplicate claim detection
+        self._dupCheck = DupCheck()
         # State for computing attack results (see _initAtkRes())
         self._atrs = {}
         # State for various operational measures (see _initOp())
@@ -312,8 +339,19 @@ class gdaAttack:
         if doExit:
             sys.exit(exitMsg)
 
+    def isClaimed(self, spec):
+        &#34;&#34;&#34;Check if a claim was already fully or partially made.
+
+        The `spec` is formatted identical to the `spec` in `gdaAttack.askClaim`.&#34;&#34;&#34;
+        return self._dupCheck.is_claimed(spec, verbose=self._vb)
+
     def askClaim(self, spec, cache=True, claim=True):
         &#34;&#34;&#34;Generate Claim query for raw and optionally pub databases.
+
+        Before anything happens, the system uses the `gdaAttack.isClaimed`
+        method to determine whether a previous claim fully or partially
+        matches the new claim. Such duplicates are not allowed and an error
+        will be raised providing additional details about the duplicate.
 
         Making a claim results in a query to the raw database, and if
         linkability attack, the pub database, to check
@@ -337,6 +375,8 @@ class gdaAttack:
         Answers are cached &lt;br/&gt;
         Returns immediately&#34;&#34;&#34;
         if self._vb: print(f&#34;Calling {__name__}.askClaim with spec &#39;{spec}&#39;, count {self._claimCounter}&#34;)
+        if not self._dupCheck.is_claimed(spec, verbose=self._vb, raise_true=True):
+            self._dupCheck.claim(spec, verbose=self._vb)
         self._claimCounter += 1
         sql = self._makeSqlFromSpec(spec)
         if self._vb: print(f&#34;Sql is &#39;{sql}&#39;&#34;)
@@ -860,7 +900,7 @@ class gdaAttack:
         if count and not isinstance(count, int):
             print(f&#34;getPriorKnowledge Error: if set, count must be an integer&#34;)
             self.cleanUp(cleanUpCache=False, doExit=True)
-        if selectColumn: 
+        if selectColumn:
             if selectColumn not in self._colNames:
                 print(f&#34;getPriorKnowledge Error: selectColumn &#39;{selectColumn}&#39; is not a valid column&#34;)
                 self.cleanUp(cleanUpCache=False, doExit=True)
@@ -907,7 +947,7 @@ class gdaAttack:
                 if selectColumn in pair[0]:
                     colType = pair[1]
                     break
-            if colType == &#39;text&#39; or &#39;date&#39; in colType or &#39;time&#39; in colType:
+            if &#39;text&#39; in colType or &#39;char&#39; in colType or &#39;date&#39; in colType or &#39;time&#39; in colType:
                 sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= &#39;{colRange[0]}&#39; and {selectColumn} &lt;= &#39;{colRange[1]}&#39;&#34;)
             else:
                 sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
@@ -1380,7 +1420,7 @@ class gdaAttack:
         sqls = []
         numGuess = len(spec[&#39;guess&#39;])
         if self._cr == &#39;inference&#39; or self._cr == &#39;singlingOut&#39;:
-            sql = str(f&#34;select count(*) from {self._p[&#39;table&#39;]} where &#34;)
+            sql = str(f&#34;select count(distinct {self._p[&#39;uid&#39;]}) from {self._p[&#39;table&#39;]} where &#34;)
             # This first sql learns the number of rows matching the
             # guessed values
             for i in range(numGuess):
@@ -1391,7 +1431,7 @@ class gdaAttack:
             sqls.append(sql)
             # This second sql learns the total number of rows (should
             # normally be a cached result)
-            sql = str(f&#34;select count(*) from {self._p[&#39;table&#39;]}&#34;)
+            sql = str(f&#34;select count(distinct {self._p[&#39;uid&#39;]}) from {self._p[&#39;table&#39;]}&#34;)
             sqls.append(sql)
         elif self._cr == &#39;linkability&#39;:
             # nothing happens for linkability
@@ -1557,9 +1597,16 @@ def printTitle(text):
 def signal_kill_handler(signum, frame):
     global atcObject
     printTitle(&#34;Terminating the program ...&#34;)
+    thread_info = (
+        (f&#39;    &gt;&gt; {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n&#39;
+        f&#39; &gt; sending termination signal to all. please wait ... &#39;) if threading.active_count() &gt; 1
+                                                                   else &#39;&#39;
+    )
     logging.info(f&#39;\n &gt; active background threads: {threading.active_count() - 1} \n&#39;
-                 f&#39;    &gt;&gt; {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n&#39;
-                 f&#39; &gt; sending termination signal to all. please wait ... &#39;)
+                 f&#39;{thread_info}&#39;)
+    # logging.info(f&#39;\n &gt; active background threads: {threading.active_count() - 1} \n&#39;
+    #              f&#39;    &gt;&gt; {set([t.name for t in threading.enumerate() if t != threading.main_thread()])} \n&#39;
+    #              f&#39; &gt; sending termination signal to all. please wait ... &#39;)
     cleanBgThreads()
     if atcObject:
         atcObject.cleanUp()
@@ -1592,11 +1639,10 @@ atexit.register(on_exit)</code></pre>
 <span>(</span><span>params)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Manages a GDA Attack</p>
-<p>See <strong>init</strong> for input parameters. <br/>
-WARNING: this code is fragile, and can fail ungracefully, or
+<div class="desc"><p>Manages a GDA Attack</p>
+<p>WARNING: this code is fragile, and can fail ungracefully, or
 just hang.</p>
-<p>Sets everything up with 'gdaAttack(params)'</p>
+<p>Everything gets set up with 'gdaAttack(params)'</p>
 <p>params is a dictionary containing the following
 required parameters: <br/>
 <code>param['name']</code>: The name of the attack. Make it unique, because
@@ -1628,7 +1674,7 @@ that can be made to the raw DB. Default 3. <br/>
 that can be made to the anon DB. Default 3. <br/>
 <code>param['numPubDbThreads']</code>: The number of parallel queries
 that can be made to the public linkability DB. Default 3. <br/>
-<code>param['verbose']</code>: Set to True for verbose output.</p></section>
+<code>param['verbose']</code>: Set to True for verbose output.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1636,12 +1682,11 @@ that can be made to the public linkability DB. Default 3. <br/>
 <pre><code class="python">class gdaAttack:
     &#34;&#34;&#34;Manages a GDA Attack
 
-       See __init__ for input parameters. &lt;br/&gt;
        WARNING: this code is fragile, and can fail ungracefully, or
        just hang.&#34;&#34;&#34;
 
     def __init__(self, params):
-        &#34;&#34;&#34; Sets everything up with &#39;gdaAttack(params)&#39;
+        &#34;&#34;&#34; Everything gets set up with &#39;gdaAttack(params)&#39;
 
             params is a dictionary containing the following
             required parameters: &lt;br/&gt;
@@ -1676,6 +1721,24 @@ that can be made to the public linkability DB. Default 3. <br/>
             that can be made to the public linkability DB. Default 3. &lt;br/&gt;
             `param[&#39;verbose&#39;]`: Set to True for verbose output.
         &#34;&#34;&#34;
+
+        #### gda-score-code version check warning ####
+        process = subprocess.run([sys.executable, &#34;-m&#34;, &#34;pip&#34;, &#34;list&#34;,&#34;--outdated&#34;],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
+        upgradable_pkgs = process.stdout
+        if &#34;gda-score-code&#34; in upgradable_pkgs:
+            pkgs = upgradable_pkgs.split(&#39;\n&#39;)
+            potential_gdascore_pkgs = list(filter(lambda x: &#39;gda-score-code&#39; in x, pkgs))
+            if len(potential_gdascore_pkgs) == 1:
+                gdascore_pkg = potential_gdascore_pkgs[0]
+                pkg_name, curr_ver, latest_ver, ins_type = (re.sub(r&#39;\s+&#39;, &#39;|&#39;, gdascore_pkg)
+                                                               .split(&#39;|&#39;))
+                print(&#39;\n&#39;)
+                logging.warning(f&#39;WARNING: You have {pkg_name} version {curr_ver} installed; &#39;
+                                f&#39;however, version {latest_ver} is available.&#39;)
+                logging.warning(f&#39;You should consider upgrading via the &#39;
+                                f&#39;&#34;pip install --upgrade {pkg_name}&#34; command.&#39;)
+                print(&#39;\n&#39;)
+        ########
 
         ########### added by frzmohammadali ##########
         global theCacheQueue
@@ -1741,6 +1804,8 @@ that can be made to the public linkability DB. Default 3. <br/>
         self._attackCounter = 0
         self._claimCounter = 0
         self._guessCounter = 0
+        # State for duplicate claim detection
+        self._dupCheck = DupCheck()
         # State for computing attack results (see _initAtkRes())
         self._atrs = {}
         # State for various operational measures (see _initOp())
@@ -1875,8 +1940,19 @@ that can be made to the public linkability DB. Default 3. <br/>
         if doExit:
             sys.exit(exitMsg)
 
+    def isClaimed(self, spec):
+        &#34;&#34;&#34;Check if a claim was already fully or partially made.
+
+        The `spec` is formatted identical to the `spec` in `gdaAttack.askClaim`.&#34;&#34;&#34;
+        return self._dupCheck.is_claimed(spec, verbose=self._vb)
+
     def askClaim(self, spec, cache=True, claim=True):
         &#34;&#34;&#34;Generate Claim query for raw and optionally pub databases.
+
+        Before anything happens, the system uses the `gdaAttack.isClaimed`
+        method to determine whether a previous claim fully or partially
+        matches the new claim. Such duplicates are not allowed and an error
+        will be raised providing additional details about the duplicate.
 
         Making a claim results in a query to the raw database, and if
         linkability attack, the pub database, to check
@@ -1900,6 +1976,8 @@ that can be made to the public linkability DB. Default 3. <br/>
         Answers are cached &lt;br/&gt;
         Returns immediately&#34;&#34;&#34;
         if self._vb: print(f&#34;Calling {__name__}.askClaim with spec &#39;{spec}&#39;, count {self._claimCounter}&#34;)
+        if not self._dupCheck.is_claimed(spec, verbose=self._vb, raise_true=True):
+            self._dupCheck.claim(spec, verbose=self._vb)
         self._claimCounter += 1
         sql = self._makeSqlFromSpec(spec)
         if self._vb: print(f&#34;Sql is &#39;{sql}&#39;&#34;)
@@ -2423,7 +2501,7 @@ that can be made to the public linkability DB. Default 3. <br/>
         if count and not isinstance(count, int):
             print(f&#34;getPriorKnowledge Error: if set, count must be an integer&#34;)
             self.cleanUp(cleanUpCache=False, doExit=True)
-        if selectColumn: 
+        if selectColumn:
             if selectColumn not in self._colNames:
                 print(f&#34;getPriorKnowledge Error: selectColumn &#39;{selectColumn}&#39; is not a valid column&#34;)
                 self.cleanUp(cleanUpCache=False, doExit=True)
@@ -2470,7 +2548,7 @@ that can be made to the public linkability DB. Default 3. <br/>
                 if selectColumn in pair[0]:
                     colType = pair[1]
                     break
-            if colType == &#39;text&#39; or &#39;date&#39; in colType or &#39;time&#39; in colType:
+            if &#39;text&#39; in colType or &#39;char&#39; in colType or &#39;date&#39; in colType or &#39;time&#39; in colType:
                 sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= &#39;{colRange[0]}&#39; and {selectColumn} &lt;= &#39;{colRange[1]}&#39;&#34;)
             else:
                 sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
@@ -2943,7 +3021,7 @@ that can be made to the public linkability DB. Default 3. <br/>
         sqls = []
         numGuess = len(spec[&#39;guess&#39;])
         if self._cr == &#39;inference&#39; or self._cr == &#39;singlingOut&#39;:
-            sql = str(f&#34;select count(*) from {self._p[&#39;table&#39;]} where &#34;)
+            sql = str(f&#34;select count(distinct {self._p[&#39;uid&#39;]}) from {self._p[&#39;table&#39;]} where &#34;)
             # This first sql learns the number of rows matching the
             # guessed values
             for i in range(numGuess):
@@ -2954,7 +3032,7 @@ that can be made to the public linkability DB. Default 3. <br/>
             sqls.append(sql)
             # This second sql learns the total number of rows (should
             # normally be a cached result)
-            sql = str(f&#34;select count(*) from {self._p[&#39;table&#39;]}&#34;)
+            sql = str(f&#34;select count(distinct {self._p[&#39;uid&#39;]}) from {self._p[&#39;table&#39;]}&#34;)
             sqls.append(sql)
         elif self._cr == &#39;linkability&#39;:
             # nothing happens for linkability
@@ -3063,9 +3141,9 @@ that can be made to the public linkability DB. Default 3. <br/>
 <span>def <span class="ident">askAttack</span></span>(<span>self, query, cache=True)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Generate and queue up an attack query for database.</p>
+<div class="desc"><p>Generate and queue up an attack query for database.</p>
 <p><code>query</code> is a dictionary with (currently) one value: <br/>
-`query['sql'] contains the SQL query.</p></section>
+`query['sql'] contains the SQL query.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3090,7 +3168,11 @@ that can be made to the public linkability DB. Default 3. <br/>
 <span>def <span class="ident">askClaim</span></span>(<span>self, spec, cache=True, claim=True)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Generate Claim query for raw and optionally pub databases.</p>
+<div class="desc"><p>Generate Claim query for raw and optionally pub databases.</p>
+<p>Before anything happens, the system uses the <code><a title="gdascore.gdaAttack.gdaAttack.isClaimed" href="#gdascore.gdaAttack.gdaAttack.isClaimed">gdaAttack.isClaimed()</a></code>
+method to determine whether a previous claim fully or partially
+matches the new claim. Such duplicates are not allowed and an error
+will be raised providing additional details about the duplicate.</p>
 <p>Making a claim results in a query to the raw database, and if
 linkability attack, the pub database, to check
 the correctness of the claim. Multiple calls to this method will
@@ -3110,13 +3192,18 @@ The <code>spec</code> is formatted as follows: <br/></p>
 but rather is trying to predict. Mandatory for 'singling out'
 and 'inference'. Optional for 'linkabiblity' <br/>
 Answers are cached <br/>
-Returns immediately</p></section>
+Returns immediately</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def askClaim(self, spec, cache=True, claim=True):
     &#34;&#34;&#34;Generate Claim query for raw and optionally pub databases.
+
+    Before anything happens, the system uses the `gdaAttack.isClaimed`
+    method to determine whether a previous claim fully or partially
+    matches the new claim. Such duplicates are not allowed and an error
+    will be raised providing additional details about the duplicate.
 
     Making a claim results in a query to the raw database, and if
     linkability attack, the pub database, to check
@@ -3140,6 +3227,8 @@ Returns immediately</p></section>
     Answers are cached &lt;br/&gt;
     Returns immediately&#34;&#34;&#34;
     if self._vb: print(f&#34;Calling {__name__}.askClaim with spec &#39;{spec}&#39;, count {self._claimCounter}&#34;)
+    if not self._dupCheck.is_claimed(spec, verbose=self._vb, raise_true=True):
+        self._dupCheck.claim(spec, verbose=self._vb)
     self._claimCounter += 1
     sql = self._makeSqlFromSpec(spec)
     if self._vb: print(f&#34;Sql is &#39;{sql}&#39;&#34;)
@@ -3160,13 +3249,13 @@ Returns immediately</p></section>
 <span>def <span class="ident">askExplore</span></span>(<span>self, query, cache=True)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Generate and queue up an exploritory query for database</p>
+<div class="desc"><p>Generate and queue up an exploritory query for database</p>
 <p>No score book-keeping is done here. An analyst may make
 any number of queries without impacting the GDA score. <br/>
 <code>query</code> is a dictionary with two values: <br/>
 <code>query['sql']</code> contains the SQL query. <br/>
 <code>query['db']</code> determines which database is queried, and
-is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'.</p></section>
+is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3202,10 +3291,10 @@ is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'.</p></section>
 <span>def <span class="ident">askKnowledge</span></span>(<span>self, query, cache=True)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Generate and queue up a prior knowledge query for database</p>
+<div class="desc"><p>Generate and queue up a prior knowledge query for database</p>
 <p>The class keeps track of how many prior knowledge cells were
 returned and uses this to compute a score. <br/>
-Input parameters formatted the same as with <code>askAttack()</code></p></section>
+Input parameters formatted the same as with <code>askAttack()</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3233,11 +3322,11 @@ Input parameters formatted the same as with <code>askAttack()</code></p></sectio
 <span>def <span class="ident">cleanUp</span></span>(<span>self, cleanUpCache=True, doExit=False, exitMsg='Finished cleanUp, exiting')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Garbage collect queues, threads, and cache.</p>
+<div class="desc"><p>Garbage collect queues, threads, and cache.</p>
 <p>By default, this wipes the cache. The idea being that if the
 entire attack finished successfully, then it won't be
 repeated and the cache isn't needed. Do <code>cleanUpCache=False</code>
-if that isn't what you want.</p></section>
+if that isn't what you want.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3286,20 +3375,20 @@ if that isn't what you want.</p></section>
 <span>def <span class="ident">getAttack</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns the result of one askAttack() call</p>
+<div class="desc"><p>Returns the result of one askAttack() call</p>
 <p>Blocks until the result is available. Note that the order
 in which results are received is not necesarily the order
 in which <code>askAttack()</code> calls were made. <br/>
 Assuming <code>result</code> is returned: <br/>
 <code>result['answer']</code> is the answer returned by the DB. The
 format is: <br/>
-<code>[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]</code> <br/>
+<code>[(C1,C2&hellip;,Cn),(C1,C2&hellip;,Cn), &hellip; (C1,C2&hellip;,Cn)]</code> <br/>
 where C1 is the first element of the <code>SELECT</code>, C2 the second
 element, etc. <br/>
 <code>result['cells']</code> is the number of cells returned in the answer
-(used by <a title="gdascore.gdaAttack.gdaAttack" href="#gdascore.gdaAttack.gdaAttack"><code>gdaAttack</code></a> to compute total attack cells) <br/>
+(used by <code><a title="gdascore.gdaAttack.gdaAttack" href="#gdascore.gdaAttack.gdaAttack">gdaAttack</a></code> to compute total attack cells) <br/>
 <code>result['query']['sql']</code> is the query from the corresponding
-<code>askAttack()</code>.</p></section>
+<code>askAttack()</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3348,7 +3437,7 @@ element, etc. <br/>
 <span>def <span class="ident">getAttackTableName</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns the name of the table being used in the attack.</p></section>
+<div class="desc"><p>Returns the name of the table being used in the attack.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3362,7 +3451,7 @@ element, etc. <br/>
 <span>def <span class="ident">getClaim</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Wait for and gather results of askClaim() calls</p>
+<div class="desc"><p>Wait for and gather results of askClaim() calls</p>
 <p>Returns a data structure that contains both the result
 of one finished claim, and the claim's input parameters.
 Note that the order in which results are returned by
@@ -3381,7 +3470,7 @@ validate the claim. <br/>
 on whether the claim satisfies the critieria or not. <br/>
 <code>result['stillToCome']</code> is a counter showing how many more
 claims are still queued. When <code>stillToCome</code> is 0, then all
-claims submitted by <code>askClaim()</code> have been returned.</p></section>
+claims submitted by <code>askClaim()</code> have been returned.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3481,8 +3570,8 @@ claims submitted by <code>askClaim()</code> have been returned.</p></section>
 <span>def <span class="ident">getColNames</span></span>(<span>self, dbType='rawDb', tableName='')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Return simple list of column names</p>
-<p><code>dbType</code> is one of 'rawDb' or 'anonDb'</p></section>
+<div class="desc"><p>Return simple list of column names</p>
+<p><code>dbType</code> is one of 'rawDb' or 'anonDb'</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3509,9 +3598,9 @@ claims submitted by <code>askClaim()</code> have been returned.</p></section>
 <span>def <span class="ident">getColNamesAndTypes</span></span>(<span>self, dbType='rawDb', tableName='')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Return raw database column names and types (or None if error)</p>
+<div class="desc"><p>Return raw database column names and types (or None if error)</p>
 <p>dbType is one of 'rawDb' or 'anonDb' <br/>
-return format: [(col,type),(col,type),&hellip;]</p></section>
+return format: [(col,type),(col,type),&hellip;]</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3559,11 +3648,11 @@ return format: [(col,type),(col,type),&hellip;]</p></section>
 <span>def <span class="ident">getExplore</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Wait for and gather results of prior askExplore() calls.</p>
+<div class="desc"><p>Wait for and gather results of prior askExplore() calls.</p>
 <p>Blocks until the result is available. Note that the order
 in which results are received is not necesarily the order
 in which <code>askExplore()</code> calls were made. <br/>
-Return parameter formatted the same as with <code>getAttack()</code></p></section>
+Return parameter formatted the same as with <code>getAttack()</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3594,11 +3683,11 @@ Return parameter formatted the same as with <code>getAttack()</code></p></sectio
 <span>def <span class="ident">getKnowledge</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Wait for and gather results of prior askKnowledge() calls</p>
+<div class="desc"><p>Wait for and gather results of prior askKnowledge() calls</p>
 <p>Blocks until the result is available. Note that the order
 in which results are received is not necesarily the order
 in which <code>askKnowledge()</code> calls were made. <br/>
-Return parameter formatted the same as with <code>getAttack()</code></p></section>
+Return parameter formatted the same as with <code>getAttack()</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3633,8 +3722,8 @@ Return parameter formatted the same as with <code>getAttack()</code></p></sectio
 <span>def <span class="ident">getOpParameters</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns a variety of performance measurements.</p>
-<p>Useful for debugging.</p></section>
+<div class="desc"><p>Returns a variety of performance measurements.</p>
+<p>Useful for debugging.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3662,7 +3751,7 @@ Return parameter formatted the same as with <code>getAttack()</code></p></sectio
 <span>def <span class="ident">getPriorKnowledge</span></span>(<span>self, dataColumns, method, fraction=None, count=None, selectColumn=None, colRange=[None, None], values=[None])</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns data from the rawDB according to a specification</p>
+<div class="desc"><p>Returns data from the rawDB according to a specification</p>
 <p>This mimics external knowledge that an attacker may have about the data, and
 influences the 'knowledge' part of the GDA Score. <br/>
 <code>dataColumns</code> is a list of column names. The data for these columns is returned <br/>
@@ -3688,10 +3777,10 @@ between min and max inclusive. <br/>
 of one or more values of any type. This selects all values matching those in
 the list. <br/>
 The return value is a list in this format: <br/>
-<code>[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]</code> <br/>
+<code>[(C1,C2&hellip;,Cn),(C1,C2&hellip;,Cn), &hellip; (C1,C2&hellip;,Cn)]</code> <br/>
 where C1 corresponds to the first column in <code>dataColumns</code>, C2 corresponds to
 the second column in <code>dataColumns</code>, and so on.
-<br/></p></section>
+<br/></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3748,7 +3837,7 @@ the second column in <code>dataColumns</code>, and so on.
     if count and not isinstance(count, int):
         print(f&#34;getPriorKnowledge Error: if set, count must be an integer&#34;)
         self.cleanUp(cleanUpCache=False, doExit=True)
-    if selectColumn: 
+    if selectColumn:
         if selectColumn not in self._colNames:
             print(f&#34;getPriorKnowledge Error: selectColumn &#39;{selectColumn}&#39; is not a valid column&#34;)
             self.cleanUp(cleanUpCache=False, doExit=True)
@@ -3795,7 +3884,7 @@ the second column in <code>dataColumns</code>, and so on.
             if selectColumn in pair[0]:
                 colType = pair[1]
                 break
-        if colType == &#39;text&#39; or &#39;date&#39; in colType or &#39;time&#39; in colType:
+        if &#39;text&#39; in colType or &#39;char&#39; in colType or &#39;date&#39; in colType or &#39;time&#39; in colType:
             sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= &#39;{colRange[0]}&#39; and {selectColumn} &lt;= &#39;{colRange[1]}&#39;&#34;)
         else:
             sql = initSql + str(f&#34; FROM {table} WHERE {selectColumn} &gt;= {colRange[0]} and {selectColumn} &lt;= {colRange[1]}&#34;)
@@ -3864,9 +3953,9 @@ the second column in <code>dataColumns</code>, and so on.
 <span>def <span class="ident">getPublicColValues</span></span>(<span>self, colName, tableName='')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Return list of "publicly known" column values and counts</p>
+<div class="desc"><p>Return list of "publicly known" column values and counts</p>
 <p>Column value has index 0, count of distinct UIDs has index 1
-Must specify column name.</p></section>
+Must specify column name.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3928,9 +4017,9 @@ Must specify column name.</p></section>
 <span>def <span class="ident">getResults</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns all of the compiled attack results.</p>
+<div class="desc"><p>Returns all of the compiled attack results.</p>
 <p>This can be input to class <code>gdaScores()</code> and method
-<code>gdaScores.addResult()</code>.</p></section>
+<code>gdaScores.addResult()</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3950,7 +4039,7 @@ Must specify column name.</p></section>
 <span>def <span class="ident">getTableCharacteristics</span></span>(<span>self, tableName='')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns the full contents of the table characteristics</p>
+<div class="desc"><p>Returns the full contents of the table characteristics</p>
 <p>Return value is a dict indexed by column name: <br/></p>
 <pre><code>{ '&lt;colName&gt;':
     {
@@ -3968,7 +4057,7 @@ Must specify column name.</p></section>
         'std_uids_per_val': 4.09688},
     }
 }
-</code></pre></section>
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4048,9 +4137,9 @@ Must specify column name.</p></section>
 <span>def <span class="ident">getTableNames</span></span>(<span>self, dbType='rawDb')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Return database table names</p>
+<div class="desc"><p>Return database table names</p>
 <p>dbType is one of 'rawDb' or 'anonDb' <br/>
-Table names returned as list, unless error then return None</p></section>
+Table names returned as list, unless error then return None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4095,7 +4184,7 @@ Table names returned as list, unless error then return None</p></section>
 <span>def <span class="ident">getUidColName</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns the name of the UID column</p></section>
+<div class="desc"><p>Returns the name of the UID column</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4105,11 +4194,28 @@ Table names returned as list, unless error then return None</p></section>
     return self._p[&#39;uid&#39;]</code></pre>
 </details>
 </dd>
+<dt id="gdascore.gdaAttack.gdaAttack.isClaimed"><code class="name flex">
+<span>def <span class="ident">isClaimed</span></span>(<span>self, spec)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if a claim was already fully or partially made.</p>
+<p>The <code>spec</code> is formatted identical to the <code>spec</code> in <code><a title="gdascore.gdaAttack.gdaAttack.askClaim" href="#gdascore.gdaAttack.gdaAttack.askClaim">gdaAttack.askClaim()</a></code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def isClaimed(self, spec):
+    &#34;&#34;&#34;Check if a claim was already fully or partially made.
+
+    The `spec` is formatted identical to the `spec` in `gdaAttack.askClaim`.&#34;&#34;&#34;
+    return self._dupCheck.is_claimed(spec, verbose=self._vb)</code></pre>
+</details>
+</dd>
 <dt id="gdascore.gdaAttack.gdaAttack.putCacheWrapper"><code class="name flex">
 <span>def <span class="ident">putCacheWrapper</span></span>(<span>self, conn, cur, query, reply)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4122,7 +4228,7 @@ Table names returned as list, unless error then return None</p></section>
 <span>def <span class="ident">removeLocalCacheDBWrapper</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4135,7 +4241,7 @@ Table names returned as list, unless error then return None</p></section>
 <span>def <span class="ident">setVerbose</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Sets Verbose to True</p></section>
+<div class="desc"><p>Sets Verbose to True</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4149,7 +4255,7 @@ Table names returned as list, unless error then return None</p></section>
 <span>def <span class="ident">unsetVerbose</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Sets Verbose to False</p></section>
+<div class="desc"><p>Sets Verbose to False</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4204,6 +4310,7 @@ itemprop="logo" />
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getTableCharacteristics" href="#gdascore.gdaAttack.gdaAttack.getTableCharacteristics">getTableCharacteristics</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getTableNames" href="#gdascore.gdaAttack.gdaAttack.getTableNames">getTableNames</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getUidColName" href="#gdascore.gdaAttack.gdaAttack.getUidColName">getUidColName</a></code></li>
+<li><code><a title="gdascore.gdaAttack.gdaAttack.isClaimed" href="#gdascore.gdaAttack.gdaAttack.isClaimed">isClaimed</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.putCacheWrapper" href="#gdascore.gdaAttack.gdaAttack.putCacheWrapper">putCacheWrapper</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.removeLocalCacheDBWrapper" href="#gdascore.gdaAttack.gdaAttack.removeLocalCacheDBWrapper">removeLocalCacheDBWrapper</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.setVerbose" href="#gdascore.gdaAttack.gdaAttack.setVerbose">setVerbose</a></code></li>
@@ -4218,9 +4325,7 @@ itemprop="logo" />
 <footer id="footer">
 <!--<a href="https://www.gda-score.org/legal-notice/">Legal notice</a>&nbsp;&nbsp;&nbsp;
 <a href="https://www.gda-score.org/privacy-policy/">Privacy policy</a>-->
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

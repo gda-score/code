@@ -51,12 +51,11 @@ atcObject = None
 class gdaAttack:
     """Manages a GDA Attack
 
-       See __init__ for input parameters. <br/>
        WARNING: this code is fragile, and can fail ungracefully, or
        just hang."""
 
     def __init__(self, params):
-        """ Sets everything up with 'gdaAttack(params)'
+        """ Everything gets set up with 'gdaAttack(params)'
 
             params is a dictionary containing the following
             required parameters: <br/>
@@ -313,16 +312,16 @@ class gdaAttack:
     def isClaimed(self, spec):
         """Check if a claim was already fully or partially made.
 
-        The `spec` is formatted identical to the `spec` in `askClaim`."""
+        The `spec` is formatted identical to the `spec` in `gdaAttack.askClaim`."""
         return self._dupCheck.is_claimed(spec, verbose=self._vb)
 
     def askClaim(self, spec, cache=True, claim=True):
         """Generate Claim query for raw and optionally pub databases.
 
-        Before the claim is made, the system uses the `isClaimed` method
-        to determine whether a previous claim fully or partially matches
-        the new claim. Such duplicates are not allowed and an error will
-        be raised providing additional details about the duplicate.
+        Before anything happens, the system uses the `gdaAttack.isClaimed`
+        method to determine whether a previous claim fully or partially
+        matches the new claim. Such duplicates are not allowed and an error
+        will be raised providing additional details about the duplicate.
 
         Making a claim results in a query to the raw database, and if
         linkability attack, the pub database, to check

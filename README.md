@@ -59,7 +59,7 @@ setuptools.setup(
 ## Documentation
 Documentations for this project are being generated automatically out of "docStrings" available in the code.
 We use [pdoc3](https://pypi.org/project/pdoc3/) as a tool for that. Steps for updating documentation are as follows:
- 1. install "pdoc3": `pip install pdoc3`
+ 1. install "pdoc3", "PyInquirer", and "pyfiglet": `pip install pdoc3 PyInquirer pyfiglet`
  2. populate the code with docStrings in python modules, classes, functions, etc.
  3. on your terminal **go to project root folder** and execute the command bellow:
  ```shell
