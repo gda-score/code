@@ -9,7 +9,9 @@ The primary language is Python, and requires Python3.7 or later. API documentati
     
 ## To run    
     
-#### Installing via `pip`:    
+#### Installing via `pip`:
+   - step 0: Install prerequisites for "psycopg2" (https://www.psycopg.org/docs/install.html#build-prerequisites). For debian the command would be `apt-get install python3-dev libpq-dev`.
+  
    - step 1: `$ pip install gda-score-code`
    
    - step 2: Request passwords and user names from contact@gda-score.org
@@ -38,7 +40,7 @@ The primary language is Python, and requires Python3.7 or later. API documentati
 Please follow the steps below if you are a contributor and want to upload new release of the library on pip.
  1. open [pypi.org](https://pypi.org) and create a new account if you don't have one.
  2. send us your username to be added as a maintainer of the package on pypi that lets you upload a new release
- 3. install `twine` using: `pip install twine`
+ 3. install "twine" and "wheel" using: `pip install twine wheel`
  4. clean build files if there is any by running: `python setup.py clean --all` and also delete any folder named `dist` as the setup will create that itself and you won't face vrsion confilict because of past builds anymore.
  5. update the version of package in the file `setup.py` and increase it. it is not possible to upload same version twice so remember to do that. `name` parameter should not change. For example:
 ``` 
