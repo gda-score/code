@@ -1317,6 +1317,9 @@ class gdaAttack:
             sys.exit("Error: Can't have more than 50 threads total")
 
     def _getCache(self, cur, query):
+        path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
+        my_conn = sqlite3.connect(path, timeout=0.1)
+        my_cur = my_conn.cursor()
         # turn the query (dict) into a string
         qStr = self._dict2Str(query)
         if qStr is None:
@@ -1325,7 +1328,8 @@ class gdaAttack:
         if self._vb: print(f"   cache DB: {sql}")
         start = time.perf_counter()
         try:
-            cur.execute(sql)
+            # cur.execute(sql)
+            my_cur.execute(sql)
         except sqlite3.Error as e:
             print(f"getCache error '{e.args[0]}'")
             return None
@@ -1333,6 +1337,8 @@ class gdaAttack:
         self._op['numCacheGets'] += 1
         self._op['timeCacheGets'] += (end - start)
         answer = cur.fetchone()
+        my_cur.close()
+        my_conn.close()
         if not answer:
             return None
         rtnDict = self._str2Dict(answer[0])
@@ -1340,6 +1346,8 @@ class gdaAttack:
 
     def _putCache(self, conn, cur, query, reply):
         # turn the query and reply (dict) into a string
+        # Establish connection to local cache
+        path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
         qStr = self._dict2Str(query)
         if qStr is None:
             return
@@ -1352,8 +1360,14 @@ class gdaAttack:
         err = None
         for z in range(10):
             try:
-                cur.execute(sql)
-                conn.commit()
+                # cur.execute(sql)
+                # conn.commit()
+                my_conn = sqlite3.connect(path, timeout=0.1)
+                my_cur = my_conn.cursor()
+                my_cur.execute(sql)
+                my_conn.commit()
+                my_cur.close()
+                my_conn.close()
             except sqlite3.OperationalError as e:
                 if self._p['verbose'] or self._vb:
                     print(f"putCache error '{e.args[0]}'")
