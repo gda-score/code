@@ -1331,12 +1331,22 @@ class gdaAttack:
             try:
                 # cur.execute(sql)
                 my_cur.execute(sql)
-            except sqlite3.Error as e:
-                print(f"getCache error '{e.args[0]}' attempt: {z}")
+            except sqlite3.OperationalError as e:
+                # database is locked
+                err = e
+                time.sleep(0.5)
+                continue
+            except (sqlite3.Error, Exception) as e:
+                if self._p['verbose'] or self._vb:
+                    print(f"getCache error '{e.args[0]}' attempt: {z}")
+                err = e
+                time.sleep(0.5)
                 continue
             else:
                 break
         else:
+            if self._p['verbose'] or self._vb:
+                print(f'>> could not read from cache DB >> ERROR: {err}')
             return None
         end = time.perf_counter()
         self._op['numCacheGets'] += 1
