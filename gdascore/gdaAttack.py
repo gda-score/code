@@ -1090,7 +1090,7 @@ class gdaAttack:
             if self._vb: print(f"   cache DB: {sql}")
             cur.execute(sql)
         sql = """CREATE TABLE IF NOT EXISTS tab
-                 (qid text, answer text)"""
+                 (qid text primary key, answer text)"""
         if self._vb: print(f"   cache DB: {sql}")
         cur.execute(sql)
         conn.close()
@@ -1327,16 +1327,22 @@ class gdaAttack:
         sql = str(f"SELECT answer FROM tab where qid = '{qStr}'")
         if self._vb: print(f"   cache DB: {sql}")
         start = time.perf_counter()
-        try:
-            # cur.execute(sql)
-            my_cur.execute(sql)
-        except sqlite3.Error as e:
-            print(f"getCache error '{e.args[0]}'")
+        for z in range(10):
+            try:
+                # cur.execute(sql)
+                my_cur.execute(sql)
+            except sqlite3.Error as e:
+                print(f"getCache error '{e.args[0]}' attempt: {z}")
+                continue
+            else:
+                break
+        else:
             return None
         end = time.perf_counter()
         self._op['numCacheGets'] += 1
         self._op['timeCacheGets'] += (end - start)
-        answer = cur.fetchone()
+        # answer = cur.fetchone() # frzmohammadali just to remember my stupidest bug ever
+        answer = my_cur.fetchone()
         my_cur.close()
         my_conn.close()
         if not answer:
@@ -1366,20 +1372,33 @@ class gdaAttack:
                 my_cur = my_conn.cursor()
                 my_cur.execute(sql)
                 my_conn.commit()
-                my_cur.close()
-                my_conn.close()
+
+            except sqlite3.IntegrityError as e:
+                if self._p['verbose'] or self._vb:
+                    print(f"putCache error [qid exists in cached queries] '{e.args[0]}' ")
+                break
             except sqlite3.OperationalError as e:
-                if self._p['verbose'] or self._vb:
-                    print(f"putCache error '{e.args[0]}'")
+                # database is locked
                 err = e
+                time.sleep(0.5)
                 continue
-            except sqlite3.Error as e:
+            except (sqlite3.Error, Exception) as e:
                 if self._p['verbose'] or self._vb:
-                    print(f"putCache error '{e.args[0]}'")
+                    print(f"putCache error '{e.args[0]}' attempt: {z}")
                 err = e
+                time.sleep(0.5)
                 continue
             else:
                 break
+            finally:
+                try:
+                    if my_cur:
+                        my_cur.close()
+                    if my_conn:
+                        my_conn.close()
+                except sqlite3.ProgrammingError:
+                    # cursor and connection is already closed
+                    pass
         else:
             # raise err
             if self._p['verbose'] or self._vb:
@@ -1649,7 +1668,7 @@ def signal_kill_handler(signum, frame):
     #              f' > sending termination signal to all. please wait ... ')
     cleanBgThreads()
     if atcObject:
-        atcObject.cleanUp()
+        atcObject.cleanUp(cleanUpCache=False)
 
     sys.exit(-1)
 
