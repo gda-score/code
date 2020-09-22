@@ -1093,6 +1093,9 @@ class gdaAttack:
                  (qid text primary key, answer text)"""
         if self._vb: print(f"   cache DB: {sql}")
         cur.execute(sql)
+        # conn.commit()
+        cur.execute("PRAGMA journal_mode=WAL;")
+        # conn.commit()
         conn.close()
 
     def _removeLocalCacheDB(self):
@@ -1327,18 +1330,22 @@ class gdaAttack:
         sql = str(f"SELECT answer FROM tab where qid = '{qStr}'")
         if self._vb: print(f"   cache DB: {sql}")
         start = time.perf_counter()
-        for z in range(10):
+        for z in range(1,11):
             try:
                 # cur.execute(sql)
                 my_cur.execute(sql)
             except sqlite3.OperationalError as e:
                 # database is locked
+                if self._p['verbose'] or self._vb:
+                    logging.warning(f'>> reading from cache DB: {z} attempt(s). Coming next try '
+                                  f'soon...')
                 err = e
                 time.sleep(0.5)
                 continue
             except (sqlite3.Error, Exception) as e:
                 if self._p['verbose'] or self._vb:
-                    print(f"getCache error '{e.args[0]}' attempt: {z}")
+                    logging.warning(f"getCache error '{e.args[0]}' attempt: {z}. Coming next try "
+                                    f"soon...")
                 err = e
                 time.sleep(0.5)
                 continue
@@ -1346,7 +1353,7 @@ class gdaAttack:
                 break
         else:
             if self._p['verbose'] or self._vb:
-                print(f'>> could not read from cache DB >> ERROR: {err}')
+                logging.error(f'>> could not read from cache DB >> ERROR: {err}')
             return None
         end = time.perf_counter()
         self._op['numCacheGets'] += 1
@@ -1385,16 +1392,20 @@ class gdaAttack:
 
             except sqlite3.IntegrityError as e:
                 if self._p['verbose'] or self._vb:
-                    print(f"putCache error [qid exists in cached queries] '{e.args[0]}' ")
+                    logging.warning(f"putCache error [qid exists in cached queries] '{e.args[0]}' ")
                 break
             except sqlite3.OperationalError as e:
                 # database is locked
+                if self._p['verbose'] or self._vb:
+                    logging.warning(f"putCache attempt: {z}. Coming next try "
+                                    f"soon...")
                 err = e
                 time.sleep(0.5)
                 continue
             except (sqlite3.Error, Exception) as e:
                 if self._p['verbose'] or self._vb:
-                    print(f"putCache error '{e.args[0]}' attempt: {z}")
+                    logging.warning(f"putCache error '{e.args[0]}' attempt: {z}. Coming next try "
+                                    f"soon...")
                 err = e
                 time.sleep(0.5)
                 continue
@@ -1412,7 +1423,7 @@ class gdaAttack:
         else:
             # raise err
             if self._p['verbose'] or self._vb:
-                print(f'>> could not insert into cache DB >> ERROR: {err}')
+                logging.error(f'>> could not insert into cache DB >> ERROR: {err}')
 
         end = time.perf_counter()
         self._op['numCachePuts'] += 1
