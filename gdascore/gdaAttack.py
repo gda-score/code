@@ -140,6 +140,7 @@ class gdaAttack:
         self._cr = ''  # short for criteria
         self._pp = None  # pretty printer (for debugging)
         self._sid = None # for uber_dp interface, a session ID over the attack is needed
+        self._session = None # also session for the uber_dp interface
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name='',
@@ -330,6 +331,8 @@ class gdaAttack:
                 if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
+        if self._session: # close the uber session
+            self._session.close()
         if doExit:
             sys.exit(exitMsg)
 
@@ -1749,6 +1752,9 @@ class gdaAttack:
         # Client establishes a session
         session = requests.Session()
         session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
+
+        # remember the session to close it if necessary
+        self._session = session
 
         # function to initialize the session with the dp server
         try:
