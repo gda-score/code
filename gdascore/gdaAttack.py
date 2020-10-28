@@ -1279,7 +1279,10 @@ class gdaAttack:
         request = {
             'query': query['sql'],
             'epsilon': str(query['epsilon']),
-            'budget': 'None', # TODO: check if they are ignored, or if i must set them to potentially correct value
+            'count' : '1', # the interface is designed in a way such that repeted attacks need to be triggered
+            # by several askAttack(), getAttack(). Therefore, the server functionality to potentially execute the same
+            # query several times is not used
+            'budget': 'None',
             'dbname': 'None',
             'sid': self._sid
         }
@@ -1294,6 +1297,9 @@ class gdaAttack:
             response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
 
             resp = response.json()  # Convert response sent by server to JSON
+            if self._vb:
+                print("Server response for the given query: ")
+                print(resp)
             if 'Error' in resp['Server Response']:
                 if 'Budget Exceeded' in resp['Server Response']['Error']:
                     print("This query does exceed the remaining privacy budget for your attack.")
