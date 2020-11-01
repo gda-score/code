@@ -1301,10 +1301,11 @@ class gdaAttack:
                 print("Server response for the given query: ")
                 print(resp)
             if 'Error' in resp['Server Response']:
+                # If budget exceeded, we do not provide an answer field in the reply
                 if 'Budget Exceeded' in resp['Server Response']['Error']:
                     print("This query does exceed the remaining privacy budget for your attack.")
                     print("Your remaining budget is "+str(self._remaining_dp_budget)+", the query would need "+str(query['epsilon'])+".")
-                    ans = [["Budget Exceeded Error"]]
+                    reply = dict(error='Budget Exceeded')
             else:
                 # if the query went through, we can deduct its privay consumption to keep track internally
                 self._remaining_dp_budget -= query['epsilon']
@@ -1316,6 +1317,12 @@ class gdaAttack:
 
                 # for statistics. Only makes sense to count query if it went through
                 self._op['numQueries'] += 1
+
+                # after all for loops find the shape of the resulting answers
+                numCells = self._computeNumCells(ans)
+
+                # format the reply similarly as for aircloak and postgres
+                reply = dict(answer=ans, cells=numCells)
 
         except requests.ConnectionError as e:
             print("Connection Error. Make sure you are connected to Internet.")
@@ -1332,11 +1339,7 @@ class gdaAttack:
         except KeyboardInterrupt:
             print("Program closed")
 
-        # after all for loops find the shape of the resulting answers
-        numCells = self._computeNumCells(ans)
 
-        # format the reply similarly as for aircloak and postgres
-        reply = dict(answer=ans, cells=numCells)
         reply['query'] = query
 
         # calculate the time we needed for the query
