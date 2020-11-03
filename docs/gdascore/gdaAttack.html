@@ -120,9 +120,7 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. &lt;br/&gt;
             `param[&#39;verbose&#39;]`: Set to True for verbose output.
 
-            For uber_dp, the following optional parameter can be set
-            `param[&#39;dp_budget&#39;]`: The overall privacy budget for the attack.
-            Default &#39;None&#39;. &lt;br/&gt;
+            `param[&#39;dp_budget&#39;]`: An optional overall privacy budget for the attack. For use with uber_dp. Default &#39;None&#39;. &lt;br/&gt;
         &#34;&#34;&#34;
 
         #### gda-score-code version check warning ####
@@ -511,10 +509,9 @@ class gdaAttack:
         &#34;&#34;&#34; Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: &lt;br/&gt;
-            `query[&#39;sql&#39;] contains the SQL query.
-
-            #for the uber_dp, the following value is needed
-            query[&#39;epsilon&#39;] defines how much of the budget is used for the query&#34;&#34;&#34;
+            `query[&#39;sql&#39;]` contains the SQL query. &lt;br/&gt;
+            `query[&#39;epsilon&#39;]` is optional, and defines how much of the differential privacy budget is used for uber_dp &lt;br/&gt;
+        &#34;&#34;&#34;
         self._attackCounter += 1
         if self._vb: print(f&#34;Calling {__name__}.askAttack with query &#39;{query}&#39;, count {self._attackCounter}&#34;)
         # Make a copy of the query for passing around
@@ -536,13 +533,15 @@ class gdaAttack:
             format is: &lt;br/&gt;
                 `[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]` &lt;br/&gt;
             where C1 is the first element of the `SELECT`, C2 the second
-            element, etc. &lt;br/&gt;
+            element, etc. This attribute does not exist in cases of query
+            error (i.e. bad sql, budget exceeded if uber_dp, etc.) &lt;br/&gt;
             `result[&#39;cells&#39;]` is the number of cells returned in the answer
             (used by `gdaAttack()` to compute total attack cells) &lt;br/&gt;
             `result[&#39;query&#39;][&#39;sql&#39;]` is the query from the corresponding
             `askAttack()`.
-
-            for uber_dp, also the remaining privacy budget is returned
+            `result[&#39;error&#39;]` contains the error description &lt;br/&gt;
+            `result[&#39;remaining_dp_budget&#39;]` contains the remaining differential
+            privacy budget when uber_dp is used. &lt;br/&gt;
             &#34;&#34;&#34;
 
         if self._vb:
@@ -1983,9 +1982,7 @@ that can be made to the anon DB. Default 3. <br/>
 <code>param['numPubDbThreads']</code>: The number of parallel queries
 that can be made to the public linkability DB. Default 3. <br/>
 <code>param['verbose']</code>: Set to True for verbose output.</p>
-<p>For uber_dp, the following optional parameter can be set
-<code>param['dp_budget']</code>: The overall privacy budget for the attack.
-Default 'None'. <br/></p></section>
+<p><code>param['dp_budget']</code>: An optional overall privacy budget for the attack. For use with uber_dp. Default 'None'. <br/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -2032,9 +2029,7 @@ Default 'None'. <br/></p></section>
             that can be made to the public linkability DB. Default 3. &lt;br/&gt;
             `param[&#39;verbose&#39;]`: Set to True for verbose output.
 
-            For uber_dp, the following optional parameter can be set
-            `param[&#39;dp_budget&#39;]`: The overall privacy budget for the attack.
-            Default &#39;None&#39;. &lt;br/&gt;
+            `param[&#39;dp_budget&#39;]`: An optional overall privacy budget for the attack. For use with uber_dp. Default &#39;None&#39;. &lt;br/&gt;
         &#34;&#34;&#34;
 
         #### gda-score-code version check warning ####
@@ -2423,10 +2418,9 @@ Default 'None'. <br/></p></section>
         &#34;&#34;&#34; Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: &lt;br/&gt;
-            `query[&#39;sql&#39;] contains the SQL query.
-
-            #for the uber_dp, the following value is needed
-            query[&#39;epsilon&#39;] defines how much of the budget is used for the query&#34;&#34;&#34;
+            `query[&#39;sql&#39;]` contains the SQL query. &lt;br/&gt;
+            `query[&#39;epsilon&#39;]` is optional, and defines how much of the differential privacy budget is used for uber_dp &lt;br/&gt;
+        &#34;&#34;&#34;
         self._attackCounter += 1
         if self._vb: print(f&#34;Calling {__name__}.askAttack with query &#39;{query}&#39;, count {self._attackCounter}&#34;)
         # Make a copy of the query for passing around
@@ -2448,13 +2442,15 @@ Default 'None'. <br/></p></section>
             format is: &lt;br/&gt;
                 `[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]` &lt;br/&gt;
             where C1 is the first element of the `SELECT`, C2 the second
-            element, etc. &lt;br/&gt;
+            element, etc. This attribute does not exist in cases of query
+            error (i.e. bad sql, budget exceeded if uber_dp, etc.) &lt;br/&gt;
             `result[&#39;cells&#39;]` is the number of cells returned in the answer
             (used by `gdaAttack()` to compute total attack cells) &lt;br/&gt;
             `result[&#39;query&#39;][&#39;sql&#39;]` is the query from the corresponding
             `askAttack()`.
-
-            for uber_dp, also the remaining privacy budget is returned
+            `result[&#39;error&#39;]` contains the error description &lt;br/&gt;
+            `result[&#39;remaining_dp_budget&#39;]` contains the remaining differential
+            privacy budget when uber_dp is used. &lt;br/&gt;
             &#34;&#34;&#34;
 
         if self._vb:
@@ -3763,9 +3759,8 @@ Default 'None'. <br/></p></section>
 <dd>
 <section class="desc"><p>Generate and queue up an attack query for database.</p>
 <p><code>query</code> is a dictionary with (currently) one value: <br/>
-`query['sql'] contains the SQL query.</p>
-<h1 id="for-the-uber_dp-the-following-value-is-needed">for the uber_dp, the following value is needed</h1>
-<p>query['epsilon'] defines how much of the budget is used for the query</p></section>
+<code>query['sql']</code> contains the SQL query. <br/>
+<code>query['epsilon']</code> is optional, and defines how much of the differential privacy budget is used for uber_dp <br/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3774,10 +3769,9 @@ Default 'None'. <br/></p></section>
     &#34;&#34;&#34; Generate and queue up an attack query for database.
 
         `query` is a dictionary with (currently) one value: &lt;br/&gt;
-        `query[&#39;sql&#39;] contains the SQL query.
-
-        #for the uber_dp, the following value is needed
-        query[&#39;epsilon&#39;] defines how much of the budget is used for the query&#34;&#34;&#34;
+        `query[&#39;sql&#39;]` contains the SQL query. &lt;br/&gt;
+        `query[&#39;epsilon&#39;]` is optional, and defines how much of the differential privacy budget is used for uber_dp &lt;br/&gt;
+    &#34;&#34;&#34;
     self._attackCounter += 1
     if self._vb: print(f&#34;Calling {__name__}.askAttack with query &#39;{query}&#39;, count {self._attackCounter}&#34;)
     # Make a copy of the query for passing around
@@ -4095,12 +4089,15 @@ Assuming <code>result</code> is returned: <br/>
 format is: <br/>
 <code>[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]</code> <br/>
 where C1 is the first element of the <code>SELECT</code>, C2 the second
-element, etc. <br/>
+element, etc. This attribute does not exist in cases of query
+error (i.e. bad sql, budget exceeded if uber_dp, etc.) <br/>
 <code>result['cells']</code> is the number of cells returned in the answer
 (used by <a title="gdascore.gdaAttack.gdaAttack" href="#gdascore.gdaAttack.gdaAttack"><code>gdaAttack</code></a> to compute total attack cells) <br/>
 <code>result['query']['sql']</code> is the query from the corresponding
-<code>askAttack()</code>.</p>
-<p>for uber_dp, also the remaining privacy budget is returned</p></section>
+<code>askAttack()</code>.
+<code>result['error']</code> contains the error description <br/>
+<code>result['remaining_dp_budget']</code> contains the remaining differential
+privacy budget when uber_dp is used. <br/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4116,13 +4113,15 @@ element, etc. <br/>
         format is: &lt;br/&gt;
             `[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]` &lt;br/&gt;
         where C1 is the first element of the `SELECT`, C2 the second
-        element, etc. &lt;br/&gt;
+        element, etc. This attribute does not exist in cases of query
+        error (i.e. bad sql, budget exceeded if uber_dp, etc.) &lt;br/&gt;
         `result[&#39;cells&#39;]` is the number of cells returned in the answer
         (used by `gdaAttack()` to compute total attack cells) &lt;br/&gt;
         `result[&#39;query&#39;][&#39;sql&#39;]` is the query from the corresponding
         `askAttack()`.
-
-        for uber_dp, also the remaining privacy budget is returned
+        `result[&#39;error&#39;]` contains the error description &lt;br/&gt;
+        `result[&#39;remaining_dp_budget&#39;]` contains the remaining differential
+        privacy budget when uber_dp is used. &lt;br/&gt;
         &#34;&#34;&#34;
 
     if self._vb:
