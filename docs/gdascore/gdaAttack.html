@@ -3,17 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.4" />
+<meta name="generator" content="pdoc 0.7.5" />
 <title>gdascore.gdaAttack API documentation</title>
 <meta name="description" content="" />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 <style>
 </style>
 </head>
@@ -47,6 +45,8 @@ import datetime
 import signal
 import atexit
 import random
+import requests
+import functools
 
 
 coloredlogs.DEFAULT_FIELD_STYLES[&#39;asctime&#39;] = {}
@@ -119,6 +119,10 @@ class gdaAttack:
             `param[&#39;numPubDbThreads&#39;]`: The number of parallel queries
             that can be made to the public linkability DB. Default 3. &lt;br/&gt;
             `param[&#39;verbose&#39;]`: Set to True for verbose output.
+
+            For uber_dp, the following optional parameter can be set
+            `param[&#39;dp_budget&#39;]`: The overall privacy budget for the attack.
+            Default &#39;None&#39;. &lt;br/&gt;
         &#34;&#34;&#34;
 
         #### gda-score-code version check warning ####
@@ -163,6 +167,8 @@ class gdaAttack:
         self._vb = False
         self._cr = &#39;&#39;  # short for criteria
         self._pp = None  # pretty printer (for debugging)
+        self._sid = None # for uber_dp interface, a session ID over the attack is needed
+        self._session = None # also session for the uber_dp interface
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name=&#39;&#39;,
@@ -222,6 +228,23 @@ class gdaAttack:
         for param in self._requiredParams:
             if len(self._p[param]) == 0:
                 s = str(f&#34;Error: Need param &#39;{param}&#39; in class parameters&#34;)
+                sys.exit(s)
+
+        # extract the type of interface we are interacting with the anonymization
+        self._type = self._p[&#39;anonDb&#39;][&#39;type&#39;]
+        if self._type == &#39;uber_dp&#39;:
+            # cannot run attack on uber dp without specifying the budget
+            if self._p[&#39;dp_budget&#39;] is None:
+                s = str(f&#34;Error: Needs param dp_budget in class parameters when running uber_dp attacks&#34;)
+                sys.exit(s)
+
+            # Assign the privacy budget as a parameter to the attack
+            self._remaining_dp_budget = self._p[&#39;dp_budget&#39;]
+            self._initUberDPSession()
+
+            # if no session id was set, the attacks cannot be conducted
+            if self._sid is None:
+                s = str(f&#34;Failed initializing session with Uber_DP Server&#34;)
                 sys.exit(s)
         # create the database directory if it doesn&#39;t exist
         try:
@@ -336,6 +359,8 @@ class gdaAttack:
                 if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
+        if self._session: # close the uber session
+            self._session.close()
         if doExit:
             sys.exit(exitMsg)
 
@@ -486,7 +511,10 @@ class gdaAttack:
         &#34;&#34;&#34; Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: &lt;br/&gt;
-            `query[&#39;sql&#39;] contains the SQL query.&#34;&#34;&#34;
+            `query[&#39;sql&#39;] contains the SQL query.
+
+            #for the uber_dp, the following value is needed
+            query[&#39;epsilon&#39;] defines how much of the budget is used for the query&#34;&#34;&#34;
         self._attackCounter += 1
         if self._vb: print(f&#34;Calling {__name__}.askAttack with query &#39;{query}&#39;, count {self._attackCounter}&#34;)
         # Make a copy of the query for passing around
@@ -512,7 +540,10 @@ class gdaAttack:
             `result[&#39;cells&#39;]` is the number of cells returned in the answer
             (used by `gdaAttack()` to compute total attack cells) &lt;br/&gt;
             `result[&#39;query&#39;][&#39;sql&#39;]` is the query from the corresponding
-            `askAttack()`.&#34;&#34;&#34;
+            `askAttack()`.
+
+            for uber_dp, also the remaining privacy budget is returned
+            &#34;&#34;&#34;
 
         if self._vb:
             print(f&#34;Calling {__name__}.getAttack&#34;)
@@ -534,6 +565,9 @@ class gdaAttack:
                 self._atrs[&#39;base&#39;][&#39;attackCells&#39;] += reply[&#39;cells&#39;]
         else:
             self._atrs[&#39;base&#39;][&#39;attackCells&#39;] += 1
+
+        if self._type == &#39;uber_dp&#39;:
+            reply[&#39;remaining_dp_budget&#39;] = self._remaining_dp_budget
         return (reply)
 
     def askKnowledge(self, query, cache=True):
@@ -766,6 +800,62 @@ class gdaAttack:
             ret[colName] = {}
             for i in range(len(row)):
                 ret[colName][cols[i][0]] = row[i]
+        conn.close()
+        return ret
+
+    def getAnonTableCharacteristics(self, tableName=&#39;&#39;):
+        &#34;&#34;&#34;Returns the full contents of the table characteristics
+
+           Return value is a dict indexed by column name: &lt;br/&gt;
+
+               { &#39;&lt;colName&gt;&#39;:
+                   {
+                       &#39;av_rows_per_vals&#39;: 3.93149,
+                       &#39;av_uids_per_val&#39;: 0.468698,
+                       &#39;column_label&#39;: &#39;continuous&#39;,
+                       &#39;column_name&#39;: &#39;dropoff_latitude&#39;,
+                       &#39;column_type&#39;: &#39;real&#39;,
+                       &#39;max&#39;: &#39;898.29382000000000&#39;,
+                       &#39;min&#39;: &#39;-0.56333297000000&#39;,
+                       &#39;num_distinct_vals&#39;: 24216,
+                       &#39;num_rows&#39;: 95205,
+                       &#39;num_uids&#39;: 11350,
+                       &#39;std_rows_per_val&#39;: 10.8547,
+                       &#39;std_uids_per_val&#39;: 4.09688},
+                   }
+               }
+
+        &#34;&#34;&#34;
+        if len(tableName) == 0:
+            # caller didn&#39;t supply a table name, so get it from the
+            # class init
+            tableName = self._p[&#39;table&#39;]
+
+        # Modify table name to the default for the characteristics table
+        # tableName += &#39;_char&#39;
+
+        # Establish connection to database
+        db = getDatabaseInfo(self._p[&#39;anonDb&#39;])
+        connStr = str(
+            f&#34;host={db[&#39;host&#39;]} port={db[&#39;port&#39;]} dbname={db[&#39;dbname&#39;]} user={db[&#39;user&#39;]} password={db[&#39;password&#39;]}&#34;)
+        conn = psycopg2.connect(connStr)
+        cur = conn.cursor()
+
+        # Query it for column names
+        sql = str(f&#34;&#34;&#34;select column_name, data_type 
+                  from information_schema.columns
+                  where table_schema NOT IN (&#39;information_schema&#39;, &#39;pg_catalog&#39;) and 
+                  table_name=&#39;{tableName}&#39;&#34;&#34;&#34;)
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f&#34;Error: getAnonTableCharacteristics() query: &#39;{e}&#39;&#34;)
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        ans = cur.fetchall()
+
+        # Set up return dict
+        ret = {_row[0]: {&#39;column_name&#39;: _row[0], &#39;column_type&#39;: _row[1]} for _row in ans}
+
         conn.close()
         return ret
 
@@ -1064,9 +1154,12 @@ class gdaAttack:
             if self._vb: print(f&#34;   cache DB: {sql}&#34;)
             cur.execute(sql)
         sql = &#34;&#34;&#34;CREATE TABLE IF NOT EXISTS tab
-                 (qid text, answer text)&#34;&#34;&#34;
+                 (qid text primary key, answer text)&#34;&#34;&#34;
         if self._vb: print(f&#34;   cache DB: {sql}&#34;)
         cur.execute(sql)
+        # conn.commit()
+        cur.execute(&#34;PRAGMA journal_mode=WAL;&#34;)
+        # conn.commit()
         conn.close()
 
     def _removeLocalCacheDB(self):
@@ -1139,86 +1232,193 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-        if self._vb: print(f&#34;Starting {__name__}.dbWorker:{db, kind}&#34;)
-        me = threading.current_thread()
-        d = getDatabaseInfo(db)
-        # Establish connection to database
-        connStr = str(
-            f&#34;host={d[&#39;host&#39;]} port={d[&#39;port&#39;]} dbname={d[&#39;dbname&#39;]} user={d[&#39;user&#39;]} password={d[&#39;password&#39;]}&#34;)
-        if self._vb: print(f&#34;    {me}: Connect to DB with DSN &#39;{connStr}&#39;&#34;)
-        conn = psycopg2.connect(connStr)
-        cur = conn.cursor()
-        # Establish connection to local cache
-        path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
-        # Set timeout low so that we don&#39;t spend a lot of time inserting
-        # into the cache in case it gets overloaded
-        connInsert = sqlite3.connect(path, timeout=0.1)
-        curInsert = connInsert.cursor()
-        connRead = sqlite3.connect(path)
-        curRead = connRead.cursor()
-        backQ.put(me)
-        while True:
-            if isinstance(me, EnhancedThread) and me.stopped():
-                logging.info(f&#39; &gt; {me.getName()} stopped.&#39;)
-                return
-            try:
-                jobOrig = q.get(block=True, timeout=3)
-            except queue.Empty:
-                continue
-            q.task_done()
-            if jobOrig is None:
-                if self._vb: print(f&#34;    {me}: dbWorker done {db, kind}&#34;)
-                conn.close()
-                connRead.close()
-                connInsert.close()
-                break
-            # make a copy for passing around
-            job = copy.copy(jobOrig)
-            replyQ = job[&#39;q&#39;]
-            replies = []
-            for query in job[&#39;queries&#39;]:
-                reply = self._processQuery(query, conn, cur,
-                                           connInsert, curInsert, curRead)
-                replies.append(reply)
-            job[&#39;replies&#39;] = replies
-            replyQ.put(job)
 
-    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
-        # record and remove the return queue
-        cache = query[&#39;cache&#39;]
-        del query[&#39;cache&#39;]
-        # Check the cache for the answer
-        # Note that at this point query is a dict
-        # containing the sql, the db (raw, anon, or pub),
-        # and any tags that the source added
-        cachedReply = None
-        if cache:
-            cachedReply = self._getCache(curRead, query)
-        if cachedReply:
-            if self._vb: print(&#34;    Answer from cache&#34;)
-            if &#39;answer&#39; in cachedReply:
-                numCells = self._computeNumCells(cachedReply[&#39;answer&#39;])
-                cachedReply[&#39;cells&#39;] = numCells
-            return cachedReply
-        else:
-            start = time.perf_counter()
-            try:
-                cur.execute(query[&#39;sql&#39;])
-            except psycopg2.Error as e:
-                reply = dict(error=e.pgerror)
+        # uber dp has a different interface than aircloak or postgres
+        if db[&#39;type&#39;] == &#39;uber_dp&#39;:
+            if self._vb: print(f&#34;Starting {__name__}.serverWorker:{db, kind}&#34;)
+            me = threading.current_thread()
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb:
+                        print(f&#34;    {me}: serverWorker done {db, kind}&#34;)
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job[&#39;q&#39;]
+                replies = []  # holds all the reply dicts
+                for query in job[&#39;queries&#39;]:
+                    reply = self._processUberQuery(query)
+                    replies.append(reply)
+                job[&#39;replies&#39;] = replies
+                replyQ.put(job)
+
+        elif db[&#39;type&#39;] == &#39;aircloak&#39; or db[&#39;type&#39;] == &#39;postgres&#39;:
+            if self._vb: print(f&#34;Starting {__name__}.dbWorker:{db, kind}&#34;)
+            me = threading.current_thread()
+            d = getDatabaseInfo(db)
+            # Establish connection to database
+            connStr = str(
+                f&#34;host={d[&#39;host&#39;]} port={d[&#39;port&#39;]} dbname={d[&#39;dbname&#39;]} user={d[&#39;user&#39;]} password={d[&#39;password&#39;]}&#34;)
+            if self._vb: print(f&#34;    {me}: Connect to DB with DSN &#39;{connStr}&#39;&#34;)
+            conn = psycopg2.connect(connStr)
+            cur = conn.cursor()
+            # Establish connection to local cache
+            path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
+            # Set timeout low so that we don&#39;t spend a lot of time inserting
+            # into the cache in case it gets overloaded
+            connInsert = sqlite3.connect(path, timeout=0.1)
+            curInsert = connInsert.cursor()
+            connRead = sqlite3.connect(path)
+            curRead = connRead.cursor()
+            backQ.put(me)
+            while True:
+                if isinstance(me, EnhancedThread) and me.stopped():
+                    logging.info(f&#39; &gt; {me.getName()} stopped.&#39;)
+                    return
+                try:
+                    jobOrig = q.get(block=True, timeout=3)
+                except queue.Empty:
+                    continue
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f&#34;    {me}: dbWorker done {db, kind}&#34;)
+                    conn.close()
+                    connRead.close()
+                    connInsert.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job[&#39;q&#39;]
+                replies = []
+                for query in job[&#39;queries&#39;]:
+                    reply = self._processQuery(query, conn, cur,
+                                               connInsert, curInsert, curRead)
+                    replies.append(reply)
+                job[&#39;replies&#39;] = replies
+                replyQ.put(job)
+
+    def _processUberQuery(self, query):
+        # Once the session ID is defined, we stay in that session
+        # ONLY `epsilon` and the `query` can be set
+        # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        request = {
+            &#39;query&#39;: query[&#39;sql&#39;],
+            &#39;epsilon&#39;: str(query[&#39;epsilon&#39;]),
+            &#39;count&#39; : &#39;1&#39;, # the interface is designed in a way such that repeted attacks need to be triggered
+            # by several askAttack(), getAttack(). Therefore, the server functionality to potentially execute the same
+            # query several times is not used
+            &#39;budget&#39;: &#39;None&#39;,
+            &#39;dbname&#39;: &#39;None&#39;,
+            &#39;sid&#39;: self._sid
+        }
+
+        start = time.perf_counter()  # store the time of query execution
+
+        url = self._p[&#39;anonDb&#39;][&#39;host&#39;]
+        headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+                       &#39;Accept&#39;: &#39;application/json&#39;}  # Headers to be sent in the client request
+        # Client stores the response sent by the simpleServer.py
+        try:
+            response = requests.get(url, json=request, headers=headers, timeout=100, verify=True)
+
+            resp = response.json()  # Convert response sent by server to JSON
+            if self._vb:
+                print(&#34;Server response for the given query: &#34;)
+                print(resp)
+            if &#39;Error&#39; in resp[&#39;Server Response&#39;]:
+                # If budget exceeded, we do not provide an answer field in the reply
+                if &#39;Budget Exceeded&#39; in resp[&#39;Server Response&#39;][&#39;Error&#39;]:
+                    print(&#34;This query does exceed the remaining privacy budget for your attack.&#34;)
+                    print(&#34;Your remaining budget is &#34;+str(self._remaining_dp_budget)+&#34;, the query would need &#34;+str(query[&#39;epsilon&#39;])+&#34;.&#34;)
+                    reply = dict(error=&#39;Budget Exceeded&#39;)
             else:
-                ans = cur.fetchall()
+                # if the query went through, we can deduct its privay consumption to keep track internally
+                self._remaining_dp_budget -= query[&#39;epsilon&#39;]
+
+                # the answer of dp queries is a single value (as it computes the aggregate over several query rows)
+                # to match the format needed to compute number of cells, we still need two dimensions
+                # therefore, [[]]
+                ans = [[float((resp[&#39;Server Response&#39;][&#39;Result&#39;]))]]# record the answer and append it as a 1-element list of float
+
+                # for statistics. Only makes sense to count query if it went through
+                self._op[&#39;numQueries&#39;] += 1
+
+                # after all for loops find the shape of the resulting answers
                 numCells = self._computeNumCells(ans)
+
+                # format the reply similarly as for aircloak and postgres
                 reply = dict(answer=ans, cells=numCells)
-            end = time.perf_counter()
-            duration = end - start
-            self._op[&#39;numQueries&#39;] += 1
-            self._op[&#39;timeQueries&#39;] += duration
-            reply[&#39;query&#39;] = query
-            # only cache if the native query is slow
-            if duration &gt; 0.1:
-                # self._putCache(connInsert, curInsert, query, reply)
-                self.cacheQueue.put([connInsert, curInsert, query, reply])
+
+        except requests.ConnectionError as e:
+            print(&#34;Connection Error. Make sure you are connected to Internet.&#34;)
+            print(str(e))
+
+        except requests.Timeout as e:
+            print(&#34;Timeout Error&#34;)
+            print(str(e))
+
+        except requests.RequestException as e:
+            print(&#34;General Error&#34;)
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print(&#34;Program closed&#34;)
+
+
+        reply[&#39;query&#39;] = query
+
+        # calculate the time we needed for the query
+        end = time.perf_counter()
+        duration = end - start
+
+        self._op[&#39;timeQueries&#39;] += duration
+
+        return reply
+
+    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead, queryType=&#39;db&#39;):
+        # record and remove the return queue
+        # queryType specifies if we are asking the queries from a db (aircloak, postgres)
+        # or from a server, like uber_dp
+        if queryType == &#39;server&#39;:
+            pass
+        elif queryType == &#39;db&#39;:
+            cache = query[&#39;cache&#39;]
+            del query[&#39;cache&#39;]
+            # Check the cache for the answer
+            # Note that at this point query is a dict
+            # containing the sql, the db (raw, anon, or pub),
+            # and any tags that the source added
+            cachedReply = None
+            if cache:
+                cachedReply = self._getCache(curRead, query)
+            if cachedReply:
+                if self._vb: print(&#34;    Answer from cache&#34;)
+                if &#39;answer&#39; in cachedReply:
+                    numCells = self._computeNumCells(cachedReply[&#39;answer&#39;])
+                    cachedReply[&#39;cells&#39;] = numCells
+                return cachedReply
+            else:
+                start = time.perf_counter()
+                try:
+                    cur.execute(query[&#39;sql&#39;])
+                except psycopg2.Error as e:
+                    reply = dict(error=e.pgerror)
+                else:
+                    ans = cur.fetchall()
+                    numCells = self._computeNumCells(ans)
+                    reply = dict(answer=ans, cells=numCells)
+                end = time.perf_counter()
+                duration = end - start
+                self._op[&#39;numQueries&#39;] += 1
+                self._op[&#39;timeQueries&#39;] += duration
+                reply[&#39;query&#39;] = query
+                # only cache if the native query is slow
+                if duration &gt; 0.1:
+                    # self._putCache(connInsert, curInsert, query, reply)
+                    self.cacheQueue.put([connInsert, curInsert, query, reply])
             return reply
 
     def _checkInference(self, ans):
@@ -1291,6 +1491,9 @@ class gdaAttack:
             sys.exit(&#34;Error: Can&#39;t have more than 50 threads total&#34;)
 
     def _getCache(self, cur, query):
+        path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
+        my_conn = sqlite3.connect(path, timeout=0.1)
+        my_cur = my_conn.cursor()
         # turn the query (dict) into a string
         qStr = self._dict2Str(query)
         if qStr is None:
@@ -1298,15 +1501,38 @@ class gdaAttack:
         sql = str(f&#34;SELECT answer FROM tab where qid = &#39;{qStr}&#39;&#34;)
         if self._vb: print(f&#34;   cache DB: {sql}&#34;)
         start = time.perf_counter()
-        try:
-            cur.execute(sql)
-        except sqlite3.Error as e:
-            print(f&#34;getCache error &#39;{e.args[0]}&#39;&#34;)
+        for z in range(1,11):
+            try:
+                # cur.execute(sql)
+                my_cur.execute(sql)
+            except sqlite3.OperationalError as e:
+                # database is locked
+                if self._p[&#39;verbose&#39;] or self._vb:
+                    logging.warning(f&#39;&gt;&gt; reading from cache DB: {z} attempt(s). Coming next try &#39;
+                                  f&#39;soon...&#39;)
+                err = e
+                time.sleep(0.5)
+                continue
+            except (sqlite3.Error, Exception) as e:
+                if self._p[&#39;verbose&#39;] or self._vb:
+                    logging.warning(f&#34;getCache error &#39;{e.args[0]}&#39; attempt: {z}. Coming next try &#34;
+                                    f&#34;soon...&#34;)
+                err = e
+                time.sleep(0.5)
+                continue
+            else:
+                break
+        else:
+            if self._p[&#39;verbose&#39;] or self._vb:
+                logging.error(f&#39;&gt;&gt; could not read from cache DB &gt;&gt; ERROR: {err}&#39;)
             return None
         end = time.perf_counter()
         self._op[&#39;numCacheGets&#39;] += 1
         self._op[&#39;timeCacheGets&#39;] += (end - start)
-        answer = cur.fetchone()
+        # answer = cur.fetchone() # frzmohammadali just to remember my stupidest bug ever
+        answer = my_cur.fetchone()
+        my_cur.close()
+        my_conn.close()
         if not answer:
             return None
         rtnDict = self._str2Dict(answer[0])
@@ -1314,6 +1540,8 @@ class gdaAttack:
 
     def _putCache(self, conn, cur, query, reply):
         # turn the query and reply (dict) into a string
+        # Establish connection to local cache
+        path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
         qStr = self._dict2Str(query)
         if qStr is None:
             return
@@ -1326,24 +1554,47 @@ class gdaAttack:
         err = None
         for z in range(10):
             try:
-                cur.execute(sql)
-                conn.commit()
+                # cur.execute(sql)
+                # conn.commit()
+                my_conn = sqlite3.connect(path, timeout=0.1)
+                my_cur = my_conn.cursor()
+                my_cur.execute(sql)
+                my_conn.commit()
+
+            except sqlite3.IntegrityError as e:
+                if self._p[&#39;verbose&#39;] or self._vb:
+                    logging.warning(f&#34;putCache error [qid exists in cached queries] &#39;{e.args[0]}&#39; &#34;)
+                break
             except sqlite3.OperationalError as e:
+                # database is locked
                 if self._p[&#39;verbose&#39;] or self._vb:
-                    print(f&#34;putCache error &#39;{e.args[0]}&#39;&#34;)
+                    logging.warning(f&#34;putCache attempt: {z}. Coming next try &#34;
+                                    f&#34;soon...&#34;)
                 err = e
+                time.sleep(0.5)
                 continue
-            except sqlite3.Error as e:
+            except (sqlite3.Error, Exception) as e:
                 if self._p[&#39;verbose&#39;] or self._vb:
-                    print(f&#34;putCache error &#39;{e.args[0]}&#39;&#34;)
+                    logging.warning(f&#34;putCache error &#39;{e.args[0]}&#39; attempt: {z}. Coming next try &#34;
+                                    f&#34;soon...&#34;)
                 err = e
+                time.sleep(0.5)
                 continue
             else:
                 break
+            finally:
+                try:
+                    if my_cur:
+                        my_cur.close()
+                    if my_conn:
+                        my_conn.close()
+                except sqlite3.ProgrammingError:
+                    # cursor and connection is already closed
+                    pass
         else:
             # raise err
             if self._p[&#39;verbose&#39;] or self._vb:
-                print(f&#39;&gt;&gt; could not insert into cache DB &gt;&gt; ERROR: {err}&#39;)
+                logging.error(f&#39;&gt;&gt; could not insert into cache DB &gt;&gt; ERROR: {err}&#39;)
 
         end = time.perf_counter()
         self._op[&#39;numCachePuts&#39;] += 1
@@ -1534,6 +1785,63 @@ class gdaAttack:
         self._claimCounter = 0
         self._guessCounter = 0
 
+    def _initUberDPSession(self):
+        # Client establishes a session
+        session = requests.Session()
+        session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
+
+        # remember the session to close it if necessary
+        self._session = session
+
+        # function to initialize the session with the dp server
+        try:
+            # this is the initial query.
+            # its only purpose is to obtain a session ID and to define a budget
+            # The budget is set in the initial request only
+            # Once the budget is set, no further modification to the budget
+            # is possible in subsequent requests
+            request = {
+                &#39;query&#39;: &#34;&#34;,  # empty query, just serves to get a session ID
+                &#39;epsilon&#39;: &#39;0.0&#39;,  # nothing used up in the initialization phase
+                &#39;budget&#39;: str(self._remaining_dp_budget),  # the numeric values are sent as strings
+                &#39;dbname&#39;: self._p[&#39;rawDb&#39;][&#39;dbname&#39;], # name of the raw db
+                &#39;sid&#39;: &#39;&#39;  # When sid is Null it indicates start of a session
+                }
+            # the database for anonymization here is uber
+            url = self._p[&#39;anonDb&#39;][&#39;host&#39;]
+            headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+                       &#39;Accept&#39;: &#39;application/json&#39;}
+
+
+            # Client stores the response sent by the simpleServer.py
+            response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
+            resp = response.json()  # Convert response sent by server to JSON
+
+            if &#39;Error&#39; in resp[&#39;Server Response&#39;]:
+                pprint.pprint(resp)  # Client prints the data returned by the server
+            else:   # if no error was encountered
+                if self._vb:
+                    pprint.pprint(&#34;Setting up connection with Uber_DP Server&#34;)
+                    pprint.pprint(resp)  # Client prints the data returned by the server
+
+                # in case there is no error, but we are at the &#34;dummy query&#34; to get the session ID
+                self._sid = resp[&#39;Server Response&#39;][&#39;Session ID&#39;]  # Set Session ID to value returned by server
+
+
+        except requests.ConnectionError as e:
+            print(&#34;Connection Error. Make sure you are connected to Internet.&#34;)
+            print(str(e))
+
+        except requests.Timeout as e:
+            print(&#34;Timeout Error&#34;)
+            print(str(e))
+
+        except requests.RequestException as e:
+            print(&#34;General Error&#34;)
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print(&#34;Program closed&#34;)
 
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
@@ -1609,7 +1917,7 @@ def signal_kill_handler(signum, frame):
     #              f&#39; &gt; sending termination signal to all. please wait ... &#39;)
     cleanBgThreads()
     if atcObject:
-        atcObject.cleanUp()
+        atcObject.cleanUp(cleanUpCache=False)
 
     sys.exit(-1)
 
@@ -1639,7 +1947,7 @@ atexit.register(on_exit)</code></pre>
 <span>(</span><span>params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Manages a GDA Attack</p>
+<section class="desc"><p>Manages a GDA Attack</p>
 <p>WARNING: this code is fragile, and can fail ungracefully, or
 just hang.</p>
 <p>Everything gets set up with 'gdaAttack(params)'</p>
@@ -1674,7 +1982,10 @@ that can be made to the raw DB. Default 3. <br/>
 that can be made to the anon DB. Default 3. <br/>
 <code>param['numPubDbThreads']</code>: The number of parallel queries
 that can be made to the public linkability DB. Default 3. <br/>
-<code>param['verbose']</code>: Set to True for verbose output.</p></div>
+<code>param['verbose']</code>: Set to True for verbose output.</p>
+<p>For uber_dp, the following optional parameter can be set
+<code>param['dp_budget']</code>: The overall privacy budget for the attack.
+Default 'None'. <br/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1720,6 +2031,10 @@ that can be made to the public linkability DB. Default 3. <br/>
             `param[&#39;numPubDbThreads&#39;]`: The number of parallel queries
             that can be made to the public linkability DB. Default 3. &lt;br/&gt;
             `param[&#39;verbose&#39;]`: Set to True for verbose output.
+
+            For uber_dp, the following optional parameter can be set
+            `param[&#39;dp_budget&#39;]`: The overall privacy budget for the attack.
+            Default &#39;None&#39;. &lt;br/&gt;
         &#34;&#34;&#34;
 
         #### gda-score-code version check warning ####
@@ -1764,6 +2079,8 @@ that can be made to the public linkability DB. Default 3. <br/>
         self._vb = False
         self._cr = &#39;&#39;  # short for criteria
         self._pp = None  # pretty printer (for debugging)
+        self._sid = None # for uber_dp interface, a session ID over the attack is needed
+        self._session = None # also session for the uber_dp interface
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name=&#39;&#39;,
@@ -1823,6 +2140,23 @@ that can be made to the public linkability DB. Default 3. <br/>
         for param in self._requiredParams:
             if len(self._p[param]) == 0:
                 s = str(f&#34;Error: Need param &#39;{param}&#39; in class parameters&#34;)
+                sys.exit(s)
+
+        # extract the type of interface we are interacting with the anonymization
+        self._type = self._p[&#39;anonDb&#39;][&#39;type&#39;]
+        if self._type == &#39;uber_dp&#39;:
+            # cannot run attack on uber dp without specifying the budget
+            if self._p[&#39;dp_budget&#39;] is None:
+                s = str(f&#34;Error: Needs param dp_budget in class parameters when running uber_dp attacks&#34;)
+                sys.exit(s)
+
+            # Assign the privacy budget as a parameter to the attack
+            self._remaining_dp_budget = self._p[&#39;dp_budget&#39;]
+            self._initUberDPSession()
+
+            # if no session id was set, the attacks cannot be conducted
+            if self._sid is None:
+                s = str(f&#34;Failed initializing session with Uber_DP Server&#34;)
                 sys.exit(s)
         # create the database directory if it doesn&#39;t exist
         try:
@@ -1937,6 +2271,8 @@ that can be made to the public linkability DB. Default 3. <br/>
                 if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
+        if self._session: # close the uber session
+            self._session.close()
         if doExit:
             sys.exit(exitMsg)
 
@@ -2087,7 +2423,10 @@ that can be made to the public linkability DB. Default 3. <br/>
         &#34;&#34;&#34; Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: &lt;br/&gt;
-            `query[&#39;sql&#39;] contains the SQL query.&#34;&#34;&#34;
+            `query[&#39;sql&#39;] contains the SQL query.
+
+            #for the uber_dp, the following value is needed
+            query[&#39;epsilon&#39;] defines how much of the budget is used for the query&#34;&#34;&#34;
         self._attackCounter += 1
         if self._vb: print(f&#34;Calling {__name__}.askAttack with query &#39;{query}&#39;, count {self._attackCounter}&#34;)
         # Make a copy of the query for passing around
@@ -2113,7 +2452,10 @@ that can be made to the public linkability DB. Default 3. <br/>
             `result[&#39;cells&#39;]` is the number of cells returned in the answer
             (used by `gdaAttack()` to compute total attack cells) &lt;br/&gt;
             `result[&#39;query&#39;][&#39;sql&#39;]` is the query from the corresponding
-            `askAttack()`.&#34;&#34;&#34;
+            `askAttack()`.
+
+            for uber_dp, also the remaining privacy budget is returned
+            &#34;&#34;&#34;
 
         if self._vb:
             print(f&#34;Calling {__name__}.getAttack&#34;)
@@ -2135,6 +2477,9 @@ that can be made to the public linkability DB. Default 3. <br/>
                 self._atrs[&#39;base&#39;][&#39;attackCells&#39;] += reply[&#39;cells&#39;]
         else:
             self._atrs[&#39;base&#39;][&#39;attackCells&#39;] += 1
+
+        if self._type == &#39;uber_dp&#39;:
+            reply[&#39;remaining_dp_budget&#39;] = self._remaining_dp_budget
         return (reply)
 
     def askKnowledge(self, query, cache=True):
@@ -2367,6 +2712,62 @@ that can be made to the public linkability DB. Default 3. <br/>
             ret[colName] = {}
             for i in range(len(row)):
                 ret[colName][cols[i][0]] = row[i]
+        conn.close()
+        return ret
+
+    def getAnonTableCharacteristics(self, tableName=&#39;&#39;):
+        &#34;&#34;&#34;Returns the full contents of the table characteristics
+
+           Return value is a dict indexed by column name: &lt;br/&gt;
+
+               { &#39;&lt;colName&gt;&#39;:
+                   {
+                       &#39;av_rows_per_vals&#39;: 3.93149,
+                       &#39;av_uids_per_val&#39;: 0.468698,
+                       &#39;column_label&#39;: &#39;continuous&#39;,
+                       &#39;column_name&#39;: &#39;dropoff_latitude&#39;,
+                       &#39;column_type&#39;: &#39;real&#39;,
+                       &#39;max&#39;: &#39;898.29382000000000&#39;,
+                       &#39;min&#39;: &#39;-0.56333297000000&#39;,
+                       &#39;num_distinct_vals&#39;: 24216,
+                       &#39;num_rows&#39;: 95205,
+                       &#39;num_uids&#39;: 11350,
+                       &#39;std_rows_per_val&#39;: 10.8547,
+                       &#39;std_uids_per_val&#39;: 4.09688},
+                   }
+               }
+
+        &#34;&#34;&#34;
+        if len(tableName) == 0:
+            # caller didn&#39;t supply a table name, so get it from the
+            # class init
+            tableName = self._p[&#39;table&#39;]
+
+        # Modify table name to the default for the characteristics table
+        # tableName += &#39;_char&#39;
+
+        # Establish connection to database
+        db = getDatabaseInfo(self._p[&#39;anonDb&#39;])
+        connStr = str(
+            f&#34;host={db[&#39;host&#39;]} port={db[&#39;port&#39;]} dbname={db[&#39;dbname&#39;]} user={db[&#39;user&#39;]} password={db[&#39;password&#39;]}&#34;)
+        conn = psycopg2.connect(connStr)
+        cur = conn.cursor()
+
+        # Query it for column names
+        sql = str(f&#34;&#34;&#34;select column_name, data_type 
+                  from information_schema.columns
+                  where table_schema NOT IN (&#39;information_schema&#39;, &#39;pg_catalog&#39;) and 
+                  table_name=&#39;{tableName}&#39;&#34;&#34;&#34;)
+        try:
+            cur.execute(sql)
+        except psycopg2.Error as e:
+            print(f&#34;Error: getAnonTableCharacteristics() query: &#39;{e}&#39;&#34;)
+            self.cleanUp(cleanUpCache=False, doExit=True)
+        ans = cur.fetchall()
+
+        # Set up return dict
+        ret = {_row[0]: {&#39;column_name&#39;: _row[0], &#39;column_type&#39;: _row[1]} for _row in ans}
+
         conn.close()
         return ret
 
@@ -2665,9 +3066,12 @@ that can be made to the public linkability DB. Default 3. <br/>
             if self._vb: print(f&#34;   cache DB: {sql}&#34;)
             cur.execute(sql)
         sql = &#34;&#34;&#34;CREATE TABLE IF NOT EXISTS tab
-                 (qid text, answer text)&#34;&#34;&#34;
+                 (qid text primary key, answer text)&#34;&#34;&#34;
         if self._vb: print(f&#34;   cache DB: {sql}&#34;)
         cur.execute(sql)
+        # conn.commit()
+        cur.execute(&#34;PRAGMA journal_mode=WAL;&#34;)
+        # conn.commit()
         conn.close()
 
     def _removeLocalCacheDB(self):
@@ -2740,86 +3144,193 @@ that can be made to the public linkability DB. Default 3. <br/>
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-        if self._vb: print(f&#34;Starting {__name__}.dbWorker:{db, kind}&#34;)
-        me = threading.current_thread()
-        d = getDatabaseInfo(db)
-        # Establish connection to database
-        connStr = str(
-            f&#34;host={d[&#39;host&#39;]} port={d[&#39;port&#39;]} dbname={d[&#39;dbname&#39;]} user={d[&#39;user&#39;]} password={d[&#39;password&#39;]}&#34;)
-        if self._vb: print(f&#34;    {me}: Connect to DB with DSN &#39;{connStr}&#39;&#34;)
-        conn = psycopg2.connect(connStr)
-        cur = conn.cursor()
-        # Establish connection to local cache
-        path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
-        # Set timeout low so that we don&#39;t spend a lot of time inserting
-        # into the cache in case it gets overloaded
-        connInsert = sqlite3.connect(path, timeout=0.1)
-        curInsert = connInsert.cursor()
-        connRead = sqlite3.connect(path)
-        curRead = connRead.cursor()
-        backQ.put(me)
-        while True:
-            if isinstance(me, EnhancedThread) and me.stopped():
-                logging.info(f&#39; &gt; {me.getName()} stopped.&#39;)
-                return
-            try:
-                jobOrig = q.get(block=True, timeout=3)
-            except queue.Empty:
-                continue
-            q.task_done()
-            if jobOrig is None:
-                if self._vb: print(f&#34;    {me}: dbWorker done {db, kind}&#34;)
-                conn.close()
-                connRead.close()
-                connInsert.close()
-                break
-            # make a copy for passing around
-            job = copy.copy(jobOrig)
-            replyQ = job[&#39;q&#39;]
-            replies = []
-            for query in job[&#39;queries&#39;]:
-                reply = self._processQuery(query, conn, cur,
-                                           connInsert, curInsert, curRead)
-                replies.append(reply)
-            job[&#39;replies&#39;] = replies
-            replyQ.put(job)
 
-    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
-        # record and remove the return queue
-        cache = query[&#39;cache&#39;]
-        del query[&#39;cache&#39;]
-        # Check the cache for the answer
-        # Note that at this point query is a dict
-        # containing the sql, the db (raw, anon, or pub),
-        # and any tags that the source added
-        cachedReply = None
-        if cache:
-            cachedReply = self._getCache(curRead, query)
-        if cachedReply:
-            if self._vb: print(&#34;    Answer from cache&#34;)
-            if &#39;answer&#39; in cachedReply:
-                numCells = self._computeNumCells(cachedReply[&#39;answer&#39;])
-                cachedReply[&#39;cells&#39;] = numCells
-            return cachedReply
-        else:
-            start = time.perf_counter()
-            try:
-                cur.execute(query[&#39;sql&#39;])
-            except psycopg2.Error as e:
-                reply = dict(error=e.pgerror)
+        # uber dp has a different interface than aircloak or postgres
+        if db[&#39;type&#39;] == &#39;uber_dp&#39;:
+            if self._vb: print(f&#34;Starting {__name__}.serverWorker:{db, kind}&#34;)
+            me = threading.current_thread()
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb:
+                        print(f&#34;    {me}: serverWorker done {db, kind}&#34;)
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job[&#39;q&#39;]
+                replies = []  # holds all the reply dicts
+                for query in job[&#39;queries&#39;]:
+                    reply = self._processUberQuery(query)
+                    replies.append(reply)
+                job[&#39;replies&#39;] = replies
+                replyQ.put(job)
+
+        elif db[&#39;type&#39;] == &#39;aircloak&#39; or db[&#39;type&#39;] == &#39;postgres&#39;:
+            if self._vb: print(f&#34;Starting {__name__}.dbWorker:{db, kind}&#34;)
+            me = threading.current_thread()
+            d = getDatabaseInfo(db)
+            # Establish connection to database
+            connStr = str(
+                f&#34;host={d[&#39;host&#39;]} port={d[&#39;port&#39;]} dbname={d[&#39;dbname&#39;]} user={d[&#39;user&#39;]} password={d[&#39;password&#39;]}&#34;)
+            if self._vb: print(f&#34;    {me}: Connect to DB with DSN &#39;{connStr}&#39;&#34;)
+            conn = psycopg2.connect(connStr)
+            cur = conn.cursor()
+            # Establish connection to local cache
+            path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
+            # Set timeout low so that we don&#39;t spend a lot of time inserting
+            # into the cache in case it gets overloaded
+            connInsert = sqlite3.connect(path, timeout=0.1)
+            curInsert = connInsert.cursor()
+            connRead = sqlite3.connect(path)
+            curRead = connRead.cursor()
+            backQ.put(me)
+            while True:
+                if isinstance(me, EnhancedThread) and me.stopped():
+                    logging.info(f&#39; &gt; {me.getName()} stopped.&#39;)
+                    return
+                try:
+                    jobOrig = q.get(block=True, timeout=3)
+                except queue.Empty:
+                    continue
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f&#34;    {me}: dbWorker done {db, kind}&#34;)
+                    conn.close()
+                    connRead.close()
+                    connInsert.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job[&#39;q&#39;]
+                replies = []
+                for query in job[&#39;queries&#39;]:
+                    reply = self._processQuery(query, conn, cur,
+                                               connInsert, curInsert, curRead)
+                    replies.append(reply)
+                job[&#39;replies&#39;] = replies
+                replyQ.put(job)
+
+    def _processUberQuery(self, query):
+        # Once the session ID is defined, we stay in that session
+        # ONLY `epsilon` and the `query` can be set
+        # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        request = {
+            &#39;query&#39;: query[&#39;sql&#39;],
+            &#39;epsilon&#39;: str(query[&#39;epsilon&#39;]),
+            &#39;count&#39; : &#39;1&#39;, # the interface is designed in a way such that repeted attacks need to be triggered
+            # by several askAttack(), getAttack(). Therefore, the server functionality to potentially execute the same
+            # query several times is not used
+            &#39;budget&#39;: &#39;None&#39;,
+            &#39;dbname&#39;: &#39;None&#39;,
+            &#39;sid&#39;: self._sid
+        }
+
+        start = time.perf_counter()  # store the time of query execution
+
+        url = self._p[&#39;anonDb&#39;][&#39;host&#39;]
+        headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+                       &#39;Accept&#39;: &#39;application/json&#39;}  # Headers to be sent in the client request
+        # Client stores the response sent by the simpleServer.py
+        try:
+            response = requests.get(url, json=request, headers=headers, timeout=100, verify=True)
+
+            resp = response.json()  # Convert response sent by server to JSON
+            if self._vb:
+                print(&#34;Server response for the given query: &#34;)
+                print(resp)
+            if &#39;Error&#39; in resp[&#39;Server Response&#39;]:
+                # If budget exceeded, we do not provide an answer field in the reply
+                if &#39;Budget Exceeded&#39; in resp[&#39;Server Response&#39;][&#39;Error&#39;]:
+                    print(&#34;This query does exceed the remaining privacy budget for your attack.&#34;)
+                    print(&#34;Your remaining budget is &#34;+str(self._remaining_dp_budget)+&#34;, the query would need &#34;+str(query[&#39;epsilon&#39;])+&#34;.&#34;)
+                    reply = dict(error=&#39;Budget Exceeded&#39;)
             else:
-                ans = cur.fetchall()
+                # if the query went through, we can deduct its privay consumption to keep track internally
+                self._remaining_dp_budget -= query[&#39;epsilon&#39;]
+
+                # the answer of dp queries is a single value (as it computes the aggregate over several query rows)
+                # to match the format needed to compute number of cells, we still need two dimensions
+                # therefore, [[]]
+                ans = [[float((resp[&#39;Server Response&#39;][&#39;Result&#39;]))]]# record the answer and append it as a 1-element list of float
+
+                # for statistics. Only makes sense to count query if it went through
+                self._op[&#39;numQueries&#39;] += 1
+
+                # after all for loops find the shape of the resulting answers
                 numCells = self._computeNumCells(ans)
+
+                # format the reply similarly as for aircloak and postgres
                 reply = dict(answer=ans, cells=numCells)
-            end = time.perf_counter()
-            duration = end - start
-            self._op[&#39;numQueries&#39;] += 1
-            self._op[&#39;timeQueries&#39;] += duration
-            reply[&#39;query&#39;] = query
-            # only cache if the native query is slow
-            if duration &gt; 0.1:
-                # self._putCache(connInsert, curInsert, query, reply)
-                self.cacheQueue.put([connInsert, curInsert, query, reply])
+
+        except requests.ConnectionError as e:
+            print(&#34;Connection Error. Make sure you are connected to Internet.&#34;)
+            print(str(e))
+
+        except requests.Timeout as e:
+            print(&#34;Timeout Error&#34;)
+            print(str(e))
+
+        except requests.RequestException as e:
+            print(&#34;General Error&#34;)
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print(&#34;Program closed&#34;)
+
+
+        reply[&#39;query&#39;] = query
+
+        # calculate the time we needed for the query
+        end = time.perf_counter()
+        duration = end - start
+
+        self._op[&#39;timeQueries&#39;] += duration
+
+        return reply
+
+    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead, queryType=&#39;db&#39;):
+        # record and remove the return queue
+        # queryType specifies if we are asking the queries from a db (aircloak, postgres)
+        # or from a server, like uber_dp
+        if queryType == &#39;server&#39;:
+            pass
+        elif queryType == &#39;db&#39;:
+            cache = query[&#39;cache&#39;]
+            del query[&#39;cache&#39;]
+            # Check the cache for the answer
+            # Note that at this point query is a dict
+            # containing the sql, the db (raw, anon, or pub),
+            # and any tags that the source added
+            cachedReply = None
+            if cache:
+                cachedReply = self._getCache(curRead, query)
+            if cachedReply:
+                if self._vb: print(&#34;    Answer from cache&#34;)
+                if &#39;answer&#39; in cachedReply:
+                    numCells = self._computeNumCells(cachedReply[&#39;answer&#39;])
+                    cachedReply[&#39;cells&#39;] = numCells
+                return cachedReply
+            else:
+                start = time.perf_counter()
+                try:
+                    cur.execute(query[&#39;sql&#39;])
+                except psycopg2.Error as e:
+                    reply = dict(error=e.pgerror)
+                else:
+                    ans = cur.fetchall()
+                    numCells = self._computeNumCells(ans)
+                    reply = dict(answer=ans, cells=numCells)
+                end = time.perf_counter()
+                duration = end - start
+                self._op[&#39;numQueries&#39;] += 1
+                self._op[&#39;timeQueries&#39;] += duration
+                reply[&#39;query&#39;] = query
+                # only cache if the native query is slow
+                if duration &gt; 0.1:
+                    # self._putCache(connInsert, curInsert, query, reply)
+                    self.cacheQueue.put([connInsert, curInsert, query, reply])
             return reply
 
     def _checkInference(self, ans):
@@ -2892,6 +3403,9 @@ that can be made to the public linkability DB. Default 3. <br/>
             sys.exit(&#34;Error: Can&#39;t have more than 50 threads total&#34;)
 
     def _getCache(self, cur, query):
+        path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
+        my_conn = sqlite3.connect(path, timeout=0.1)
+        my_cur = my_conn.cursor()
         # turn the query (dict) into a string
         qStr = self._dict2Str(query)
         if qStr is None:
@@ -2899,15 +3413,38 @@ that can be made to the public linkability DB. Default 3. <br/>
         sql = str(f&#34;SELECT answer FROM tab where qid = &#39;{qStr}&#39;&#34;)
         if self._vb: print(f&#34;   cache DB: {sql}&#34;)
         start = time.perf_counter()
-        try:
-            cur.execute(sql)
-        except sqlite3.Error as e:
-            print(f&#34;getCache error &#39;{e.args[0]}&#39;&#34;)
+        for z in range(1,11):
+            try:
+                # cur.execute(sql)
+                my_cur.execute(sql)
+            except sqlite3.OperationalError as e:
+                # database is locked
+                if self._p[&#39;verbose&#39;] or self._vb:
+                    logging.warning(f&#39;&gt;&gt; reading from cache DB: {z} attempt(s). Coming next try &#39;
+                                  f&#39;soon...&#39;)
+                err = e
+                time.sleep(0.5)
+                continue
+            except (sqlite3.Error, Exception) as e:
+                if self._p[&#39;verbose&#39;] or self._vb:
+                    logging.warning(f&#34;getCache error &#39;{e.args[0]}&#39; attempt: {z}. Coming next try &#34;
+                                    f&#34;soon...&#34;)
+                err = e
+                time.sleep(0.5)
+                continue
+            else:
+                break
+        else:
+            if self._p[&#39;verbose&#39;] or self._vb:
+                logging.error(f&#39;&gt;&gt; could not read from cache DB &gt;&gt; ERROR: {err}&#39;)
             return None
         end = time.perf_counter()
         self._op[&#39;numCacheGets&#39;] += 1
         self._op[&#39;timeCacheGets&#39;] += (end - start)
-        answer = cur.fetchone()
+        # answer = cur.fetchone() # frzmohammadali just to remember my stupidest bug ever
+        answer = my_cur.fetchone()
+        my_cur.close()
+        my_conn.close()
         if not answer:
             return None
         rtnDict = self._str2Dict(answer[0])
@@ -2915,6 +3452,8 @@ that can be made to the public linkability DB. Default 3. <br/>
 
     def _putCache(self, conn, cur, query, reply):
         # turn the query and reply (dict) into a string
+        # Establish connection to local cache
+        path = self._p[&#39;locCacheDir&#39;] + &#34;/&#34; + self._p[&#39;name&#39;] + &#34;.db&#34;
         qStr = self._dict2Str(query)
         if qStr is None:
             return
@@ -2927,24 +3466,47 @@ that can be made to the public linkability DB. Default 3. <br/>
         err = None
         for z in range(10):
             try:
-                cur.execute(sql)
-                conn.commit()
+                # cur.execute(sql)
+                # conn.commit()
+                my_conn = sqlite3.connect(path, timeout=0.1)
+                my_cur = my_conn.cursor()
+                my_cur.execute(sql)
+                my_conn.commit()
+
+            except sqlite3.IntegrityError as e:
+                if self._p[&#39;verbose&#39;] or self._vb:
+                    logging.warning(f&#34;putCache error [qid exists in cached queries] &#39;{e.args[0]}&#39; &#34;)
+                break
             except sqlite3.OperationalError as e:
+                # database is locked
                 if self._p[&#39;verbose&#39;] or self._vb:
-                    print(f&#34;putCache error &#39;{e.args[0]}&#39;&#34;)
+                    logging.warning(f&#34;putCache attempt: {z}. Coming next try &#34;
+                                    f&#34;soon...&#34;)
                 err = e
+                time.sleep(0.5)
                 continue
-            except sqlite3.Error as e:
+            except (sqlite3.Error, Exception) as e:
                 if self._p[&#39;verbose&#39;] or self._vb:
-                    print(f&#34;putCache error &#39;{e.args[0]}&#39;&#34;)
+                    logging.warning(f&#34;putCache error &#39;{e.args[0]}&#39; attempt: {z}. Coming next try &#34;
+                                    f&#34;soon...&#34;)
                 err = e
+                time.sleep(0.5)
                 continue
             else:
                 break
+            finally:
+                try:
+                    if my_cur:
+                        my_cur.close()
+                    if my_conn:
+                        my_conn.close()
+                except sqlite3.ProgrammingError:
+                    # cursor and connection is already closed
+                    pass
         else:
             # raise err
             if self._p[&#39;verbose&#39;] or self._vb:
-                print(f&#39;&gt;&gt; could not insert into cache DB &gt;&gt; ERROR: {err}&#39;)
+                logging.error(f&#39;&gt;&gt; could not insert into cache DB &gt;&gt; ERROR: {err}&#39;)
 
         end = time.perf_counter()
         self._op[&#39;numCachePuts&#39;] += 1
@@ -3133,7 +3695,65 @@ that can be made to the public linkability DB. Default 3. <br/>
         self._knowledgeCounter = 0
         self._attackCounter = 0
         self._claimCounter = 0
-        self._guessCounter = 0</code></pre>
+        self._guessCounter = 0
+
+    def _initUberDPSession(self):
+        # Client establishes a session
+        session = requests.Session()
+        session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
+
+        # remember the session to close it if necessary
+        self._session = session
+
+        # function to initialize the session with the dp server
+        try:
+            # this is the initial query.
+            # its only purpose is to obtain a session ID and to define a budget
+            # The budget is set in the initial request only
+            # Once the budget is set, no further modification to the budget
+            # is possible in subsequent requests
+            request = {
+                &#39;query&#39;: &#34;&#34;,  # empty query, just serves to get a session ID
+                &#39;epsilon&#39;: &#39;0.0&#39;,  # nothing used up in the initialization phase
+                &#39;budget&#39;: str(self._remaining_dp_budget),  # the numeric values are sent as strings
+                &#39;dbname&#39;: self._p[&#39;rawDb&#39;][&#39;dbname&#39;], # name of the raw db
+                &#39;sid&#39;: &#39;&#39;  # When sid is Null it indicates start of a session
+                }
+            # the database for anonymization here is uber
+            url = self._p[&#39;anonDb&#39;][&#39;host&#39;]
+            headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+                       &#39;Accept&#39;: &#39;application/json&#39;}
+
+
+            # Client stores the response sent by the simpleServer.py
+            response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
+            resp = response.json()  # Convert response sent by server to JSON
+
+            if &#39;Error&#39; in resp[&#39;Server Response&#39;]:
+                pprint.pprint(resp)  # Client prints the data returned by the server
+            else:   # if no error was encountered
+                if self._vb:
+                    pprint.pprint(&#34;Setting up connection with Uber_DP Server&#34;)
+                    pprint.pprint(resp)  # Client prints the data returned by the server
+
+                # in case there is no error, but we are at the &#34;dummy query&#34; to get the session ID
+                self._sid = resp[&#39;Server Response&#39;][&#39;Session ID&#39;]  # Set Session ID to value returned by server
+
+
+        except requests.ConnectionError as e:
+            print(&#34;Connection Error. Make sure you are connected to Internet.&#34;)
+            print(str(e))
+
+        except requests.Timeout as e:
+            print(&#34;Timeout Error&#34;)
+            print(str(e))
+
+        except requests.RequestException as e:
+            print(&#34;General Error&#34;)
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print(&#34;Program closed&#34;)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -3141,9 +3761,11 @@ that can be made to the public linkability DB. Default 3. <br/>
 <span>def <span class="ident">askAttack</span></span>(<span>self, query, cache=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Generate and queue up an attack query for database.</p>
+<section class="desc"><p>Generate and queue up an attack query for database.</p>
 <p><code>query</code> is a dictionary with (currently) one value: <br/>
-`query['sql'] contains the SQL query.</p></div>
+`query['sql'] contains the SQL query.</p>
+<h1 id="for-the-uber_dp-the-following-value-is-needed">for the uber_dp, the following value is needed</h1>
+<p>query['epsilon'] defines how much of the budget is used for the query</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3152,7 +3774,10 @@ that can be made to the public linkability DB. Default 3. <br/>
     &#34;&#34;&#34; Generate and queue up an attack query for database.
 
         `query` is a dictionary with (currently) one value: &lt;br/&gt;
-        `query[&#39;sql&#39;] contains the SQL query.&#34;&#34;&#34;
+        `query[&#39;sql&#39;] contains the SQL query.
+
+        #for the uber_dp, the following value is needed
+        query[&#39;epsilon&#39;] defines how much of the budget is used for the query&#34;&#34;&#34;
     self._attackCounter += 1
     if self._vb: print(f&#34;Calling {__name__}.askAttack with query &#39;{query}&#39;, count {self._attackCounter}&#34;)
     # Make a copy of the query for passing around
@@ -3168,8 +3793,8 @@ that can be made to the public linkability DB. Default 3. <br/>
 <span>def <span class="ident">askClaim</span></span>(<span>self, spec, cache=True, claim=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Generate Claim query for raw and optionally pub databases.</p>
-<p>Before anything happens, the system uses the <code><a title="gdascore.gdaAttack.gdaAttack.isClaimed" href="#gdascore.gdaAttack.gdaAttack.isClaimed">gdaAttack.isClaimed()</a></code>
+<section class="desc"><p>Generate Claim query for raw and optionally pub databases.</p>
+<p>Before anything happens, the system uses the <a title="gdascore.gdaAttack.gdaAttack.isClaimed" href="#gdascore.gdaAttack.gdaAttack.isClaimed"><code>gdaAttack.isClaimed()</code></a>
 method to determine whether a previous claim fully or partially
 matches the new claim. Such duplicates are not allowed and an error
 will be raised providing additional details about the duplicate.</p>
@@ -3192,7 +3817,7 @@ The <code>spec</code> is formatted as follows: <br/></p>
 but rather is trying to predict. Mandatory for 'singling out'
 and 'inference'. Optional for 'linkabiblity' <br/>
 Answers are cached <br/>
-Returns immediately</p></div>
+Returns immediately</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3249,13 +3874,13 @@ Returns immediately</p></div>
 <span>def <span class="ident">askExplore</span></span>(<span>self, query, cache=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Generate and queue up an exploritory query for database</p>
+<section class="desc"><p>Generate and queue up an exploritory query for database</p>
 <p>No score book-keeping is done here. An analyst may make
 any number of queries without impacting the GDA score. <br/>
 <code>query</code> is a dictionary with two values: <br/>
 <code>query['sql']</code> contains the SQL query. <br/>
 <code>query['db']</code> determines which database is queried, and
-is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'.</p></div>
+is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3291,10 +3916,10 @@ is one of 'rawDb', 'anonDb', or (if linkability), 'pubDb'.</p></div>
 <span>def <span class="ident">askKnowledge</span></span>(<span>self, query, cache=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Generate and queue up a prior knowledge query for database</p>
+<section class="desc"><p>Generate and queue up a prior knowledge query for database</p>
 <p>The class keeps track of how many prior knowledge cells were
 returned and uses this to compute a score. <br/>
-Input parameters formatted the same as with <code>askAttack()</code></p></div>
+Input parameters formatted the same as with <code>askAttack()</code></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3322,11 +3947,11 @@ Input parameters formatted the same as with <code>askAttack()</code></p></div>
 <span>def <span class="ident">cleanUp</span></span>(<span>self, cleanUpCache=True, doExit=False, exitMsg='Finished cleanUp, exiting')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Garbage collect queues, threads, and cache.</p>
+<section class="desc"><p>Garbage collect queues, threads, and cache.</p>
 <p>By default, this wipes the cache. The idea being that if the
 entire attack finished successfully, then it won't be
 repeated and the cache isn't needed. Do <code>cleanUpCache=False</code>
-if that isn't what you want.</p></div>
+if that isn't what you want.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3367,28 +3992,115 @@ if that isn't what you want.</p></div>
             if t.isAlive(): t.stop() # t.join()
     if cleanUpCache:
         self._removeLocalCacheDB()
+    if self._session: # close the uber session
+        self._session.close()
     if doExit:
         sys.exit(exitMsg)</code></pre>
+</details>
+</dd>
+<dt id="gdascore.gdaAttack.gdaAttack.getAnonTableCharacteristics"><code class="name flex">
+<span>def <span class="ident">getAnonTableCharacteristics</span></span>(<span>self, tableName='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns the full contents of the table characteristics</p>
+<p>Return value is a dict indexed by column name: <br/></p>
+<pre><code>{ '&lt;colName&gt;':
+    {
+        'av_rows_per_vals': 3.93149,
+        'av_uids_per_val': 0.468698,
+        'column_label': 'continuous',
+        'column_name': 'dropoff_latitude',
+        'column_type': 'real',
+        'max': '898.29382000000000',
+        'min': '-0.56333297000000',
+        'num_distinct_vals': 24216,
+        'num_rows': 95205,
+        'num_uids': 11350,
+        'std_rows_per_val': 10.8547,
+        'std_uids_per_val': 4.09688},
+    }
+}
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getAnonTableCharacteristics(self, tableName=&#39;&#39;):
+    &#34;&#34;&#34;Returns the full contents of the table characteristics
+
+       Return value is a dict indexed by column name: &lt;br/&gt;
+
+           { &#39;&lt;colName&gt;&#39;:
+               {
+                   &#39;av_rows_per_vals&#39;: 3.93149,
+                   &#39;av_uids_per_val&#39;: 0.468698,
+                   &#39;column_label&#39;: &#39;continuous&#39;,
+                   &#39;column_name&#39;: &#39;dropoff_latitude&#39;,
+                   &#39;column_type&#39;: &#39;real&#39;,
+                   &#39;max&#39;: &#39;898.29382000000000&#39;,
+                   &#39;min&#39;: &#39;-0.56333297000000&#39;,
+                   &#39;num_distinct_vals&#39;: 24216,
+                   &#39;num_rows&#39;: 95205,
+                   &#39;num_uids&#39;: 11350,
+                   &#39;std_rows_per_val&#39;: 10.8547,
+                   &#39;std_uids_per_val&#39;: 4.09688},
+               }
+           }
+
+    &#34;&#34;&#34;
+    if len(tableName) == 0:
+        # caller didn&#39;t supply a table name, so get it from the
+        # class init
+        tableName = self._p[&#39;table&#39;]
+
+    # Modify table name to the default for the characteristics table
+    # tableName += &#39;_char&#39;
+
+    # Establish connection to database
+    db = getDatabaseInfo(self._p[&#39;anonDb&#39;])
+    connStr = str(
+        f&#34;host={db[&#39;host&#39;]} port={db[&#39;port&#39;]} dbname={db[&#39;dbname&#39;]} user={db[&#39;user&#39;]} password={db[&#39;password&#39;]}&#34;)
+    conn = psycopg2.connect(connStr)
+    cur = conn.cursor()
+
+    # Query it for column names
+    sql = str(f&#34;&#34;&#34;select column_name, data_type 
+              from information_schema.columns
+              where table_schema NOT IN (&#39;information_schema&#39;, &#39;pg_catalog&#39;) and 
+              table_name=&#39;{tableName}&#39;&#34;&#34;&#34;)
+    try:
+        cur.execute(sql)
+    except psycopg2.Error as e:
+        print(f&#34;Error: getAnonTableCharacteristics() query: &#39;{e}&#39;&#34;)
+        self.cleanUp(cleanUpCache=False, doExit=True)
+    ans = cur.fetchall()
+
+    # Set up return dict
+    ret = {_row[0]: {&#39;column_name&#39;: _row[0], &#39;column_type&#39;: _row[1]} for _row in ans}
+
+    conn.close()
+    return ret</code></pre>
 </details>
 </dd>
 <dt id="gdascore.gdaAttack.gdaAttack.getAttack"><code class="name flex">
 <span>def <span class="ident">getAttack</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the result of one askAttack() call</p>
+<section class="desc"><p>Returns the result of one askAttack() call</p>
 <p>Blocks until the result is available. Note that the order
 in which results are received is not necesarily the order
 in which <code>askAttack()</code> calls were made. <br/>
 Assuming <code>result</code> is returned: <br/>
 <code>result['answer']</code> is the answer returned by the DB. The
 format is: <br/>
-<code>[(C1,C2&hellip;,Cn),(C1,C2&hellip;,Cn), &hellip; (C1,C2&hellip;,Cn)]</code> <br/>
+<code>[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]</code> <br/>
 where C1 is the first element of the <code>SELECT</code>, C2 the second
 element, etc. <br/>
 <code>result['cells']</code> is the number of cells returned in the answer
-(used by <code><a title="gdascore.gdaAttack.gdaAttack" href="#gdascore.gdaAttack.gdaAttack">gdaAttack</a></code> to compute total attack cells) <br/>
+(used by <a title="gdascore.gdaAttack.gdaAttack" href="#gdascore.gdaAttack.gdaAttack"><code>gdaAttack</code></a> to compute total attack cells) <br/>
 <code>result['query']['sql']</code> is the query from the corresponding
-<code>askAttack()</code>.</p></div>
+<code>askAttack()</code>.</p>
+<p>for uber_dp, also the remaining privacy budget is returned</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3408,7 +4120,10 @@ element, etc. <br/>
         `result[&#39;cells&#39;]` is the number of cells returned in the answer
         (used by `gdaAttack()` to compute total attack cells) &lt;br/&gt;
         `result[&#39;query&#39;][&#39;sql&#39;]` is the query from the corresponding
-        `askAttack()`.&#34;&#34;&#34;
+        `askAttack()`.
+
+        for uber_dp, also the remaining privacy budget is returned
+        &#34;&#34;&#34;
 
     if self._vb:
         print(f&#34;Calling {__name__}.getAttack&#34;)
@@ -3430,6 +4145,9 @@ element, etc. <br/>
             self._atrs[&#39;base&#39;][&#39;attackCells&#39;] += reply[&#39;cells&#39;]
     else:
         self._atrs[&#39;base&#39;][&#39;attackCells&#39;] += 1
+
+    if self._type == &#39;uber_dp&#39;:
+        reply[&#39;remaining_dp_budget&#39;] = self._remaining_dp_budget
     return (reply)</code></pre>
 </details>
 </dd>
@@ -3437,7 +4155,7 @@ element, etc. <br/>
 <span>def <span class="ident">getAttackTableName</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the name of the table being used in the attack.</p></div>
+<section class="desc"><p>Returns the name of the table being used in the attack.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3451,7 +4169,7 @@ element, etc. <br/>
 <span>def <span class="ident">getClaim</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wait for and gather results of askClaim() calls</p>
+<section class="desc"><p>Wait for and gather results of askClaim() calls</p>
 <p>Returns a data structure that contains both the result
 of one finished claim, and the claim's input parameters.
 Note that the order in which results are returned by
@@ -3470,7 +4188,7 @@ validate the claim. <br/>
 on whether the claim satisfies the critieria or not. <br/>
 <code>result['stillToCome']</code> is a counter showing how many more
 claims are still queued. When <code>stillToCome</code> is 0, then all
-claims submitted by <code>askClaim()</code> have been returned.</p></div>
+claims submitted by <code>askClaim()</code> have been returned.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3570,8 +4288,8 @@ claims submitted by <code>askClaim()</code> have been returned.</p></div>
 <span>def <span class="ident">getColNames</span></span>(<span>self, dbType='rawDb', tableName='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Return simple list of column names</p>
-<p><code>dbType</code> is one of 'rawDb' or 'anonDb'</p></div>
+<section class="desc"><p>Return simple list of column names</p>
+<p><code>dbType</code> is one of 'rawDb' or 'anonDb'</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3598,9 +4316,9 @@ claims submitted by <code>askClaim()</code> have been returned.</p></div>
 <span>def <span class="ident">getColNamesAndTypes</span></span>(<span>self, dbType='rawDb', tableName='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Return raw database column names and types (or None if error)</p>
+<section class="desc"><p>Return raw database column names and types (or None if error)</p>
 <p>dbType is one of 'rawDb' or 'anonDb' <br/>
-return format: [(col,type),(col,type),&hellip;]</p></div>
+return format: [(col,type),(col,type),&hellip;]</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3648,11 +4366,11 @@ return format: [(col,type),(col,type),&hellip;]</p></div>
 <span>def <span class="ident">getExplore</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wait for and gather results of prior askExplore() calls.</p>
+<section class="desc"><p>Wait for and gather results of prior askExplore() calls.</p>
 <p>Blocks until the result is available. Note that the order
 in which results are received is not necesarily the order
 in which <code>askExplore()</code> calls were made. <br/>
-Return parameter formatted the same as with <code>getAttack()</code></p></div>
+Return parameter formatted the same as with <code>getAttack()</code></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3683,11 +4401,11 @@ Return parameter formatted the same as with <code>getAttack()</code></p></div>
 <span>def <span class="ident">getKnowledge</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wait for and gather results of prior askKnowledge() calls</p>
+<section class="desc"><p>Wait for and gather results of prior askKnowledge() calls</p>
 <p>Blocks until the result is available. Note that the order
 in which results are received is not necesarily the order
 in which <code>askKnowledge()</code> calls were made. <br/>
-Return parameter formatted the same as with <code>getAttack()</code></p></div>
+Return parameter formatted the same as with <code>getAttack()</code></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3722,8 +4440,8 @@ Return parameter formatted the same as with <code>getAttack()</code></p></div>
 <span>def <span class="ident">getOpParameters</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns a variety of performance measurements.</p>
-<p>Useful for debugging.</p></div>
+<section class="desc"><p>Returns a variety of performance measurements.</p>
+<p>Useful for debugging.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3751,7 +4469,7 @@ Return parameter formatted the same as with <code>getAttack()</code></p></div>
 <span>def <span class="ident">getPriorKnowledge</span></span>(<span>self, dataColumns, method, fraction=None, count=None, selectColumn=None, colRange=[None, None], values=[None])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns data from the rawDB according to a specification</p>
+<section class="desc"><p>Returns data from the rawDB according to a specification</p>
 <p>This mimics external knowledge that an attacker may have about the data, and
 influences the 'knowledge' part of the GDA Score. <br/>
 <code>dataColumns</code> is a list of column names. The data for these columns is returned <br/>
@@ -3777,10 +4495,10 @@ between min and max inclusive. <br/>
 of one or more values of any type. This selects all values matching those in
 the list. <br/>
 The return value is a list in this format: <br/>
-<code>[(C1,C2&hellip;,Cn),(C1,C2&hellip;,Cn), &hellip; (C1,C2&hellip;,Cn)]</code> <br/>
+<code>[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]</code> <br/>
 where C1 corresponds to the first column in <code>dataColumns</code>, C2 corresponds to
 the second column in <code>dataColumns</code>, and so on.
-<br/></p></div>
+<br/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -3953,9 +4671,9 @@ the second column in <code>dataColumns</code>, and so on.
 <span>def <span class="ident">getPublicColValues</span></span>(<span>self, colName, tableName='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Return list of "publicly known" column values and counts</p>
+<section class="desc"><p>Return list of "publicly known" column values and counts</p>
 <p>Column value has index 0, count of distinct UIDs has index 1
-Must specify column name.</p></div>
+Must specify column name.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4017,9 +4735,9 @@ Must specify column name.</p></div>
 <span>def <span class="ident">getResults</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns all of the compiled attack results.</p>
+<section class="desc"><p>Returns all of the compiled attack results.</p>
 <p>This can be input to class <code>gdaScores()</code> and method
-<code>gdaScores.addResult()</code>.</p></div>
+<code>gdaScores.addResult()</code>.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4039,7 +4757,7 @@ Must specify column name.</p></div>
 <span>def <span class="ident">getTableCharacteristics</span></span>(<span>self, tableName='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the full contents of the table characteristics</p>
+<section class="desc"><p>Returns the full contents of the table characteristics</p>
 <p>Return value is a dict indexed by column name: <br/></p>
 <pre><code>{ '&lt;colName&gt;':
     {
@@ -4057,7 +4775,7 @@ Must specify column name.</p></div>
         'std_uids_per_val': 4.09688},
     }
 }
-</code></pre></div>
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4137,9 +4855,9 @@ Must specify column name.</p></div>
 <span>def <span class="ident">getTableNames</span></span>(<span>self, dbType='rawDb')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Return database table names</p>
+<section class="desc"><p>Return database table names</p>
 <p>dbType is one of 'rawDb' or 'anonDb' <br/>
-Table names returned as list, unless error then return None</p></div>
+Table names returned as list, unless error then return None</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4184,7 +4902,7 @@ Table names returned as list, unless error then return None</p></div>
 <span>def <span class="ident">getUidColName</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the name of the UID column</p></div>
+<section class="desc"><p>Returns the name of the UID column</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4198,8 +4916,8 @@ Table names returned as list, unless error then return None</p></div>
 <span>def <span class="ident">isClaimed</span></span>(<span>self, spec)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Check if a claim was already fully or partially made.</p>
-<p>The <code>spec</code> is formatted identical to the <code>spec</code> in <code><a title="gdascore.gdaAttack.gdaAttack.askClaim" href="#gdascore.gdaAttack.gdaAttack.askClaim">gdaAttack.askClaim()</a></code>.</p></div>
+<section class="desc"><p>Check if a claim was already fully or partially made.</p>
+<p>The <code>spec</code> is formatted identical to the <code>spec</code> in <a title="gdascore.gdaAttack.gdaAttack.askClaim" href="#gdascore.gdaAttack.gdaAttack.askClaim"><code>gdaAttack.askClaim()</code></a>.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4215,7 +4933,7 @@ Table names returned as list, unless error then return None</p></div>
 <span>def <span class="ident">putCacheWrapper</span></span>(<span>self, conn, cur, query, reply)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4228,7 +4946,7 @@ Table names returned as list, unless error then return None</p></div>
 <span>def <span class="ident">removeLocalCacheDBWrapper</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4241,7 +4959,7 @@ Table names returned as list, unless error then return None</p></div>
 <span>def <span class="ident">setVerbose</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets Verbose to True</p></div>
+<section class="desc"><p>Sets Verbose to True</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4255,7 +4973,7 @@ Table names returned as list, unless error then return None</p></div>
 <span>def <span class="ident">unsetVerbose</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets Verbose to False</p></div>
+<section class="desc"><p>Sets Verbose to False</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -4296,6 +5014,7 @@ itemprop="logo" />
 <li><code><a title="gdascore.gdaAttack.gdaAttack.askExplore" href="#gdascore.gdaAttack.gdaAttack.askExplore">askExplore</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.askKnowledge" href="#gdascore.gdaAttack.gdaAttack.askKnowledge">askKnowledge</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.cleanUp" href="#gdascore.gdaAttack.gdaAttack.cleanUp">cleanUp</a></code></li>
+<li><code><a title="gdascore.gdaAttack.gdaAttack.getAnonTableCharacteristics" href="#gdascore.gdaAttack.gdaAttack.getAnonTableCharacteristics">getAnonTableCharacteristics</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getAttack" href="#gdascore.gdaAttack.gdaAttack.getAttack">getAttack</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getAttackTableName" href="#gdascore.gdaAttack.gdaAttack.getAttackTableName">getAttackTableName</a></code></li>
 <li><code><a title="gdascore.gdaAttack.gdaAttack.getClaim" href="#gdascore.gdaAttack.gdaAttack.getClaim">getClaim</a></code></li>
@@ -4325,7 +5044,9 @@ itemprop="logo" />
 <footer id="footer">
 <!--<a href="https://www.gda-score.org/legal-notice/">Legal notice</a>&nbsp;&nbsp;&nbsp;
 <a href="https://www.gda-score.org/privacy-policy/">Privacy policy</a>-->
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
