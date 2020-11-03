@@ -17,6 +17,8 @@ import datetime
 import signal
 import atexit
 import random
+import requests
+import functools
 
 
 coloredlogs.DEFAULT_FIELD_STYLES['asctime'] = {}
@@ -89,6 +91,10 @@ class gdaAttack:
             `param['numPubDbThreads']`: The number of parallel queries
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
+
+            For uber_dp, the following optional parameter can be set
+            `param['dp_budget']`: The overall privacy budget for the attack.
+            Default 'None'. <br/>
         """
 
         #### gda-score-code version check warning ####
@@ -133,6 +139,8 @@ class gdaAttack:
         self._vb = False
         self._cr = ''  # short for criteria
         self._pp = None  # pretty printer (for debugging)
+        self._sid = None # for uber_dp interface, a session ID over the attack is needed
+        self._session = None # also session for the uber_dp interface
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name='',
@@ -192,6 +200,23 @@ class gdaAttack:
         for param in self._requiredParams:
             if len(self._p[param]) == 0:
                 s = str(f"Error: Need param '{param}' in class parameters")
+                sys.exit(s)
+
+        # extract the type of interface we are interacting with the anonymization
+        self._type = self._p['anonDb']['type']
+        if self._type == 'uber_dp':
+            # cannot run attack on uber dp without specifying the budget
+            if self._p['dp_budget'] is None:
+                s = str(f"Error: Needs param dp_budget in class parameters when running uber_dp attacks")
+                sys.exit(s)
+
+            # Assign the privacy budget as a parameter to the attack
+            self._remaining_dp_budget = self._p['dp_budget']
+            self._initUberDPSession()
+
+            # if no session id was set, the attacks cannot be conducted
+            if self._sid is None:
+                s = str(f"Failed initializing session with Uber_DP Server")
                 sys.exit(s)
         # create the database directory if it doesn't exist
         try:
@@ -306,6 +331,8 @@ class gdaAttack:
                 if t.isAlive(): t.stop() # t.join()
         if cleanUpCache:
             self._removeLocalCacheDB()
+        if self._session: # close the uber session
+            self._session.close()
         if doExit:
             sys.exit(exitMsg)
 
@@ -456,7 +483,10 @@ class gdaAttack:
         """ Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: <br/>
-            `query['sql'] contains the SQL query."""
+            `query['sql'] contains the SQL query.
+
+            #for the uber_dp, the following value is needed
+            query['epsilon'] defines how much of the budget is used for the query"""
         self._attackCounter += 1
         if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
         # Make a copy of the query for passing around
@@ -482,7 +512,10 @@ class gdaAttack:
             `result['cells']` is the number of cells returned in the answer
             (used by `gdaAttack()` to compute total attack cells) <br/>
             `result['query']['sql']` is the query from the corresponding
-            `askAttack()`."""
+            `askAttack()`.
+
+            for uber_dp, also the remaining privacy budget is returned
+            """
 
         if self._vb:
             print(f"Calling {__name__}.getAttack")
@@ -504,6 +537,9 @@ class gdaAttack:
                 self._atrs['base']['attackCells'] += reply['cells']
         else:
             self._atrs['base']['attackCells'] += 1
+
+        if self._type == 'uber_dp':
+            reply['remaining_dp_budget'] = self._remaining_dp_budget
         return (reply)
 
     def askKnowledge(self, query, cache=True):
@@ -1168,86 +1204,193 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-        if self._vb: print(f"Starting {__name__}.dbWorker:{db, kind}")
-        me = threading.current_thread()
-        d = getDatabaseInfo(db)
-        # Establish connection to database
-        connStr = str(
-            f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
-        if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
-        conn = psycopg2.connect(connStr)
-        cur = conn.cursor()
-        # Establish connection to local cache
-        path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
-        # Set timeout low so that we don't spend a lot of time inserting
-        # into the cache in case it gets overloaded
-        connInsert = sqlite3.connect(path, timeout=0.1)
-        curInsert = connInsert.cursor()
-        connRead = sqlite3.connect(path)
-        curRead = connRead.cursor()
-        backQ.put(me)
-        while True:
-            if isinstance(me, EnhancedThread) and me.stopped():
-                logging.info(f' > {me.getName()} stopped.')
-                return
-            try:
-                jobOrig = q.get(block=True, timeout=3)
-            except queue.Empty:
-                continue
-            q.task_done()
-            if jobOrig is None:
-                if self._vb: print(f"    {me}: dbWorker done {db, kind}")
-                conn.close()
-                connRead.close()
-                connInsert.close()
-                break
-            # make a copy for passing around
-            job = copy.copy(jobOrig)
-            replyQ = job['q']
-            replies = []
-            for query in job['queries']:
-                reply = self._processQuery(query, conn, cur,
-                                           connInsert, curInsert, curRead)
-                replies.append(reply)
-            job['replies'] = replies
-            replyQ.put(job)
 
-    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead):
-        # record and remove the return queue
-        cache = query['cache']
-        del query['cache']
-        # Check the cache for the answer
-        # Note that at this point query is a dict
-        # containing the sql, the db (raw, anon, or pub),
-        # and any tags that the source added
-        cachedReply = None
-        if cache:
-            cachedReply = self._getCache(curRead, query)
-        if cachedReply:
-            if self._vb: print("    Answer from cache")
-            if 'answer' in cachedReply:
-                numCells = self._computeNumCells(cachedReply['answer'])
-                cachedReply['cells'] = numCells
-            return cachedReply
-        else:
-            start = time.perf_counter()
-            try:
-                cur.execute(query['sql'])
-            except psycopg2.Error as e:
-                reply = dict(error=e.pgerror)
+        # uber dp has a different interface than aircloak or postgres
+        if db['type'] == 'uber_dp':
+            if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
+            me = threading.current_thread()
+            backQ.put(me)
+            while True:
+                jobOrig = q.get()
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb:
+                        print(f"    {me}: serverWorker done {db, kind}")
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job['q']
+                replies = []  # holds all the reply dicts
+                for query in job['queries']:
+                    reply = self._processUberQuery(query)
+                    replies.append(reply)
+                job['replies'] = replies
+                replyQ.put(job)
+
+        elif db['type'] == 'aircloak' or db['type'] == 'postgres':
+            if self._vb: print(f"Starting {__name__}.dbWorker:{db, kind}")
+            me = threading.current_thread()
+            d = getDatabaseInfo(db)
+            # Establish connection to database
+            connStr = str(
+                f"host={d['host']} port={d['port']} dbname={d['dbname']} user={d['user']} password={d['password']}")
+            if self._vb: print(f"    {me}: Connect to DB with DSN '{connStr}'")
+            conn = psycopg2.connect(connStr)
+            cur = conn.cursor()
+            # Establish connection to local cache
+            path = self._p['locCacheDir'] + "/" + self._p['name'] + ".db"
+            # Set timeout low so that we don't spend a lot of time inserting
+            # into the cache in case it gets overloaded
+            connInsert = sqlite3.connect(path, timeout=0.1)
+            curInsert = connInsert.cursor()
+            connRead = sqlite3.connect(path)
+            curRead = connRead.cursor()
+            backQ.put(me)
+            while True:
+                if isinstance(me, EnhancedThread) and me.stopped():
+                    logging.info(f' > {me.getName()} stopped.')
+                    return
+                try:
+                    jobOrig = q.get(block=True, timeout=3)
+                except queue.Empty:
+                    continue
+                q.task_done()
+                if jobOrig is None:
+                    if self._vb: print(f"    {me}: dbWorker done {db, kind}")
+                    conn.close()
+                    connRead.close()
+                    connInsert.close()
+                    break
+                # make a copy for passing around
+                job = copy.copy(jobOrig)
+                replyQ = job['q']
+                replies = []
+                for query in job['queries']:
+                    reply = self._processQuery(query, conn, cur,
+                                               connInsert, curInsert, curRead)
+                    replies.append(reply)
+                job['replies'] = replies
+                replyQ.put(job)
+
+    def _processUberQuery(self, query):
+        # Once the session ID is defined, we stay in that session
+        # ONLY `epsilon` and the `query` can be set
+        # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        request = {
+            'query': query['sql'],
+            'epsilon': str(query['epsilon']),
+            'count' : '1', # the interface is designed in a way such that repeted attacks need to be triggered
+            # by several askAttack(), getAttack(). Therefore, the server functionality to potentially execute the same
+            # query several times is not used
+            'budget': 'None',
+            'dbname': 'None',
+            'sid': self._sid
+        }
+
+        start = time.perf_counter()  # store the time of query execution
+
+        url = self._p['anonDb']['host']
+        headers = {'Content-Type': 'application/json',
+                       'Accept': 'application/json'}  # Headers to be sent in the client request
+        # Client stores the response sent by the simpleServer.py
+        try:
+            response = requests.get(url, json=request, headers=headers, timeout=100, verify=True)
+
+            resp = response.json()  # Convert response sent by server to JSON
+            if self._vb:
+                print("Server response for the given query: ")
+                print(resp)
+            if 'Error' in resp['Server Response']:
+                # If budget exceeded, we do not provide an answer field in the reply
+                if 'Budget Exceeded' in resp['Server Response']['Error']:
+                    print("This query does exceed the remaining privacy budget for your attack.")
+                    print("Your remaining budget is "+str(self._remaining_dp_budget)+", the query would need "+str(query['epsilon'])+".")
+                    reply = dict(error='Budget Exceeded')
             else:
-                ans = cur.fetchall()
+                # if the query went through, we can deduct its privay consumption to keep track internally
+                self._remaining_dp_budget -= query['epsilon']
+
+                # the answer of dp queries is a single value (as it computes the aggregate over several query rows)
+                # to match the format needed to compute number of cells, we still need two dimensions
+                # therefore, [[]]
+                ans = [[float((resp['Server Response']['Result']))]]# record the answer and append it as a 1-element list of float
+
+                # for statistics. Only makes sense to count query if it went through
+                self._op['numQueries'] += 1
+
+                # after all for loops find the shape of the resulting answers
                 numCells = self._computeNumCells(ans)
+
+                # format the reply similarly as for aircloak and postgres
                 reply = dict(answer=ans, cells=numCells)
-            end = time.perf_counter()
-            duration = end - start
-            self._op['numQueries'] += 1
-            self._op['timeQueries'] += duration
-            reply['query'] = query
-            # only cache if the native query is slow
-            if duration > 0.1:
-                # self._putCache(connInsert, curInsert, query, reply)
-                self.cacheQueue.put([connInsert, curInsert, query, reply])
+
+        except requests.ConnectionError as e:
+            print("Connection Error. Make sure you are connected to Internet.")
+            print(str(e))
+
+        except requests.Timeout as e:
+            print("Timeout Error")
+            print(str(e))
+
+        except requests.RequestException as e:
+            print("General Error")
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print("Program closed")
+
+
+        reply['query'] = query
+
+        # calculate the time we needed for the query
+        end = time.perf_counter()
+        duration = end - start
+
+        self._op['timeQueries'] += duration
+
+        return reply
+
+    def _processQuery(self, query, conn, cur, connInsert, curInsert, curRead, queryType='db'):
+        # record and remove the return queue
+        # queryType specifies if we are asking the queries from a db (aircloak, postgres)
+        # or from a server, like uber_dp
+        if queryType == 'server':
+            pass
+        elif queryType == 'db':
+            cache = query['cache']
+            del query['cache']
+            # Check the cache for the answer
+            # Note that at this point query is a dict
+            # containing the sql, the db (raw, anon, or pub),
+            # and any tags that the source added
+            cachedReply = None
+            if cache:
+                cachedReply = self._getCache(curRead, query)
+            if cachedReply:
+                if self._vb: print("    Answer from cache")
+                if 'answer' in cachedReply:
+                    numCells = self._computeNumCells(cachedReply['answer'])
+                    cachedReply['cells'] = numCells
+                return cachedReply
+            else:
+                start = time.perf_counter()
+                try:
+                    cur.execute(query['sql'])
+                except psycopg2.Error as e:
+                    reply = dict(error=e.pgerror)
+                else:
+                    ans = cur.fetchall()
+                    numCells = self._computeNumCells(ans)
+                    reply = dict(answer=ans, cells=numCells)
+                end = time.perf_counter()
+                duration = end - start
+                self._op['numQueries'] += 1
+                self._op['timeQueries'] += duration
+                reply['query'] = query
+                # only cache if the native query is slow
+                if duration > 0.1:
+                    # self._putCache(connInsert, curInsert, query, reply)
+                    self.cacheQueue.put([connInsert, curInsert, query, reply])
             return reply
 
     def _checkInference(self, ans):
@@ -1614,6 +1757,63 @@ class gdaAttack:
         self._claimCounter = 0
         self._guessCounter = 0
 
+    def _initUberDPSession(self):
+        # Client establishes a session
+        session = requests.Session()
+        session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
+
+        # remember the session to close it if necessary
+        self._session = session
+
+        # function to initialize the session with the dp server
+        try:
+            # this is the initial query.
+            # its only purpose is to obtain a session ID and to define a budget
+            # The budget is set in the initial request only
+            # Once the budget is set, no further modification to the budget
+            # is possible in subsequent requests
+            request = {
+                'query': "",  # empty query, just serves to get a session ID
+                'epsilon': '0.0',  # nothing used up in the initialization phase
+                'budget': str(self._remaining_dp_budget),  # the numeric values are sent as strings
+                'dbname': self._p['rawDb']['dbname'], # name of the raw db
+                'sid': ''  # When sid is Null it indicates start of a session
+                }
+            # the database for anonymization here is uber
+            url = self._p['anonDb']['host']
+            headers = {'Content-Type': 'application/json',
+                       'Accept': 'application/json'}
+
+
+            # Client stores the response sent by the simpleServer.py
+            response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
+            resp = response.json()  # Convert response sent by server to JSON
+
+            if 'Error' in resp['Server Response']:
+                pprint.pprint(resp)  # Client prints the data returned by the server
+            else:   # if no error was encountered
+                if self._vb:
+                    pprint.pprint("Setting up connection with Uber_DP Server")
+                    pprint.pprint(resp)  # Client prints the data returned by the server
+
+                # in case there is no error, but we are at the "dummy query" to get the session ID
+                self._sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+
+
+        except requests.ConnectionError as e:
+            print("Connection Error. Make sure you are connected to Internet.")
+            print(str(e))
+
+        except requests.Timeout as e:
+            print("Timeout Error")
+            print(str(e))
+
+        except requests.RequestException as e:
+            print("General Error")
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print("Program closed")
 
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):

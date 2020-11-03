@@ -6,6 +6,10 @@ myCredentials = '''{
   "aircloak": {
     "user": " gda-score_ro_user",
     "password": "moquaiR7"
+  },
+  "uber_dp": {
+    "user": "not_needed",
+    "password": "not_needed"
   }
 }
 '''
