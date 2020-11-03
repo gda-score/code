@@ -1444,7 +1444,7 @@ class gdaAttack:
     def _doParamChecks(self):
         dbInfoRaw = getDatabaseInfo(self._p['rawDb'])
         if not dbInfoRaw:
-            sys.exit('rawDb now found in database config')
+            sys.exit('rawDb not found in database config')
         if len(self._p['anonDb']) == 0:
             self._p['anonDb'] = self._p['rawDb']
         else:

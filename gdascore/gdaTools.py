@@ -22,13 +22,15 @@ __all__ = ["setupGdaAttackParameters"]
 from pkg_resources import Requirement, resource_filename
 
 
-def try_for_config_file(config_rel_path):
+def try_for_config_file(config_rel_path,doprint=False):
     ####### added by frzmohammadali #######
     interested_file = ntpath.basename(config_rel_path)
+    if doprint: print("    interested_file {interested_file}")
 
     # case 0: local config path defined by user: when installing by pip
     global_config_variable = dict()
     config_var = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json')
+    if doprint: print("    case 0: config_var {config_var}")
     if os.path.isfile(config_var):
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', 'config_var.json'), 'r') as f:
             file_content = f.read()
@@ -45,6 +47,7 @@ def try_for_config_file(config_rel_path):
 
     # Case 0.5: global_config: when installing by pip
     potential_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'global_config', interested_file)
+    if doprint: print("    case 0.5: potential_path {potential_path}")
     if os.path.isfile(potential_path):
         return potential_path
     ####### added by frzmohammadali #######
@@ -60,6 +63,7 @@ def try_for_config_file(config_rel_path):
 
     # Second case: find config inside pip package location
     spec = importlib.util.find_spec("gda-score-code")
+    if doprint: print("    case pip loc: spec {spec}")
     if spec is not None:
         if os.path.isfile(os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))):
             return os.path.abspath(resource_filename(Requirement.parse("gda-score-code"), config_rel_path))
@@ -120,6 +124,8 @@ def oldGetDatabaseInfo(dbName):
     path = try_for_config_file(os.path.join("common", "config", "myDatabases.json"))
     if path is None:
         print(f"ERROR: No config file found")
+        # The following just to help debug why no config file was found
+        try_for_config_file(os.path.join("common", "config", "myDatabases.json"),doprint=True)
         return None
     fh = open(path, "r")
     j = json.load(fh)
@@ -138,7 +144,10 @@ def getMasterConfig():
     path = try_for_config_file(os.path.join("common", "config", "master.json"))
     if path is None:
         print(f"ERROR: No config file found (master.json)")
+        # The following just to help debug why no config file was found
+        try_for_config_file(os.path.join("common", "config", "master.json"),doprint=True)
         return None
+    print(f"Using master config file at {path}")
     fh = open(path, "r")
     j = json.load(fh)
     return j

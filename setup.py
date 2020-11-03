@@ -20,10 +20,12 @@ class build_py(build_py_orig):
 
 
 setuptools.setup(
-    #name="gda-score-code",
-    name="gda-score-code-test",
-    # version="2.5.0",
-    version="2.5.10",  # for test.pypi
+    # Use this for production:
+    name="gda-score-code",
+    version="2.5.1",
+    # Use this for testing:
+    #name="gda-score-code-test",
+    #version="2.5.11",  # for test.pypi
     author="Paul Francis",
     description="Tools for generating General Data Anonymity Scores (www.gda-score.org)",
     long_description=long_description,
