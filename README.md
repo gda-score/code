@@ -42,7 +42,7 @@ Please follow the steps below if you are a contributor and want to upload new re
  2. send us your username to be added as a maintainer of the package on pypi that lets you upload a new release
  3. install "twine" and "wheel" using: `pip install twine wheel`
  4. clean build files if there is any by running: `python setup.py clean --all` and also delete any folder named `dist` as the setup will create that itself and you won't face vrsion confilict because of past builds anymore.
- 5. update the version of package in the file `setup.py` and increase it. it is not possible to upload same version twice so remember to do that. `name` parameter should not change. For example:
+ 5. update the version of package in the file `setup.py` and increase it. it is not possible to upload same version twice so remember to do that. `name` parameter should not change (Note that there is also a gda-score-code-test package, which you can update just for testing purposes. Whichever you pip install last on your machine is the one that gets included). For example:
 ``` 
 setuptools.setup(  
     name="gda-score-code",  
@@ -51,9 +51,9 @@ setuptools.setup(
     ...
   )
   ```
-  5. build the package: `python setup.py sdist bdist_wheel`
-  6. upload to pypi: `twine upload dist/*`
-  7. it will first ask for your username and password and then start uploading.
+  6. build the package: `python setup.py sdist bdist_wheel`
+  7. upload to pypi: `twine upload dist/*`
+  8. it will first ask for your username and password and then start uploading.
 
 **note**: you can always first upload the package into test.pypi.org instead of the main one to try installing it yourself and then upload to the main pypi repository. should you need to do that please refer to : [https://packaging.python.org/guides/using-testpypi/](https://packaging.python.org/guides/using-testpypi/)
 
