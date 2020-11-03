@@ -92,9 +92,7 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
 
-            For uber_dp, the following optional parameter can be set
-            `param['dp_budget']`: The overall privacy budget for the attack.
-            Default 'None'. <br/>
+            `param['dp_budget']`: An optional overall privacy budget for the attack. For use with uber_dp. Default 'None'. <br/>
         """
 
         #### gda-score-code version check warning ####
@@ -483,10 +481,9 @@ class gdaAttack:
         """ Generate and queue up an attack query for database.
 
             `query` is a dictionary with (currently) one value: <br/>
-            `query['sql'] contains the SQL query.
-
-            #for the uber_dp, the following value is needed
-            query['epsilon'] defines how much of the budget is used for the query"""
+            `query['sql']` contains the SQL query. <br/>
+            `query['epsilon']` is optional, and defines how much of the differential privacy budget is used for uber_dp <br/>
+        """
         self._attackCounter += 1
         if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
         # Make a copy of the query for passing around
@@ -508,13 +505,15 @@ class gdaAttack:
             format is: <br/>
                 `[(C1,C2...,Cn),(C1,C2...,Cn), ... (C1,C2...,Cn)]` <br/>
             where C1 is the first element of the `SELECT`, C2 the second
-            element, etc. <br/>
+            element, etc. This attribute does not exist in cases of query
+            error (i.e. bad sql, budget exceeded if uber_dp, etc.) <br/>
             `result['cells']` is the number of cells returned in the answer
             (used by `gdaAttack()` to compute total attack cells) <br/>
             `result['query']['sql']` is the query from the corresponding
             `askAttack()`.
-
-            for uber_dp, also the remaining privacy budget is returned
+            `result['error']` contains the error description <br/>
+            `result['remaining_dp_budget']` contains the remaining differential
+            privacy budget when uber_dp is used. <br/>
             """
 
         if self._vb:
