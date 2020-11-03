@@ -1305,6 +1305,9 @@ class gdaAttack:
                     print("This query does exceed the remaining privacy budget for your attack.")
                     print("Your remaining budget is "+str(self._remaining_dp_budget)+", the query would need "+str(query['epsilon'])+".")
                     reply = dict(error='Budget Exceeded')
+                else:
+                    print(f"Uber Server response error: {resp['Server Response']['Error']}")
+                    reply = dict(error=resp['Server Response']['Error'])
             else:
                 # if the query went through, we can deduct its privay consumption to keep track internally
                 self._remaining_dp_budget -= query['epsilon']
@@ -1326,17 +1329,21 @@ class gdaAttack:
         except requests.ConnectionError as e:
             print("Connection Error. Make sure you are connected to Internet.")
             print(str(e))
+            reply = dict(error=str(e))
 
         except requests.Timeout as e:
             print("Timeout Error")
             print(str(e))
+            reply = dict(error=str(e))
 
         except requests.RequestException as e:
             print("General Error")
             print(str(e))
+            reply = dict(error=str(e))
 
         except KeyboardInterrupt:
             print("Program closed")
+            reply = dict(error="Program closed")
 
 
         reply['query'] = query
