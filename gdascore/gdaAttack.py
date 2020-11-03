@@ -1294,7 +1294,7 @@ class gdaAttack:
                        'Accept': 'application/json'}  # Headers to be sent in the client request
         # Client stores the response sent by the simpleServer.py
         try:
-            response = requests.get(url, json=request, headers=headers, timeout=100, verify=False)
+            response = requests.get(url, json=request, headers=headers, timeout=100, verify=True)
 
             resp = response.json()  # Convert response sent by server to JSON
             if self._vb:
@@ -1786,7 +1786,7 @@ class gdaAttack:
 
 
             # Client stores the response sent by the simpleServer.py
-            response = requests.get(url, json=request, headers=headers, timeout=20, verify=False)
+            response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
             resp = response.json()  # Convert response sent by server to JSON
 
             if 'Error' in resp['Server Response']:
