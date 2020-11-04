@@ -246,13 +246,22 @@
       "friendlyName": "Uber Anonymization",
       "service": "uber_dp",
       "databases": [
-        "raw_banking"
+        "raw_banking",
+        "raw_scihub",
+        "raw_taxi",
+        "raw_census"
       ],
       "linkDatabases": [
-        "raw_banking_link"
+        "raw_banking_link",
+        "raw_scihub_link",
+        "raw_taxi_link",
+        "raw_census_link"
       ],
       "pubDatabases": [
-        "raw_banking_link_pub"
+        "raw_banking_link_pub",
+        "raw_scihub_link_pub",
+        "raw_taxi_link_pub",
+        "raw_census_link_pub"
       ]
     }
   }
