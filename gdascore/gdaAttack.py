@@ -208,8 +208,6 @@ class gdaAttack:
                 s = str(f"Error: Needs param dp_budget in class parameters when running uber_dp attacks")
                 sys.exit(s)
 
-            # Assign the privacy budget as a parameter to the attack
-            self._remaining_dp_budget = self._p['dp_budget']
             self._initUberDPSession()
 
             # if no session id was set, the attacks cannot be conducted
@@ -512,8 +510,6 @@ class gdaAttack:
             `result['query']['sql']` is the query from the corresponding
             `askAttack()`.
             `result['error']` contains the error description <br/>
-            `result['remaining_dp_budget']` contains the remaining differential
-            privacy budget when uber_dp is used. <br/>
             """
 
         if self._vb:
@@ -536,9 +532,6 @@ class gdaAttack:
                 self._atrs['base']['attackCells'] += reply['cells']
         else:
             self._atrs['base']['attackCells'] += 1
-
-        if self._type == 'uber_dp':
-            reply['remaining_dp_budget'] = self._remaining_dp_budget
         return (reply)
 
     def askKnowledge(self, query, cache=True):
@@ -1300,18 +1293,9 @@ class gdaAttack:
                 print("Server response for the given query: ")
                 print(resp)
             if 'Error' in resp['Server Response']:
-                # If budget exceeded, we do not provide an answer field in the reply
-                if 'Budget Exceeded' in resp['Server Response']['Error']:
-                    print("This query does exceed the remaining privacy budget for your attack.")
-                    print("Your remaining budget is "+str(self._remaining_dp_budget)+", the query would need "+str(query['epsilon'])+".")
-                    reply = dict(error='Budget Exceeded')
-                else:
-                    print(f"Uber Server response error: {resp['Server Response']['Error']}")
-                    reply = dict(error=resp['Server Response']['Error'])
+                print(f"Uber Server response error: {resp['Server Response']['Error']}")
+                reply = dict(error=resp['Server Response']['Error'])
             else:
-                # if the query went through, we can deduct its privay consumption to keep track internally
-                self._remaining_dp_budget -= query['epsilon']
-
                 # the answer of dp queries is a single value (as it computes the aggregate over several query rows)
                 # to match the format needed to compute number of cells, we still need two dimensions
                 # therefore, [[]]
@@ -1324,7 +1308,8 @@ class gdaAttack:
                 numCells = self._computeNumCells(ans)
 
                 # format the reply similarly as for aircloak and postgres
-                reply = dict(answer=ans, cells=numCells)
+                reply = dict(answer=ans, cells=numCells,
+                             remaining_dp_budget=float(resp['Server Response']['Remaining Budget']))
 
         except requests.ConnectionError as e:
             print("Connection Error. Make sure you are connected to Internet.")
@@ -1781,7 +1766,7 @@ class gdaAttack:
             request = {
                 'query': "",  # empty query, just serves to get a session ID
                 'epsilon': '0.0',  # nothing used up in the initialization phase
-                'budget': str(self._remaining_dp_budget),  # the numeric values are sent as strings
+                'budget': self._p['dp_budget'],  # the numeric values are sent as strings
                 'dbname': self._p['rawDb']['dbname'], # name of the raw db
                 'sid': ''  # When sid is Null it indicates start of a session
                 }
