@@ -14,6 +14,11 @@
       "host": "https://db001.gda-score.org/ubertool",
       "port": 5432,
       "type": "uber_dp"
+    },
+    "uber_dp_query_rewrite": {
+      "host": "https://db001.gda-score.org/uber",
+      "port": 5432,
+      "type": "uber_dp_query_rewrite"
     }
   },
   "datasources": {
@@ -245,6 +250,28 @@
     "uber_anon": {
       "friendlyName": "Uber Anonymization",
       "service": "uber_dp",
+      "databases": [
+        "raw_banking",
+        "raw_scihub",
+        "raw_taxi",
+        "raw_census"
+      ],
+      "linkDatabases": [
+        "raw_banking_link",
+        "raw_scihub_link",
+        "raw_taxi_link",
+        "raw_census_link"
+      ],
+      "pubDatabases": [
+        "raw_banking_link_pub",
+        "raw_scihub_link_pub",
+        "raw_taxi_link_pub",
+        "raw_census_link_pub"
+      ]
+    },
+    "uber_dp_query_rewrite": {
+      "friendlyName": "Uber Differential Privacy Query Rewrite",
+      "service": "uber_dp_query_rewrite",
       "databases": [
         "raw_banking",
         "raw_scihub",
