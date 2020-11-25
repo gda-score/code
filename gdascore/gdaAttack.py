@@ -212,7 +212,7 @@ class gdaAttack:
             self._initUberDPSession()
 
             # if no session id was set, the attacks cannot be conducted
-            if self._sid is None:
+            if self._type == 'uber_dp' and self._sid is None:
                 s = str(f"Failed initializing session with {self._type} Server")
                 sys.exit(s)
         # create the database directory if it doesn't exist
@@ -330,6 +330,11 @@ class gdaAttack:
             self._removeLocalCacheDB()
         if self._session: # close the uber session
             self._session.close()
+        if self._uberSession: # close the query rewrite uber session
+            try:
+                self._uberSession.destroy()
+            except RuntimeError as re:
+                print(f"Error closing the uber session: {re}")
         if doExit:
             sys.exit(exitMsg)
 
@@ -1200,7 +1205,7 @@ class gdaAttack:
     def _dbWorker(self, db, q, kind, backQ):
         # uber dp has a different interface than aircloak or postgres
         # TODO: uber query rewrite
-        if db['type'] == 'uber_dp':
+        if db['type'] == 'uber_dp' or db['type'] == 'uber_dp_query_rewrite':
             if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
             me = threading.current_thread()
             backQ.put(me)
@@ -1271,6 +1276,7 @@ class gdaAttack:
         # ONLY `epsilon` and the `query` can be set
         # `budget` and `dbname` just have placeholders because they cannot be changed anyways
         # TODO: maybe query rewrite
+        if self._vb: print(f"_processUberQuery: {query}")
         request = {
             'query': query['sql'],
             'epsilon': str(query['epsilon']),
@@ -1813,61 +1819,101 @@ class gdaAttack:
             print("Program closed")
 
     def _initUberDPQueryRewriteSession(self):
-        # TODO Uber query rewrite
         # Client establishes a session
-        session = requests.Session()
-        session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
-
-        # remember the session to close it if necessary
-        self._session = session
-
-        # function to initialize the session with the dp server
+        self._client = serverClient(self._p['anonDb']['host'])
+        self._uberSession = self._client.create_session()
         try:
-            # this is the initial query.
-            # its only purpose is to obtain a session ID and to define a budget
-            # The budget is set in the initial request only
-            # Once the budget is set, no further modification to the budget
-            # is possible in subsequent requests
-            request = {
-                'query': "",  # empty query, just serves to get a session ID
-                'epsilon': '0.0',  # nothing used up in the initialization phase
-                'budget': self._p['dp_budget'],  # the numeric values are sent as strings
-                'dbname': self._p['rawDb']['dbname'], # name of the raw db
-                'sid': ''  # When sid is Null it indicates start of a session
-                }
-            # the database for anonymization here is uber
-            url = self._p['anonDb']['host']
-            headers = {'Content-Type': 'application/json',
-                       'Accept': 'application/json'}
+            self._uberSession.init(self._p['rawDb']['dbname'],self._p['dp_budget'])
+        except RuntimeError as re:
+            print(f"Runtime Error on session init to {self._p['anonDb']['host']}")
+            print(str(re))
 
-            # Client stores the response sent by the simpleServer.py
-            response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
-            resp = response.json()  # Convert response sent by server to JSON
+class serverClient:
+    def __init__(self, base_url):
+        self.base_url = base_url
 
-            if 'Error' in resp['Server Response']:
-                pprint.pprint(resp)  # Client prints the data returned by the server
-            else:   # if no error was encountered
-                if self._vb:
-                    pprint.pprint("Setting up connection with Uber_DP Server")
-                    pprint.pprint(resp)  # Client prints the data returned by the server
+    def post_json(self, path, value_dct):
+        url = self.base_url + path
+        response = requests.post(url, json=value_dct)
+        if response.status_code != 200:
+            raise RuntimeError(f"Server encountered a problem with the request.\n"
+                               f"Response Code: {response.status_code}\n"
+                               f"Message: {response.content}")
+        json = response.json()
+        if "Error" in json:
+            raise RuntimeError(f"Server encountered an Exception\n"
+                               f"Session ID: {json['Session ID']}\n"
+                               f"Error: {json['Error']}\n"
+                               f"Stack Trace: {json['Stack Trace']}")
+        return json
 
-                # in case there is no error, but we are at the "dummy query" to get the session ID
-                self._sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
+    def create_session(self):
+        return serverSession(self)
 
-        except requests.ConnectionError as e:
-            print("Connection Error. Make sure you are connected to Internet.")
-            print(str(e))
+class serverSession:
+    def __init__(self, client):
+        self.id_ = None
+        self.client = client
 
-        except requests.Timeout as e:
-            print("Timeout Error")
-            print(str(e))
+    def _check_exists(self):
+        if self.id_ is None:
+            raise RuntimeError(f"This session is either not initialized yet or destroyed already and cannot be used.")
 
-        except requests.RequestException as e:
-            print("General Error")
-            print(str(e))
+    def init(self, db_name, initial_budget):
+        if self.id_ is not None:
+            raise RuntimeError(f"This session is already initialized and cannot be initialized again.")
+        value_dct = {
+            'dbname': db_name,
+            'budget': initial_budget,
+        }
+        response = self.client.post_json("/session/init", value_dct)
+        self.id_ = int(response["Session ID"])
+        print(f"Session {self.id_}: INIT\n"
+              f"   Session initialized for database {db_name} with initial budget {initial_budget}")
+        return response
 
-        except KeyboardInterrupt:
-            print("Program closed")
+    def info(self):
+        self._check_exists()
+        value_dct = {
+            'sid': self.id_,
+        }
+        response = self.client.post_json("/session/info", value_dct)
+        print(f"Session {self.id_}: INFO\n"
+              f"   Session info requested. Session is for database {response['DB Name']} "
+              f"with remaining budget {response['Remaining Budget']}")
+        return response
+
+    def query(self, query, epsilon):
+        self._check_exists()
+        if epsilon <= 0.0:
+            raise ValueError(f"epsilon must be greater than zero, was {epsilon}")
+        value_dct = {
+            'sid': self.id_,
+            'query': query,
+            'epsilon': epsilon,
+        }
+        response = self.client.post_json("/session/query", value_dct)
+        print(f"Session {self.id_}: QUERY\n"
+              f"   The following query was sent to the server:\n"
+              f"{query}\n"
+              f"   The epsilon to be used for the query was specified with: {epsilon}\n"
+              f"   The server rewrote the query into:\n"
+              f"{response['Private SQL']}\n"
+              f"   The server returned result {response['Result']}.\n"
+              f"   The remaining budget is {response['Remaining Budget']}.")
+        return response
+
+    def destroy(self):
+        self._check_exists()
+        value_dct = {
+            'sid': self.id_,
+        }
+        response = self.client.post_json("/session/destroy", value_dct)
+        print(f"Session {self.id_}: DESTROY\n"
+              f"   Session destroyed. Session was for database {response['DB Name']} and had "
+              f"{response['Remaining Budget']} budget remaining.")
+        self.id_ = None
+        return response
 
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
