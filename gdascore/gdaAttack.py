@@ -92,7 +92,8 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
 
-            `param['dp_budget']`: An optional overall privacy budget for the attack. For use with uber_dp. Default 'None'. <br/>
+            `param['dp_budget']`: An optional overall privacy budget for the attack. 
+            For use with uber_dp and uber_dp_query_rewrite. Default 'None'. <br/>
         """
 
         #### gda-score-code version check warning ####
@@ -137,8 +138,8 @@ class gdaAttack:
         self._vb = False
         self._cr = ''  # short for criteria
         self._pp = None  # pretty printer (for debugging)
-        self._sid = None # for uber_dp interface, a session ID over the attack is needed
-        self._session = None # also session for the uber_dp interface
+        self._sid = None # for uber_.. interfaces, a session ID over the attack is needed
+        self._session = None # also session for the uber_.. interfaces
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name='',
@@ -202,17 +203,17 @@ class gdaAttack:
 
         # extract the type of interface we are interacting with the anonymization
         self._type = self._p['anonDb']['type']
-        if self._type == 'uber_dp':
+        if self._type == 'uber_dp' or self._type == 'uber_dp_query_rewrite':
             # cannot run attack on uber dp without specifying the budget
             if self._p['dp_budget'] is None:
-                s = str(f"Error: Needs param dp_budget in class parameters when running uber_dp attacks")
+                s = str(f"Error: Needs param dp_budget in class parameters when running {self._type} attacks")
                 sys.exit(s)
 
             self._initUberDPSession()
 
             # if no session id was set, the attacks cannot be conducted
             if self._sid is None:
-                s = str(f"Failed initializing session with Uber_DP Server")
+                s = str(f"Failed initializing session with {self._type} Server")
                 sys.exit(s)
         # create the database directory if it doesn't exist
         try:
@@ -480,7 +481,8 @@ class gdaAttack:
 
             `query` is a dictionary with (currently) one value: <br/>
             `query['sql']` contains the SQL query. <br/>
-            `query['epsilon']` is optional, and defines how much of the differential privacy budget is used for uber_dp <br/>
+            `query['epsilon']` is optional, and defines how much of the
+             differential privacy budget is used for uber_dp or uber_dp_query_rewrite <br/>
         """
         self._attackCounter += 1
         if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
@@ -1196,8 +1198,8 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-
         # uber dp has a different interface than aircloak or postgres
+        # TODO: uber query rewrite
         if db['type'] == 'uber_dp':
             if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
             me = threading.current_thread()
@@ -1268,10 +1270,11 @@ class gdaAttack:
         # Once the session ID is defined, we stay in that session
         # ONLY `epsilon` and the `query` can be set
         # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        # TODO: maybe query rewrite
         request = {
             'query': query['sql'],
             'epsilon': str(query['epsilon']),
-            'count' : '1', # the interface is designed in a way such that repeted attacks need to be triggered
+            'count' : '1', # the interface is designed in a way such that repeated attacks need to be triggered
             # by several askAttack(), getAttack(). Therefore, the server functionality to potentially execute the same
             # query several times is not used
             'budget': 'None',
@@ -1329,7 +1332,6 @@ class gdaAttack:
         except KeyboardInterrupt:
             print("Program closed")
             reply = dict(error="Program closed")
-
 
         reply['query'] = query
 
@@ -1749,6 +1751,12 @@ class gdaAttack:
         self._guessCounter = 0
 
     def _initUberDPSession(self):
+        if self._type == 'uber_db':
+            self._initUberDPOrigSession()
+        else:
+            self._initUberDPQueryRewriteSession()
+
+    def _initUberDPOrigSession(self):
         # Client establishes a session
         session = requests.Session()
         session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
@@ -1775,7 +1783,6 @@ class gdaAttack:
             headers = {'Content-Type': 'application/json',
                        'Accept': 'application/json'}
 
-
             # Client stores the response sent by the simpleServer.py
             response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
             resp = response.json()  # Convert response sent by server to JSON
@@ -1790,6 +1797,62 @@ class gdaAttack:
                 # in case there is no error, but we are at the "dummy query" to get the session ID
                 self._sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
 
+        except requests.ConnectionError as e:
+            print("Connection Error. Make sure you are connected to Internet.")
+            print(str(e))
+
+        except requests.Timeout as e:
+            print("Timeout Error")
+            print(str(e))
+
+        except requests.RequestException as e:
+            print("General Error")
+            print(str(e))
+
+        except KeyboardInterrupt:
+            print("Program closed")
+
+    def _initUberDPQueryRewriteSession(self):
+        # TODO Uber query rewrite
+        # Client establishes a session
+        session = requests.Session()
+        session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
+
+        # remember the session to close it if necessary
+        self._session = session
+
+        # function to initialize the session with the dp server
+        try:
+            # this is the initial query.
+            # its only purpose is to obtain a session ID and to define a budget
+            # The budget is set in the initial request only
+            # Once the budget is set, no further modification to the budget
+            # is possible in subsequent requests
+            request = {
+                'query': "",  # empty query, just serves to get a session ID
+                'epsilon': '0.0',  # nothing used up in the initialization phase
+                'budget': self._p['dp_budget'],  # the numeric values are sent as strings
+                'dbname': self._p['rawDb']['dbname'], # name of the raw db
+                'sid': ''  # When sid is Null it indicates start of a session
+                }
+            # the database for anonymization here is uber
+            url = self._p['anonDb']['host']
+            headers = {'Content-Type': 'application/json',
+                       'Accept': 'application/json'}
+
+            # Client stores the response sent by the simpleServer.py
+            response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
+            resp = response.json()  # Convert response sent by server to JSON
+
+            if 'Error' in resp['Server Response']:
+                pprint.pprint(resp)  # Client prints the data returned by the server
+            else:   # if no error was encountered
+                if self._vb:
+                    pprint.pprint("Setting up connection with Uber_DP Server")
+                    pprint.pprint(resp)  # Client prints the data returned by the server
+
+                # in case there is no error, but we are at the "dummy query" to get the session ID
+                self._sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
 
         except requests.ConnectionError as e:
             print("Connection Error. Make sure you are connected to Internet.")
