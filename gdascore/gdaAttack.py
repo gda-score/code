@@ -92,7 +92,8 @@ class gdaAttack:
             that can be made to the public linkability DB. Default 3. <br/>
             `param['verbose']`: Set to True for verbose output.
 
-            `param['dp_budget']`: An optional overall privacy budget for the attack. For use with uber_dp. Default 'None'. <br/>
+            `param['dp_budget']`: An optional overall privacy budget for the attack. 
+            For use with uber_dp and uber_dp_query_rewrite. Default 'None'. <br/>
         """
 
         #### gda-score-code version check warning ####
@@ -137,13 +138,14 @@ class gdaAttack:
         self._vb = False
         self._cr = ''  # short for criteria
         self._pp = None  # pretty printer (for debugging)
-        self._sid = None # for uber_dp interface, a session ID over the attack is needed
-        self._session = None # also session for the uber_dp interface
+        self._sid = None # for uber_.. interfaces, a session ID over the attack is needed
+        self._uberSession = None # also session for the uber_.. interfaces
+        self._session = None # also session for the uber_.. interfaces
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name='',
-                  rawDb='',
-                  anonDb='',
+                  rawDb={},
+                  anonDb={},
                   pubDb='',
                   criteria='singlingOut',
                   table='',
@@ -202,17 +204,17 @@ class gdaAttack:
 
         # extract the type of interface we are interacting with the anonymization
         self._type = self._p['anonDb']['type']
-        if self._type == 'uber_dp':
+        if self._type == 'uber_dp' or self._type == 'uber_dp_query_rewrite':
             # cannot run attack on uber dp without specifying the budget
             if self._p['dp_budget'] is None:
-                s = str(f"Error: Needs param dp_budget in class parameters when running uber_dp attacks")
+                s = str(f"Error: Needs param dp_budget in class parameters when running {self._type} attacks")
                 sys.exit(s)
 
             self._initUberDPSession()
 
             # if no session id was set, the attacks cannot be conducted
-            if self._sid is None:
-                s = str(f"Failed initializing session with Uber_DP Server")
+            if self._type == 'uber_dp' and self._sid is None:
+                s = str(f"Failed initializing session with {self._type} Server")
                 sys.exit(s)
         # create the database directory if it doesn't exist
         try:
@@ -329,6 +331,11 @@ class gdaAttack:
             self._removeLocalCacheDB()
         if self._session: # close the uber session
             self._session.close()
+        if self._uberSession: # close the query rewrite uber session
+            try:
+                self._uberSession.destroy()
+            except RuntimeError as re:
+                print(f"Error closing the uber session: {re}")
         if doExit:
             sys.exit(exitMsg)
 
@@ -480,7 +487,8 @@ class gdaAttack:
 
             `query` is a dictionary with (currently) one value: <br/>
             `query['sql']` contains the SQL query. <br/>
-            `query['epsilon']` is optional, and defines how much of the differential privacy budget is used for uber_dp <br/>
+            `query['epsilon']` is optional, and defines how much of the
+             differential privacy budget is used for uber_dp or uber_dp_query_rewrite <br/>
         """
         self._attackCounter += 1
         if self._vb: print(f"Calling {__name__}.askAttack with query '{query}', count {self._attackCounter}")
@@ -1196,9 +1204,8 @@ class gdaAttack:
             backQ.task_done()
 
     def _dbWorker(self, db, q, kind, backQ):
-
         # uber dp has a different interface than aircloak or postgres
-        if db['type'] == 'uber_dp':
+        if db['type'] == 'uber_dp' or db['type'] == 'uber_dp_query_rewrite':
             if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
             me = threading.current_thread()
             backQ.put(me)
@@ -1265,13 +1272,67 @@ class gdaAttack:
                 replyQ.put(job)
 
     def _processUberQuery(self, query):
+        if self._type == 'uber_dp':
+            return self._processUberOrigQuery(query)
+        else:
+            return self._processUberQueryRewriteQuery(query)
+
+    def _processUberQueryRewriteQuery(self, query):
         # Once the session ID is defined, we stay in that session
         # ONLY `epsilon` and the `query` can be set
         # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        # TODO: maybe query rewrite
+        if self._vb: print(f"_processUberQueryRewriteQuery: {query}")
+        start = time.perf_counter()  # store the time of query execution
+        error = None
+        try:
+            response = self._uberSession.query(query['sql'],query['epsilon'])
+        except UberServerRequestError as re:
+            error = re.response_text
+        except UberServerExecutionError as ee:
+            error = ee.json['Error']
+        if error:
+            print(f"Uber Server response error: {error}")
+            reply = dict(error=error)
+        else:
+            if self._vb:
+                print("Server response for the given query: ")
+                print(response)
+            # the answer of dp queries is a single value (as it computes the aggregate over several query rows)
+            # to match the format needed to compute number of cells, we still need two dimensions
+            # therefore, [[]]
+            # record the answer and append it as a 1-element list of float
+            ans = [[float(response['Result'])]]
+
+            # for statistics. Only makes sense to count query if it went through
+            self._op['numQueries'] += 1
+
+            # after all for loops find the shape of the resulting answers
+            numCells = self._computeNumCells(ans)
+
+            # format the reply similarly as for aircloak and postgres
+            reply = dict(answer=ans, cells=numCells,
+                            remaining_dp_budget=float(response['Remaining Budget']))
+
+        reply['query'] = query
+
+        # calculate the time we needed for the query
+        end = time.perf_counter()
+        duration = end - start
+
+        self._op['timeQueries'] += duration
+
+        return reply
+
+    def _processUberOrigQuery(self, query):
+        # Once the session ID is defined, we stay in that session
+        # ONLY `epsilon` and the `query` can be set
+        # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        if self._vb: print(f"_processUberOrigQuery: {query}")
         request = {
             'query': query['sql'],
             'epsilon': str(query['epsilon']),
-            'count' : '1', # the interface is designed in a way such that repeted attacks need to be triggered
+            'count' : '1', # the interface is designed in a way such that repeated attacks need to be triggered
             # by several askAttack(), getAttack(). Therefore, the server functionality to potentially execute the same
             # query several times is not used
             'budget': 'None',
@@ -1329,7 +1390,6 @@ class gdaAttack:
         except KeyboardInterrupt:
             print("Program closed")
             reply = dict(error="Program closed")
-
 
         reply['query'] = query
 
@@ -1749,6 +1809,12 @@ class gdaAttack:
         self._guessCounter = 0
 
     def _initUberDPSession(self):
+        if self._type == 'uber_dp':
+            self._initUberDPOrigSession()
+        else:
+            self._initUberDPQueryRewriteSession()
+
+    def _initUberDPOrigSession(self):
         # Client establishes a session
         session = requests.Session()
         session.get_orig, session.get = session.get, functools.partial(session.get, timeout=20)
@@ -1775,7 +1841,6 @@ class gdaAttack:
             headers = {'Content-Type': 'application/json',
                        'Accept': 'application/json'}
 
-
             # Client stores the response sent by the simpleServer.py
             response = requests.get(url, json=request, headers=headers, timeout=20, verify=True)
             resp = response.json()  # Convert response sent by server to JSON
@@ -1789,7 +1854,6 @@ class gdaAttack:
 
                 # in case there is no error, but we are at the "dummy query" to get the session ID
                 self._sid = resp['Server Response']['Session ID']  # Set Session ID to value returned by server
-
 
         except requests.ConnectionError as e:
             print("Connection Error. Make sure you are connected to Internet.")
@@ -1805,6 +1869,112 @@ class gdaAttack:
 
         except KeyboardInterrupt:
             print("Program closed")
+
+    def _initUberDPQueryRewriteSession(self):
+        # Client establishes a session
+        self._client = serverClient(self._p['anonDb']['host'])
+        self._uberSession = self._client.create_session()
+        try:
+            self._uberSession.init(self._p['rawDb']['dbname'],self._p['dp_budget'])
+        except RuntimeError as re:
+            print(f"Runtime Error on session init to {self._p['anonDb']['host']}")
+            print(str(re))
+
+class serverClient:
+    def __init__(self, base_url):
+        self.base_url = base_url
+
+    def post_json(self, path, value_dct):
+        url = self.base_url + path
+        response = requests.post(url, json=value_dct)
+        if response.status_code != 200:
+            raise UberServerRequestError(response.status_code, response.text)
+        json = response.json()
+        if 'Error' in json:
+            raise UberServerExecutionError(json)
+        return json
+
+    def create_session(self):
+        return serverSession(self)
+
+class serverSession:
+    def __init__(self, client):
+        self.id_ = None
+        self.client = client
+
+    def _check_exists(self):
+        if self.id_ is None:
+            raise RuntimeError(f"This session is either not initialized yet or destroyed already and cannot be used.")
+
+    def init(self, db_name, initial_budget):
+        if self.id_ is not None:
+            raise RuntimeError(f"This session is already initialized and cannot be initialized again.")
+        value_dct = {
+            'dbname': db_name,
+            'budget': initial_budget,
+        }
+        response = self.client.post_json("/session/init", value_dct)
+        self.id_ = int(response["Session ID"])
+        print(f"Session {self.id_}: INIT\n"
+              f"   Session initialized for database {db_name} with initial budget {initial_budget}")
+        return response
+
+    def info(self):
+        self._check_exists()
+        value_dct = {
+            'sid': self.id_,
+        }
+        response = self.client.post_json("/session/info", value_dct)
+        print(f"Session {self.id_}: INFO\n"
+              f"   Session info requested. Session is for database {response['DB Name']} "
+              f"with remaining budget {response['Remaining Budget']}")
+        return response
+
+    def query(self, query, epsilon):
+        self._check_exists()
+        if epsilon <= 0.0:
+            raise ValueError(f"epsilon must be greater than zero, was {epsilon}")
+        value_dct = {
+            'sid': self.id_,
+            'query': query,
+            'epsilon': epsilon,
+        }
+        response = self.client.post_json("/session/query", value_dct)
+        print(f"Session {self.id_}: QUERY\n"
+              f"   The following query was sent to the server:\n"
+              f"{query}\n"
+              f"   The epsilon to be used for the query was specified with: {epsilon}\n"
+              f"   The server rewrote the query into:\n"
+              f"{response['Private SQL']}\n"
+              f"   The server returned result {response['Result']}.\n"
+              f"   The remaining budget is {response['Remaining Budget']}.")
+        return response
+
+    def destroy(self):
+        self._check_exists()
+        value_dct = {
+            'sid': self.id_,
+        }
+        response = self.client.post_json("/session/destroy", value_dct)
+        print(f"Session {self.id_}: DESTROY\n"
+              f"   Session destroyed. Session was for database {response['DB Name']} and had "
+              f"{response['Remaining Budget']} budget remaining.")
+        self.id_ = None
+        return response
+
+class UberServerRequestError(Exception):
+    def __init__(self, status_code, response_text):
+        self.status_code = status_code
+        self.response_text = response_text
+        super().__init__(f"Bad server response (status {status_code}): {response_text}")
+
+class UberServerExecutionError(Exception):
+    def __init__(self, json):
+        self.json = json
+        if json is None or not json or 'Error' not in json:
+            super().__init__()
+        else:
+            super().__init__(f"Bad server execution: {json['Error']}")
 
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
@@ -1853,8 +2023,6 @@ class CacheThread(EnhancedThread):
                 pass
             else:
                 logging.debug("interrupt signal sent to cacheDb for safe deleting cacheDb file later.")
-
-
 
 def cleanBgThreads():
     for t in threading.enumerate():

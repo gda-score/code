@@ -119,3 +119,4 @@ common/config/myDatabases.json
 # *.html
 *.png
 .DS_Store
+updateClasses.bat
