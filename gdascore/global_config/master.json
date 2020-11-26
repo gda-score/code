@@ -11,14 +11,9 @@
       "type": "aircloak"
     },
     "uber_dp": {
-      "host": "https://db001.gda-score.org/ubertool",
-      "port": 5432,
-      "type": "uber_dp"
-    },
-    "uber_dp_query_rewrite": {
       "host": "https://db001.gda-score.org/uber",
       "port": 5432,
-      "type": "uber_dp_query_rewrite"
+      "type": "uber_dp"
     }
   },
   "datasources": {
