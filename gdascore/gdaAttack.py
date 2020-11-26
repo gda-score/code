@@ -139,12 +139,13 @@ class gdaAttack:
         self._cr = ''  # short for criteria
         self._pp = None  # pretty printer (for debugging)
         self._sid = None # for uber_.. interfaces, a session ID over the attack is needed
+        self._uberSession = None # also session for the uber_.. interfaces
         self._session = None # also session for the uber_.. interfaces
         self._colNamesTypes = []
         self._colNames = []
         self._p = dict(name='',
-                  rawDb='',
-                  anonDb='',
+                  rawDb={},
+                  anonDb={},
                   pubDb='',
                   criteria='singlingOut',
                   table='',
@@ -1204,7 +1205,6 @@ class gdaAttack:
 
     def _dbWorker(self, db, q, kind, backQ):
         # uber dp has a different interface than aircloak or postgres
-        # TODO: uber query rewrite
         if db['type'] == 'uber_dp' or db['type'] == 'uber_dp_query_rewrite':
             if self._vb: print(f"Starting {__name__}.serverWorker:{db, kind}")
             me = threading.current_thread()
@@ -1272,11 +1272,63 @@ class gdaAttack:
                 replyQ.put(job)
 
     def _processUberQuery(self, query):
+        if self._type == 'uber_dp':
+            return self._processUberOrigQuery(query)
+        else:
+            return self._processUberQueryRewriteQuery(query)
+
+    def _processUberQueryRewriteQuery(self, query):
         # Once the session ID is defined, we stay in that session
         # ONLY `epsilon` and the `query` can be set
         # `budget` and `dbname` just have placeholders because they cannot be changed anyways
         # TODO: maybe query rewrite
-        if self._vb: print(f"_processUberQuery: {query}")
+        if self._vb: print(f"_processUberQueryRewriteQuery: {query}")
+        start = time.perf_counter()  # store the time of query execution
+        error = None
+        try:
+            response = self._uberSession.query(query['sql'],query['epsilon'])
+        except UberServerRequestError as re:
+            error = re.response_text
+        except UberServerExecutionError as ee:
+            error = ee.json['Error']
+        if error:
+            print(f"Uber Server response error: {error}")
+            reply = dict(error=error)
+        else:
+            if self._vb:
+                print("Server response for the given query: ")
+                print(response)
+            # the answer of dp queries is a single value (as it computes the aggregate over several query rows)
+            # to match the format needed to compute number of cells, we still need two dimensions
+            # therefore, [[]]
+            # record the answer and append it as a 1-element list of float
+            ans = [[float(response['Result'])]]
+
+            # for statistics. Only makes sense to count query if it went through
+            self._op['numQueries'] += 1
+
+            # after all for loops find the shape of the resulting answers
+            numCells = self._computeNumCells(ans)
+
+            # format the reply similarly as for aircloak and postgres
+            reply = dict(answer=ans, cells=numCells,
+                            remaining_dp_budget=float(response['Remaining Budget']))
+
+        reply['query'] = query
+
+        # calculate the time we needed for the query
+        end = time.perf_counter()
+        duration = end - start
+
+        self._op['timeQueries'] += duration
+
+        return reply
+
+    def _processUberOrigQuery(self, query):
+        # Once the session ID is defined, we stay in that session
+        # ONLY `epsilon` and the `query` can be set
+        # `budget` and `dbname` just have placeholders because they cannot be changed anyways
+        if self._vb: print(f"_processUberOrigQuery: {query}")
         request = {
             'query': query['sql'],
             'epsilon': str(query['epsilon']),
@@ -1757,7 +1809,7 @@ class gdaAttack:
         self._guessCounter = 0
 
     def _initUberDPSession(self):
-        if self._type == 'uber_db':
+        if self._type == 'uber_dp':
             self._initUberDPOrigSession()
         else:
             self._initUberDPQueryRewriteSession()
@@ -1836,15 +1888,10 @@ class serverClient:
         url = self.base_url + path
         response = requests.post(url, json=value_dct)
         if response.status_code != 200:
-            raise RuntimeError(f"Server encountered a problem with the request.\n"
-                               f"Response Code: {response.status_code}\n"
-                               f"Message: {response.content}")
+            raise UberServerRequestError(response.status_code, response.text)
         json = response.json()
-        if "Error" in json:
-            raise RuntimeError(f"Server encountered an Exception\n"
-                               f"Session ID: {json['Session ID']}\n"
-                               f"Error: {json['Error']}\n"
-                               f"Stack Trace: {json['Stack Trace']}")
+        if 'Error' in json:
+            raise UberServerExecutionError(json)
         return json
 
     def create_session(self):
@@ -1915,6 +1962,20 @@ class serverSession:
         self.id_ = None
         return response
 
+class UberServerRequestError(Exception):
+    def __init__(self, status_code, response_text):
+        self.status_code = status_code
+        self.response_text = response_text
+        super().__init__(f"Bad server response (status {status_code}): {response_text}")
+
+class UberServerExecutionError(Exception):
+    def __init__(self, json):
+        self.json = json
+        if json is None or not json or 'Error' not in json:
+            super().__init__()
+        else:
+            super().__init__(f"Bad server execution: {json['Error']}")
+
 class EnhancedThread(threading.Thread):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1962,8 +2023,6 @@ class CacheThread(EnhancedThread):
                 pass
             else:
                 logging.debug("interrupt signal sent to cacheDb for safe deleting cacheDb file later.")
-
-
 
 def cleanBgThreads():
     for t in threading.enumerate():
