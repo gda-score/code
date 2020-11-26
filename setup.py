@@ -22,7 +22,7 @@ class build_py(build_py_orig):
 setuptools.setup(
     # Use this for production:
     name="gda-score-code",
-    version="2.5.3",
+    version="2.5.4",
     # Use this for testing:
     #name="gda-score-code-test",
     #version="2.5.13",  # for test.pypi
